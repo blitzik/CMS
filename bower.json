@@ -1,0 +1,11 @@
+{
+  "name": "blitzik's blog",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

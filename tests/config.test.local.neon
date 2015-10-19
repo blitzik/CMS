@@ -1,0 +1,15 @@
+parameters:
+
+	database:
+		host: 127.0.0.1
+		username: root
+		password: asqw
+		dbname: blog
+		lazy: true
+		profiler: true
+
+doctrine:
+	host: %database.host%
+	user: %database.username%
+	password: %database.password%
+	dbname: %database.dbname%
