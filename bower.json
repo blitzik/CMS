@@ -12,6 +12,8 @@
     "jquery": "2.1.4",
     "nette.ajax.js": "2.1.0",
     "nette-forms": "2.2.7",
-    "bootstrap-sass": "3.3.5"
+    "bootstrap-sass": "3.3.5",
+    "html5shiv": "~3.7.3",
+    "respond": "~1.4.2"
   }
 }

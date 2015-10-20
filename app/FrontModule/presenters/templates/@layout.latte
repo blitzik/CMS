@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{ifset $title}{$title}{else}Aleš Tichava{/ifset}</title>
+
+	<link rel="stylesheet" href="{$basePath}/assets/css/front.min.css">
+	<!--[if lt IE 9]>
+    	<script src="{$basePath}/assets/js/shivAndRespond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+	<div class="page">
+		<header>
+			<h1><a n:href=":Front:Homepage:default">Aleš Tichava</a></h1>
+		</header>
+			{include content}
+	</div>
+
+	{block scripts}
+		<script src="{$basePath}/assets/js/js.min.js"></script>
+	{/block}
+</body>
+</html>

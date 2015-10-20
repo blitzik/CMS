@@ -8,3 +8,8 @@ assets/js/js.js
 assets/js/js.min.js
 node_modules
 tests/temp/cache
+.sass-cache
+assets/css/original
+assets/css/front.min.css
+assets/js/shivAndRespond.js
+assets/js/shivAndRespond.min.js

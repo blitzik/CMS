@@ -41,21 +41,13 @@ class Router extends RouteList
     }
 
     /**
+     * CLI commands run from app/console.php
+     *
      * Maps HTTP request to a Request object.
      * @return Nette\Application\Request|NULL
      */
     public function match(Nette\Http\IRequest $httpRequest)
     {
-        /** @author http://zlml.cz/hierarchicky-router */
-        /** @var Nette\Application\IRouter $route */
-        foreach ($this as $route) { //because of \Kdyby\Console\CliRouter::prependTo
-            /** @var Nette\Application\Request $applicationRequest */
-            $applicationRequest = $route->match($httpRequest);
-            if ($applicationRequest !== NULL) {
-                return $applicationRequest;
-            }
-        }
-
         $path = $this->prepareUrlPath($httpRequest);
 
         // language

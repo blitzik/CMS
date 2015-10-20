@@ -13,7 +13,12 @@ use Nette\Utils\Validators;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="url")
+ * @ORM\Table(
+ *      name="url",
+ *      indexes={
+ *          @Index(name="presenter_action_internal_id", columns={"presenter", "action", "internal_id"})
+ *      }
+ * )
  */
 class Url
 {

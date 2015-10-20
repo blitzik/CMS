@@ -2,7 +2,7 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use App\Presenters\BasePresenter;
+use App\FrontModule\Presenters\BasePresenter;
 
 class PagePresenter extends BasePresenter
 {

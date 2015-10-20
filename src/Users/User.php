@@ -40,7 +40,7 @@ class User
     protected $password;
 
     /**
-     * @ORM\Column(name="token", type="string", length=32, nullable=true, unique=false)
+     * @ORM\Column(name="token", type="string", length=32, nullable=true, unique=false, options={"fixed": true})
      * @var string
      */
     private $token;

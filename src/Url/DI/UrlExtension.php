@@ -4,8 +4,6 @@ namespace Url\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
-use Kdyby\Doctrine\EntityManager;
-use Nette\Caching\IStorage;
 
 class UrlExtension extends CompilerExtension implements IEntityProvider
 {
@@ -29,7 +27,7 @@ class UrlExtension extends CompilerExtension implements IEntityProvider
      *
      * @return array
      */
-    function getEntityMappings()
+    public function getEntityMappings()
     {
         return ['Url' => __DIR__ . '/..'];
     }

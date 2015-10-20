@@ -1,0 +1,47 @@
+%container-fixed{
+  @include container-fixed();
+
+  @media (min-width: $screen-sm-min) {
+    width: $container-sm;
+  }
+  @media (min-width: $screen-md-min) {
+    width: $container-md;
+  }
+  @media (min-width: $screen-lg-min) {
+    width: $container-lg;
+  }
+}
+
+%make-row{
+  @include make-row();
+}
+
+
+
+
+
+
+.page{
+  @extend %container-fixed;
+
+  margin-top: 35px;
+
+  h1 a{
+    font-size: 150%;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  header{
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+
+
+
+
+

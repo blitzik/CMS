@@ -10,3 +10,4 @@ extensions:
 	users: Users\UsersExtension
 	url: Url\DI\UrlExtension
 	pages: Pages\DI\PagesExtension
+	images: Images\ImagesExtension

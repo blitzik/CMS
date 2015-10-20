@@ -46,16 +46,16 @@ class Article
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="is_released", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @ORM\Column(name="is_published", type="boolean", nullable=false, unique=false, options={"default": false})
      * @var bool
      */
-    private $isReleased = false;
+    private $isPublished = false;
 
     /**
-     * @ORM\Column(name="released", type="datetime", nullable=true, unique=false)
+     * @ORM\Column(name="published_at", type="datetime", nullable=true, unique=false)
      * @var \DateTime
      */
-    private $releasedAt;
+    private $publishedAt;
 
 
     public function __construct(
@@ -96,23 +96,23 @@ class Article
         $this->createdAt = $createdAt;
     }
 
-    public function release()
+    public function publish()
     {
-        $this->isReleased = true;
-        $this->releasedAt = new \DateTime('now');
+        $this->isPublished = true;
+        $this->publishedAt = new \DateTime('now');
     }
 
     public function confine()
     {
-        $this->isReleased = false;
+        $this->isPublished = false;
     }
 
     /**
      * @return \DateTime
      */
-    public function getReleasedAt()
+    public function getPublishedAt()
     {
-        return $this->releasedAt;
+        return $this->publishedAt;
     }
 
     /**

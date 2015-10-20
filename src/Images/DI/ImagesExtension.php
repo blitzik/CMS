@@ -1,20 +1,20 @@
 <?php
 
-namespace  Users;
+namespace Images;
+
 
 use Kdyby\Doctrine\DI\IEntityProvider;
 use Nette\DI\CompilerExtension;
 
-class UsersExtension extends CompilerExtension implements IEntityProvider
+class ImagesExtension extends CompilerExtension implements IEntityProvider
 {
     /**
      * Returns associative array of Namespace => mapping definition
      *
      * @return array
      */
-    public function getEntityMappings()
+    function getEntityMappings()
     {
-        return ['Users' => __DIR__ . '/..'];
+        return ['Images' => __DIR__ . '/..'];
     }
-
 }

@@ -22,7 +22,7 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
      *
      * @return array
      */
-    function getEntityMappings()
+    public function getEntityMappings()
     {
         return ['Pages' => __DIR__ . '/..'];
     }
