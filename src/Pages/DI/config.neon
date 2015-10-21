@@ -1,0 +1,11 @@
+services:
+
+	blogTexy: Pages\Utils\BlogTexy
+	filterLoader: Pages\Filters\FilterLoader
+
+	# Presenters
+	categoryPresenter: Pages\CategoryPresenter
+	pagePresenter: Pages\FrontModule\Presenters\PagePresenter
+
+	# Facades
+	pageFacade: Pages\Facades\PageFacade

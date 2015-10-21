@@ -28,6 +28,10 @@ session:
 	savePath: %appDir%/../temp/sessions
 	name: 'blog'
 
+latte:
+	macros:
+		- blitzik\Macros\FormsMacro
+
 doctrine:
 	defaultRepositoryClassName: Kdyby\Doctrine\EntityRepository
 

@@ -1,1 +1,5 @@
 services:
+
+	latte.latteFactory:
+		setup:
+			- addFilter(null, [@pages.filterLoader, 'loader'])

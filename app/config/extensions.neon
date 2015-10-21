@@ -9,5 +9,6 @@ extensions:
 	# Blog extensions
 	users: Users\UsersExtension
 	url: Url\DI\UrlExtension
+	dashboard: Dashboard\DashboardExtension
 	pages: Pages\DI\PagesExtension
 	images: Images\ImagesExtension

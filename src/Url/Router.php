@@ -54,9 +54,8 @@ class Router extends RouteList
         $regExp = '~^(' .implode('|', array_keys($this->appLanguages)). ')/~';
         $lang = $this->resolveLanguage($path, $regExp);
 
-        $path = preg_replace($regExp, '', $path); // remove lang from path
+        $path = preg_replace($regExp, '', $path);
 
-        // route definition loading
         /** @var Url $urlEntity */
         $urlEntity = $this->loadUrlEntity($path);
 
@@ -150,7 +149,7 @@ class Router extends RouteList
 
         $params = $appRequest->getParameters();
 
-        $lang = (isset($params['lang']) and !$this->appLanguages[$params['lang']]) ? $params['lang'] : null;
+        $lang = (isset($params['lang']) and !$this->appLanguages[$params['lang']]) ? $params['lang'].'/' : null;
         $resultUrl = $baseUrl . $lang . Nette\Utils\Strings::webalize($path, '/');
 
         unset($params['action'], $params['lang']);
@@ -173,7 +172,7 @@ class Router extends RouteList
         $basePath = $url->getPath(); // /subdom/blog/en/test/aa
         $path = substr($basePath, \mb_strlen($url->getBasePath())); // en/test/aa
         if ($path !== '') {
-            $path = rawurldecode($path);
+            $path = rtrim(rawurldecode($path), '/');
         }
 
         return $path;

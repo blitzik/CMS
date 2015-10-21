@@ -1,0 +1,32 @@
+.container{
+  @extend %container-fixed;
+}
+
+%make-md-12{
+  @include make-md-column(12);
+}
+
+body{
+  font-size: 130%;
+}
+
+.main{
+  margin-bottom: 150px;
+}
+
+
+.new-article{
+  @extend %make-row;
+}
+
+.article-form{
+  @extend %make-md-12;
+}
+
+.form-control, output{
+  font-size: 150%;
+}
+
+.form-control{
+  padding: 16px 10px;
+}

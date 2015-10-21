@@ -1,4 +1,4 @@
-
+{*{block|strip}*}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>{ifset $title}{$title}{else}Aleš Tichava{/ifset}</title>
+	<title>{block title}{/block}</title>
 
 	<link rel="stylesheet" href="{$basePath}/assets/css/front.min.css">
 	<!--[if lt IE 9]>
@@ -18,14 +18,39 @@
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
 	<div class="page">
-		<header>
-			<h1><a n:href=":Front:Homepage:default">Aleš Tichava</a></h1>
-		</header>
-			{include content}
+		<div class="header">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+            		    <span class="sr-only">Toggle navigation</span>
+            		    <span class="icon-bar"></span>
+            		    <span class="icon-bar"></span>
+            		    <span class="icon-bar"></span>
+            		</button>
+            		<a class="navbar-brand" n:href=":Front:Homepage:default">Aleš Tichava</a>
+            	</div>
+
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+            		<ul class="nav navbar-nav">
+            		    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            		    <li><a href="#">Link</a></li>
+            		</ul>
+            	</div>
+			</div>
+		</nav>
+		</div>
+
+		{include content}
+
+		<footer class="page-footer">
+    		Aleš Tichava &copy; 2015
+    	</footer>
 	</div>
 
-	{block scripts}
-		<script src="{$basePath}/assets/js/js.min.js"></script>
-	{/block}
+{block scripts}
+	<script src="{$basePath}/assets/js/js.min.js"></script>
+{/block}
 </body>
 </html>
+{*{/block}*}

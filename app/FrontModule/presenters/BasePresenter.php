@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 use Nette;
 
 
-class BasePresenter extends Nette\Application\UI\Presenter
+class BasePresenter extends \App\Presenters\BasePresenter
 {
     /** @persistent */
     //public $lang;

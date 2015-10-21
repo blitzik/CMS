@@ -1,0 +1,29 @@
+{block content}
+
+<div class="new-article">
+    <div class="article-form">
+    <h2 n:inner-block="title">Nový článek</h2>
+
+    {form articleForm}
+    {customFormErrors}
+
+    <div class="form-group">
+        {label title /}
+        {input title class =>form-control}
+    </div>
+
+    <div class="form-group">
+        {label text /}
+        {input text class =>form-control}
+    </div>
+
+    <div class="form-group">
+        {input save class =>form-control}
+    </div>
+
+    {/form}
+    </div>
+</div>
+
+
+{/block}

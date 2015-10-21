@@ -42,17 +42,27 @@ module.exports = function (grunt) {
         },
 
         cssmin: {
-            build: {
+            front: {
                 files: {
                     'assets/css/front.min.css': 'assets/css/original/front.css'
+                }
+            },
+            admin: {
+                files: {
+                    'assets/css/admin.min.css': 'assets/css/original/admin.css'
                 }
             }
         },
 
         sass: {
-            build: {
+            front: {
                 files: {
                     'assets/css/original/front.css': 'assets/css/SCSS/front.scss'
+                }
+            },
+            admin: {
+                files: {
+                    'assets/css/original/admin.css': 'assets/css/SCSS/admin.scss'
                 }
             }
         },

@@ -12,13 +12,21 @@ use Users\User;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="article")
+ * @ORM\Table(
+ *      name="article",
+ *      indexes={
+ *          @Index(name="published_at", columns={"published_at"})
+ *      }
+ * )
  *
  */
 class Article
 {
     use Identifier;
     use MagicAccessors;
+
+    const PRESENTER = 'Pages:Front:Page';
+    const PRESENTER_ACTION = 'show';
 
     /**
      * @ORM\Column(name="title", type="string", length=255, nullable=false, unique=true)

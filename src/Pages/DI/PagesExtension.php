@@ -15,6 +15,8 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
     {
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Pages' => 'Pages\\*Module\\Presenters\\*Presenter']);
+
+        $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
     }
 
     /**

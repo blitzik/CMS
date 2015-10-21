@@ -19,6 +19,7 @@ class Image
     use MagicAccessors;
 
     /**
+     * @ORM\Id
      * @ORM\Column(name="id", type="string", length=36, nullable=false, options={"fixed": true})
      * @var string
      */

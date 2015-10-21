@@ -26,6 +26,18 @@ class User
      * @var string
      */
     protected $username;
+
+    /**
+     * @ORM\Column(name="first_name", type="string", length=50, nullable=true, unique=false)
+     * @var string
+     */
+    protected $firstName;
+
+    /**
+     * @ORM\Column(name="last_name", type="string", length=50, nullable=true, unique=false)
+     * @var string
+     */
+    protected $lastName;
     
     /**
      * @ORM\Column(name="email", type="string", length=100, nullable=false, unique=true)
@@ -108,5 +120,17 @@ class User
     public function getTokenValidity()
     {
         return $this->tokenValidity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        if (!isset($this->firstName) and !isset($this->lastName)) {
+            return $this->username;
+        }
+
+        return trim($this->firstName . ' ' . $this->lastName);
     }
 }
