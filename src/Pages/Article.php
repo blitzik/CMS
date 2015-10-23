@@ -2,6 +2,7 @@
 
 namespace Pages;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -65,6 +66,11 @@ class Article
      */
     private $publishedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Tags\Tag")
+     * @var ArrayCollection
+     */
+    private $tags;
 
     public function __construct(
         $title,
@@ -76,6 +82,8 @@ class Article
         $this->author = $author;
 
         $this->createdAt = new \DateTime('now');
+
+        $this->tags = new ArrayCollection;
     }
 
     /**
@@ -129,6 +137,11 @@ class Article
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    public static function getCacheKey($id)
+    {
+        return self::class . '/' . $id;
     }
 
 }

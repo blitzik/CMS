@@ -2,9 +2,9 @@
 
 namespace App\AdminModule\Presenters;
 
-use App\Presenters\BasePresenter;
+use App\Presenters\AppPresenter;
 
-abstract class ProtectedPresenter extends BasePresenter
+abstract class ProtectedPresenter extends AppPresenter
 {
     /**
      * Finds layout template file name.

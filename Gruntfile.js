@@ -6,10 +6,11 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {
-            options: {
-                separator: ';'
-            },
             front: {
+                options: {
+                    separator: ';'
+                },
+
                 src: [
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/nette-forms/src/assets/netteForms.js',
@@ -17,26 +18,30 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                     'assets/js/main.js'
                 ],
-                dest: 'assets/js/js.js'
+                dest: 'assets/js/concatenated/js.js'
             },
             shivAndRespond: {
+                options: {
+                    separator: ';'
+                },
+
                 src: [
                     'bower_components/html5shiv/dist/html5shiv.js',
                     'bower_components/respond/src/respond.js'
                 ],
-                dest: 'assets/js/shivAndRespond.js'
+                dest: 'assets/js/concatenated/shivAndRespond.js'
             }
         },
 
         uglify: {
             build: {
                 files: {
-                    'assets/js/js.min.js': 'assets/js/js.js'
+                    'assets/js/js.min.js': 'assets/js/concatenated/js.js'
                 }
             },
             shivAndRespond: {
                 files: {
-                    'assets/js/shivAndRespond.min.js': 'assets/js/shivAndRespond.js'
+                    'assets/js/shivAndRespond.min.js': 'assets/js/concatenated/shivAndRespond.js'
                 }
             }
         },
@@ -57,7 +62,9 @@ module.exports = function (grunt) {
         sass: {
             front: {
                 files: {
-                    'assets/css/original/front.css': 'assets/css/SCSS/front.scss'
+                    'assets/css/original/front.css': [
+                        'assets/css/SCSS/front.scss'
+                    ]
                 }
             },
             admin: {
@@ -68,16 +75,45 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            sass: {
-                files: ['assets/css/SCSS/*.scss'],
-                tasks: ['sass', 'cssmin']
+            front: {
+                files: [
+                    'assets/css/SCSS/_grid.scss',
+                    'assets/css/SCSS/_paginator.scss',
+                    'assets/css/SCSS/_blog_front.scss',
+                    'assets/css/SCSS/front.scss'
+                ],
+                tasks: ['sass:front', 'cssmin:front']
+            }
+        },
+
+        copy: {
+            front: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['libs/visual_paginator/_paginator.scss'],
+                        dest: 'assets/css/SCSS/'
+                    }
+                ]
+            },
+
+            font_awesome: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['bower_components/font-awesome-sass/assets/fonts/font-awesome/*'],
+                        dest: 'assets/fonts/font-awesome/'
+                    }
+                ]
             }
         }
 
     });
 
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', ['copy', 'sass', 'concat', 'cssmin', 'uglify']);
     grunt.registerTask('buildcss', ['sass', 'cssmin']);
     grunt.registerTask('buildjs', ['concat', 'uglify']);
-    grunt.registerTask('watchcss', ['watch']);
+    grunt.registerTask('watch_front_css', ['watch:front']);
 };

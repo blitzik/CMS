@@ -1,0 +1,18 @@
+{snippet pagination}
+{if $paginator->pageCount > 1}
+	<div class="blitzik__paginator">
+	{if !$paginator->isFirst()}
+		<a href="{link paginate!, 'page' => $paginator->page - 1}" class="ajax blitzik__btn">« Novější články</a>
+	{/if}
+
+	{if $counter}
+		<span class="blitzik__counter">[{$paginator->getPage()|number:0:',':' '} / {$paginator->getPageCount()|number:0:',':' '}]</span>
+	{/if}
+
+	{if !$paginator->isLast()}
+		<a href="{link paginate!, 'page' => $paginator->page + 1}" class="ajax blitzik__btn older">Starší články »</a>
+	{/if}
+	</div>
+
+{/if}
+{/snippet}

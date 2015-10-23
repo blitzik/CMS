@@ -51,5 +51,8 @@
 @import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
 @import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
+@import "common";
 @import "grid";
+@import "paginator";
+@import "font-awesome/font-awesome";
 @import "blog_front";

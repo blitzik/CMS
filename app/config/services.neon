@@ -1,5 +1,7 @@
 services:
 
+	paginatorFactory: blitzik\IPaginatorFactory
+
 	latte.latteFactory:
 		setup:
 			- addFilter(null, [@pages.filterLoader, 'loader'])

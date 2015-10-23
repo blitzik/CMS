@@ -7,8 +7,10 @@ extensions:
 	monolog: Kdyby\Monolog\DI\MonologExtension
 
 	# Blog extensions
+	options: Options\OptionsExtension
 	users: Users\UsersExtension
 	url: Url\DI\UrlExtension
 	dashboard: Dashboard\DashboardExtension
 	pages: Pages\DI\PagesExtension
+	tags: Tags\TagsExtension
 	images: Images\ImagesExtension

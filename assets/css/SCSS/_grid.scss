@@ -9,6 +9,10 @@
   }
 }
 
+.container-fixed{
+  @extend %container-fixed;
+}
+
 %container-fluid {
   @include container-fixed();
 }

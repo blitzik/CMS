@@ -1,8 +1,12 @@
+
 %col-md-12{
   @include make-md-column(12);
 }
 
 
+.error-page{
+  margin-top: 100px;
+}
 
 
 body{
@@ -18,21 +22,6 @@ h1, h2, h3, h4, h5{
 
   margin-top: 35px;
   line-height: 1.75;
-
-  h1 a{
-    text-decoration: none;
-    font-family: "Times New Roman", Georgia, serif;
-    font-size: 150%;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  header{
-    border-bottom: 1px solid #ccc;
-    font-size: 85%;
-  }
 }
 
 .page-footer{
@@ -40,45 +29,96 @@ h1, h2, h3, h4, h5{
   margin-top: 150px;
   padding-top: 10px;
   margin-bottom: 100px;
+  clear: both;
 }
 
 .articles{
   @extend %make-row;
 
-  article{
-    @extend %col-md-12;
+}
 
-    h2, h3, h4, h5{
-      margin-top: 45px;
+.article{
+  @extend %col-md-12;
+
+  margin-bottom: 90px;
+
+  h2, h3, h4, h5{
+    margin-top: 45px;
+  }
+
+  ul{
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  header{
+    font-size: 85%;
+    margin-bottom: 25px;
+
+    .article-info{
+      overflow: auto;
+      margin: 0;
+      padding-left:  0;
+      list-style-type: none;
+      border-bottom: 1px solid #ccc;
+
+      li{
+        float: left;
+        margin-right: 15px;
+      }
     }
+  }
 
-    ul{
-      margin-top: 50px;
-      margin-bottom: 50px;
+  h1 a{
+    text-decoration: none;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 150%;
+    color: #c0392b;
+
+    &:hover {
+      text-decoration: underline;
+      color: #c0392b;
     }
+  }
 
-    header{
-      margin-bottom: 25px;
+  p:first-letter{
+    margin-left: 25px;
+  }
 
-      ul{
-        overflow: auto;
-        margin: 0;
-        padding-left:  0;
-        list-style-type: none;
+  .tags{
+    margin: 0;
+    padding: 10px 0;
+    list-style-type: none;
+    overflow: auto;
 
-        li{
-          float: left;
-          margin-right: 15px;
+    li{
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 10px;
+
+      a{
+        display: block;
+        padding: 3px 12px;
+        font-size: 75%;
+        color: #fff;
+
+        @include border-radius(7px);
+
+        &:hover{
+          text-decoration: none;
+        }
+
+        i{
+          margin-right: 8px;
         }
       }
     }
-
-    h1 a{
-      color: #c0392b;
-      //font-weight: bold;
-    }
-
   }
+
+}
+
+.single-article{
+  @extend %make-row;
 }
 
 .delimiter{
@@ -87,5 +127,21 @@ h1, h2, h3, h4, h5{
   background-image: url('../images/delimiter.png');
   background-repeat: no-repeat;
   clear: both;
-  margin: 50px auto 30px auto;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+.blitzik__paginator{
+  @extend .blitzik__paginator;
+  @extend %col-md-12;
+
+  .blitzik__btn{
+    background-color: transparent;
+    color: #2980B9;
+
+    &.older{
+      font-size: 150%;
+      float: right;
+    }
+  }
 }

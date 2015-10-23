@@ -2,10 +2,11 @@
 
 namespace App\Presenters;
 
+use App\FrontModule\Presenters\BasePresenter;
 use Nette;
 
 
-class Error4xxPresenter extends Nette\Application\UI\Presenter
+class Error4xxPresenter extends BasePresenter
 {
 
 	public function renderDefault(\Exception $exception)

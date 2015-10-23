@@ -9,3 +9,11 @@ services:
 
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
+
+	# Factories
+	articleControlFactory:
+		implement: Pages\Components\IArticleControlFactory
+		arguments: [Nette\Utils\ArrayHash article]
+
+	articlesOverviewControlFactory:
+		implement: Pages\Components\IArticlesOverviewControlFactory

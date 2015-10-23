@@ -2,6 +2,7 @@
 # https://nette.org/security-warning
 
 includes:
+	- parameters.neon
 	- extensions.neon
 	- services.neon
 
@@ -20,7 +21,6 @@ application:
 	debugger:
 		#email: %adminEmail%
 		bar:
-			- Nette\Bridges\DITracy\ContainerPanel
 			- Nette\Bridges\HttpTracy\SessionPanel
 
 session:
@@ -37,4 +37,4 @@ doctrine:
 
 monolog:
 	name: blitzik-blog
-	registerFallback: %debugMode%
+	#registerFallback: %debugMode%

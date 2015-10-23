@@ -15,7 +15,6 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
 	<div class="container main">
 		<div class="header">
@@ -39,6 +38,8 @@
         		</div>
         	</nav>
         </div>
+
+		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
 		{include content}
 	</div>

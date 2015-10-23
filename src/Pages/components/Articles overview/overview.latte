@@ -1,0 +1,18 @@
+<section class="articles">
+
+{if $articlesCount > 0}
+
+    {foreach $articles as $article}
+
+        {control article-$article->id}
+
+        <div class="delimiter" n:if="!$iterator->isLast()"></div>
+    {/foreach}
+
+    {control vs}
+
+{else}
+    <p>Nebyly nalezeny žádné příspěvky.</p>
+{/if}
+
+</section>

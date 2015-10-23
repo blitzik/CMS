@@ -2,7 +2,18 @@
 
 namespace Pages\Utils;
 
+/**
+ * This class is used for processing Articles bodies only
+ *
+ * Class BlogTexy
+ * @package Pages\Utils
+ */
 class BlogTexy extends \Texy
 {
-    // todo
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->headingModule->top = 2;
+    }
 }

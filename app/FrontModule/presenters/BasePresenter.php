@@ -2,10 +2,11 @@
 
 namespace App\FrontModule\Presenters;
 
+use App\Presenters\AppPresenter;
 use Nette;
 
 
-class BasePresenter extends \App\Presenters\BasePresenter
+class BasePresenter extends AppPresenter
 {
     /** @persistent */
     //public $lang;
@@ -17,5 +18,15 @@ class BasePresenter extends \App\Presenters\BasePresenter
         }
         return __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . '@layout.latte';
     }
+
+    /**
+     * Common render method.
+     * @return void
+     */
+    protected function beforeRender()
+    {
+        $this->template->blogTitle = $this->options->blog_title;
+    }
+
 
 }

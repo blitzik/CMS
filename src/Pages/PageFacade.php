@@ -8,9 +8,13 @@ use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Monolog\Logger;
+use Nette\Caching\Cache;
+use Nette\Caching\IStorage;
 use Nette\Object;
+use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Pages\Article;
+use Pages\Query\ArticleQuery;
 use Url\Url;
 
 class PageFacade extends Object
@@ -24,12 +28,18 @@ class PageFacade extends Object
     /** @var  EntityRepository */
     private $articleRepository;
 
+    /** @var  Cache */
+    private $cache;
+
     public function __construct(
         EntityManager $entityManager,
+        IStorage $storage,
         Logger $logger
     ) {
         $this->em = $entityManager;
         $this->logger = $logger->channel('pages');
+        $this->cache = new Cache($storage, 'articles');
+
         $this->articleRepository = $this->em->getRepository(Article::class);
     }
 
@@ -41,6 +51,8 @@ class PageFacade extends Object
      */
     public function save(Article $article)
     {
+        $article->publish();
+
         try {
             $this->em->beginTransaction();
 
@@ -81,6 +93,15 @@ class PageFacade extends Object
     }
 
     /**
+     * @param ArticleQuery $query
+     * @return array|\Kdyby\Doctrine\ResultSet
+     */
+    public function fetchArticles(ArticleQuery $query)
+    {
+        return $this->articleRepository->fetch($query);
+    }
+
+    /**
      * @param array $criteria
      * @param array|null $orderBy
      * @return mixed|null|object
@@ -88,5 +109,58 @@ class PageFacade extends Object
     public function findOneBy(array $criteria, array $orderBy = null)
     {
         return $this->articleRepository->findOneBy($criteria, $orderBy);
+    }
+
+    /**
+     * @param $articleId
+     * @return array|null
+     */
+    public function getArticle($articleId)
+    {
+        $article = $this->cache->load(Article::getCacheKey($articleId),
+                                      function (& $dependencies) use ($articleId) {
+            $article = $this->getBaseArticleDql()
+                            ->where('a.id = :id')
+                            ->setParameter('id', $articleId)
+                            ->getQuery()
+                            ->getArrayResult();
+
+            if (empty($article)) {
+                return null;
+            }
+
+            $article = $article[0];
+            $dependencies = [Cache::TAGS => Article::getCacheKey($articleId)];
+            return $article;
+        });
+
+        return $article;
+    }
+
+    /**
+     * @return array
+     */
+    public function findPublishedArticles()
+    {
+        $articles = $this->getBaseArticleDql()
+                         ->where('a.isPublished = true')
+                         ->orderBy('a.publishedAt', 'DESC')
+                         ->getQuery()
+                         ->getArrayResult();
+        return Arrays::associate($articles, 'id');
+    }
+
+    /**
+     * @return \Kdyby\Doctrine\QueryBuilder
+     */
+    private function getBaseArticleDql()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('a, partial aa.{id, username, firstName, lastName}, t')
+           ->from(Article::class, 'a')
+           ->innerJoin('a.author', 'aa')
+           ->leftJoin('a.tags', 't');
+
+        return $qb;
     }
 }

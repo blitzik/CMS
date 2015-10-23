@@ -14,6 +14,7 @@
     "nette-forms": "2.2.7",
     "bootstrap-sass": "3.3.5",
     "html5shiv": "~3.7.3",
-    "respond": "~1.4.2"
+    "respond": "~1.4.2",
+    "font-awesome-sass": "~4.4.0"
   }
 }
