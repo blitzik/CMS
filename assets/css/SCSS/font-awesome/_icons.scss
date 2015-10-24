@@ -20,3 +20,43 @@
 .#{$fa-css-prefix}-search:before { content: $fa-var-search; }
 
 .#{$fa-css-prefix}-tag:before { content: $fa-var-tag; }
+.#{$fa-css-prefix}-tags:before { content: $fa-var-tags; }
+
+.#{$fa-css-prefix}-navicon:before,
+.#{$fa-css-prefix}-reorder:before,
+.#{$fa-css-prefix}-bars:before { content: $fa-var-bars; }
+
+.#{$fa-css-prefix}-bug:before { content: $fa-var-bug; }
+
+.#{$fa-css-prefix}-ban:before { content: $fa-var-ban; }
+
+.#{$fa-css-prefix}-remove:before,
+.#{$fa-css-prefix}-close:before,
+.#{$fa-css-prefix}-times:before { content: $fa-var-times; }
+
+.#{$fa-css-prefix}-gear:before,
+.#{$fa-css-prefix}-cog:before { content: $fa-var-cog; }
+
+.#{$fa-css-prefix}-download:before { content: $fa-var-download; }
+
+.#{$fa-css-prefix}-edit:before,
+.#{$fa-css-prefix}-pencil-square-o:before { content: $fa-var-pencil-square-o; }
+.#{$fa-css-prefix}-pencil:before { content: $fa-var-pencil; }
+
+.#{$fa-css-prefix}-exclamation:before { content: $fa-var-exclamation; }
+.#{$fa-css-prefix}-check:before { content: $fa-var-check; }
+.#{$fa-css-prefix}-info:before { content: $fa-var-info; }
+.#{$fa-css-prefix}-plus:before { content: $fa-var-plus; }
+
+.#{$fa-css-prefix}-level-up:before { content: $fa-var-level-up; }
+.#{$fa-css-prefix}-level-down:before { content: $fa-var-level-down; }
+
+.#{$fa-css-prefix}-question:before { content: $fa-var-question; }
+
+.#{$fa-css-prefix}-save:before,
+.#{$fa-css-prefix}-floppy-o:before { content: $fa-var-floppy-o; }
+
+.#{$fa-css-prefix}-envelope:before { content: $fa-var-envelope; }
+.#{$fa-css-prefix}-key:before { content: $fa-var-key; }
+
+.#{$fa-css-prefix}-power-off:before { content: $fa-var-power-off; }

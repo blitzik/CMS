@@ -15,5 +15,6 @@ class BlogTexy extends \Texy
         parent::__construct();
 
         $this->headingModule->top = 2;
+        $this->setOutputMode(\Texy::HTML5);
     }
 }

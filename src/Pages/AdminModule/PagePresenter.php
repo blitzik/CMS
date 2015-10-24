@@ -7,8 +7,10 @@ use App\Exceptions\Runtime\ArticleTitleAlreadyExistsException;
 use App\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 use Pages\Article;
 use Pages\Facades\PageFacade;
+use Tags\Facades\TagFacade;
 
 class PagePresenter extends ProtectedPresenter
 {
@@ -18,8 +20,17 @@ class PagePresenter extends ProtectedPresenter
      */
     public $pageFacade;
 
+    /**
+     * @var TagFacade
+     * @inject
+     */
+    public $tagFacade;
+
     /** @var  Article */
     private $article;
+
+    /** @var  array */
+    private $tags;
 
     /*
      * ----------------------------
@@ -29,25 +40,39 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionDefault($id)
     {
-
+        $this->tags = $this->tagFacade->findAllTags();
     }
 
     public function renderDefault($id)
     {
-
+        $this->template->tags = ArrayHash::from($this->tags);
     }
 
     protected function createComponentArticleForm()
     {
         $form = new Form;
 
-        $form->addText('title', 'Titulek', null, 255)
-                ->setRequired('Vyplňte titulek článku');
+        $form->addText('title', 'Titulek', null, Article::LENGTH_TITLE)
+                ->setRequired('Vyplňte titulek článku')
+                ->addRule(Form::MAX_LENGTH, 'Titulek článku může obsahovat pouze %d znaků', Article::LENGTH_TITLE);
 
-        $form->addTextArea('text', 'Text', null, 25)
+        $form->addText('time', 'Datum publikování článku', null, 16)
+                ->setHtmlId('datetimepicker')
+                ->setRequired('Nastavte datum publikování článku')
+                ->addRule(Form::MAX_LENGTH, 'Neplatná délka řetězce (publikování článku)', 16);
+
+        $form->addCheckbox('isDraft', 'Pracovní verze článku')
+                ->setDefaultValue(true);
+
+        $form->addTextArea('intro', 'Úvodní text článku', null, 7)
+                ->setMaxLength(Article::LENGTH_INTRO)
+                ->setRequired('Vyplňte text úvodu článku')
+                ->addRule(Form::MAX_LENGTH, 'Úvod článku může obsahovat pouze %d znaků', Article::LENGTH_INTRO);
+
+        $form->addTextArea('text', 'Text článku', null, 25)
                 ->setRequired('Vyplňte text článku');
 
-        $form->addSubmit('save', 'Uložit');
+        $form->addSubmit('save', 'Uložit článek');
 
         $form->addProtection();
 
@@ -58,7 +83,16 @@ class PagePresenter extends ProtectedPresenter
 
     public function onArticleSaving(Form $form, $values)
     {
-        $article = new Article($values->title, $values->text, $this->userEntity);
+        $article = new Article(
+            $values->title,
+            $values->intro,
+            $values->text,
+            $this->userEntity
+        );
+
+        if ($values->isDraft == false) {
+            $article->publish(new \DateTime($values->time));
+        }
 
         try {
             $this->pageFacade->save($article);

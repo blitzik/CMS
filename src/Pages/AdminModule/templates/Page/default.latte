@@ -1,29 +1,80 @@
+{block styles}
+    {include parent}
+    <link rel="stylesheet" href="{$basePath}/assets/css/jquery.datetimepicker.min.css">
+{/block}
+
+{block scripts}
+    {include parent}
+    <script src="{$basePath}/assets/js/jquery.datetimepicker.min.js"></script>
+{/block}
+
 {block content}
 
-<div class="new-article">
-    <div class="article-form">
-    <h2 n:inner-block="title">Nový článek</h2>
+<section>
+    <div class="row">
+        <h1 n:inner-block="title" class="col-md-12" id="top">Nový článek</h1>
+    </div>
 
     {form articleForm}
-    {customFormErrors}
 
-    <div class="form-group">
-        {label title /}
-        {input title class =>form-control}
+    <div class="row">
+        <div class="form-group col-md-12 article-draft">
+            {input isDraft class => form-control}
+        </div>
     </div>
 
-    <div class="form-group">
-        {label text /}
-        {input text class =>form-control}
+    <div class="row">
+        <div class="form-group col-md-9 article-title">
+            {label title /}
+            {input title class => 'form-control'}
+        </div>
+
+        <div class="form-group col-md-3 article-publish-time">
+            {label time /}
+            {input time class => 'form-control'}
+        </div>
     </div>
 
-    <div class="form-group">
-        {input save class =>form-control}
-    </div>
+    <div class="row ">
+        <div class="col-md-9">
+            <div class="form-group">
+                {label intro /} <small>(Bude zobrazen ve výpisu článků)</small>
+                {input intro class => 'form-control article-textArea'}
+            </div>
 
+            <div class="form-group">
+                {label text /}
+                {input text class => 'form-control article-textArea'}
+            </div>
+
+            <div class="form-group">
+                {input save class => 'form-control article-submitButton'}
+            </div>
+
+            <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up fa-fw"></i></a>
+        </div>
+
+        <div class="col-md-3">
+            <h2>Tagy k článku</h2>
+            {if count($tags) > 0}
+            <ul class="tags">
+                {foreach $tags as $tag}
+                    <li>
+                        <label for="tag-{$tag->id}">
+                        <input type="checkbox" id="tag-{$tag->id}" name="tags[]" value="{$tag->id}">
+                        <span class="tag" style="background-color: {$tag->color|noescape};">
+                        <i class="fa fa-tag fa-fw"></i>{$tag->name}</span>
+                        </label>
+                    </li>
+                {/foreach}
+            </ul>
+            {else}
+            <p>Nebyli nalezeny žádné tagy.<br> <a href="">Přejete si nějaké vytvořit?</a></p>
+            {/if}
+        </div>
+    </div>
     {/form}
-    </div>
-</div>
 
+</section>
 
 {/block}

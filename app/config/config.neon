@@ -24,6 +24,7 @@ application:
 			- Nette\Bridges\HttpTracy\SessionPanel
 
 session:
+	autoStart: true
 	expiration: 14 days
 	savePath: %appDir%/../temp/sessions
 	name: 'blog'

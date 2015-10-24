@@ -48,6 +48,8 @@ class ArticlesOverview extends BaseControl
     {
         return new Multiplier(function ($articleId) {
             $comp = $this->articleControlFactory->create($this->articles[$articleId]);
+            $comp->onlyIntro();
+
             return $comp;
         });
     }
@@ -63,10 +65,11 @@ class ArticlesOverview extends BaseControl
         $resultSet = $this->pageFacade
                           ->fetchArticles(
                               (new ArticleQuery())
+                              ->forOverview()
                               ->onlyPublished()
                           );
 
-        $resultSet->applyPaginator($paginator, 5);
+        $resultSet->applyPaginator($paginator, 15);
 
         $this->articles = Arrays::associate($resultSet->toArray(AbstractQuery::HYDRATE_ARRAY), 'id');
         $this->articles = ArrayHash::from($this->articles);

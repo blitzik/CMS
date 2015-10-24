@@ -3,11 +3,11 @@
 namespace  Users;
 
 use Kdyby\Doctrine\DI\IEntityProvider;
-use Kdyby\Doctrine\EntityManager;
-use Nette\DI\CompilerExtension;
-use Nette\Http\Session;
-use Nette\Security\IUserStorage;
+use App\Extensions\CompilerExtension;
 use Users\Authentication\UserStorage;
+use Kdyby\Doctrine\EntityManager;
+use Nette\Security\IUserStorage;
+use Nette\Http\Session;
 
 class UsersExtension extends CompilerExtension implements IEntityProvider
 {
@@ -28,6 +28,8 @@ class UsersExtension extends CompilerExtension implements IEntityProvider
     public function beforeCompile()
     {
         $cb = $this->getContainerBuilder();
+
+        $this->setPresenterMapping($cb, ['Users' => 'Users\\*Module\\Presenters\\*Presenter']);
 
         $userStorage = $cb->getDefinition($cb->getByType(IUserStorage::class));
         $userStorage->setClass(

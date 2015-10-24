@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Tags\Tag;
 use Users\User;
 
 /**
@@ -29,11 +30,20 @@ class Article
     const PRESENTER = 'Pages:Front:Page';
     const PRESENTER_ACTION = 'show';
 
+    const LENGTH_TITLE = 255;
+    const LENGTH_INTRO = 500;
+
     /**
      * @ORM\Column(name="title", type="string", length=255, nullable=false, unique=true)
      * @var string
      */
     protected $title;
+
+    /**
+     * @ORM\Column(name="intro", type="string", length=500, nullable=false, unique=false)
+     * @var string
+     */
+    protected $intro;
 
     /**
      * @ORM\Column(name="text", type="text", nullable=false, unique=false)
@@ -74,10 +84,12 @@ class Article
 
     public function __construct(
         $title,
+        $intro,
         $text,
         User $author
     ) {
         $this->setTitle($title);
+        $this->setIntro($intro);
         $this->setText($text);
         $this->author = $author;
 
@@ -86,17 +98,61 @@ class Article
         $this->tags = new ArrayCollection;
     }
 
+    public function publish(\DateTime $publishTime)
+    {
+        $this->isPublished = true;
+        $this->publishedAt = $publishTime;
+    }
+
+    public function confine()
+    {
+        $this->isPublished = false;
+    }
+
+    public static function getCacheKey($id)
+    {
+        return self::class . '/' . $id;
+    }
+
+
+    /*
+     * -----------------------
+     * ----- COLLECTIONS -----
+     * -----------------------
+     */
+
+    public function addTag(Tag $tag)
+    {
+        $this->tags->add($tag);
+    }
+
+
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
+
     /**
-     * @param $title
+     * @param string $title
      */
     public function setTitle($title)
     {
-        Validators::assert($title, 'unicode:1..255');
+        Validators::assert($title, 'unicode:1..'.self::LENGTH_TITLE);
         $this->title = $title;
     }
 
     /**
-     * @param $text
+     * @param string $intro
+     */
+    public function setIntro($intro)
+    {
+        Validators::assert($intro, 'unicode:1..'.self::LENGTH_INTRO);
+        $this->intro = $intro;
+    }
+
+    /**
+     * @param string $text
      */
     public function setText($text)
     {
@@ -112,16 +168,12 @@ class Article
         $this->createdAt = $createdAt;
     }
 
-    public function publish()
-    {
-        $this->isPublished = true;
-        $this->publishedAt = new \DateTime('now');
-    }
 
-    public function confine()
-    {
-        $this->isPublished = false;
-    }
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
 
     /**
      * @return \DateTime
@@ -139,9 +191,5 @@ class Article
         return $this->author;
     }
 
-    public static function getCacheKey($id)
-    {
-        return self::class . '/' . $id;
-    }
 
 }

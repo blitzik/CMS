@@ -13,7 +13,8 @@
 @import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/code";
 
 // grid mixin
-@import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid";
+@import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+//@import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/mixins/grid";
 //@import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/tables";
 @import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/forms";
 //@import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
@@ -52,5 +53,6 @@
 @import "../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
 
 @import "common";
-@import "grid";
+//@import "grid";
+@import "font-awesome/font-awesome";
 @import "blog_admin";

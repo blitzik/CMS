@@ -1,32 +1,82 @@
-.container{
-  @extend %container-fixed;
+
+.margin-bottom-sm{
+  margin-bottom: 10px;
 }
 
-%make-md-12{
-  @include make-md-column(12);
-}
 
 body{
-  font-size: 130%;
+  font-size: 170%;
 }
 
 .main{
   margin-bottom: 150px;
 }
 
+.content{
+  a{
+    text-decoration: underline;
 
-.new-article{
-  @extend %make-row;
+    &:hover{
+      text-decoration: none;
+    }
+  }
 }
 
-.article-form{
-  @extend %make-md-12;
+.article-textArea{
+  font-size: 125%;
+  padding: 10px;
 }
 
-.form-control, output{
-  font-size: 150%;
+.article-title,
+.article-publish-time{
+  input {
+    height: auto;
+    font-size: 150%;
+    padding: 15px 10px;
+  }
 }
 
-.form-control{
-  padding: 16px 10px;
+.article-draft{
+  font-size: 130%;
+  margin-top: 25px;
+
+  input{
+    width: 20px;
+    height: 20px;
+    margin-right: 15px;
+  }
+}
+
+.tags{
+  margin-top: 25px;
+  padding: 0;
+  list-style-type: none;
+
+  li{
+
+    label{
+      font-weight: normal;
+
+      input{
+        width: 33px;
+        height: 33px;
+        float: left;
+        margin: 0;
+      }
+    }
+  }
+
+  .tag{
+    font-size: 85%;
+    color: #fff;
+    padding: 7px 11px;
+    float: left;
+    margin-left: 5px;
+
+    i{
+      margin-right: 5px;
+    }
+
+    @include border-radius(5px);
+  }
 }

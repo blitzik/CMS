@@ -15,10 +15,19 @@ class ArticleQuery extends QueryObject
     /** @var array  */
     private $filter = [];
 
+    public function forOverview()
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->select('partial a.{id, title, intro, publishedAt}, t');
+        };
+
+        return $this;
+    }
+
     public function onlyPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('a.isPublished = true');
+            $qb->andWhere('a.publishedAt <= CURRENT_TIMESTAMP() AND a.isPublished = true');
         };
 
         return $this;
@@ -44,8 +53,7 @@ class ArticleQuery extends QueryObject
     protected function doCreateQuery(Kdyby\Persistence\Queryable $repository)
     {
         $qb = $this->createBasicDQL($repository->getEntityManager());
-        $qb->innerJoin('a.author', 'aa')
-           ->leftJoin('a.tags', 't')
+        $qb->leftJoin('a.tags', 't')
            ->orderBy('a.publishedAt', 'DESC');
 
         foreach ($this->select as $modifier) {
@@ -58,7 +66,7 @@ class ArticleQuery extends QueryObject
     private function createBasicDQL(Kdyby\Doctrine\EntityManager $entityManager)
     {
         $qb = $entityManager->createQueryBuilder();
-        $qb->select('a, partial aa.{id, username, firstName, lastName}, t')
+        $qb->select('a, t')
            ->from(Article::class, 'a');
 
         foreach ($this->filter as $modifier) {

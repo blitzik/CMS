@@ -11,7 +11,7 @@ tests/temp/cache
 /assets/css/*/*.css
 /assets/css/*/*.map
 
-/assets/js/concatenated/*
+/assets/js/original/*
 /assets/js/*.min.js
 
 /assets/fonts/*

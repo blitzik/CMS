@@ -24,3 +24,23 @@
 %make-row{
   @include make-row();
 }
+
+.row{
+  @extend %make-row;
+}
+
+%col-md-9{
+  @include make-md-column(9);
+}
+
+.col-md-9{
+  @extend %col-md-9;
+}
+
+%col-md-3{
+  @include make-md-column(9);
+}
+
+.col-md-3{
+  @extend %col-md-9;
+}

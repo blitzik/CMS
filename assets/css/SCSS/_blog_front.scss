@@ -40,6 +40,8 @@ h1, h2, h3, h4, h5{
 .article{
   @extend %col-md-12;
 
+  letter-spacing: 1px;
+
   margin-bottom: 90px;
 
   h2, h3, h4, h5{
@@ -85,35 +87,20 @@ h1, h2, h3, h4, h5{
     margin-left: 25px;
   }
 
-  .tags{
-    margin: 0;
-    padding: 10px 0;
-    list-style-type: none;
-    overflow: auto;
+  .article-intro{
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 35px;
 
-    li{
-      float: left;
-      margin-right: 10px;
-      margin-bottom: 10px;
-
-      a{
-        display: block;
-        padding: 3px 12px;
-        font-size: 75%;
-        color: #fff;
-
-        @include border-radius(7px);
-
-        &:hover{
-          text-decoration: none;
-        }
-
-        i{
-          margin-right: 8px;
-        }
-      }
-    }
+    @include border-radius(15px);
   }
+
+  .read-more{
+    float: right;
+    margin-top: 50px;
+  }
+
+  @include tags-definition;
 
 }
 

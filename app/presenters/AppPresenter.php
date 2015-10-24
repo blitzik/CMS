@@ -6,7 +6,7 @@ use Nette\Application\UI\Presenter;
 use Options\Facades\OptionFacade;
 use Users\User;
 
-class AppPresenter extends Presenter
+abstract class AppPresenter extends Presenter
 {
     /**
      * @var OptionFacade

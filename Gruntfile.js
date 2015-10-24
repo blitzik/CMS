@@ -6,7 +6,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {
-            front: {
+            mutual_js: {
                 options: {
                     separator: ';'
                 },
@@ -18,8 +18,9 @@ module.exports = function (grunt) {
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                     'assets/js/main.js'
                 ],
-                dest: 'assets/js/concatenated/js.js'
+                dest: 'assets/js/original/js.js'
             },
+
             shivAndRespond: {
                 options: {
                     separator: ';'
@@ -29,19 +30,38 @@ module.exports = function (grunt) {
                     'bower_components/html5shiv/dist/html5shiv.js',
                     'bower_components/respond/src/respond.js'
                 ],
-                dest: 'assets/js/concatenated/shivAndRespond.js'
+                dest: 'assets/js/original/shivAndRespond.js'
+            },
+
+            datetime_picker_js: {
+                options: {
+                    separator: ';'
+                },
+
+                src: [
+                    'assets/js/original/jquery.datetimepicker.js',
+                    'assets/js/my_js/newArticleDatetimepicker.js'
+                ],
+                dest: 'assets/js/original/jquery.datetimepicker.js'
             }
         },
 
         uglify: {
-            build: {
+            mutual: {
                 files: {
-                    'assets/js/js.min.js': 'assets/js/concatenated/js.js'
+                    'assets/js/js.min.js': 'assets/js/original/js.js'
                 }
             },
+
             shivAndRespond: {
                 files: {
-                    'assets/js/shivAndRespond.min.js': 'assets/js/concatenated/shivAndRespond.js'
+                    'assets/js/shivAndRespond.min.js': 'assets/js/original/shivAndRespond.js'
+                }
+            },
+
+            datetime_picker: {
+                files: {
+                    'assets/js/jquery.datetimepicker.min.js': 'assets/js/original/jquery.datetimepicker.js'
                 }
             }
         },
@@ -52,9 +72,16 @@ module.exports = function (grunt) {
                     'assets/css/front.min.css': 'assets/css/original/front.css'
                 }
             },
+
             admin: {
                 files: {
                     'assets/css/admin.min.css': 'assets/css/original/admin.css'
+                }
+            },
+
+            datetime_picker: {
+                files: {
+                    'assets/css/jquery.datetimepicker.min.css': 'assets/css/original/jquery.datetimepicker.css'
                 }
             }
         },
@@ -83,11 +110,20 @@ module.exports = function (grunt) {
                     'assets/css/SCSS/front.scss'
                 ],
                 tasks: ['sass:front', 'cssmin:front']
+            },
+
+            admin: {
+                files: [
+                    'assets/css/SCSS/_grid.scss',
+                    'assets/css/SCSS/_blog_admin.scss',
+                    'assets/css/SCSS/admin.scss'
+                ],
+                tasks: ['sass:admin', 'cssmin:admin']
             }
         },
 
         copy: {
-            front: {
+            paginator: {
                 files: [
                     {
                         expand: true,
@@ -107,13 +143,35 @@ module.exports = function (grunt) {
                         dest: 'assets/fonts/font-awesome/'
                     }
                 ]
+            },
+
+            datetime_picker: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['bower_components/datetimepicker/jquery.datetimepicker.css'],
+                        dest: 'assets/css/original/'
+                    },
+                    {
+                        expand:true,
+                        flatten: true,
+                        src: ['bower_components/datetimepicker/jquery.datetimepicker.js'],
+                        dest: 'assets/js/original/'
+                    }
+                ]
             }
         }
 
     });
 
     grunt.registerTask('default', ['copy', 'sass', 'concat', 'cssmin', 'uglify']);
-    grunt.registerTask('buildcss', ['sass', 'cssmin']);
-    grunt.registerTask('buildjs', ['concat', 'uglify']);
+
+    grunt.registerTask('build_front_css', ['sass:front', 'cssmin:front']);
+    grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
+
+    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:datetime_picker_js', 'uglify:datetime_picker']);
+
     grunt.registerTask('watch_front_css', ['watch:front']);
+    grunt.registerTask('watch_admin_css', ['watch:admin']);
 };

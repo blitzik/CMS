@@ -51,8 +51,6 @@ class PageFacade extends Object
      */
     public function save(Article $article)
     {
-        $article->publish();
-
         try {
             $this->em->beginTransaction();
 
@@ -74,7 +72,7 @@ class PageFacade extends Object
             $this->em->rollback();
             $this->em->close();
 
-            $this->logger->addError('Article saving error');
+            $this->logger->addError('Article saving error:'. $e->getMessage());
         }
     }
 
@@ -117,24 +115,17 @@ class PageFacade extends Object
      */
     public function getArticle($articleId)
     {
-        $article = $this->cache->load(Article::getCacheKey($articleId),
-                                      function (& $dependencies) use ($articleId) {
-            $article = $this->getBaseArticleDql()
-                            ->where('a.id = :id')
-                            ->setParameter('id', $articleId)
-                            ->getQuery()
-                            ->getArrayResult();
+        $article = $this->getBaseArticleDql()
+                        ->where('a.id = :id')
+                        ->setParameter('id', $articleId)
+                        ->getQuery()
+                        ->getArrayResult();
 
-            if (empty($article)) {
-                return null;
-            }
+        if (empty($article)) {
+            return null;
+        }
 
-            $article = $article[0];
-            $dependencies = [Cache::TAGS => Article::getCacheKey($articleId)];
-            return $article;
-        });
-
-        return $article;
+        return $article[0];
     }
 
     /**
@@ -156,9 +147,8 @@ class PageFacade extends Object
     private function getBaseArticleDql()
     {
         $qb = $this->em->createQueryBuilder();
-        $qb->select('a, partial aa.{id, username, firstName, lastName}, t')
+        $qb->select('a, t')
            ->from(Article::class, 'a')
-           ->innerJoin('a.author', 'aa')
            ->leftJoin('a.tags', 't');
 
         return $qb;

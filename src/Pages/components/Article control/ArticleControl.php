@@ -10,9 +10,17 @@ class ArticleControl extends BaseControl
     /** @var ArrayHash  */
     private $article;
 
+    /** @var bool  */
+    private $isOnlyIntroShown = false;
+
     public function __construct(ArrayHash $article)
     {
         $this->article = $article;
+    }
+
+    public function onlyIntro()
+    {
+        $this->isOnlyIntroShown = true;
     }
 
     public function render()
@@ -22,6 +30,8 @@ class ArticleControl extends BaseControl
 
         $template->article = $this->article;
         $template->month = $this->article->publishedAt->format('n');
+
+        $template->isOnlyIntroShown = $this->isOnlyIntroShown;
 
         $template->render();
     }

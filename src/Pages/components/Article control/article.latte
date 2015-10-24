@@ -19,6 +19,16 @@
         {/if}
     </header>
 
-    {$article->text|texy|noescape} {* body of article *}
+    <div n:tag-if="!$isOnlyIntroShown" class="article-intro">
+        {$article->intro}
+    </div>
+
+    {if !$isOnlyIntroShown}
+        {$article->text|texy|noescape} {* body of article *}
+    {/if}
+
+    {if $isOnlyIntroShown}
+        <a href="{plink Page:show id => $article->id}" class="read-more">Přečíst celý článek <i class="fa fa-chevron-right fa-fw"></i></a>
+    {/if}
 
 </article>
