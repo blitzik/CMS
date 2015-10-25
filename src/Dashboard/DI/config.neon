@@ -1,0 +1,5 @@
+services:
+
+	articlesOverviewControlFactory:
+		implement: Dashboard\Components\IArticlesOverviewControlFactory
+		arguments: [Pages\Query\ArticleQuery articleQuery]

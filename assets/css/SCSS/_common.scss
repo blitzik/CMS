@@ -12,38 +12,15 @@
   border-radius: $tl $tr $br $bl;
 }
 
-@mixin tags-definition {
-  .tags{
-    margin: 0;
-    padding: 10px 0;
-    list-style-type: none;
-    overflow: auto;
-
-    li{
-      float: left;
-      margin-right: 10px;
-      margin-bottom: 10px;
-
-      a{
-        display: block;
-        padding: 3px 12px;
-        font-size: 75%;
-        color: #fff;
-
-        @include border-radius(7px);
-
-        &:hover{
-          text-decoration: none;
-        }
-
-        i{
-          margin-right: 8px;
-        }
-      }
-    }
-  }
-}
 
 .right{
   float: right;
+}
+
+.w25{
+  width: 25px;
+}
+
+.w110{
+  width: 110px;
 }

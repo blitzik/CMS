@@ -12,7 +12,7 @@ use Nette\Utils\Paginator;
 use Pages\Facades\PageFacade;
 use Pages\Query\ArticleQuery;
 
-class ArticlesOverview extends BaseControl
+class ArticlesOverviewControl extends BaseControl
 {
     /** @var PageFacade  */
     private $pageFacade;
@@ -66,7 +66,9 @@ class ArticlesOverview extends BaseControl
                           ->fetchArticles(
                               (new ArticleQuery())
                               ->forOverview()
+                              ->withTags()
                               ->onlyPublished()
+                              ->orderByPublishedAt('DESC')
                           );
 
         $resultSet->applyPaginator($paginator, 15);
@@ -85,7 +87,7 @@ class ArticlesOverview extends BaseControl
 interface IArticlesOverviewControlFactory
 {
     /**
-     * @return ArticlesOverview
+     * @return ArticlesOverviewControl
      */
     public function create();
 }

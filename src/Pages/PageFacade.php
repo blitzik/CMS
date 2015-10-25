@@ -15,6 +15,7 @@ use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Pages\Article;
 use Pages\Query\ArticleQuery;
+use Tags\Tag;
 use Url\Url;
 
 class PageFacade extends Object
@@ -45,15 +46,17 @@ class PageFacade extends Object
 
     /**
      * @param Article $article
+     * @param array $tags
      * @return array ['article' => Article, 'url' => Url]
      * @throws ArticleTitleAlreadyExistsException
      * @throws UrlAlreadyExistsException
      */
-    public function save(Article $article)
+    public function save(Article $article, array $tags)
     {
         try {
             $this->em->beginTransaction();
 
+            /** @var Article $article */
             $article = $this->em->safePersist($article);
             if ($article === false) {
                 throw new ArticleTitleAlreadyExistsException;
@@ -64,6 +67,13 @@ class PageFacade extends Object
             if ($articleUrl === false) {
                 throw new UrlAlreadyExistsException;
             }
+
+            foreach ($tags as $tag) {
+                $tag = $this->em->getReference(Tag::class, $tag['id']);
+                $article->addTag($tag);
+            }
+
+            $this->em->persist($article)->flush();
 
             $this->em->commit();
             return ['article' => $article, 'url' => $articleUrl];

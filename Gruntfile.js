@@ -33,16 +33,17 @@ module.exports = function (grunt) {
                 dest: 'assets/js/original/shivAndRespond.js'
             },
 
-            datetime_picker_js: {
+            new_article: {
                 options: {
                     separator: ';'
                 },
 
                 src: [
                     'assets/js/original/jquery.datetimepicker.js',
-                    'assets/js/my_js/newArticleDatetimepicker.js'
+                    'assets/js/my_js/newArticleDatetimepicker.js',
+                    'assets/js/my_js/tagsPicking.js'
                 ],
-                dest: 'assets/js/original/jquery.datetimepicker.js'
+                dest: 'assets/js/original/newArticle.js'
             }
         },
 
@@ -59,9 +60,9 @@ module.exports = function (grunt) {
                 }
             },
 
-            datetime_picker: {
+            new_article: {
                 files: {
-                    'assets/js/jquery.datetimepicker.min.js': 'assets/js/original/jquery.datetimepicker.js'
+                    'assets/js/newArticle.min.js': 'assets/js/original/newArticle.js'
                 }
             }
         },
@@ -170,7 +171,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_front_css', ['sass:front', 'cssmin:front']);
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
 
-    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:datetime_picker_js', 'uglify:datetime_picker']);
+    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:new_article', 'uglify:new_article']);
 
     grunt.registerTask('watch_front_css', ['watch:front']);
     grunt.registerTask('watch_admin_css', ['watch:admin']);

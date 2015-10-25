@@ -23,7 +23,8 @@ class FormsMacro extends MacroSet
             if ($form->hasErrors()) {
                 echo \'<ul class="form-errors">\';
                 foreach ($form->errors as $error) {
-                    echo \'<li class="form-error">\' .$error. \'</li>\';
+                    echo \'<li class="form-error">
+                                <i class="fa fa-warning fa-2x"></i> \' .$error. \'</li>\';
                 }
                 echo \'</ul>\';
             }

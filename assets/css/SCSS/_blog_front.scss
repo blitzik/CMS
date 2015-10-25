@@ -8,13 +8,21 @@
   margin-top: 100px;
 }
 
+a{
+  text-decoration: underline;
+}
 
 body{
   font-size: 225%;
+  background-image: url('../images/front_bg.jpg');
 }
 
 h1, h2, h3, h4, h5{
   font-weight: bold;
+}
+
+.header a{
+  text-decoration: none;
 }
 
 .page{
@@ -96,11 +104,46 @@ h1, h2, h3, h4, h5{
   }
 
   .read-more{
+    font-size: 80%;
     float: right;
     margin-top: 50px;
+    padding: 12px 18px;
+
+    @include border-radius(10px);
+
+
   }
 
-  @include tags-definition;
+  .tags{
+    margin: 0;
+    padding: 10px 0;
+    list-style-type: none;
+    overflow: auto;
+
+    li{
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 10px;
+
+      a{
+        display: block;
+        padding: 3px 12px;
+        font-size: 75%;
+        color: #fff;
+        text-decoration: none;
+
+        @include border-radius(7px);
+
+        &:hover{
+          text-decoration: underline;
+        }
+
+        i{
+          margin-right: 8px;
+        }
+      }
+    }
+  }
 
 }
 

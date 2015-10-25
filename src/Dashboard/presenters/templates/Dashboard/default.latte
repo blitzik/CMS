@@ -1,5 +1,16 @@
 {block content}
 
-    dashboard
+<section>
+    <div class="row">
+        <h1 n:inner-block="title" class="col-xs-12 articles-overview">Přehled článků</h1>
+    </div>
+    {* not published articles *}
+    {control unpublishedArticlesOverview}
 
+    {* articles waiting to be published *}
+    {control waitingArticlesOverview}
+
+    {* published articles *}
+    {control publishedArticlesOverview}
+</section>
 {/block}

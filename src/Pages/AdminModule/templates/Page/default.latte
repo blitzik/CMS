@@ -5,38 +5,44 @@
 
 {block scripts}
     {include parent}
-    <script src="{$basePath}/assets/js/jquery.datetimepicker.min.js"></script>
+    <script src="{$basePath}/assets/js/newArticle.min.js"></script>
 {/block}
 
 {block content}
 
-<section>
+<section class="new-article">
+
     <div class="row">
         <h1 n:inner-block="title" class="col-md-12" id="top">Nový článek</h1>
     </div>
 
     {form articleForm}
+    <div class="row">
+        <div class="col-xs-12">
+            {customFormErrors}
+        </div>
+    </div>
 
     <div class="row">
-        <div class="form-group col-md-12 article-draft">
+        <div class="form-group col-xs-12 article-draft">
             {input isDraft class => form-control}
         </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-md-9 article-title">
-            {label title /}
-            {input title class => 'form-control'}
-        </div>
-
         <div class="form-group col-md-3 article-publish-time">
             {label time /}
             {input time class => 'form-control'}
         </div>
+
+        <div class="form-group col-md-9 article-title">
+            {label title /}
+            {input title class => 'form-control'}
+        </div>
     </div>
 
     <div class="row ">
-        <div class="col-md-9">
+        <div class="col-md-9 col-md-push-3">
             <div class="form-group">
                 {label intro /} <small>(Bude zobrazen ve výpisu článků)</small>
                 {input intro class => 'form-control article-textArea'}
@@ -51,19 +57,20 @@
                 {input save class => 'form-control article-submitButton'}
             </div>
 
-            <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up fa-fw"></i></a>
+            <a href="#top"><i class="fa fa-level-up fa-flip-horizontal"></i> vrátit se na začátek stránky</a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3 col-md-pull-9 article-tags">
             <h2>Tagy k článku</h2>
             {if count($tags) > 0}
             <ul class="tags">
                 {foreach $tags as $tag}
                     <li>
                         <label for="tag-{$tag->id}">
-                        <input type="checkbox" id="tag-{$tag->id}" name="tags[]" value="{$tag->id}">
-                        <span class="tag" style="background-color: {$tag->color|noescape};">
-                        <i class="fa fa-tag fa-fw"></i>{$tag->name}</span>
+                        <span class="tag" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
+                            <i class="fa fa-tag fa-fw"></i>{$tag->name}
+                            <input type="checkbox" id="tag-{$tag->id}" name="tags[]" value="{$tag->id}">
+                        </span>
                         </label>
                     </li>
                 {/foreach}
