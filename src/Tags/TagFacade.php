@@ -4,6 +4,7 @@ namespace Tags\Facades;
 
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
+use Pages\Article;
 use Tags\Tag;
 
 class TagFacade extends Object
@@ -23,11 +24,20 @@ class TagFacade extends Object
      */
     public function findAllTags()
     {
-        $tags = $this->em->createQuery(
-            'SELECT t FROM ' . Tag::class . ' t
-             ORDER BY t.name'
-        )->getArrayResult();
+        $tags = $this->getBasicDql()
+                ->orderBy('t.name', 'ASC')
+                ->getQuery()
+                ->getArrayResult();
 
         return $tags;
+    }
+
+    private function getBasicDql()
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('t')
+           ->from(Tag::class, 't');
+
+        return $qb;
     }
 }

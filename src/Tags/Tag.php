@@ -3,12 +3,14 @@
 namespace Tags;
 
 use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Pages\Article;
 
 /**
  * @ORM\Entity
@@ -39,6 +41,13 @@ class Tag
         $this->setName($name);
         $this->setColor($color);
     }
+
+
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
 
     /**
      * @param string $name

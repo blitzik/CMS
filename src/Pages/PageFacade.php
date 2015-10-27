@@ -2,9 +2,13 @@
 
 namespace Pages\Facades;
 
+use App\Exceptions\LogicExceptions\DateTimeFormatException;
+use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use App\Exceptions\Runtime\ArticlePublicationException;
 use App\Exceptions\Runtime\ArticleTitleAlreadyExistsException;
 use App\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\AbstractQuery;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Monolog\Logger;
@@ -47,42 +51,105 @@ class PageFacade extends Object
     /**
      * @param Article $article
      * @param array $tags
-     * @return array ['article' => Article, 'url' => Url]
+     * @return Article
      * @throws ArticleTitleAlreadyExistsException
      * @throws UrlAlreadyExistsException
+     * @throws ArticlePublicationException
+     * @throws DateTimeFormatException
      */
-    public function save(Article $article, array $tags)
+    public function save(Article $article, $values, array $tags)
     {
+        $values['tags'] = $tags; // values from Form [key => tagId]
+
+        if ($values['time'] == null and $values['isPublished'] == true) {
+            throw new ArticlePublicationException;
+        }
+
         try {
             $this->em->beginTransaction();
 
-            /** @var Article $article */
-            $article = $this->em->safePersist($article);
-            if ($article === false) {
-                throw new ArticleTitleAlreadyExistsException;
+            if ($article->getId() === null) {
+                $article = $this->createNewArticle($article, $values);
+            } else {
+                $article = $this->updateArticle($article, $values);
             }
 
-            $articleUrl = $this->establishArticleUrl($article);
-            $articleUrl = $this->em->safePersist($articleUrl);
-            if ($articleUrl === false) {
-                throw new UrlAlreadyExistsException;
-            }
-
-            foreach ($tags as $tag) {
-                $tag = $this->em->getReference(Tag::class, $tag['id']);
-                $article->addTag($tag);
-            }
-
-            $this->em->persist($article)->flush();
-
+            $this->em->flush();
             $this->em->commit();
-            return ['article' => $article, 'url' => $articleUrl];
 
         } catch (DBALException $e) {
             $this->em->rollback();
             $this->em->close();
 
             $this->logger->addError('Article saving error:'. $e->getMessage());
+        }
+
+        return $article;
+    }
+
+    /**
+     * @param Article $article
+     * @param $values
+     * @return Article
+     * @throws \Exception
+     * @throws ArticleTitleAlreadyExistsException
+     * @throws ArticlePublicationException
+     * @throws UrlAlreadyExistsException
+     * @throws DateTimeFormatException
+     */
+    private function createNewArticle(Article $article, $values)
+    {
+        $article->setPublishedAt($values['time']);
+        $article->setArticleVisibility($values['isPublished']);
+
+        /** @var Article $article */
+        $article = $this->em->safePersist($article);
+        if ($article === false) {
+            throw new ArticleTitleAlreadyExistsException;
+        }
+
+        $articleUrl = $this->establishArticleUrl($article);
+        $articleUrl = $this->em->safePersist($articleUrl);
+        if ($articleUrl === false) {
+            throw new UrlAlreadyExistsException;
+        }
+
+        $this->addTags2Article($article, $values['tags']);
+
+        $this->em->persist($article);
+
+        return $article;
+    }
+
+    /**
+     * @param Article $article
+     * @param $values
+     * @return Article
+     * @throws DateTimeFormatException
+     */
+    private function updateArticle(Article $article, $values)
+    {
+        $article->setTitle($values['title']);
+        $article->setIntro($values['intro']);
+        $article->setText($values['text']);
+        $article->setPublishedAt($values['time']);
+        $article->setArticleVisibility($values['isPublished']);
+
+        $article->clearTags();
+
+        $this->addTags2Article($article, $values['tags']);
+
+        $this->em->persist($article);
+
+        return $article;
+    }
+
+    private function addTags2Article(Article $article, array $tags)
+    {
+        foreach ($tags as $tagId) {
+            /** @var Tag $tag */
+            $tag = $this->em->getReference(Tag::class, $tagId);
+            $article->addTag($tag);
         }
     }
 
@@ -110,23 +177,26 @@ class PageFacade extends Object
     }
 
     /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @return mixed|null|object
+     * @param $articleId
+     * @return Article|null
      */
-    public function findOneBy(array $criteria, array $orderBy = null)
+    public function getArticle($articleId)
     {
-        return $this->articleRepository->findOneBy($criteria, $orderBy);
+        return $this->getBaseArticleDql()
+                    ->where('a.id = :id')
+                    ->setParameter('id', $articleId)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
-
+    
     /**
      * @param $articleId
      * @return array|null
      */
-    public function getArticle($articleId)
+    public function getArticleAsArray($articleId)
     {
         $article = $this->getBaseArticleDql()
-                        ->where('a.id = :id')
+                        ->where('a.id = :id AND a.isPublished = true AND a.publishedAt <= CURRENT_TIMESTAMP()')
                         ->setParameter('id', $articleId)
                         ->getQuery()
                         ->getArrayResult();
@@ -138,17 +208,27 @@ class PageFacade extends Object
         return $article[0];
     }
 
-    /**
-     * @return array
-     */
-    public function findPublishedArticles()
+    public function publishArticle($id)
     {
-        $articles = $this->getBaseArticleDql()
-                         ->where('a.isPublished = true')
-                         ->orderBy('a.publishedAt', 'DESC')
-                         ->getQuery()
-                         ->getArrayResult();
-        return Arrays::associate($articles, 'id');
+        $this->em->createQuery(
+            'UPDATE ' .Article::class. ' a SET a.isPublished = true
+             WHERE a.id = :id'
+        )->execute(['id' => $id]);
+    }
+
+    public function hideArticle($id)
+    {
+        $this->em->createQuery(
+            'UPDATE ' .Article::class. ' a SET a.isPublished = false
+             WHERE a.id = :id'
+        )->execute(['id' => $id]);
+    }
+
+    public function removeArticle($articleId)
+    {
+        $this->em->createQuery(
+            'DELETE ' .Article::class. ' a WHERE a.id = :id'
+        )->execute(['id' => $articleId]);
     }
 
     /**

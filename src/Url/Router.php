@@ -93,8 +93,10 @@ class Router extends RouteList
      */
     public function constructUrl(Nette\Application\Request $appRequest, Nette\Http\Url $refUrl)
     {
+        $appPath = $appRequest->getPresenterName().':'.$appRequest->getParameter('action').':'.$appRequest->getParameter('id');
+
         /** @var Url $urlEntity */
-        $cachedResult = $this->cache->load($appRequest, function (& $dependencies) use ($appRequest) {;
+        $cachedResult = $this->cache->load($appPath, function (& $dependencies) use ($appRequest) {;
             $req['presenter'] = $appRequest->getPresenterName();
             $req['action'] = $appRequest->getParameter('action');
             $internal_id = $req['internalId'] = $appRequest->getParameter('id');

@@ -22,8 +22,9 @@
     <div class="row">
         {form loginForm class => 'col-md-4 col-md-push-4'}
         <h1 n:inner-block="title">Přihlášení</h1>
-        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        {control flashMessages}
         {customFormErrors}
+
             <div class="input-group input-group-lg margin-bottom-sm">
               <span class="input-group-addon" title="E-mailová adresa"><i class="fa fa-envelope fa-fw"></i></span>
               {input email class => form-control}
@@ -34,7 +35,7 @@
               {input password class => form-control}
             </div>
 
-            {input login class => form-control}
+            {input login class => 'btn btn-default'}
         {/form}
     </div>
 </section>

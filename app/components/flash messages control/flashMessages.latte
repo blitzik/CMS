@@ -1,0 +1,11 @@
+<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{include #flashMessageIcon, type => $flash->type} {$flash->message}</div>
+
+{define flashMessageIcon}
+	<i class="fa {if $type === 'success'}
+		fa-check
+	{elseif $type === 'warning'}
+		fa-warning
+	{elseif $type === 'error'}
+		fa-times
+	{/if} fa-2x fa-fw"></i>
+{/define}

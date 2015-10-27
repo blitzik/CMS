@@ -19,7 +19,9 @@
 
         var tags = $('.tags input');
         tags.each(function () {
-            setDefaultAppearance(this.parentNode);
+            if (!this.checked) {
+                setDefaultAppearance(this.parentNode);
+            }
         });
 
         tags.on('click', function () {

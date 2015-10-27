@@ -2,6 +2,8 @@
 
 namespace Pages;
 
+use App\Exceptions\LogicExceptions\DateTimeFormatException;
+use App\Exceptions\LogicExceptions\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
@@ -74,7 +76,7 @@ class Article
      * @ORM\Column(name="published_at", type="datetime", nullable=true, unique=false)
      * @var \DateTime
      */
-    private $publishedAt;
+    protected $publishedAt;
 
     /**
      * @ORM\ManyToMany(targetEntity="Tags\Tag")
@@ -98,17 +100,6 @@ class Article
         $this->tags = new ArrayCollection;
     }
 
-    public function publish(\DateTime $publishTime)
-    {
-        $this->isPublished = true;
-        $this->publishedAt = $publishTime;
-    }
-
-    public function confine()
-    {
-        $this->isPublished = false;
-    }
-
     public static function getCacheKey($id)
     {
         return self::class . '/' . $id;
@@ -121,9 +112,38 @@ class Article
      * -----------------------
      */
 
+    /**
+     * @param Tag $tag
+     */
     public function addTag(Tag $tag)
     {
         $this->tags->add($tag);
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    public function clearTags()
+    {
+        $this->tags->clear();
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        $result = [];
+        foreach ($this->tags->toArray() as $tag) {
+            $result[$tag->getId()] = $tag;
+        }
+
+        return $result;
     }
 
 
@@ -161,6 +181,32 @@ class Article
     }
 
     /**
+     * @param \DateTime|null $publishTime
+     * @throws DateTimeFormatException
+     */
+    public function setPublishedAt($publishTime)
+    {
+        if (!$publishTime instanceof \DateTime) {
+            try {
+                $publishTime = new \DateTime($publishTime);
+            } catch (\Exception $e) {
+                throw new DateTimeFormatException;
+            }
+        }
+
+        $this->publishedAt = $publishTime;
+    }
+
+    /**
+     * @param bool $isPublished
+     */
+    public function setArticleVisibility($isPublished)
+    {
+        Validators::assert($isPublished, 'bool');
+        $this->isPublished = $isPublished;
+    }
+
+    /**
      * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt)
@@ -181,6 +227,14 @@ class Article
     public function getPublishedAt()
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsPublished()
+    {
+        return $this->isPublished;
     }
 
     /**

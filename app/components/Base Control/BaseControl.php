@@ -2,9 +2,26 @@
 
 namespace App;
 
+use App\Components\IFlashMessagesControlFactory;
 use Nette\Application\UI\Control;
 
-class BaseControl extends Control
+abstract class BaseControl extends Control
 {
+    /** @var  IFlashMessagesControlFactory */
+    protected $flashMessagesFactory;
 
+    /**
+     * @param IFlashMessagesControlFactory $factory
+     */
+    public function injectFlashMessagesFactory(IFlashMessagesControlFactory $factory)
+    {
+        $this->flashMessagesFactory = $factory;
+    }
+
+    protected function createComponentFlashMessages()
+    {
+        $comp = $this->flashMessagesFactory->create();
+
+        return $comp;
+    }
 }

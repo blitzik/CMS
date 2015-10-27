@@ -39,3 +39,8 @@ doctrine:
 monolog:
 	name: blitzik-blog
 	#registerFallback: %debugMode%
+
+decorator:
+	App\BaseControl:
+		setup:
+			- injectFlashMessagesFactory(@App\Components\IFlashMessagesControlFactory)

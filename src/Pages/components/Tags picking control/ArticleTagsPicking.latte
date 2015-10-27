@@ -1,0 +1,18 @@
+<h2>Tagy k článku</h2>
+
+{if count($tags) > 0}
+<ul class="tags">
+    {foreach $tags as $tag}
+        <li>
+            <label for="tag-{$tag->id}">
+            <span class="tag" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
+                <i class="fa fa-tag fa-fw"></i>{$tag->name}
+                <input type="checkbox" id="tag-{$tag->id}" name="tags[]" value="{$tag->id}"{if array_key_exists($tag->id, $articleTags)} checked{/if}>
+            </span>
+            </label>
+        </li>
+    {/foreach}
+</ul>
+{else}
+<p>Nebyli nalezeny žádné tagy.<br> <a href="">Přejete si nějaké vytvořit?</a></p>
+{/if}

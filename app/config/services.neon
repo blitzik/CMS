@@ -5,3 +5,6 @@ services:
 	latte.latteFactory:
 		setup:
 			- addFilter(null, [@pages.filterLoader, 'loader'])
+
+	flashMessagesControl:
+		implement: App\Components\IFlashMessagesControlFactory

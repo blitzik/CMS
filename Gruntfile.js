@@ -16,7 +16,7 @@ module.exports = function (grunt) {
                     'bower_components/nette-forms/src/assets/netteForms.js',
                     'bower_components/nette.ajax.js/nette.ajax.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-                    'assets/js/main.js'
+                    'assets/js//my_js/main.js'
                 ],
                 dest: 'assets/js/original/js.js'
             },
@@ -91,13 +91,13 @@ module.exports = function (grunt) {
             front: {
                 files: {
                     'assets/css/original/front.css': [
-                        'assets/css/SCSS/front.scss'
+                        'assets/css/SCSS/front/front.scss'
                     ]
                 }
             },
             admin: {
                 files: {
-                    'assets/css/original/admin.css': 'assets/css/SCSS/admin.scss'
+                    'assets/css/original/admin.css': 'assets/css/SCSS/admin/admin.scss'
                 }
             }
         },
@@ -106,9 +106,10 @@ module.exports = function (grunt) {
             front: {
                 files: [
                     'assets/css/SCSS/_grid.scss',
+                    'assets/css/SCSS/_common.scss',
                     'assets/css/SCSS/_paginator.scss',
-                    'assets/css/SCSS/_blog_front.scss',
-                    'assets/css/SCSS/front.scss'
+                    'assets/css/SCSS/front/_blog_front.scss',
+                    'assets/css/SCSS/front/front.scss'
                 ],
                 tasks: ['sass:front', 'cssmin:front']
             },
@@ -116,8 +117,10 @@ module.exports = function (grunt) {
             admin: {
                 files: [
                     'assets/css/SCSS/_grid.scss',
-                    'assets/css/SCSS/_blog_admin.scss',
-                    'assets/css/SCSS/admin.scss'
+                    'assets/css/SCSS/_common.scss',
+                    'assets/css/SCSS/admin/_my-variables.scss',
+                    'assets/css/SCSS/admin/_blog_admin.scss',
+                    'assets/css/SCSS/admin/admin.scss'
                 ],
                 tasks: ['sass:admin', 'cssmin:admin']
             }
@@ -171,7 +174,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_front_css', ['sass:front', 'cssmin:front']);
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
 
-    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:new_article', 'uglify:new_article']);
+    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:new_article', 'uglify:mutual', 'uglify:new_article']);
 
     grunt.registerTask('watch_front_css', ['watch:front']);
     grunt.registerTask('watch_admin_css', ['watch:admin']);

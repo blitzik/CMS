@@ -17,3 +17,15 @@ services:
 
 	articlesOverviewControlFactory:
 		implement: Pages\Components\IArticlesOverviewControlFactory
+
+	articleFormControl:
+		implement: Pages\Components\IArticleFormControlFactory
+		arguments: [Users\User user]
+
+	articleTagsPickingControlFactory:
+		implement: Pages\Components\IArticleTagsPickingControlFactory
+		arguments: [article]
+
+	articleRemovalControlFactory:
+		implement: Pages\Components\IArticleRemovalControlFactory
+		arguments: [Pages\Article article]

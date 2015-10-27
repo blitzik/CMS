@@ -1,16 +1,31 @@
 {block content}
 
 <section>
+
     <div class="row">
         <h1 n:inner-block="title" class="col-xs-12 articles-overview">Přehled článků</h1>
     </div>
-    {* not published articles *}
-    {control unpublishedArticlesOverview}
 
-    {* articles waiting to be published *}
-    {control waitingArticlesOverview}
+    {snippet articlesTables}
+    <div class="row">
+        <div class="col-xs-12">
+            {control unpublishedArticlesOverview}
+        </div>
+    </div>
 
-    {* published articles *}
-    {control publishedArticlesOverview}
+    <div class="row">
+        <div class="col-xs-12">
+            {control waitingArticlesOverview}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            {control publishedArticlesOverview}
+        </div>
+    </div>
+    {/snippet}
+
 </section>
+
 {/block}

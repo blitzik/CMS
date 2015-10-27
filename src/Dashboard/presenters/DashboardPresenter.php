@@ -2,6 +2,7 @@
 
 namespace Dashboard\Presenters;
 
+use Dashboard\Components\ArticlesOverviewControl;
 use Dashboard\Components\IArticlesOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Pages\Facades\PageFacade;
@@ -36,11 +37,14 @@ class DashboardPresenter extends ProtectedPresenter
         $comp = $this->articlesOverviewFactory
                      ->create(
                          (new ArticleQuery())
-                         ->onlyWith(['title, createdAt, publishedAt'])
+                         ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->onlyPublished()
                      );
 
         $comp->setTitle('Publikované články');
+        $comp->setPrependTitleIcon('eye');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
     }
@@ -50,11 +54,14 @@ class DashboardPresenter extends ProtectedPresenter
         $comp = $this->articlesOverviewFactory
                      ->create(
                          (new ArticleQuery())
-                         ->onlyWith(['title, createdAt, publishedAt'])
+                         ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->waitingForBeingPublished()
                      );
 
         $comp->setTitle('Články čekající na zveřejnění');
+        $comp->setPrependTitleIcon('hourglass-half');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
     }
@@ -64,13 +71,26 @@ class DashboardPresenter extends ProtectedPresenter
         $comp = $this->articlesOverviewFactory
                      ->create(
                          (new ArticleQuery())
-                         ->onlyWith(['title, createdAt, publishedAt'])
+                         ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->notPublished()
                      );
 
         $comp->setTitle('Nepublikované články');
+        $comp->setPrependTitleIcon('eye-slash');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
+    }
+
+    public function onToggleVisibility(ArticlesOverviewControl $control)
+    {
+        if ($this->isAjax()) {
+            $control->redrawControl('table');
+            $this->redrawControl('articlesTables');
+        } else {
+            $this->redirect('this#'.$control->getUniqueId());
+        }
     }
 
 

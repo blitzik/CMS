@@ -31,7 +31,7 @@ class PagePresenter extends BasePresenter
     public $pageFacade;
 
     /**
-     * @var Article
+     * @var ArrayHash
      */
     private $article;
 
@@ -66,7 +66,7 @@ class PagePresenter extends BasePresenter
 
     public function actionShow($id)
     {
-        $article = $this->pageFacade->getArticle($id);
+        $article = $this->pageFacade->getArticleAsArray($id);
         if ($article === null) {
             throw new BadRequestException;
         }

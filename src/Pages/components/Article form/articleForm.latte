@@ -1,0 +1,51 @@
+
+    {control flashMessages}
+
+    {form articleForm}
+    <div class="row">
+        <div class="col-xs-12">
+            {customFormErrors}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-12 article-draft">
+            {input isPublished class => form-control}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-3 article-publish-time">
+            {label time /}
+            {input time class => 'form-control'}
+        </div>
+
+        <div class="form-group col-md-9 article-title">
+            {label title /}
+            {input title class => 'form-control'}
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-md-9 col-md-push-3">
+            <div class="form-group">
+                {label intro /} <small>(Bude zobrazen ve výpisu článků)</small>
+                {input intro class => 'form-control article-textArea'}
+            </div>
+
+            <div class="form-group">
+                {label text /}
+                {input text class => 'form-control article-textArea'}
+            </div>
+
+
+            {input save class => 'btn btn-default article-submitButton'}
+
+            <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up"></i></a>
+        </div>
+
+        <div class="col-md-3 col-md-pull-9 article-tags">
+            {control articleTagsPicking}
+        </div>
+    </div>
+    {/form}
