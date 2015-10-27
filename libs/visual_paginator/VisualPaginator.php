@@ -22,6 +22,7 @@ class VisualPaginator extends Control
     private $counter = true;
     private $borderPages = true;
 
+    private $ajaxified = true;
 
     public function hideCounter()
     {
@@ -37,6 +38,11 @@ class VisualPaginator extends Control
     {
         $this->page = $page;
         $this->getPaginator()->setPage($page);
+    }
+
+    public function notAjaxified()
+    {
+        $this->ajaxified = false;
     }
 
     /**
@@ -64,6 +70,8 @@ class VisualPaginator extends Control
 
 	    $this->template->counter = $this->counter;
 	    $this->template->borderPages = $this->borderPages;
+
+        $this->template->ajaxified = $this->ajaxified;
 
         $this->template->setFile(dirname(__FILE__) . '/template.latte');
         $this->template->render();

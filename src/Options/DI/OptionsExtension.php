@@ -17,6 +17,16 @@ class OptionsExtension extends CompilerExtension implements IEntityProvider
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
     }
 
+    /**
+     * Adjusts DI container before is compiled to PHP class. Intended to be overridden by descendant.
+     * @return void
+     */
+    public function beforeCompile()
+    {
+        $cb = $this->getContainerBuilder();
+        $this->setPresenterMapping($cb, ['Options' => 'Options\\*Module\\Presenters\\*Presenter']);
+    }
+
 
     /**
      * Returns associative array of Namespace => mapping definition

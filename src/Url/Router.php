@@ -78,6 +78,10 @@ class Router extends RouteList
             $params['id'] = $internal_id;
         }
 
+        if (isset($params['p']) and !Nette\Utils\Validators::is($params['p'], 'numericint:1..')) {
+            unset($params['p']); // if page of paginator isn't integer number, then reset the page
+        }
+
         return new Nette\Application\Request(
             $presenter,
             $httpRequest->getMethod(),
@@ -157,6 +161,12 @@ class Router extends RouteList
         unset($params['action'], $params['lang']);
         if ($fallback === false) {
             unset($params['id']);
+        }
+
+        // articles pagination on main page
+        if (isset($params['do']) and $params['do'] == 'articlesOverview-vs-paginate') {
+            $params['p'] = $params['articlesOverview-vs-page'];
+            unset($params['articlesOverview-vs-page'], $params['do']);
         }
 
         $q = http_build_query($params, null, '&');

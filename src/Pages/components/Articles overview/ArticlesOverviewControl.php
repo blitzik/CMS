@@ -9,11 +9,15 @@ use Nette\Application\UI\Multiplier;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
 use Nette\Utils\Paginator;
+use Nette\Utils\Validators;
 use Pages\Facades\PageFacade;
 use Pages\Query\ArticleQuery;
 
 class ArticlesOverviewControl extends BaseControl
 {
+    /** @var array */
+    public $onPaginate = [];
+
     /** @var PageFacade  */
     private $pageFacade;
 
@@ -26,6 +30,9 @@ class ArticlesOverviewControl extends BaseControl
     /** @var IPaginatorFactory  */
     private $paginatorFactory;
 
+    /** @var  int */
+    private $articlesPerPage;
+
     public function __construct(
         PageFacade $pageFacade,
         IArticleControlFactory $articleControlFactory,
@@ -36,10 +43,18 @@ class ArticlesOverviewControl extends BaseControl
         $this->paginatorFactory = $paginatorFactory;
     }
 
+    public function setArticlesPerPage($articlesPerPage)
+    {
+        Validators::assert($articlesPerPage, 'numericint:1..');
+
+        $this->articlesPerPage = $articlesPerPage;
+    }
+
     protected function createComponentVs()
     {
         $comp = $this->paginatorFactory->create();
         $comp->hideCounter();
+        $comp->notAjaxified();
 
         return $comp;
     }
@@ -62,6 +77,8 @@ class ArticlesOverviewControl extends BaseControl
         /** @var Paginator $paginator */
         $paginator = $this['vs']->getPaginator();
 
+        $this->onPaginate($paginator);
+
         $resultSet = $this->pageFacade
                           ->fetchArticles(
                               (new ArticleQuery())
@@ -71,7 +88,7 @@ class ArticlesOverviewControl extends BaseControl
                               ->orderByPublishedAt('DESC')
                           );
 
-        $resultSet->applyPaginator($paginator, 15);
+        $resultSet->applyPaginator($paginator, $this->articlesPerPage);
 
         $this->articles = Arrays::associate($resultSet->toArray(AbstractQuery::HYDRATE_ARRAY), 'id');
         $this->articles = ArrayHash::from($this->articles);

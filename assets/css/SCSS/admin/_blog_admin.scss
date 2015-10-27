@@ -229,6 +229,18 @@ body{
 
 
 
+
+.options{
+  input[type=text]{
+    height: auto;
+    font-size: 150%;
+    padding: 15px 10px;
+  }
+}
+
+
+
+
 .form-errors{
   margin: 15px 0;
   padding: 0;

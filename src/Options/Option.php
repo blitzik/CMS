@@ -26,7 +26,7 @@ class Option
     protected $name;
 
     /**
-     * @ORM\Column(name="value", type="string", length=255, nullable=false, unique=false)
+     * @ORM\Column(name="value", type="string", length=255, nullable=true, unique=false)
      * @var string
      */
     protected $value;
@@ -53,7 +53,11 @@ class Option
      */
     public function setValue($value)
     {
-        Validators::assert($value, 'unicode:1..255');
+        Validators::assert($value, 'unicode:..255|null');
+        if ($value === '') {
+            $value = null;
+        }
+
         $this->value = $value;
     }
 

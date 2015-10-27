@@ -3,12 +3,13 @@
 namespace Pages\FrontModule\Presenters;
 
 use App\FrontModule\Presenters\BasePresenter;
+use blitzik\VisualPaginator;
 use Nette\Application\BadRequestException;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Paginator;
 use Pages\Components\IArticleControlFactory;
 use Pages\Components\IArticlesOverviewControlFactory;
 use Pages\Facades\PageFacade;
-use Pages\Article;
 
 class PagePresenter extends BasePresenter
 {
@@ -52,6 +53,11 @@ class PagePresenter extends BasePresenter
     protected function createComponentArticlesOverview()
     {
         $comp = $this->articlesOverviewFactory->create();
+        $comp->setArticlesPerPage($this->options['articles_per_page']);
+
+        $comp->onPaginate[] = function (Paginator $paginator) {
+            $paginator->setPage($this->getParameter('p'));
+        };
 
         return $comp;
     }

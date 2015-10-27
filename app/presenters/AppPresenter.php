@@ -33,8 +33,6 @@ abstract class AppPresenter extends Presenter
 
         $this->userEntity = $this->user->getIdentity();
         $this->options = $this->optionFacade->loadOptions();
-
-
     }
 
     protected function createComponentFlashMessages()

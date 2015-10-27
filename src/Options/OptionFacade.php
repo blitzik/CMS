@@ -2,7 +2,10 @@
 
 namespace Options\Facades;
 
+use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
+use Kdyby\Monolog\Logger;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nette\Object;
@@ -12,6 +15,9 @@ use Options\Option;
 
 class OptionFacade extends Object
 {
+    /** @var Logger  */
+    private $logger;
+
     /** @var EntityManager  */
     private $em;
 
@@ -20,10 +26,34 @@ class OptionFacade extends Object
 
     public function __construct(
         EntityManager $entityManager,
-        IStorage $storage
+        IStorage $storage,
+        Logger $logger
     ) {
         $this->em = $entityManager;
         $this->cache = new Cache($storage, 'blog_options');
+        $this->logger = $logger->channel('options');
+    }
+
+    public function saveOptions(array $options)
+    {
+        foreach ($options as $option) {
+            if (!$option instanceof Option) {
+                throw new InvalidArgumentException('Wrong array member type. Expected ' .Option::class. ' but instead "' . gettype($option) . '" was given');
+            }
+
+            $this->em->persist($option);
+        }
+
+        try {
+            $this->em->flush();
+            $this->cache->remove(Option::getCacheKey());
+        } catch (DBALException $e) {
+            $this->logger->addError(sprintf('Save Options error: %s | error message: %s', date('Y-m-d H:i:s'), $e->getMessage()));
+            $this->em->rollback();
+            $this->em->close();
+
+            throw $e;
+        }
     }
 
     /**
@@ -45,5 +75,12 @@ class OptionFacade extends Object
         });
 
         return $options;
+    }
+
+    public function findOptions()
+    {
+        return $this->em->createQuery(
+            'SELECT o FROM ' . Option::class . ' o'
+        )->getResult();
     }
 }

@@ -39,6 +39,7 @@ class DashboardPresenter extends ProtectedPresenter
                          (new ArticleQuery())
                          ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->onlyPublished()
+                         ->orderByPublishedAt('DESC')
                      );
 
         $comp->setTitle('Publikované články');
@@ -73,6 +74,7 @@ class DashboardPresenter extends ProtectedPresenter
                          (new ArticleQuery())
                          ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->notPublished()
+                         ->orderByPublishedAt('DESC')
                      );
 
         $comp->setTitle('Nepublikované články');
