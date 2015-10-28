@@ -22,6 +22,8 @@ class Tag
     use Identifier;
     use MagicAccessors;
 
+    const LENGTH_NAME = 100;
+
     /**
      * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      * @var string
@@ -54,7 +56,7 @@ class Tag
      */
     public function setName($name)
     {
-        Validators::assert($name, 'unicode:1..100');
+        Validators::assert($name, 'unicode:1..'.self::LENGTH_NAME);
         $this->name = $name;
     }
 
@@ -63,7 +65,7 @@ class Tag
      */
     public function setColor($color)
     {
-        if (!preg_match('~^#([0-f]{3}|[0-f]{6})~', $color)) {
+        if (!preg_match('~^#([0-f]{3}|[0-f]{6})$~', $color)) {
             throw new InvalidArgumentException('wrong format of color. Only HEX format can pass');
         }
 

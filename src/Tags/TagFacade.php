@@ -2,21 +2,79 @@
 
 namespace Tags\Facades;
 
+use App\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
+use Kdyby\Monolog\Logger;
 use Nette\Object;
 use Pages\Article;
 use Tags\Tag;
 
 class TagFacade extends Object
 {
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManager  */
     private $em;
 
-    public function __construct(EntityManager $entityManager)
-    {
+    /** @var Logger  */
+    private $logger;
+
+    public function __construct(
+        EntityManager $entityManager,
+        Logger $logger
+    ) {
         $this->em = $entityManager;
+        $this->logger = $logger->channel('Tags');
+    }
+
+    /**
+     * @param Tag $tag
+     * @return bool|object|Tag
+     * @throws TagNameAlreadyExistsException
+     * @throws DBALException
+     */
+    public function saveTag(Tag $tag)
+    {
+        try {
+            if ($tag->getId() === null) {
+                $tag = $this->em->safePersist($tag);
+                if ($tag === false) {
+                    throw new TagNameAlreadyExistsException;
+                }
+            } else {
+                $this->em->persist($tag)->flush();
+            }
+
+        } catch (DBALException $e) {
+            $this->em->rollback();
+            $this->em->close();
+
+            $this->logger->addError('tag error'); // todo
+
+            throw $e;
+        }
+
+        return $tag;
+    }
+
+    /**
+     * @param int $tagId
+     */
+    public function removeTag($tagId)
+    {
+        $this->em->createQuery(
+            'DELETE ' . Tag::class . ' t WHERE t.id = :id'
+        )->execute(['id' => $tagId]);
+    }
+
+    /**
+     * @param int $id
+     * @param string $color Color in HEX format (including #)
+     */
+    public function changeColor($id, $color)
+    {
+        $this->em->createQuery(
+            'UPDATE ' . Tag::class . ' t SET t.color = :color WHERE t.id = :id'
+        )->execute(['id' => $id, 'color' => $color]);
     }
 
     /**
@@ -32,6 +90,9 @@ class TagFacade extends Object
         return $tags;
     }
 
+    /**
+     * @return \Kdyby\Doctrine\QueryBuilder
+     */
     private function getBasicDql()
     {
         $qb = $this->em->createQueryBuilder();

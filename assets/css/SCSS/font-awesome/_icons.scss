@@ -80,3 +80,6 @@
 .#{$fa-css-prefix}-key:before { content: $fa-var-key; }
 
 .#{$fa-css-prefix}-power-off:before { content: $fa-var-power-off; }
+
+.#{$fa-css-prefix}-rotate-left:before,
+.#{$fa-css-prefix}-undo:before { content: $fa-var-undo; }

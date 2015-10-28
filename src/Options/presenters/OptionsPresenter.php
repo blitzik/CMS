@@ -7,7 +7,6 @@ use Doctrine\DBAL\DBALException;
 use Options\Facades\OptionFacade;
 use Nette\Application\UI\Form;
 use Nette\Utils\Validators;
-use Options\Option;
 
 class OptionsPresenter extends ProtectedPresenter
 {
@@ -36,7 +35,7 @@ class OptionsPresenter extends ProtectedPresenter
 
         $form->addText('blog_description', 'Popisek blogu', null, 255);
 
-        $form->addText('articles_per_page', 'Počet článků na stránku (*)')
+        $form->addText('articles_per_page', 'Počet článků na stránku (*)', null, 2)
                 ->setRequired('Nastavte počet článků zobrazujících se na jedné stránce.')
                 ->addRule(function ($input) {
                     if (Validators::is($input->value, 'numericint:1..')) {

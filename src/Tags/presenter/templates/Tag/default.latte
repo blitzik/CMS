@@ -1,0 +1,156 @@
+{block content}
+
+<section class="tag-management">
+
+    <div class="row">
+        <h1 n:inner-block="title" class="col-xs-12">Správa tagů</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {form tagsForm}
+            {customFormErrors}
+            <table class="tags-overview">
+                {foreach $tags as $tag}
+                    <tr>
+                        <td>
+                            <span class="tag" id="tag-{$tag->id}" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
+                                <i class="fa fa-tag fa-fw"></i> {$tag->name}
+                            </span>
+                        </td>
+
+                        <td>{input 'color'.$tag->id id => 'tag-color-input-'.$tag->id, class => 'form-control tag-input', data-tagid => $tag->id}
+                            <button class="btn btn-default undo-color" id="tag-undo-button-{$tag->id}" title="Vrátit původní barvu" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button></td>
+                        <td>{input 'tag'.$tag->id id => 'tag-submit-'.$tag->id, class => 'btn btn-default'}</td>
+                        <td><a href="{link removeTag! id => $tag->id}" class="btn btn-danger">Smazat</a></td>
+                    </tr>
+                {/foreach}
+            </table>
+            {/form}
+        </div>
+
+        <div class="col-md-4">
+            {form tagCreationForm}
+            {customFormErrors}
+                <div class="form-group">
+                    {label name /}
+                    {input name class => 'form-control medium-input'}
+                </div>
+
+                <div class="form-group">
+                    {label color /}
+                    <div class="new-tag-color-group">
+                        {input color id => creation-form-color, class => 'form-control left medium-input tag-color'}
+                        <div id="color-box"><i class="fa fa-tag"></i> Tag</div>
+                    </div>
+                </div>
+
+                {input save id => 'new-tag-submit', class => 'btn btn-default'}
+
+            {/form}
+        </div>
+    </div>
+
+</section>
+
+{/block}
+
+{block scripts}
+{include parent}
+<script>
+(function ($) {
+    "use strict";
+
+    $(function () {
+
+        function markInputAsWrong(input)
+        {
+            input.style['border'] = '1px solid red';
+            input.style['background-color'] = '#ffe3e3';
+        }
+
+        function markInputAsOk(input)
+        {
+            input.style['border'] = '1px solid #ccc';
+            input.style['background-color'] = '#fff';
+        }
+
+        function checkColorFormat(color)
+        {
+            var colorRegExp = /^#(([0-f]{l}3{r})|[0-f]{l}6{r})$/;
+            if (colorRegExp.test(color)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function processColor(input, submitButton)
+        {
+            var colorRegExp = /^#(([0-f]{l}3{r})|[0-f]{l}6{r})$/;
+            if (!checkColorFormat(input.value)) {
+                markInputAsWrong(input);
+                submitButton.attr('disabled', true);
+            } else {
+                markInputAsOk(input);
+                submitButton.attr('disabled', false);
+            }
+        }
+
+        // OVERVIEW
+        var tagsInputs = $('.tag-input');
+        tagsInputs.on('keyup', function () {
+            var tagId = this.dataset.tagid;
+            var tagToChange = $('#tag-' + tagId);
+
+            var submitButton = $('#tag-submit-' + tagId);
+            processColor(this, submitButton);
+
+            tagToChange.css('background-color', this.value);
+
+            var tagUndoButton = $('#tag-undo-button-' + tagId);
+            if (this.value != tagUndoButton.data('tagOriginalColor')) {
+                tagUndoButton.attr('disabled', false);
+            }
+        });
+
+
+        // CREATION FORM
+        var inputColor = $('#creation-form-color');
+        inputColor.on('keyup', function () {
+            var submitButton = $('#new-tag-submit');
+            processColor(this, submitButton);
+
+            var colorBox = $('#color-box');
+            if (checkColorFormat(this.value)) {
+                colorBox.css('background-color', this.value);
+            } else {
+                colorBox.css('background-color', 'transparent');
+            }
+        });
+
+        // UNDO BUTTONS
+        var undoColorButtons = $('.undo-color');
+        undoColorButtons.css('display', 'block');
+        undoColorButtons.attr('disabled', true);
+
+        undoColorButtons.on('click', function (event) {
+            event.preventDefault();
+
+            var inputColor = $('#tag-color-input-' + this.dataset.tagid);
+            inputColor.val(this.dataset.tagOriginalColor);
+
+            var submitButton = $('#tag-submit-' + this.dataset.tagid);
+            processColor(inputColor.get(0), submitButton);
+
+            var tagToChange = $('#tag-' + this.dataset.tagid);
+            tagToChange.css('background-color', this.dataset.tagOriginalColor);
+
+            this.setAttribute('disabled', 'disabled');
+        });
+
+    });
+
+})(window.jQuery);
+</script>
+{/block}

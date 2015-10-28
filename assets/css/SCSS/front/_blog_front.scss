@@ -107,10 +107,9 @@ h1, h2, h3, h4, h5{
   }
 
   .article-intro{
-    background-color: #fff;
-    border: 1px solid #e7dbb2;
     padding: 35px;
     color: #767261;
+    border-bottom: 1px solid #ccc;
 
     @include border-radius(15px);
   }

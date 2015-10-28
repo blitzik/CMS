@@ -12,3 +12,6 @@ class RuntimeException extends \RuntimeException {};
 
     // URLs
     class UrlAlreadyExistsException extends RuntimeException {}
+
+    // TAGs
+    class TagNameAlreadyExistsException extends RuntimeException {}

@@ -5,7 +5,7 @@
 
         function setDefaultAppearance(tag)
         {
-            tag.style['background-color'] = 'transparent';
+            tag.style['background-color'] = '#fff';
             tag.style.border = '1px solid #ccc';
             tag.style.color = '#333';
         }
@@ -19,9 +19,22 @@
 
         var tags = $('.tags input');
         tags.each(function () {
+            var span = this.parentNode;
             if (!this.checked) {
-                setDefaultAppearance(this.parentNode);
+                setDefaultAppearance(span);
             }
+
+            span.onmouseover = function () {
+                if (!this.lastElementChild.checked) {
+                    this.style['background-color'] = '#f0f0f0';
+                }
+            };
+
+            span.onmouseout = function () {
+                if (!this.lastElementChild.checked) {
+                    this.style['background-color'] = '#fff';
+                }
+            };
         });
 
         tags.on('click', function () {
