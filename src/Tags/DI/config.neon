@@ -1,2 +1,13 @@
 services:
+
+	# Facades
 	tagFacade: Tags\Facades\TagFacade
+
+	# Factories
+	tagsOverviewControlFactory:
+		implement: Tags\Components\ITagsOverviewControlFactory
+		arguments: [array tags]
+
+	tagControlFactory:
+		implement: Tags\Components\ITagControlFactory
+		arguments: [array tag]

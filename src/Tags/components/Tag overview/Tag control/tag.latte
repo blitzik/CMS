@@ -1,0 +1,27 @@
+{snippet tag}
+
+{form tagForm}
+<div class="row" n:if="$_form->hasErrors()">
+        <div class="col-xs-12">
+            {customFormErrors}
+        </div>
+    </div>
+
+<div class="row tag-row" id="tag-row-{$tag->id}">
+    <div class="col-xs-5">
+        <span class="tag" id="tag-{$tag->id}" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
+            <i class="fa fa-tag fa-fw"></i> {$tag->name}
+        </span>
+    </div>
+
+    <div class="col-xs-4">
+        {input color class => 'form-control tag-input', data-tagid => $tag->id}
+        <button class="btn btn-default undo-color" id="tag-undo-button-{$tag->id}" title="Vrátit původní barvu" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
+        {input save class => 'ajax btn btn-default tag-submit'}
+    </div>
+
+    <div class="col-xs-3"><a href="{link removeTag! id => $tag->id}" class="ajax btn btn-danger remove" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a></div>
+</div>
+{/form}
+
+{/snippet}

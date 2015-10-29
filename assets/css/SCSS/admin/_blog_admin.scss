@@ -10,6 +10,10 @@
   @include medium-input;
 }
 
+.margin-bottom-xs{
+  margin-bottom: 2px;
+}
+
 .margin-bottom-sm{
   margin-bottom: 10px;
 }
@@ -250,21 +254,6 @@ body{
 
 
 .tag-management{
-  .tag-color{
-    width: 150px;
-  }
-
-  .new-tag-color-group{
-    overflow: auto;
-  }
-
-  .undo-color{
-    padding: 8px;
-    margin-left: 1px;
-    float: left;
-    display: none;
-  }
-
   #color-box{
     font-size: 150%;
     padding: 15px 20px;
@@ -276,22 +265,48 @@ body{
 
     @include border-radius(10px);
   }
+
+  .new-tag-color-group{
+    overflow: auto;
+  }
+
+  .tag-color{
+    width: 150px;
+  }
+
 }
 
 .tags-overview{
-  //border: 1px solid #000;
 
-  th, td{
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-    text-align: right;
+  .tag{
+    float: right;
+  }
+
+  .tag-row{
+    margin-bottom: 5px;
+  }
+
+  input{
+    padding: 10px 15px;
   }
 
   .tag-input{
     width: 90px;
     height: auto;
-    padding: 8px 5px;
+    padding: 10px 5px;
     float: left;
+  }
+
+  .undo-color{
+    padding: 10px;
+    margin-left: 1px;
+    float: left;
+    display: none;
+  }
+
+  .tag-submit{
+    float: left;
+    margin-left: 15px;
   }
 }
 
@@ -364,6 +379,12 @@ body{
 }
 
 
+
+.remove{
+  span {
+    display: none;
+  }
+}
 
 
 /*

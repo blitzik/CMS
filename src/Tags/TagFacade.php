@@ -80,12 +80,16 @@ class TagFacade extends Object
     /**
      * @return array
      */
-    public function findAllTags()
+    public function findAllTags($ordered = true)
     {
-        $tags = $this->getBasicDql()
-                ->orderBy('t.name', 'ASC')
-                ->getQuery()
-                ->getArrayResult();
+        $qb = $this->getBasicDql();
+
+        if ($ordered === true) {
+            $qb->orderBy('t.name', 'ASC');
+        }
+
+        $tags = $qb->getQuery()
+                   ->getArrayResult();
 
         return $tags;
     }

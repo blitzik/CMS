@@ -8,11 +8,19 @@ use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
+use Tags\Components\ITagsOverviewControlFactory;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
+use Tracy\Debugger;
 
 class TagPresenter extends ProtectedPresenter
 {
+    /**
+     * @var ITagsOverviewControlFactory
+     * @inject
+     */
+    public $tagsOverviewControl;
+
     /**
      * @var TagFacade
      * @inject
@@ -24,49 +32,19 @@ class TagPresenter extends ProtectedPresenter
 
     public function actionDefault()
     {
-        $this->tags = $this->tagFacade->findAllTags();
+        $this->tags = $this->tagFacade->findAllTags(false);
     }
 
     public function renderDefault()
     {
-        $this->template->tags = ArrayHash::from($this->tags);
     }
 
-    protected function createComponentTagsForm()
+    protected function createComponentTagsOverview()
     {
-        $form = new Form;
+        $comp = $this->tagsOverviewControl->create($this->tags);
 
-        foreach ($this->tags as $tag) {
-            $form->addText('color'.$tag['id'], null, null, 7)
-                    ->setDefaultValue($tag['color'])
-                    ->addRule(Form::PATTERN, 'Špatný formát barvy.', '^#([0-f]{3}|[0-f]{6})$');
 
-            $form->addSubmit('tag'.$tag['id'], 'Uložit')
-                    ->onClick[] = function (SubmitButton $button) use ($tag){
-                        $this->processTag($button, $tag);
-                    };
-        }
-
-        $form->addProtection();
-
-        return $form;
-    }
-
-    public function processTag(SubmitButton $button, $tag)
-    {
-        $values = $button->getForm()->getValues();
-
-        $this->tagFacade->changeColor($tag['id'], $values['color' . $tag['id']]);
-
-        $this->redirect('this#tag-'.$tag['id']);
-    }
-
-    public function handleRemoveTag($id)
-    {
-        $this->tagFacade->removeTag($id);
-
-        $this->flashMessage('Tag byl úspěšně smazán', 'success');
-        $this->redirect('this');
+        return $comp;
     }
     
     protected function createComponentTagCreationForm()
@@ -78,6 +56,7 @@ class TagPresenter extends ProtectedPresenter
 
         $form->addText('color', 'Barva', null, 7)
                 ->setRequired('Přiřaďte novému tagu barvu')
+                ->setHtmlId('creation-form-color')
                 ->addRule(Form::PATTERN, 'Špatný formát barvy.', '^#([0-f]{3}|[0-f]{6})$');;
 
         $form->addSubmit('save', 'Uložit tag');
