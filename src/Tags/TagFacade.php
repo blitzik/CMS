@@ -7,6 +7,7 @@ use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
+use Nette\Utils\Arrays;
 use Pages\Article;
 use Tags\Tag;
 
@@ -69,12 +70,24 @@ class TagFacade extends Object
     /**
      * @param int $id
      * @param string $color Color in HEX format (including #)
+     * @return int Number of affected rows
      */
     public function changeColor($id, $color)
     {
-        $this->em->createQuery(
+        return $this->em->createQuery(
             'UPDATE ' . Tag::class . ' t SET t.color = :color WHERE t.id = :id'
         )->execute(['id' => $id, 'color' => $color]);
+    }
+
+    /**
+     * @param $tagId
+     * @return array
+     */
+    public function getTagAsArray($tagId)
+    {
+        return $this->em->createQuery(
+            'SELECT t FROM ' . Tag::class . ' t WHERE t.id = :id'
+        )->setParameter('id', $tagId)->getArrayResult();
     }
 
     /**
@@ -91,7 +104,7 @@ class TagFacade extends Object
         $tags = $qb->getQuery()
                    ->getArrayResult();
 
-        return $tags;
+        return Arrays::associate($tags, 'id');
     }
 
     /**

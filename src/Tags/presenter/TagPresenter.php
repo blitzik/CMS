@@ -6,9 +6,8 @@ use App\AdminModule\Presenters\ProtectedPresenter;
 use App\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
-use Nette\Forms\Controls\SubmitButton;
-use Nette\Utils\ArrayHash;
 use Tags\Components\ITagsOverviewControlFactory;
+use Tags\Components\TagsOverviewControl;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
 use Tracy\Debugger;
@@ -27,24 +26,28 @@ class TagPresenter extends ProtectedPresenter
      */
     public $tagFacade;
 
-    /** @var  array */
-    private $tags;
-
     public function actionDefault()
     {
-        $this->tags = $this->tagFacade->findAllTags(false);
+
     }
 
     public function renderDefault()
     {
+
     }
 
     protected function createComponentTagsOverview()
     {
-        $comp = $this->tagsOverviewControl->create($this->tags);
-
+        $comp = $this->tagsOverviewControl->create();
+        $comp->onMissingTag[] = [$this, 'onMissingTag'];
 
         return $comp;
+    }
+
+    public function onMissingTag(TagsOverviewControl $control)
+    {
+        $control->flashMessage('Akce nemohla být provedena, protože Tag byl odstraněn', 'warning');
+        $this->redirect('this');
     }
     
     protected function createComponentTagCreationForm()

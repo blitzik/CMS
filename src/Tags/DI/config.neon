@@ -6,7 +6,6 @@ services:
 	# Factories
 	tagsOverviewControlFactory:
 		implement: Tags\Components\ITagsOverviewControlFactory
-		arguments: [array tags]
 
 	tagControlFactory:
 		implement: Tags\Components\ITagControlFactory

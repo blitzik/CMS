@@ -13,6 +13,7 @@ class TagControl extends BaseControl
 {
     /** @var array */
     public $onTagRemoval = [];
+    public $onTagRemovalFailure = [];
     public $onColorChange = [];
 
     /** @var TagFacade  */
@@ -43,6 +44,8 @@ class TagControl extends BaseControl
     {
         $form = new Form;
 
+        $form->getElementPrototype()->id = 'form-tag-'.$this->tag['id'];
+
         $form->addText('color', null, null, 7)
                 ->setHtmlId('tag-color-input-'.$this->tag['id'])
                 ->setDefaultValue($this->tag['color'])
@@ -60,6 +63,7 @@ class TagControl extends BaseControl
     {
         try {
             $this->tagFacade->changeColor($this->tag['id'], $values->color);
+
             $this->flashMessage('Barva tagu ['.$this->tag['name'].'] byla úspěšně změněna', 'success');
 
             if ($this->presenter->isAjax()) {
@@ -76,13 +80,17 @@ class TagControl extends BaseControl
 
     public function handleRemoveTag($id)
     {
-        $this->tagFacade->removeTag($id);
+        try {
+            $this->tagFacade->removeTag($id);
 
-        if ($this->presenter->isAjax()) {
-            $this->redrawControl();
-            $this->onTagRemoval($id);
-        } else {
-            $this->redirect('this');
+            if ($this->presenter->isAjax()) {
+                $this->redrawControl();
+                $this->onTagRemoval($id);
+            } else {
+                $this->redirect('this');
+            }
+        } catch (DBALException $e) {
+            $this->onTagRemovalFailure();
         }
     }
 }
