@@ -33,7 +33,10 @@ class OptionsPresenter extends ProtectedPresenter
         $form->addText('blog_title', 'Název blogu (*)', null, 255)
                 ->setRequired('Název blogu je povinná položka');
 
-        $form->addText('blog_description', 'Popisek blogu', null, 255);
+        $form->addText('blog_subtitle', 'Popisek blogu', null, 255);
+
+        $form->addText('copyright', 'Copyright (*)', null, 255)
+                ->setRequired('Vyplňte, komu náleží práva toho Blogu');
 
         $form->addText('articles_per_page', 'Počet článků na stránku (*)', null, 2)
                 ->setRequired('Nastavte počet článků zobrazujících se na jedné stránce.')

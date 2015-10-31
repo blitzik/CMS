@@ -41,7 +41,7 @@ module.exports = function (grunt) {
                 src: [
                     'assets/js/original/jquery.datetimepicker.js',
                     'assets/js/my_js/newArticleDatetimepicker.js',
-                    'assets/js/my_js/tagsPicking.js'
+                    'assets/js/my_js/newArticle.js'
                 ],
                 dest: 'assets/js/original/newArticle.js'
             }

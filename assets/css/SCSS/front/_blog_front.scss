@@ -24,8 +24,44 @@ h1, h2, h3, h4, h5{
   font-weight: bold;
 }
 
-.header a{
-  text-decoration: none;
+.header {
+  nav{
+    margin-bottom: 75px;
+  }
+
+  .navbar-nav{
+    font-size: 65%;
+    float: right;
+
+    a{
+      text-decoration: underline;
+    }
+  }
+
+  .navbar-default{
+    background-color: transparent;
+    border: 0;
+  }
+
+  h1{
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar-brand{
+    font-size: 125%;
+    color: #555
+  }
+
+  .blog-subtitle{
+    display: block;
+    font-size: 50%;
+    font-family: "Times New Roman", serif;
+  }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 

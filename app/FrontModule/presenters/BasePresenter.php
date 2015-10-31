@@ -26,6 +26,8 @@ class BasePresenter extends AppPresenter
     protected function beforeRender()
     {
         $this->template->blogTitle = $this->options->blog_title;
+        $this->template->blogSubtitle = $this->options->blog_subtitle;
+        $this->template->copyright = $this->options->copyright;
     }
 
 
