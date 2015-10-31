@@ -18,7 +18,6 @@
   margin-bottom: 10px;
 }
 
-
 body{
   font-size: 170%;
   background-image: url('../images/cream_pixels.png');
@@ -245,6 +244,10 @@ body{
 
 
 
+
+// OPTIONS
+
+
 .options{
   input[type=text]{
     @extend .medium-input;
@@ -252,6 +255,10 @@ body{
 }
 
 
+
+
+
+// TAGS MANAGEMENT
 
 .tag-management{
   #color-box{
@@ -312,7 +319,12 @@ body{
 
 
 
+// IMAGES MANAGEMENT
 
+
+
+
+// FORMS AND FLASHES MESSAGES
 
 .form-errors{
   margin: 15px 0;

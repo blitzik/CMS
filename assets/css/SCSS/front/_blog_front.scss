@@ -17,6 +17,7 @@ a{
 
 body{
   font-size: 225%;
+  font-family:  Verdana, Helvetica, Arial, sans-serif;
   background-image: url('../images/front_bg.jpg');
 }
 
@@ -137,6 +138,8 @@ h1, h2, h3, h4, h5{
     font-family: "Times New Roman", Georgia, serif;
     font-size: 150%;
     color: #c0392b;
+    font-weight: bolder;
+    text-transform: uppercase;
 
     &:hover {
       text-decoration: underline;

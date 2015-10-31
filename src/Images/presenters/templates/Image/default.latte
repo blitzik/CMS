@@ -1,0 +1,32 @@
+{block content}
+
+<section>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 n:inner-block="title">Správa obrázků</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6">
+            {form imageUpload}
+            {customFormErrors}
+
+            <div class="form-group">
+                {label image /}
+                {input image class => 'form-control image-upload-input'}
+            </div>
+            {input upload class => 'btn btn-default'}
+            {/form}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            haha :-)
+        </div>
+    </div>
+
+</section>
+
+{/block}

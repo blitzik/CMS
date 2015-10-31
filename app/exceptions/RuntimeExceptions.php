@@ -15,3 +15,6 @@ class RuntimeException extends \RuntimeException {};
 
     // TAGs
     class TagNameAlreadyExistsException extends RuntimeException {}
+
+    // FILEs
+    class FileUploadException extends RuntimeException {}

@@ -1,0 +1,3 @@
+services:
+
+	imageFacade: Images\Facades\ImageFacade

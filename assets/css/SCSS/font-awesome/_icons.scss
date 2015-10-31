@@ -79,7 +79,11 @@
 .#{$fa-css-prefix}-envelope:before { content: $fa-var-envelope; }
 .#{$fa-css-prefix}-key:before { content: $fa-var-key; }
 
-.#{$fa-css-prefix}-power-off:before { content: $fa-var-power-off; }
+.#{$fa-css-prefix}-sign-out:before { content: $fa-var-sign-out; }
 
 .#{$fa-css-prefix}-rotate-left:before,
 .#{$fa-css-prefix}-undo:before { content: $fa-var-undo; }
+
+.#{$fa-css-prefix}-photo:before,
+.#{$fa-css-prefix}-image:before,
+.#{$fa-css-prefix}-picture-o:before { content: $fa-var-picture-o; }

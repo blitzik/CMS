@@ -29,7 +29,7 @@ class Image
      * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=false)
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(name="location", type="string", nullable=false, unique=true)
