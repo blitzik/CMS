@@ -175,6 +175,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
 
     grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:new_article', 'uglify:mutual', 'uglify:new_article']);
+    grunt.registerTask('build_admin_article_js', ['concat:new_article', 'uglify:new_article']);
 
     grunt.registerTask('watch_front_css', ['watch:front']);
     grunt.registerTask('watch_admin_css', ['watch:admin']);

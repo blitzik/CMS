@@ -3,10 +3,32 @@
 
     $(function () {
 
-        var publishCheckbox = $('#is-published-checkbox');
+        // CHARACTER COUNTERS
+        function processCounter(input, span) {
+            var charCount = input.value.length;
+            var totalCount = parseInt(input.dataset.textLength);
+            if (charCount > 0) {
+                span.html('<small>Zbývá <b>' + (totalCount - charCount) + '</b> znaků</small>');
+            } else {
+                span.html(null);
+            }
+        }
+
+        var articleForm = $('#article-form');
+        articleForm.on('input', '#form-article-title', function () {
+            var textCounter = $('#article-title-counter');
+            processCounter(this, textCounter);
+        });
+
+        articleForm.on('input', '#form-article-intro', function () {
+            var textCounter = $('#article-intro-counter');
+            processCounter(this, textCounter);
+        });
 
 
         // TAGS
+
+        var newArticleSection = $('.new-article');
 
         function setDefaultAppearance(tag)
         {
@@ -22,7 +44,6 @@
             tag.style['border'] = '0';
         }
 
-        var newArticleSection = $('.new-article');
         var tags = $('.tags input');
         tags.each(function () {
             var span = this.parentNode;
@@ -44,7 +65,6 @@
         });
 
         newArticleSection.on('click', '.tag-checkbox', function () {
-            console.log(this);
             if (this.checked) {
                 highlightTag(this.parentNode);
             } else {
