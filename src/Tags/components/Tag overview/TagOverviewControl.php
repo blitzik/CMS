@@ -32,18 +32,7 @@ class TagsOverviewControl extends BaseControl
     protected function createComponentTag()
     {
         return new Multiplier(function ($tagId) {
-            if (empty($this->tags)) {
-                // if processing "handle" method, $this->tags is always empty array
-                // because this factory is invoked before render method
-                $tag = $this->tagFacade->getTagAsArray($tagId);
-                if (!isset($tag[0])) { // trying to request non-existing tag
-                    $this->onMissingTag($this); // there is happening redirect
-                }
-                $this->tags[$tagId] = $tag = $tag[0];
-            } else { // common request
-                $tag = $this->tags[$tagId];
-            }
-
+            $tag = $this->getTag($tagId);
             $comp = $this->tagControlFactory->create($tag);
 
             $comp->onTagRemoval[] = [$this, 'onTagRemoval'];
@@ -51,6 +40,27 @@ class TagsOverviewControl extends BaseControl
 
             return $comp;
         });
+    }
+
+    /**
+     * @param $tagId
+     * @return array
+     */
+    private function getTag($tagId)
+    {
+        if (empty($this->tags)) {
+            // if processing "handle" method, $this->tags is always empty array
+            // because this factory is invoked before render method
+            $tag = $this->tagFacade->getTagAsArray($tagId);
+            if (!isset($tag[0])) { // trying to request non-existing tag
+                $this->onMissingTag($this); // there is happening redirect
+            }
+            $this->tags[$tagId] = $tag = $tag[0];
+        } else { // common request
+            $tag = $this->tags[$tagId];
+        }
+
+        return $tag;
     }
 
     public function onTagRemoval($tagId)

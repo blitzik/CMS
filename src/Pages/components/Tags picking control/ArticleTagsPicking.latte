@@ -7,7 +7,7 @@
             <label for="tag-{$tag->id}">
             <span class="tag" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
                 <i class="fa fa-tag fa-fw"></i>{$tag->name}
-                <input type="checkbox" id="tag-{$tag->id}" name="tags[]" value="{$tag->id}"{if array_key_exists($tag->id, $articleTags)} checked{/if}>
+                <input type="checkbox" id="tag-{$tag->id}" name="tags[]" class="tag-checkbox" value="{$tag->id}"{if array_key_exists($tag->id, $articleTags)} checked{/if}>
             </span>
             </label>
         </li>

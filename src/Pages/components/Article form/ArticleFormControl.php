@@ -55,6 +55,8 @@ class ArticleFormControl extends BaseControl
             $this->fillFormBy($this->article);
         }
 
+        $template->form = $this['articleForm'];
+
         $template->render();
     }
 
@@ -77,13 +79,7 @@ class ArticleFormControl extends BaseControl
             ->addRule(Form::MAX_LENGTH, 'Neplatná délka řetězce (publikování článku)', 16);
 
         $form->addCheckbox('isPublished', 'Publikovat článek')
-            ->setDefaultValue(false)
-            ->addRule(function ($checkbox) use ($form){
-                if ($checkbox->value === true and empty($form['time']->value)) {
-                    return false;
-                }
-                return true;
-            }, 'Aby mohl být článek publikován, musíte nastavit datum publikace.');
+            ->setDefaultValue(false);
 
         $form->addTextArea('intro', 'Úvodní text článku (*)', null, 7)
             ->setMaxLength(Article::LENGTH_INTRO)
@@ -97,13 +93,26 @@ class ArticleFormControl extends BaseControl
 
         $form->addProtection();
 
+
+        $form->onValidate[] = [$this, 'checkPublishing'];
         $form->onSuccess[] = [$this, 'processArticleSaving'];
 
         return $form;
     }
 
+    public function checkPublishing(Form $form)
+    {
+        $values = $form->getValues();
+        if (empty($form['time']->value) and $values->isPublished == true) {
+            $form->addError('Aby mohl být článek publikován, musíte nastavit datum publikace.');
+        }
+
+        $this->redrawControl();
+    }
+
     public function processArticleSaving(Form $form, $values)
     {
+
         $tags = $form->getHttpData(Form::DATA_TEXT, 'tags[]');
 
         if ($this->article !== null) {
@@ -124,6 +133,8 @@ class ArticleFormControl extends BaseControl
 
         try {
             $this->pageFacade->save($article, $values, $tags);
+            $this->flashMessage('Článek byl úspěšně uložen.', 'success');
+
         } catch (ArticleTitleAlreadyExistsException $at) {
             $form->addError('Článek s tímto titulkem již existuje');
             return;
@@ -135,8 +146,11 @@ class ArticleFormControl extends BaseControl
             return;
         }
 
-        $this->flashMessage('Článek byl úspěšně uložen.', 'success');
-        $this->redirect('this');
+        if ($this->presenter->isAjax()) {
+            $this->redrawControl();
+        } else {
+            $this->redirect('this');
+        }
     }
 
     public function fillFormBy(Article $article)

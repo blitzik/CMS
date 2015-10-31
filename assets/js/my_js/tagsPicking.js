@@ -3,6 +3,11 @@
 
     $(function () {
 
+        var publishCheckbox = $('#is-published-checkbox');
+
+
+        // TAGS
+
         function setDefaultAppearance(tag)
         {
             tag.style['background-color'] = '#fff';
@@ -17,6 +22,7 @@
             tag.style['border'] = '0';
         }
 
+        var newArticleSection = $('.new-article');
         var tags = $('.tags input');
         tags.each(function () {
             var span = this.parentNode;
@@ -37,7 +43,8 @@
             };
         });
 
-        tags.on('click', function () {
+        newArticleSection.on('click', '.tag-checkbox', function () {
+            console.log(this);
             if (this.checked) {
                 highlightTag(this.parentNode);
             } else {

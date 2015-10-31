@@ -41,7 +41,7 @@
 
 
         // OVERVIEW
-        tagsOverview.on('keyup', '.tag-input', function () {
+        tagsOverview.on('input', '.tag-input', function () {
             var tagId = this.dataset.tagid;
             var tagToChange = $('#tag-' + tagId);
 
@@ -60,7 +60,7 @@
 
         // CREATION FORM
         var inputColor = $('#creation-form-color');
-        inputColor.on('keyup', function () {
+        inputColor.on('input', function () {
             var submitButton = $('#new-tag-submit');
             processColor(this, submitButton);
 
