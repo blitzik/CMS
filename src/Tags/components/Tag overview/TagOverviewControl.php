@@ -35,9 +35,6 @@ class TagsOverviewControl extends BaseControl
             $tag = $this->getTag($tagId);
             $comp = $this->tagControlFactory->create($tag);
 
-            $comp->onTagRemoval[] = [$this, 'onTagRemoval'];
-            $comp->onTagRemovalFailure[] = [$this, 'onTagRemovalFailure'];
-
             return $comp;
         });
     }
@@ -61,25 +58,6 @@ class TagsOverviewControl extends BaseControl
         }
 
         return $tag;
-    }
-
-    public function onTagRemoval($tagId)
-    {
-        // signal removeTag has been invoked and therefore there is only one
-        // item in $this->tags
-
-        // in order to load all tags in render method, we have to unset
-        // the only one item from $this->tags to make it completely empty.
-        // this will make render method to load all existing tags
-        unset($this->tags[$tagId]);
-        $this->redrawControl();
-
-    }
-
-    public function onTagRemovalFailure()
-    {
-        $this->flashMessage('Při odstraňování tagu nastala chyba.', 'error');
-        $this->redrawControl();
     }
 
     public function render()

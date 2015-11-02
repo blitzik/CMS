@@ -20,7 +20,7 @@ class FormsMacro extends MacroSet
         // we have variable $form at our disposal in template already.
         // this marco should be used only inside manual rendered form
         return '
-            if ($form->hasErrors()) {
+            if (isset($form) and $form->hasErrors()) {
                 echo \'<ul class="form-errors">\';
                 foreach ($form->errors as $error) {
                     echo \'<li class="form-error">

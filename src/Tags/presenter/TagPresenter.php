@@ -28,7 +28,7 @@ class TagPresenter extends ProtectedPresenter
 
     public function actionDefault()
     {
-
+        
     }
 
     public function renderDefault()
@@ -46,7 +46,7 @@ class TagPresenter extends ProtectedPresenter
 
     public function onMissingTag(TagsOverviewControl $control)
     {
-        $control->flashMessage('Akce nemohla být provedena, protože Tag byl odstraněn', 'warning');
+        $control->flashMessage('Požadovanou akci nelze vykonat nad neexistujícím Tagem', 'warning');
         $this->redirect('this');
     }
     

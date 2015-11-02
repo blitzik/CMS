@@ -1,7 +1,6 @@
 
 
 <div class="tags-overview">
-    {snippet tags}
     {control flashMessages}
         {if count($tags)}
             {foreach $tags as $id => $tag}
@@ -10,5 +9,4 @@
         {else}
         <p>Nebyly nalezeny žádné tagy.</p>
         {/if}
-    {/snippet}
 </div>

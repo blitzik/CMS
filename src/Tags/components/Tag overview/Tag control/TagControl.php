@@ -12,8 +12,6 @@ use Tracy\Debugger;
 class TagControl extends BaseControl
 {
     /** @var array */
-    public $onTagRemoval = [];
-    public $onTagRemovalFailure = [];
     public $onColorChange = [];
 
     /** @var TagFacade  */
@@ -64,8 +62,6 @@ class TagControl extends BaseControl
         try {
             $this->tagFacade->changeColor($this->tag['id'], $values->color);
 
-            $this->flashMessage('Barva tagu ['.$this->tag['name'].'] byla úspěšně změněna', 'success');
-
             if ($this->presenter->isAjax()) {
                 $this->tag['color'] = $values->color;
                 $this->redrawControl();
@@ -74,7 +70,12 @@ class TagControl extends BaseControl
             }
 
         } catch (DBALException $e) {
-            $form->addError('Změnu pro tag ['.$this->tag['name'].'] se nepodařilo uložit');
+            $this->flashMessage('Změnu pro tag ['.$this->tag['name'].'] se nepodařilo uložit', 'error');
+            if ($this->presenter->isAjax()) {
+                $this->redrawControl('flashes');
+            } else {
+                $this->redirect('this');
+            }
         }
     }
 
@@ -84,13 +85,19 @@ class TagControl extends BaseControl
             $this->tagFacade->removeTag($id);
 
             if ($this->presenter->isAjax()) {
-                $this->redrawControl();
-                $this->onTagRemoval($id);
+                $this->redrawControl('tag');
             } else {
                 $this->redirect('this');
             }
         } catch (DBALException $e) {
-            $this->onTagRemovalFailure();
+            $this->flashMessage('Při odstraňování tagu nastala chyba.', 'error');
+            if ($this->presenter->isAjax()) {
+                // value does not matter, in JS we just check existence of this variable
+                $this->presenter->payload->errorEl = true;
+                $this->redrawControl('flashes');
+            } else {
+                $this->redirect('this');
+            }
         }
     }
 }

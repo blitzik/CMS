@@ -3,6 +3,29 @@
 
     $(function () {
 
+        var tagsOverview = $('.tags-overview');
+        tagsOverview.on('click', '.remove', function (e) {
+            e.preventDefault();
+            
+            var ajaxSettings = {
+                method: 'GET',
+                url: this.href,
+                success: function (payload) {
+                    //console.log(payload);
+                    if (payload.errorEl == undefined) { // errorEl is set in TagControl
+                        // we does not redraw whole tag overview, there is just one item (the one that is being removed)
+                        for (var el in payload.snippets) {
+                            var el = $('#' + el);
+                            el.fadeOut(250);
+                        }
+                    }
+                }
+            };
+            
+            
+            $.nette.ajax(ajaxSettings);
+        });
+
         function markInputAsWrong(input)
         {
             input.style['border'] = '1px solid red';
@@ -37,7 +60,7 @@
         }
 
 
-        var tagsOverview = $('.tags-overview');
+        //var tagsOverview = $('.tags-overview');
 
 
         // OVERVIEW

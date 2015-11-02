@@ -20,3 +20,4 @@ tests/temp/cache
 /temp/sessions/*
 
 !git.folder.keep
+/nbproject

@@ -1,11 +1,16 @@
 {snippet tag}
 
+
+{snippet flashes}
+{control flashMessages}
+{/snippet}
+
 {form tagForm}
-<div class="row" n:if="$_form->hasErrors()">
-        <div class="col-xs-12">
-            {customFormErrors}
-        </div>
+<div class="row" n:if="$_form->hasErrors()" n:snippet="errors">
+    <div class="col-xs-12">
+        {customFormErrors}
     </div>
+</div>
 
 <div class="row tag-row" id="tag-row-{$tag->id}">
     <div class="col-xs-5">
@@ -20,7 +25,7 @@
         {input save class => 'ajax btn btn-default tag-submit'}
     </div>
 
-    <div class="col-xs-3"><a href="{link removeTag! id => $tag->id}" class="ajax btn btn-danger remove" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a></div>
+    <div class="col-xs-3"><a href="{link removeTag! id => $tag->id}" class="btn btn-danger remove" data-tagid="{$tag->id}" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a></div>
 </div>
 {/form}
 
