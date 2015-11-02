@@ -3,11 +3,17 @@
 namespace Images\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Images\Components\IImageUploadControlFactory;
 use Images\Facades\ImageFacade;
-use Nette\Application\UI\Form;
 
 class ImagePresenter extends ProtectedPresenter
 {
+    /**
+     * @var IImageUploadControlFactory
+     * @inject
+     */
+    public $imageUploadFactory;
+
     /**
      * @var ImageFacade
      * @inject
@@ -26,22 +32,10 @@ class ImagePresenter extends ProtectedPresenter
 
     protected function createComponentImageUpload()
     {
-        $form = new Form;
+        $comp = $this->imageUploadFactory->create();
 
-        $form->addUpload('image', 'Vyberte obrázek')
-                ->setRequired('Vyberte obrázek')
-                ->addRule(Form::IMAGE, 'Lze nahrávat pouze obrázky. (jpg, gif, png)')
-                ->addRule(Form::MAX_FILE_SIZE, 'Lze nahrát obrázek s max. velikostí do 1MB', 1 * 1024 * 1024); // 1MB
 
-        $form->addSubmit('upload', 'Nahrát obrázek');
-
-        $form->onSuccess[] = [$this, 'processImageUpload'];
-
-        return $form;
+        return $comp;
     }
 
-    public function processImageUpload(Form $form, $values)
-    {
-        // todo
-    }
 }

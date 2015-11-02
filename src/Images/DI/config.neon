@@ -1,3 +1,8 @@
 services:
 
+	# Facades
 	imageFacade: Images\Facades\ImageFacade
+
+	# Factories
+	imageUploadControlFactory:
+		implement: Images\Components\IImageUploadControlFactory

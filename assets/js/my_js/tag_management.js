@@ -6,9 +6,9 @@
         var tagsOverview = $('.tags-overview');
         tagsOverview.on('click', '.remove', function (e) {
             e.preventDefault();
-            
-            var answer = global.confirm('Skutečně si přejete Tag odstranit?');
-            if (answer == true) {
+
+            var answer = global.confirm('Skutečně si přejete odstranit Tag: ' + this.dataset.tagname + ' ?');
+            if (answer === true) {
                 var ajaxSettings = {
                     method: 'GET',
                     url: this.href,

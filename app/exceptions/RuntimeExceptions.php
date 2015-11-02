@@ -18,3 +18,9 @@ class RuntimeException extends \RuntimeException {};
 
     // FILEs
     class FileUploadException extends RuntimeException {}
+
+        class NotImageUploadedException extends FileUploadException {}
+
+        class FileSizeException extends FileUploadException {}
+
+        class FileNameException extends FileUploadException {}
