@@ -1,9 +1,10 @@
 <?php
 
-namespace Images;
+namespace Images\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use Nette\DI\Statement;
 
 class ImagesExtension extends CompilerExtension implements IEntityProvider
 {
@@ -26,6 +27,9 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider
     {
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Images' => 'Images\\*Module\\Presenters\\*Presenter']);
+
+        $latteFactory = $cb->getDefinition('latte.latteFactory');
+        $latteFactory->addSetup('addFilter', [null, ['@Images\\Filters\\FilterLoader', 'loader']]);
     }
 
 

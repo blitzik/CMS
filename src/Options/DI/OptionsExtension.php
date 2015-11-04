@@ -1,6 +1,6 @@
 <?php
 
-namespace Options;
+namespace Options\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;

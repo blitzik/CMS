@@ -1,6 +1,6 @@
 <?php
 
-namespace Dashboard;
+namespace Dashboard\DI;
 
 use App\Extensions\CompilerExtension;
 

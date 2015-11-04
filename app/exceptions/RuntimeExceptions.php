@@ -24,3 +24,5 @@ class RuntimeException extends \RuntimeException {};
         class FileSizeException extends FileUploadException {}
 
         class FileNameException extends FileUploadException {}
+
+    class FileRemovalException extends RuntimeException {}

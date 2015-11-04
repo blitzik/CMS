@@ -317,6 +317,12 @@ body{
   }
 }
 
+.remove{
+  span {
+    display: none;
+  }
+}
+
 
 
 // IMAGES MANAGEMENT
@@ -324,6 +330,57 @@ body{
   height: auto;
   padding: 15px 10px;
 }
+
+.images{
+  margin-top: 25px;
+}
+
+.image-preview{
+
+}
+
+.image-actions{
+  float: right;
+}
+
+.image-name{
+  padding: 20px 0;
+}
+
+.image-size{
+  display: inline-block;
+  padding: 5px;
+  padding-left: 0;
+}
+
+.image-texy{
+  font-family: Consolas, "Liberation Mono", Courier, monospace, Arial, sans-serif;
+  display: inline-block;
+  padding: 20px 0;
+
+
+  @include border-radius(3px);
+}
+
+.image-row{
+  margin-bottom: 5px;
+  padding: 15px;
+
+  background-color: #fff;
+  border: 1px solid #ccc;
+
+  @include border-radius(5px);
+
+  &:hover{
+    background-color: #f3edd9;
+  }
+}
+
+.image{
+  max-width: 150px;
+  max-height: 150px;
+}
+
 
 
 
@@ -393,18 +450,15 @@ body{
 
 
 
-.remove{
-  span {
-    display: none;
-  }
-}
-
-
 /*
 
   MEDIA QUERIES
 
 */
+
+@media (min-width: $screen-sm-min) {
+
+}
 
 @media (max-width: $screen-md-max) {
   .article-publish-time{

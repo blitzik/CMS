@@ -10,6 +10,7 @@ use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
 use App\BaseControl;
 use Images\Image;
+use Nette\InvalidStateException;
 
 class ImageUploadControl extends BaseControl
 {
@@ -58,15 +59,15 @@ class ImageUploadControl extends BaseControl
             }
         } catch (NotImageUploadedException $iu) {
             $form->addError('Lze nahrávat pouze obrázky');
-            return;
 
         } catch (FileSizeException $fs) {
             $form->addError('Lze nahrávat obrázky o max. velikosti ' . (Image::MAX_FILE_SIZE / 1048576) . 'MB');
-            return;
+
+        } catch (InvalidStateException $is) {
+            $form->addError('Při nahrávání obrázku došlo k chybě');
 
         } catch (DBALException $e) {
-            $form->addError('DB error');
-            return;
+            $form->addError('Při nahrávání obrázku došlo k chybě');
         }
 
     }

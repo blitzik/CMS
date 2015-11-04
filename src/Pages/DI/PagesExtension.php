@@ -4,6 +4,7 @@ namespace Pages\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use Nette\DI\Statement;
 
 class PagesExtension extends CompilerExtension implements IEntityProvider
 {
@@ -26,6 +27,9 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
     {
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Pages' => 'Pages\\*Module\\Presenters\\*Presenter']);
+
+        $latteFactory = $cb->getDefinition('latte.latteFactory');
+        $latteFactory->addSetup('addFilter', [null, ['@Pages\\Filters\\FilterLoader', 'loader']]);
     }
 
     /**

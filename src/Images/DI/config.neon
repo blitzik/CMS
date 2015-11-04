@@ -6,3 +6,6 @@ services:
 	# Factories
 	imageUploadControlFactory:
 		implement: Images\Components\IImageUploadControlFactory
+
+	imagesOverviewControlFactory:
+		implement: Images\Components\IImagesOverviewControlFactory

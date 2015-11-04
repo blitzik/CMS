@@ -1,6 +1,6 @@
 <?php
 
-namespace Tags;
+namespace Tags\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;

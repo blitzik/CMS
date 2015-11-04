@@ -13,7 +13,12 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="image")
+ * @ORM\Table(
+ *      name="image",
+ *      indexes={
+ *          @Index(name="uploaded_at", columns={"uploaded_at"})
+ *      }
+ * )
  *
  */
 class Image
@@ -37,6 +42,24 @@ class Image
     private $originalName;
 
     /**
+     * @ORM\Column(name="extension", type="string", length=4, nullable=false, unique=false)
+     * @var string
+     */
+    private $extension;
+
+    /**
+     * @ORM\Column(name="width", type="smallint", nullable=false, unique=false)
+     * @var int
+     */
+    private $width;
+
+    /**
+     * @ORM\Column(name="height", type="smallint", nullable=false, unique=false)
+     * @var int
+     */
+    private $height;
+
+    /**
      * @ORM\Column(name="uploaded_at", type="datetime", nullable=false, unique=false)
      * @var \DateTime
      */
@@ -51,34 +74,49 @@ class Image
         }
 
         $this->id = Uuid::uuid4();
-        $this->originalName = $file->getSanitizedName();
+
+        $name = $file->getSanitizedName();
+
+        $this->extension = $this->separateExtension($name);
+        $this->originalName = \mb_substr($name, 0, ((-1) * \mb_strlen($this->extension) - 1));
+
+        $imgSize = $file->getImageSize();
+        $this->width = $imgSize[0];
+        $this->height = $imgSize[1];
+
         $this->uploadedAt = new \DateTime('now');
     }
 
     /**
-     * Returns extension including . (dot) e.g. [.jpg]
+     * Returns extension including e.g. [jpg]
      *
      * @param $filename
      * @return string
      */
-    private function getExtension($filename)
+    private function separateExtension($filename)
     {
-        $dotPos = strrpos($filename, '.');
+        $dotPos = \mb_strrpos($filename, '.');
         if ($dotPos === false) {
             throw new FileNameException;
         }
 
-        return substr($filename, $dotPos);
+        return \mb_substr($filename, $dotPos + 1);
     }
 
     /**
-     * @param int $id
-     * @param string $filename
      * @return string
      */
-    private function determineLocation($id, $filename)
+    private function determineLocation()
     {
-        return self::UPLOAD_DIRECTORY . $id . $this->getExtension($filename);
+        return self::UPLOAD_DIRECTORY . $this->getImageName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->id . '.' . $this->extension;
     }
 
     /**
@@ -86,7 +124,7 @@ class Image
      */
     public function getLocation()
     {
-        return $this->determineLocation($this->id, $this->originalName);
+        return $this->determineLocation();
     }
 
     /**
@@ -98,11 +136,35 @@ class Image
     }
 
     /**
+     * @return string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getUploadedAt()
     {
         return $this->uploadedAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 
 }

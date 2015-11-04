@@ -1,6 +1,6 @@
 <?php
 
-namespace  Users;
+namespace  Users\DI;
 
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
