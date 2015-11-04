@@ -27,9 +27,6 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider
     {
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Images' => 'Images\\*Module\\Presenters\\*Presenter']);
-
-        $latteFactory = $cb->getDefinition('latte.latteFactory');
-        $latteFactory->addSetup('addFilter', [null, ['@Images\\Filters\\FilterLoader', 'loader']]);
     }
 
 
