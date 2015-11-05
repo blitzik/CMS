@@ -43,11 +43,7 @@
         function checkColorFormat(color)
         {
             var colorRegExp = /^#(([0-f]{3})|[0-f]{6})$/;
-            if (colorRegExp.test(color)) {
-                return true;
-            } else {
-                return false;
-            }
+            return colorRegExp.test(color);
         }
 
         function processColor(input, submitButton)
