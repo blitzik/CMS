@@ -135,7 +135,7 @@ class Router extends RouteList
                 return null;
             }
 
-            $dependencies = [Nette\Caching\Cache::TAGS => 'route/' . $url->getId()];
+            $dependencies = [Nette\Caching\Cache::TAGS => $url->getCacheKey()];
             return [$url, $fallback];
         });
         $urlEntity = $cachedResult[0];
@@ -217,7 +217,7 @@ class Router extends RouteList
                 return null;
             }
 
-            $dependencies = [Nette\Caching\Cache::TAGS => 'route/' . $urlEntity->getId()];
+            $dependencies = [Nette\Caching\Cache::TAGS => $urlEntity->getCacheKey()];
             return $urlEntity;
         });
 

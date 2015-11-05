@@ -58,7 +58,7 @@ class ArticleRemovalControl extends BaseControl
 
     public function removeArticle(SubmitButton $button)
     {
-        $this->pageFacade->removeArticle($this->article->getId());
+        $this->pageFacade->removeArticle($this->article);
 
         $this->onArticleRemoval($this);
     }

@@ -224,11 +224,41 @@ class PageFacade extends Object
         )->execute(['id' => $id]);
     }
 
-    public function removeArticle($articleId)
+    /**
+     * @param Article $article
+     * @throws DBALException
+     */
+    public function removeArticle(Article $article)
     {
-        $this->em->createQuery(
-            'DELETE ' .Article::class. ' a WHERE a.id = :id'
-        )->execute(['id' => $articleId]);
+        try {
+            $this->em->beginTransaction();
+
+            $url_path = Strings::webalize($article->title);
+
+            /** @var Url $url */
+            $url = $this->em->createQuery(
+                'SELECT u FROM ' . Url::class . ' u
+                 WHERE u.urlPath = :url_path'
+            )->setParameter('url_path', $url_path)
+             ->getOneOrNullResult();
+
+            if ($url !== null) {
+                $this->cache->clean([Cache::TAGS => $url->getCacheKey()]);
+                $this->em->remove($url);
+                $this->em->remove($article);
+                $this->em->flush();
+            }
+
+            $this->em->commit();
+
+        } catch (DBALException $e) {
+            $this->em->rollback();
+            $this->em->close();
+
+            $this->logger->addError('article removal error'); // todo err msg
+
+            throw $e;
+        }
     }
 
     /**

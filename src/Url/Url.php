@@ -25,6 +25,8 @@ class Url
     use Identifier;
     use MagicAccessors;
 
+    const CACHE_NAMESPACE = 'route/';
+
     /**
      * @ORM\Column(name="url_path", type="string", length=255, nullable=true, unique=true)
      * @var string
@@ -136,6 +138,12 @@ class Url
     public function getActualUrlToRedirect()
     {
         return $this->actualUrlToRedirect;
+    }
+
+
+    public function getCacheKey()
+    {
+        return self::class . '/' . $this->id;
     }
 
 }
