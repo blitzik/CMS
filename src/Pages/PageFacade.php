@@ -255,7 +255,13 @@ class PageFacade extends Object
             $this->em->rollback();
             $this->em->close();
 
-            $this->logger->addError('article removal error'); // todo err msg
+            $this->logger->addError(sprintf(
+                'Article Removal Error: %s | article ID: %d | url ID: %s | exception: %s',
+                date('Y-m-d H:i:s'),
+                $article->getId(),
+                isset($url) ? $url->getId() : 'NO URL',
+                $e->getMessage()
+            ));
 
             throw $e;
         }

@@ -3,6 +3,7 @@
 namespace Pages\Components;
 
 use App\BaseControl;
+use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Pages\Article;
@@ -58,7 +59,12 @@ class ArticleRemovalControl extends BaseControl
 
     public function removeArticle(SubmitButton $button)
     {
-        $this->pageFacade->removeArticle($this->article);
+        try {
+            $this->pageFacade->removeArticle($this->article);
+        } catch (DBALException $e) {
+            $this->flashMessage('Při mazání článku došlo k chybě', 'error');
+            $this->redirect('this');
+        }
 
         $this->onArticleRemoval($this);
     }
