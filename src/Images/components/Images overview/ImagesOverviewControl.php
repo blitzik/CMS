@@ -64,9 +64,9 @@ class ImagesOverviewControl extends BaseControl
             $this->flashMessage('Obrázek byl úspěšně odstraněn', 'success');
 
         } catch (FileRemovalException $fr) {
-            $this->flashMessage('Při pokusu o odstranění obrázku došlo k chybě', 'error');
+            $this->flashMessage('Při pokusu o odstranění obrázku [ '.$imageName.' ] došlo k chybě', 'error');
         } catch (DBALException $e) {
-            $this->flashMessage('Při pokusu o odstranění obrázku došlo k chybě', 'error');
+            $this->flashMessage('Při pokusu o odstranění obrázku [ '.$imageName.' ] došlo k chybě', 'error');
         }
 
         $this->redirect('this');

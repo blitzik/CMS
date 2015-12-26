@@ -1,7 +1,5 @@
 
 {snippet table}
-{if count($articles) > 0}
-
 <h2 n:ifset="$title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
 
 {control flashMessages}
@@ -10,18 +8,18 @@
 <table class="table article-overview-table table-striped table-bordered table-hover">
     <tr>
         <th class="w25">ID</th>
-        <th class="w110">Vytvořen</th>
-        <th class="w110">Publikace</th>
+        <th class="w100">Vytvořen</th>
+        <th class="w100">Publikace</th>
         <th>Článek</th>
         <th class="w300"></th>
     </tr>
-
+{if count($articles) > 0}
     {foreach $articles as $article}
         <tr>
             <td>{$article->id}</td>
             <td>{$article->createdAt|date:'j.n.Y v H:i'}</td>
             <td>{$article->publishedAt|date:'j.n.Y v H:i'}</td>
-            <td>{$article->title}</td>
+            <td><a href="{plink :Pages:Front:Page:show id => $article->id}">{$article->title}</a></td>
             <td class="actions">
                 <a href="{plink :Pages:Admin:Page:edit id => $article->id}" class="update-article"><i class="fa fa-edit"></i> Upravit</a>
                 <a n:if="$article->isPublished === false" href="{link publishArticle, id => $article->id}" class="ajax publish-article"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
@@ -30,7 +28,9 @@
             </td>
         </tr>
     {/foreach}
-</table>
 
+{else}
+<tr><td colspan="5">Nebyly nalezeny žádné články</td></tr>
 {/if}
+</table>
 {/snippet}

@@ -16,7 +16,8 @@ module.exports = function (grunt) {
                     'bower_components/nette-forms/src/assets/netteForms.js',
                     'bower_components/nette.ajax.js/nette.ajax.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-                    'assets/js//my_js/main.js'
+                    'assets/js/my_js/image_management.js',
+                    'assets/js/my_js/main.js'
                 ],
                 dest: 'assets/js/original/js.js'
             },

@@ -79,7 +79,7 @@ class Router extends RouteList
         }
 
         if (isset($params['p']) and !Nette\Utils\Validators::is($params['p'], 'numericint:1..')) {
-            unset($params['p']); // if page of paginator isn't integer number, then reset the page
+            $params['p'] = 1; // if page of paginator isn't integer number, then reset the page
         }
 
         return new Nette\Application\Request(
@@ -164,9 +164,10 @@ class Router extends RouteList
         }
 
         // articles pagination on main page
-        if (isset($params['do']) and $params['do'] == 'articlesOverview-vs-paginate') {
+        $signalKey = Nette\Application\UI\Presenter::SIGNAL_KEY;
+        if (isset($params[$signalKey]) and $params[$signalKey] == 'articlesOverview-vs-paginate') {
             $params['p'] = $params['articlesOverview-vs-page'];
-            unset($params['articlesOverview-vs-page'], $params['do']);
+            unset($params['articlesOverview-vs-page'], $params[$signalKey]);
         }
 
         $q = http_build_query($params, null, '&');

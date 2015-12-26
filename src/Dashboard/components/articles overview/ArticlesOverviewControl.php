@@ -63,6 +63,7 @@ class ArticlesOverviewControl extends BaseControl
     protected function createComponentVs()
     {
         $vs = new VisualPaginator();
+        $vs->notAjaxified();
         $vs->setAnchor($this->getUniqueId());
 
         $vs->onPaginate[] = function () {

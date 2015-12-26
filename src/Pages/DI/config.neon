@@ -3,10 +3,6 @@ services:
 	blogTexy: Pages\Utils\BlogTexy
 	filterLoader: Pages\Filters\FilterLoader
 
-	# Presenters
-	adminPagePresenter: Pages\AdminModule\Presenters\PagePresenter
-	frontPagePresenter: Pages\FrontModule\Presenters\PagePresenter
-
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
 

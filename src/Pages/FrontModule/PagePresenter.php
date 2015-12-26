@@ -10,6 +10,7 @@ use Nette\Utils\Paginator;
 use Pages\Components\IArticleControlFactory;
 use Pages\Components\IArticlesOverviewControlFactory;
 use Pages\Facades\PageFacade;
+use Tracy\Debugger;
 
 class PagePresenter extends BasePresenter
 {
@@ -53,7 +54,9 @@ class PagePresenter extends BasePresenter
     protected function createComponentArticlesOverview()
     {
         $comp = $this->articlesOverviewFactory->create();
-        $comp->setArticlesPerPage($this->options['articles_per_page']);
+        if (isset($this->options['articles_per_page'])) {
+            $comp->setArticlesPerPage($this->options['articles_per_page']);
+        }
 
         $comp->onPaginate[] = function (Paginator $paginator) {
             $paginator->setPage($this->getParameter('p'));

@@ -100,11 +100,6 @@ class Article
         $this->tags = new ArrayCollection;
     }
 
-    public static function getCacheKey($id)
-    {
-        return self::class . '/' . $id;
-    }
-
 
     /*
      * -----------------------

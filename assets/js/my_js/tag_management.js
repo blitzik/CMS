@@ -1,3 +1,5 @@
+// this file is not managed by Grunt
+
 (function (global, $) {
     "use strict";
 

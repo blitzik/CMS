@@ -34,7 +34,7 @@ class VisualPaginator extends Control
         $this->anchor = $anchor;
     }
 
-    public function setpage($page)
+    public function setPage($page)
     {
         $this->page = $page;
         $this->getPaginator()->setPage($page);
@@ -81,12 +81,11 @@ class VisualPaginator extends Control
     {
         if ($this->presenter->isAjax()) {
             $this->redrawControl();
+            $this->onPaginate($this);
         } else {
             $anchor = isset($this->anchor) ? '#'.$this->anchor : null;
             $this->redirect('this'.$anchor);
         }
-
-        $this->onPaginate($this);
     }
 
     public function loadState(array $params)
