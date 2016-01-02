@@ -5,10 +5,9 @@ namespace Pages\Query;
 use Kdyby;
 use Kdyby\Doctrine\QueryObject;
 use Kdyby\Persistence\Queryable;
-use Pages\Article;
-use Tags\Tag;
+use Pages\Page;
 
-class ArticleQuery extends QueryObject
+class PageQuery extends QueryObject
 {
     /** @var array  */
     private $select = [];
@@ -21,7 +20,7 @@ class ArticleQuery extends QueryObject
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($fields) {
             if (!empty($fields)) {
                 $props = implode(',', $fields);
-                $qb->select('partial a.{id, ' .$props. '}');
+                $qb->select('partial p.{id, ' .$props. '}');
             }
         };
 
@@ -31,7 +30,7 @@ class ArticleQuery extends QueryObject
     public function withTags()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->leftJoin('a.tags', 't');
+            $qb->leftJoin('p.tags', 't');
             $qb->addSelect('t');
         };
 
@@ -41,7 +40,7 @@ class ArticleQuery extends QueryObject
     public function forOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->select('partial a.{id, title, intro, publishedAt}');
+            $qb->select('partial p.{id, title, intro, publishedAt}');
         };
 
         return $this;
@@ -50,7 +49,7 @@ class ArticleQuery extends QueryObject
     public function onlyPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('a.isPublished = true AND a.publishedAt <= CURRENT_TIMESTAMP()');
+            $qb->andWhere('p.isPublished = true AND p.publishedAt <= CURRENT_TIMESTAMP()');
         };
 
         return $this;
@@ -60,8 +59,8 @@ class ArticleQuery extends QueryObject
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
             $qb->resetDQLParts(['join', 'orderBy']);
-            $qb->where('a.isPublished = true AND a.publishedAt > CURRENT_TIMESTAMP()');
-            $qb->orderBy('a.publishedAt', 'ASC');
+            $qb->where('p.isPublished = true AND p.publishedAt > CURRENT_TIMESTAMP()');
+            $qb->orderBy('p.publishedAt', 'ASC');
         };
 
         return $this;
@@ -70,7 +69,7 @@ class ArticleQuery extends QueryObject
     public function notPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('a.isPublished = false');
+            $qb->andWhere('p.isPublished = false');
         };
 
         return $this;
@@ -79,7 +78,7 @@ class ArticleQuery extends QueryObject
     public function orderByPublishedAt($order)
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {
-            $qb->orderBy('a.publishedAt', $order);
+            $qb->orderBy('p.publishedAt', $order);
         };
 
         return $this;
@@ -92,7 +91,7 @@ class ArticleQuery extends QueryObject
     protected function doCreateCountQuery(Queryable $repository)
     {
         $qb = $this->createBasicDQL($repository->getEntityManager());
-        $qb->select('COUNT(a.id)');
+        $qb->select('COUNT(p.id)');
 
         return $qb;
     }
@@ -116,8 +115,8 @@ class ArticleQuery extends QueryObject
     private function createBasicDQL(Kdyby\Doctrine\EntityManager $entityManager)
     {
         $qb = $entityManager->createQueryBuilder();
-        $qb->select('a')
-           ->from(Article::class, 'a');
+        $qb->select('p')
+           ->from(Page::class, 'p');
 
         foreach ($this->filter as $modifier) {
             $modifier($qb);

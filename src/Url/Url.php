@@ -27,6 +27,8 @@ class Url
 
     const CACHE_NAMESPACE = 'route/';
 
+    const URLPATH_LENGTH = 255;
+
     /**
      * @ORM\Column(name="url_path", type="string", length=255, nullable=true, unique=true)
      * @var string
@@ -52,17 +54,19 @@ class Url
     protected $internalId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Url")
-     * @ORM\JoinColumn(name="actual_url", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Url", cascade={"persist"})
+     * @ORM\JoinColumn(name="actual_url", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * @var Url
      */
-    private $actualUrlToRedirect;
+    protected $actualUrlToRedirect;
+
 
     public function setUrlPath($path)
     {
-        Validators::assert($path, 'unicode');
-        $this->urlPath = Strings::webalize($path, '/');
+        Validators::assert($path, 'null|unicode:0..' . self::URLPATH_LENGTH);
+        $this->urlPath = $path === null ? null : Strings::webalize($path, '/');
     }
+
 
     /**
      * @param int|null $internalId
@@ -72,6 +76,7 @@ class Url
         Validators::assert($internalId, 'numericint|null');
         $this->internalId = $internalId;
     }
+
 
     /**
      * @param string $presenter
@@ -93,6 +98,7 @@ class Url
         $this->action = $matches[4]; // action
     }
 
+
     private function resolveDestination($destination)
     {
         // ((Module:)*(Presenter)):(action)
@@ -103,18 +109,32 @@ class Url
         return $matches;
     }
 
-    public function markAsOldUrl($newUrlPathToRedirect)
+
+    public function setRedirectTo($actualUrlToRedirect)
     {
-        $this->actualUrlToRedirect = $newUrlPathToRedirect;
+        $this->actualUrlToRedirect = $actualUrlToRedirect;
     }
 
-    /**
-     * @return string
-     */
-    public function getDestination()
+
+    public function getCurrentUrlId()
     {
-        return $this->getPresenter() . ':' . $this->getAction();
+        if (!isset($this->actualUrlToRedirect)) {
+            return $this->getId();
+        }
+
+        return $this->actualUrlToRedirect->getId();
     }
+
+
+    public function getCurrentUrlPath()
+    {
+        if (!isset($this->actualUrlToRedirect)) {
+            return $this->urlPath;
+        }
+
+        return $this->actualUrlToRedirect->urlPath;
+    }
+
 
     /**
      * @return string
@@ -124,6 +144,7 @@ class Url
         return $this->presenter;
     }
 
+
     /**
      * @return string
      */
@@ -132,18 +153,29 @@ class Url
         return $this->action;
     }
 
-    /**
-     * @return Url
-     */
-    public function getActualUrlToRedirect()
+
+    public function getDestination()
     {
-        return $this->actualUrlToRedirect;
+        return $this->presenter. ':' .$this->action;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAbsoluteDestination()
+    {
+        if (!isset($this->presenter, $this->action)) {
+            return null;
+        }
+
+        return ':' .$this->presenter. ':' .$this->action;
     }
 
 
     public function getCacheKey()
     {
-        return self::class . '/' . $this->id;
+        return self::class . '/' . $this->getId();
     }
 
 }

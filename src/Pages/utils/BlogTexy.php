@@ -4,10 +4,10 @@ namespace Pages\Utils;
 use Images\Image;
 
 /**
- * This class is used for processing Articles bodies only
+ * This class is used for processing Pages bodies only
  *
  * Class BlogTexy
- * @package Pages\Utils
+ * @package Articles\Utils
  */
 class BlogTexy extends \Texy
 {

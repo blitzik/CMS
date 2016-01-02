@@ -1,10 +1,10 @@
-<section class="articles">
+<section class="pages-overview">
 
-{if $articlesCount > 0}
+{if $pagesCount > 0}
 
-    {foreach $articles as $article}
+    {foreach $pages as $page}
 
-        {control article-$article->id}
+        {control page-$page->id}
 
         {*<div class="delimiter" n:if="!$iterator->isLast()"></div>*}
     {/foreach}

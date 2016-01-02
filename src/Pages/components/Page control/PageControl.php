@@ -5,17 +5,17 @@ namespace Pages\Components;
 use Nette\Utils\ArrayHash;
 use App\BaseControl;
 
-class ArticleControl extends BaseControl
+class PageControl extends BaseControl
 {
     /** @var ArrayHash  */
-    private $article;
+    private $page;
 
     /** @var bool  */
     private $isOnlyIntroShown = false;
 
-    public function __construct(ArrayHash $article)
+    public function __construct(ArrayHash $page)
     {
-        $this->article = $article;
+        $this->page = $page;
     }
 
     public function onlyIntro()
@@ -26,10 +26,10 @@ class ArticleControl extends BaseControl
     public function render()
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/article.latte');
+        $template->setFile(__DIR__ . '/page.latte');
 
-        $template->article = $this->article;
-        $template->month = $this->article->publishedAt->format('n');
+        $template->page = $this->page;
+        $template->month = $this->page->publishedAt->format('n');
 
         $template->isOnlyIntroShown = $this->isOnlyIntroShown;
 
@@ -38,11 +38,11 @@ class ArticleControl extends BaseControl
 }
 
 
-interface IArticleControlFactory
+interface IPageControlFactory
 {
     /**
-     * @param ArrayHash $article
-     * @return ArticleControl
+     * @param ArrayHash $page
+     * @return PageControl
      */
-    public function create(ArrayHash $article);
+    public function create(ArrayHash $page);
 }

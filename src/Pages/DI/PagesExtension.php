@@ -8,7 +8,7 @@ use Kdyby\Doctrine\DI\IEntityProvider;
 class PagesExtension extends CompilerExtension implements IEntityProvider
 {
     private $defaults = [
-        'articlesPerPage' => 10
+        'pagesPerPage' => 10
     ];
 
     /**
@@ -36,8 +36,8 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Pages' => 'Pages\\*Module\\Presenters\\*Presenter']);
 
-        $cb->getDefinition($this->prefix('articlesOverviewControlFactory'))
-            ->addSetup('setArticlesPerPage', [$config['articlesPerPage']]);
+        $cb->getDefinition($this->prefix('pagesOverviewControlFactory'))
+            ->addSetup('setPagesPerPage', [$config['pagesPerPage']]);
 
         $latteFactory = $cb->getDefinition('latte.latteFactory');
         $latteFactory->addSetup('addFilter', [null, ['@Pages\\Filters\\FilterLoader', 'loader']]);

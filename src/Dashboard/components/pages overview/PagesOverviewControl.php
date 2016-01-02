@@ -8,9 +8,9 @@ use Doctrine\ORM\AbstractQuery;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Paginator;
 use Pages\Facades\PageFacade;
-use Pages\Query\ArticleQuery;
+use Pages\Query\PageQuery;
 
-class ArticlesOverviewControl extends BaseControl
+class PagesOverviewControl extends BaseControl
 {
     /** @var array  */
     public $onToggleVisibility = [];
@@ -19,8 +19,8 @@ class ArticlesOverviewControl extends BaseControl
     /** @var PageFacade  */
     private $pageFacade;
 
-    /** @var ArticleQuery  */
-    private $articleQuery;
+    /** @var PageQuery  */
+    private $pageQuery;
 
     /** @var  string */
     private $title;
@@ -29,14 +29,14 @@ class ArticlesOverviewControl extends BaseControl
     private $icon;
 
     /** @var  int */
-    private $articlesCount = 10;
+    private $pagesCount = 10;
 
     public function __construct(
-        ArticleQuery $articleQuery,
+        PageQuery $pageQuery,
         PageFacade $pageFacade
     ) {
         $this->pageFacade = $pageFacade;
-        $this->articleQuery = $articleQuery;
+        $this->pageQuery = $pageQuery;
     }
 
     /**
@@ -55,9 +55,9 @@ class ArticlesOverviewControl extends BaseControl
         $this->icon = $icon;
     }
 
-    public function setArticlesPerPage($articlesCount)
+    public function setPagesPerPage($pagesCount)
     {
-        $this->articlesCount = $articlesCount;
+        $this->pagesCount = $pagesCount;
     }
 
     protected function createComponentVs()
@@ -80,16 +80,16 @@ class ArticlesOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/overview.latte');
 
         $resultSet = $this->pageFacade
-                          ->fetchArticles($this->articleQuery);
+                          ->fetchPages($this->pageQuery);
 
         /** @var Paginator $paginator */
         $paginator = $this['vs']->getPaginator();
 
-        $resultSet->applyPaginator($paginator, $this->articlesCount);
+        $resultSet->applyPaginator($paginator, $this->pagesCount);
 
-        $articles = $resultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
+        $pages = $resultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
 
-        $template->articles = ArrayHash::from($articles);
+        $template->pages = ArrayHash::from($pages);
         $template->title = $this->title;
         $template->icon = $this->icon;
 
@@ -100,7 +100,7 @@ class ArticlesOverviewControl extends BaseControl
 
     public function handlePublishArticle($id)
     {
-        $this->pageFacade->publishArticle($id);
+        $this->pageFacade->publishPage($id);
 
         $this->flashMessage('Článek byl úspěšně publikován.', 'success');
         $this->onToggleVisibility($this);
@@ -108,7 +108,7 @@ class ArticlesOverviewControl extends BaseControl
 
     public function handleHideArticle($id)
     {
-        $this->pageFacade->hideArticle($id);
+        $this->pageFacade->hidePage($id);
 
         $this->flashMessage('Článek již není veřejné přístupný.', 'success');
         $this->onToggleVisibility($this);
@@ -116,11 +116,11 @@ class ArticlesOverviewControl extends BaseControl
 }
 
 
-interface IArticlesOverviewControlFactory
+interface IPagesOverviewControlFactory
 {
     /**
-     * @param ArticleQuery $articleQuery
-     * @return ArticlesOverviewControl
+     * @param PageQuery $pageQuery
+     * @return PagesOverviewControl
      */
-    public function create(ArticleQuery $articleQuery);
+    public function create(PageQuery $pageQuery);
 }

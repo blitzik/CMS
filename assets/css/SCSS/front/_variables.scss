@@ -1,0 +1,14 @@
+
+@import "../../../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+
+$font-size-base: 24px;
+$line-height-base: 1.7;
+$headings-font-family: "Roboto", Helvetica, Arial, sans-serif;
+
+$font-size-h1:            floor(($font-size-base * 2.6));
+$font-size-h2:            floor(($font-size-base * 1.66));
+$font-size-h3:            ceil(($font-size-base * 1.25));
+$font-size-h4:            ceil(($font-size-base * 0.85));
+$font-size-h5:            ceil(($font-size-base * 0.60));
+$font-size-h6:            $font-size-base;

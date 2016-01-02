@@ -24,15 +24,18 @@ class VisualPaginator extends Control
 
     private $ajaxified = true;
 
+
     public function hideCounter()
     {
         $this->counter = false;
     }
 
+
     public function setAnchor($anchor)
     {
         $this->anchor = $anchor;
     }
+
 
     public function setPage($page)
     {
@@ -40,10 +43,12 @@ class VisualPaginator extends Control
         $this->getPaginator()->setPage($page);
     }
 
+
     public function notAjaxified()
     {
         $this->ajaxified = false;
     }
+
 
     /**
      *
@@ -57,6 +62,7 @@ class VisualPaginator extends Control
 
         return $this->paginator;
     }
+
 
     /**
      * Renders paginator
@@ -77,6 +83,7 @@ class VisualPaginator extends Control
         $this->template->render();
     }
 
+
     public function handlePaginate()
     {
         if ($this->presenter->isAjax()) {
@@ -87,6 +94,7 @@ class VisualPaginator extends Control
             $this->redirect('this'.$anchor);
         }
     }
+
 
     public function loadState(array $params)
     {

@@ -3,7 +3,6 @@
 namespace Pages;
 
 use App\Exceptions\LogicExceptions\DateTimeFormatException;
-use App\Exceptions\LogicExceptions\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
@@ -17,14 +16,14 @@ use Users\User;
 /**
  * @ORM\Entity
  * @ORM\Table(
- *      name="article",
+ *      name="page",
  *      indexes={
  *          @Index(name="published_at", columns={"published_at"})
  *      }
  * )
  *
  */
-class Article
+class Page
 {
     use Identifier;
     use MagicAccessors;
@@ -84,12 +83,14 @@ class Article
      */
     private $tags;
 
+
     public function __construct(
         $title,
         $intro,
         $text,
         User $author
-    ) {
+    )
+    {
         $this->setTitle($title);
         $this->setIntro($intro);
         $this->setText($text);
@@ -115,6 +116,7 @@ class Article
         $this->tags->add($tag);
     }
 
+
     /**
      * @param Tag $tag
      */
@@ -123,10 +125,12 @@ class Article
         $this->tags->removeElement($tag);
     }
 
+
     public function clearTags()
     {
         $this->tags->clear();
     }
+
 
     /**
      * @return array
@@ -153,18 +157,20 @@ class Article
      */
     public function setTitle($title)
     {
-        Validators::assert($title, 'unicode:1..'.self::LENGTH_TITLE);
+        Validators::assert($title, 'unicode:1..' . self::LENGTH_TITLE);
         $this->title = $title;
     }
+
 
     /**
      * @param string $intro
      */
     public function setIntro($intro)
     {
-        Validators::assert($intro, 'unicode:1..'.self::LENGTH_INTRO);
+        Validators::assert($intro, 'unicode:1..' . self::LENGTH_INTRO);
         $this->intro = $intro;
     }
+
 
     /**
      * @param string $text
@@ -174,6 +180,7 @@ class Article
         Validators::assert($text, 'unicode');
         $this->text = $text;
     }
+
 
     /**
      * @param \DateTime|null $publishTime
@@ -192,6 +199,7 @@ class Article
         $this->publishedAt = $publishTime;
     }
 
+
     /**
      * @param bool $isPublished
      */
@@ -200,6 +208,7 @@ class Article
         Validators::assert($isPublished, 'bool');
         $this->isPublished = $isPublished;
     }
+
 
     /**
      * @param \DateTime $createdAt
@@ -216,6 +225,7 @@ class Article
      * --------------------
      */
 
+
     /**
      * @return \DateTime
      */
@@ -224,6 +234,7 @@ class Article
         return $this->publishedAt;
     }
 
+
     /**
      * @return bool
      */
@@ -231,6 +242,7 @@ class Article
     {
         return $this->isPublished;
     }
+
 
     /**
      * @return User

@@ -8,7 +8,7 @@ use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
 use Nette\Utils\Arrays;
-use Pages\Article;
+use Pages\Page;
 use Tags\Tag;
 
 class TagFacade extends Object

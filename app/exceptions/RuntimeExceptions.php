@@ -5,10 +5,10 @@ namespace App\Exceptions\Runtime;
 class RuntimeException extends \RuntimeException {};
 
 
-    // Pages
-    class ArticleTitleAlreadyExistsException extends RuntimeException {}
+    // Articles
+    class PageTitleAlreadyExistsException extends RuntimeException {}
 
-    class ArticlePublicationException extends RuntimeException {}
+    class PagePublicationException extends RuntimeException {}
 
     // URLs
     class UrlAlreadyExistsException extends RuntimeException {}

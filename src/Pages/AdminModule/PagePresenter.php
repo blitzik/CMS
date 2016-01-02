@@ -3,25 +3,25 @@
 namespace Pages\AdminModule\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
-use Pages\Components\ArticleRemovalControl;
-use Pages\Components\IArticleFormControlFactory;
-use Pages\Components\IArticleRemovalControlFactory;
+use Pages\Components\PageRemovalControl;
+use Pages\Components\IPageFormControlFactory;
+use Pages\Components\IPageRemovalControlFactory;
 use Pages\Facades\PageFacade;
-use Pages\Article;
+use Pages\Page;
 
 class PagePresenter extends ProtectedPresenter
 {
     /**
-     * @var IArticleRemovalControlFactory
+     * @var IPageRemovalControlFactory
      * @inject
      */
-    public $articleRemovalFactory;
+    public $pageRemovalFactory;
 
     /**
-     * @var IArticleFormControlFactory
+     * @var IPageFormControlFactory
      * @inject
      */
-    public $articleFormFactory;
+    public $pageFormFactory;
 
     /**
      * @var PageFacade
@@ -29,13 +29,13 @@ class PagePresenter extends ProtectedPresenter
      */
     public $pageFacade;
 
-    /** @var  Article */
-    private $article;
+    /** @var  Page */
+    private $page;
 
 
-    public function getArticle($id)
+    public function getPage($id)
     {
-        $article = $this->pageFacade->getArticle(intval($id));
+        $article = $this->pageFacade->getPage(intval($id));
         if ($article === null) {
             $this->flashMessage('Požadovaný článek nebyl nalezen.', 'warning');
             $this->redirect(':Dashboard:Dashboard:default');
@@ -68,9 +68,9 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionEdit($id)
     {
-        $this->article = $this->getArticle($id);
+        $this->page = $this->getPage($id);
 
-        $this['articleForm']->setArticleToEdit($this->article);
+        $this['articleForm']->setPageToEdit($this->page);
     }
 
     public function renderEdit($id)
@@ -80,7 +80,7 @@ class PagePresenter extends ProtectedPresenter
 
     protected function createComponentArticleForm()
     {
-        $comp = $this->articleFormFactory->create($this->userEntity);
+        $comp = $this->pageFormFactory->create($this->userEntity);
 
         return $comp;
     }
@@ -93,7 +93,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionRemove($id)
     {
-        $this->article = $this->getArticle($id);
+        $this->page = $this->getPage($id);
     }
     
     public function renderRemove($id)
@@ -103,7 +103,7 @@ class PagePresenter extends ProtectedPresenter
 
     protected function createComponentArticleRemovalForm()
     {
-        $comp = $this->articleRemovalFactory->create($this->article);
+        $comp = $this->pageRemovalFactory->create($this->page);
 
         $comp->onArticleRemoval[] = [$this, 'onArticleRemoval'];
         $comp->onCancelClick[] = [$this, 'onCancelClick'];
@@ -111,13 +111,13 @@ class PagePresenter extends ProtectedPresenter
         return $comp;
     }
 
-    public function onArticleRemoval(ArticleRemovalControl $control)
+    public function onArticleRemoval(PageRemovalControl $control)
     {
         $this->flashMessage('Článek byl úspěšně smazán', 'success');
         $this->redirect(':Dashboard:Dashboard:default');
     }
 
-    public function onCancelClick(ArticleRemovalControl $control)
+    public function onCancelClick(PageRemovalControl $control)
     {
         $this->redirect(':Dashboard:Dashboard:default');
     }

@@ -7,21 +7,21 @@ services:
 	pageFacade: Pages\Facades\PageFacade
 
 	# Factories
-	articleControlFactory:
-		implement: Pages\Components\IArticleControlFactory
-		arguments: [Nette\Utils\ArrayHash article]
+	pageControlFactory:
+		implement: Pages\Components\IPageControlFactory
+		arguments: [Nette\Utils\ArrayHash page]
 
-	articlesOverviewControlFactory:
-		implement: Pages\Components\IArticlesOverviewControlFactory
+	pagesOverviewControlFactory:
+		implement: Pages\Components\IPagesOverviewControlFactory
 
-	articleFormControl:
-		implement: Pages\Components\IArticleFormControlFactory
+	pageFormControl:
+		implement: Pages\Components\IPageFormControlFactory
 		arguments: [Users\User user]
 
-	articleTagsPickingControlFactory:
-		implement: Pages\Components\IArticleTagsPickingControlFactory
-		arguments: [article]
+	pageTagsPickingControlFactory:
+		implement: Pages\Components\IPageTagsPickingControlFactory
+		arguments: [page]
 
-	articleRemovalControlFactory:
-		implement: Pages\Components\IArticleRemovalControlFactory
-		arguments: [Pages\Article article]
+	pageRemovalControlFactory:
+		implement: Pages\Components\IPageRemovalControlFactory
+		arguments: [Pages\Page page]

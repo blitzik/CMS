@@ -4,6 +4,7 @@
     $(function () {
 
         // CHARACTER COUNTERS
+
         function processCounter(input, span) {
             var charCount = input.value.length;
             var totalCount = parseInt(input.dataset.textLength);
@@ -14,21 +15,21 @@
             }
         }
 
-        var articleForm = $('#article-form');
-        articleForm.on('input', '#form-article-title', function () {
-            var textCounter = $('#article-title-counter');
+        var articleForm = $('#page-form');
+        articleForm.on('input', '#form-page-title', function () {
+            var textCounter = $('#page-title-counter');
             processCounter(this, textCounter);
         });
 
-        articleForm.on('input', '#form-article-intro', function () {
-            var textCounter = $('#article-intro-counter');
+        articleForm.on('input', '#form-page-intro', function () {
+            var textCounter = $('#page-intro-counter');
             processCounter(this, textCounter);
         });
 
 
         // TAGS
 
-        var newArticleSection = $('.new-article');
+        var newArticleSection = $('.new-page');
 
         function setDefaultAppearance(tag)
         {

@@ -1,0 +1,60 @@
+
+{form pageForm}
+<div class="row">
+    <div class="col-xs-12">
+    {snippet messages-top}
+        {control flashMessages}
+        {customFormErrors}
+    {/snippet}
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-xs-12 page-draft">
+        {input isPublished class => form-control}
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group col-md-3 page-publish-time">
+        {label time /}
+        {input time class => 'form-control'}
+    </div>
+
+    <div class="form-group col-md-9 page-title">
+        {label title /}
+            <small>[max. {Pages\Page::LENGTH_TITLE} znaků]</small>
+            <span id="page-title-counter" class="right"></span>
+        {input title class => 'form-control'}
+    </div>
+</div>
+
+<div class="row ">
+    <div class="col-md-9 col-md-push-3">
+        <div class="form-group">
+            {label intro /}
+                <small>[max. {Pages\Page::LENGTH_INTRO} znaků] (Bude zobrazen ve výpisu článků)</small>
+                <span id="page-intro-counter" class="right"></span>
+            {input intro class => 'form-control page-textArea'}
+        </div>
+
+        <div class="form-group">
+            {label text /}
+            {input text class => 'form-control page-textArea'}
+        </div>
+
+        {snippet messages-bottom}
+            {control flashMessages}
+            {customFormErrors}
+        {/snippet}
+
+        {input save class => 'ajax btn btn-default page-submitButton'}
+
+        <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up"></i></a>
+    </div>
+
+    <div class="col-md-3 col-md-pull-9 page-tags">
+        {control pageTagsPicking}
+    </div>
+</div>
+{/form}

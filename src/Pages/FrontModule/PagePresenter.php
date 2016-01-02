@@ -3,28 +3,26 @@
 namespace Pages\FrontModule\Presenters;
 
 use App\FrontModule\Presenters\BasePresenter;
-use blitzik\VisualPaginator;
 use Nette\Application\BadRequestException;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Paginator;
-use Pages\Components\IArticleControlFactory;
-use Pages\Components\IArticlesOverviewControlFactory;
+use Pages\Components\IPageControlFactory;
+use Pages\Components\IPagesOverviewControlFactory;
 use Pages\Facades\PageFacade;
-use Tracy\Debugger;
 
 class PagePresenter extends BasePresenter
 {
     /**
-     * @var IArticlesOverviewControlFactory
+     * @var IPagesOverviewControlFactory
      * @inject
      */
-    public $articlesOverviewFactory;
+    public $pagesOverviewFactory;
 
     /**
-     * @var IArticleControlFactory
+     * @var IPageControlFactory
      * @inject
      */
-    public $articleFactory;
+    public $pageFactory;
 
     /**
      * @var PageFacade
@@ -35,7 +33,8 @@ class PagePresenter extends BasePresenter
     /**
      * @var ArrayHash
      */
-    private $article;
+    private $page;
+
 
     /*
      * -----------------------------------------
@@ -43,24 +42,27 @@ class PagePresenter extends BasePresenter
      * -----------------------------------------
      */
 
+
     public function actionDefault()
     {
     }
+
 
     public function renderDefault()
     {
     }
 
-    protected function createComponentArticlesOverview()
+
+    protected function createComponentPagesOverview()
     {
-        $comp = $this->articlesOverviewFactory->create();
+        $comp = $this->pagesOverviewFactory->create();
         if (isset($this->options['articles_per_page'])) {
-            $comp->setArticlesPerPage($this->options['articles_per_page']);
+            $comp->setPagesPerPage($this->options['articles_per_page']);
         }
 
-        $comp->onPaginate[] = function (Paginator $paginator) {
+        /*$comp->onPaginate[] = function (Paginator $paginator) {
             $paginator->setPage($this->getParameter('p'));
-        };
+        };*/
 
         return $comp;
     }
@@ -73,24 +75,26 @@ class PagePresenter extends BasePresenter
      */
 
 
-    public function actionShow($id)
+    public function actionShow($internal_id)
     {
-        $article = $this->pageFacade->getArticleAsArray($id);
-        if ($article === null) {
+        $page = $this->pageFacade->getPageAsArray($internal_id);
+        if ($page === null) {
             throw new BadRequestException;
         }
 
-        $this->article = ArrayHash::from($article);
+        $this->page = ArrayHash::from($page);
     }
 
-    public function renderShow($id)
+
+    public function renderShow($internal_id)
     {
-        $this->template->article = $this->article;
+        $this->template->page = $this->page;
     }
 
-    protected function createComponentArticle()
+
+    protected function createComponentPage()
     {
-        $comp = $this-> articleFactory->create($this->article);
+        $comp = $this-> pageFactory->create($this->page);
         return $comp;
     }
 

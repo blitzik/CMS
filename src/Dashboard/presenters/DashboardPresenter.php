@@ -2,11 +2,11 @@
 
 namespace Dashboard\Presenters;
 
-use Dashboard\Components\ArticlesOverviewControl;
-use Dashboard\Components\IArticlesOverviewControlFactory;
+use Dashboard\Components\PagesOverviewControl;
+use Dashboard\Components\IPagesOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Pages\Facades\PageFacade;
-use Pages\Query\ArticleQuery;
+use Pages\Query\PageQuery;
 
 class DashboardPresenter extends ProtectedPresenter
 {
@@ -17,26 +17,29 @@ class DashboardPresenter extends ProtectedPresenter
     public $pageFacade;
 
     /**
-     * @var IArticlesOverviewControlFactory
+     * @var IPagesOverviewControlFactory
      * @inject
      */
-    public $articlesOverviewFactory;
+    public $pagesOverviewFactory;
+
 
     public function actionDefault()
     {
 
     }
 
+
     public function renderDefault()
     {
 
     }
 
-    protected function createComponentPublishedArticlesOverview()
+
+    protected function createComponentPublishedPagesOverview()
     {
-        $comp = $this->articlesOverviewFactory
+        $comp = $this->pagesOverviewFactory
                      ->create(
-                         (new ArticleQuery())
+                         (new PageQuery())
                          ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->onlyPublished()
                          ->orderByPublishedAt('DESC')
@@ -50,11 +53,12 @@ class DashboardPresenter extends ProtectedPresenter
         return $comp;
     }
 
-    protected function createComponentWaitingArticlesOverview()
+
+    protected function createComponentWaitingPagesOverview()
     {
-        $comp = $this->articlesOverviewFactory
+        $comp = $this->pagesOverviewFactory
                      ->create(
-                         (new ArticleQuery())
+                         (new PageQuery())
                          ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->waitingForBeingPublished()
                      );
@@ -67,11 +71,12 @@ class DashboardPresenter extends ProtectedPresenter
         return $comp;
     }
 
-    protected function createComponentUnpublishedArticlesOverview()
+
+    protected function createComponentUnpublishedPagesOverview()
     {
-        $comp = $this->articlesOverviewFactory
+        $comp = $this->pagesOverviewFactory
                      ->create(
-                         (new ArticleQuery())
+                         (new PageQuery())
                          ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                          ->notPublished()
                          ->orderByPublishedAt('DESC')
@@ -85,11 +90,12 @@ class DashboardPresenter extends ProtectedPresenter
         return $comp;
     }
 
-    public function onToggleVisibility(ArticlesOverviewControl $control)
+
+    public function onToggleVisibility(PagesOverviewControl $control)
     {
         if ($this->isAjax()) {
             $control->redrawControl('table');
-            $this->redrawControl('articlesTables');
+            $this->redrawControl('pagesTables');
         } else {
             $this->redirect('this#'.$control->getUniqueId());
         }

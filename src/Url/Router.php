@@ -2,16 +2,16 @@
 
 namespace Url;
 
-use Kdyby\Doctrine\EntityManager;
-use Kdyby\Doctrine\EntityRepository;
-use Kdyby\Monolog\Logger;
 use Nette\Application\Routers\RouteList;
+use Kdyby\Doctrine\EntityRepository;
+use Kdyby\Doctrine\EntityManager;
+use Kdyby\Monolog\Logger;
 use Nette;
 use Tracy\Debugger;
 
 class Router extends RouteList
 {
-    const ROUTE_NAMESPACE = 'blitzikRoute';
+    const ROUTE_NAMESPACE = 'appRoute';
 
     /** @var EntityManager  */
     private $em;
@@ -25,8 +25,7 @@ class Router extends RouteList
     /** @var  EntityRepository */
     private $urlRepository;
 
-    /** @var  array */
-    private $appLanguages = ['cz' => true, 'en' => false];
+
 
     public function __construct(
         EntityManager $em,
@@ -40,6 +39,8 @@ class Router extends RouteList
         $this->logger = $logger->channel('router');
     }
 
+
+
     /**
      * CLI commands run from app/console.php
      *
@@ -50,36 +51,26 @@ class Router extends RouteList
     {
         $path = $this->prepareUrlPath($httpRequest);
 
-        // language
-        $regExp = '~^(' .implode('|', array_keys($this->appLanguages)). ')/~';
-        $lang = $this->resolveLanguage($path, $regExp);
-
-        $path = preg_replace($regExp, '', $path);
-
         /** @var Url $urlEntity */
         $urlEntity = $this->loadUrlEntity($path);
-
         if ($urlEntity === null) { // no route found
             return null;
         }
 
-        if ($urlEntity->getActualUrlToRedirect() === null) {
+        if ($urlEntity->actualUrlToRedirect === null) {
             $presenter = $urlEntity->getPresenter();
             $internal_id = $urlEntity->internalId;
+            $action = $urlEntity->getAction();
         } else {
-            $presenter = $urlEntity->getActualUrlToRedirect()->getPresenter();
-            $internal_id = $urlEntity->getActualUrlToRedirect()->internalId;
+            $presenter = $urlEntity->actualUrlToRedirect->getPresenter();
+            $internal_id = $urlEntity->actualUrlToRedirect->internalId;
+            $action = $urlEntity->actualUrlToRedirect->getAction();
         }
 
         $params = $httpRequest->getQuery();
-        $params['action'] = $urlEntity->getAction();
-        $params['lang'] = $lang;
+        $params['action'] = $action;
         if ($internal_id !== null) {
-            $params['id'] = $internal_id;
-        }
-
-        if (isset($params['p']) and !Nette\Utils\Validators::is($params['p'], 'numericint:1..')) {
-            $params['p'] = 1; // if page of paginator isn't integer number, then reset the page
+            $params['internal_id'] = $internal_id;
         }
 
         return new Nette\Application\Request(
@@ -91,53 +82,53 @@ class Router extends RouteList
         );
     }
 
+
+
     /**
      * Constructs absolute URL from Request object.
      * @return string|NULL
      */
     public function constructUrl(Nette\Application\Request $appRequest, Nette\Http\Url $refUrl)
     {
-        $appPath = $appRequest->getPresenterName().':'.$appRequest->getParameter('action').':'.$appRequest->getParameter('id');
+        $appPath = $appRequest->getPresenterName().':'.$appRequest->getParameter('action').':'.$appRequest->getParameter('internal_id');
 
         /** @var Url $urlEntity */
         $cachedResult = $this->cache->load($appPath, function (& $dependencies) use ($appRequest) {;
-            $req['presenter'] = $appRequest->getPresenterName();
-            $req['action'] = $appRequest->getParameter('action');
-            $internal_id = $req['internalId'] = $appRequest->getParameter('id');
+            $presenter = $appRequest->getPresenterName();
+            $action = $appRequest->getParameter('action');
+            $internal_id = $appRequest->getParameter('internal_id');
 
             $fallback = false;
-            if (isset($req['internalId'])) {
+            if (isset($internal_id)) {
                 /** @var Url $url */
-                $url = $this->urlRepository->findOneBy($req);
-                if ($url === null) {
+                $urlEntity = $this->getUrlEntity($presenter, $action, $internal_id);
+                if ($urlEntity === null) {
                     $fallback = true;
-                    unset($req['internalId']);
-                    $url = $this->urlRepository->findOneBy($req);
+                    $urlEntity = $this->getUrlEntity($presenter, $action);
                 }
 
             } else {
-                $url = $this->urlRepository->findOneBy($req);
+                $urlEntity = $this->getUrlEntity($presenter, $action);
             }
 
-            if ($url === null) {
+            if ($urlEntity === null) {
                 $this->logger
-                    ->addWarning(
-                        sprintf('No route found.
-                                 TIME: %s
-                                 | presenter: %s
-                                 | action: %s
-                                 | id %s',
-                                date('Y-m-d H:i:s'),
-                                $req['presenter'],
-                                $req['action'],
-                                $internal_id)
-                    );
+                     ->addWarning(
+                         sprintf('No route found
+                                  | presenter: %s
+                                  | action: %s
+                                  | id %s',
+                                 $presenter,
+                                 $action,
+                                 $internal_id)
+                     );
                 return null;
             }
 
-            $dependencies = [Nette\Caching\Cache::TAGS => $url->getCacheKey()];
-            return [$url, $fallback];
+            $dependencies = [Nette\Caching\Cache::TAGS => $urlEntity->getCacheKey()];
+            return [$urlEntity, $fallback];
         });
+
         $urlEntity = $cachedResult[0];
         $fallback = $cachedResult[1];
 
@@ -147,27 +138,19 @@ class Router extends RouteList
 
         $baseUrl = 'http://' . $refUrl->getAuthority() . $refUrl->getBasePath();
 
-        if ($urlEntity->getActualUrlToRedirect() === null) {
+        if ($urlEntity->actualUrlToRedirect === null) {
             $path = $urlEntity->urlPath;
         } else {
-            $path = $urlEntity->getActualUrlToRedirect()->urlPath;
+            $path = $urlEntity->actualUrlToRedirect->urlPath;
         }
 
         $params = $appRequest->getParameters();
 
-        $lang = (isset($params['lang']) and !$this->appLanguages[$params['lang']]) ? $params['lang'].'/' : null;
-        $resultUrl = $baseUrl . $lang . Nette\Utils\Strings::webalize($path, '/');
+        $resultUrl = $baseUrl . Nette\Utils\Strings::webalize($path, '/');
 
-        unset($params['action'], $params['lang']);
+        unset($params['action']);
         if ($fallback === false) {
-            unset($params['id']);
-        }
-
-        // articles pagination on main page
-        $signalKey = Nette\Application\UI\Presenter::SIGNAL_KEY;
-        if (isset($params[$signalKey]) and $params[$signalKey] == 'articlesOverview-vs-paginate') {
-            $params['p'] = $params['articlesOverview-vs-page'];
-            unset($params['articlesOverview-vs-page'], $params[$signalKey]);
+            unset($params['internal_id']);
         }
 
         $q = http_build_query($params, null, '&');
@@ -178,12 +161,14 @@ class Router extends RouteList
         return $resultUrl;
     }
 
+
+
     private function prepareUrlPath(Nette\Http\IRequest $httpRequest)
     {
         $url = $httpRequest->getUrl();
+        $basePath = $url->getPath();
 
-        $basePath = $url->getPath(); // /subdom/blog/en/test/aa
-        $path = substr($basePath, \mb_strlen($url->getBasePath())); // en/test/aa
+        $path = mb_substr($basePath, \mb_strlen($url->getBasePath()));
         if ($path !== '') {
             $path = rtrim(rawurldecode($path), '/');
         }
@@ -191,16 +176,7 @@ class Router extends RouteList
         return $path;
     }
 
-    private function resolveLanguage($path, $regexp)
-    {
-        if (preg_match($regexp, $path, $matches)) {
-            $lang = $matches[1];
-        } else {
-            $lang = array_search(true, $this->appLanguages);
-        }
 
-        return $lang;
-    }
 
     /**
      * @param $path
@@ -208,13 +184,18 @@ class Router extends RouteList
      */
     private function loadUrlEntity($path)
     {
-        $path = $path === '' ? null : $path;
         /** @var Url $urlEntity */
         $urlEntity = $this->cache->load($path, function (& $dependencies) use ($path) {
             /** @var Url $urlEntity */
-            $urlEntity = $this->urlRepository->findOneBy(['urlPath' => $path]);
+            $urlEntity = $this->em->createQuery(
+                'SELECT u, rt FROM ' .Url::class. ' u
+                 LEFT JOIN u.actualUrlToRedirect rt
+                 WHERE u.urlPath = :urlPath'
+            )->setParameter('urlPath', $path)
+             ->getOneOrNullResult();
+
             if ($urlEntity === null) {
-                $this->logger->addError(sprintf('Page not found. TIME: %s | URL_PATH: %s', date('Y-m-d H:i:s'), $path));
+                $this->logger->addError(sprintf('Page not found. URL_PATH: %s', $path));
                 return null;
             }
 
@@ -223,6 +204,36 @@ class Router extends RouteList
         });
 
         return $urlEntity;
+    }
+
+
+    /**
+     * @param $presenter
+     * @param $action
+     * @param $internal_id
+     * @return Url
+     */
+    private function getUrlEntity($presenter, $action, $internal_id = null)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('u, rt')
+           ->from(Url::class, 'u')
+           ->leftJoin('u.actualUrlToRedirect', 'rt')
+           ->where('u.presenter = :p AND u.action = :a')
+           ->setParameters(['p' => $presenter, 'a' => $action]);
+
+        if ($internal_id !== null) {
+            $qb->andWhere('u.internalId = :i')
+               ->setParameter('i', $internal_id);
+        }
+
+        $url = $qb->getQuery()->setMaxResults(1)->getResult();
+
+        if (empty($url)) {
+            return null;
+        }
+
+        return $url[0];
     }
 
 }

@@ -6,38 +6,41 @@ use App\BaseControl;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
-use Pages\Article;
+use Pages\Page;
 use Pages\Facades\PageFacade;
 
-class ArticleRemovalControl extends BaseControl
+class PageRemovalControl extends BaseControl
 {
-    /** @var array  */
-    public $onArticleRemoval = [];
+    /** @var array */
+    public $onPageRemoval = [];
     public $onCancelClick = [];
 
-    /** @var PageFacade  */
+    /** @var PageFacade */
     private $pageFacade;
 
-    /** @var  Article */
-    private $article;
+    /** @var  Page */
+    private $page;
+
 
     public function __construct(
-        Article $article,
+        Page $page,
         PageFacade $pageFacade
     ) {
-        $this->article = $article;
+        $this->page = $page;
         $this->pageFacade = $pageFacade;
     }
+
 
     public function render()
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/articleRemoval.latte');
+        $template->setFile(__DIR__ . '/pageRemoval.latte');
 
-        $template->article = $this->article;
+        $template->page = $this->page;
 
         $template->render();
     }
+
 
     protected function createComponentRemovalForm()
     {
@@ -45,10 +48,10 @@ class ArticleRemovalControl extends BaseControl
 
         $form->addText('check', 'Do textového pole opište titulek článku pro jeho smazání:')
             ->setRequired('Vyplňte kontrolní text, aby mohl být článek smazán.')
-            ->addRule(Form::EQUAL, 'Nesouhlasí kontrolní text.', $this->article->title);
+            ->addRule(Form::EQUAL, 'Nesouhlasí kontrolní text.', $this->page->title);
 
         $form->addSubmit('remove', 'Nenávratně článek smazat')
-            ->onClick[] = [$this, 'removeArticle'];
+            ->onClick[] = [$this, 'removePage'];
 
         $form->addSubmit('cancel', 'Vrátit se zpět')
             ->setValidationScope([])
@@ -57,17 +60,19 @@ class ArticleRemovalControl extends BaseControl
         return $form;
     }
 
-    public function removeArticle(SubmitButton $button)
+
+    public function removePage(SubmitButton $button)
     {
         try {
-            $this->pageFacade->removeArticle($this->article);
+            $this->pageFacade->removePage($this->page);
         } catch (DBALException $e) {
             $this->flashMessage('Při mazání článku došlo k chybě', 'error');
             $this->redirect('this');
         }
 
-        $this->onArticleRemoval($this);
+        $this->onPageRemoval($this);
     }
+
 
     public function cancelClick(SubmitButton $button)
     {
@@ -76,11 +81,11 @@ class ArticleRemovalControl extends BaseControl
 }
 
 
-interface IArticleRemovalControlFactory
+interface IPageRemovalControlFactory
 {
     /**
-     * @param Article $article
-     * @return ArticleRemovalControl
+     * @param Page $page
+     * @return PageRemovalControl
      */
-    public function create(Article $article);
+    public function create(Page $page);
 }
