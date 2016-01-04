@@ -2,7 +2,7 @@
 
 namespace Images\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use App\Exceptions\Runtime\FileRemovalException;
 use blitzik\IPaginatorFactory;
 use Doctrine\DBAL\DBALException;
@@ -19,6 +19,7 @@ class ImagesOverviewControl extends BaseControl
     /** @var ImageFacade  */
     private $imageFacade;
 
+
     public function __construct(
         ImageFacade $imageFacade,
         IPaginatorFactory $paginatorFactory
@@ -26,6 +27,7 @@ class ImagesOverviewControl extends BaseControl
         $this->imageFacade = $imageFacade;
         $this->paginatorFactory = $paginatorFactory;
     }
+
 
     public function render()
     {
@@ -47,6 +49,7 @@ class ImagesOverviewControl extends BaseControl
         $template->render();
     }
 
+
     protected function createComponentVs()
     {
         $comp = $this->paginatorFactory->create();
@@ -56,6 +59,7 @@ class ImagesOverviewControl extends BaseControl
 
         return $comp;
     }
+
 
     public function handleImageRemove($imageName)
     {

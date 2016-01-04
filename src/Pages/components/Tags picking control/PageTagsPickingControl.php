@@ -6,7 +6,7 @@ use App\Exceptions\LogicExceptions\InvalidArgumentException;
 use Tags\Facades\TagFacade;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
-use App\BaseControl;
+use App\Components\BaseControl;
 use Pages\Page;
 
 class PageTagsPickingControl extends BaseControl

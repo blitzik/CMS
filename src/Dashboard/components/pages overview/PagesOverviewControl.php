@@ -2,7 +2,7 @@
 
 namespace Dashboard\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use blitzik\VisualPaginator;
 use Doctrine\ORM\AbstractQuery;
 use Nette\Utils\ArrayHash;
@@ -31,6 +31,7 @@ class PagesOverviewControl extends BaseControl
     /** @var  int */
     private $pagesCount = 10;
 
+
     public function __construct(
         PageQuery $pageQuery,
         PageFacade $pageFacade
@@ -38,6 +39,7 @@ class PagesOverviewControl extends BaseControl
         $this->pageFacade = $pageFacade;
         $this->pageQuery = $pageQuery;
     }
+
 
     /**
      * @param string $title
@@ -47,6 +49,7 @@ class PagesOverviewControl extends BaseControl
         $this->title = $title;
     }
 
+
     /**
      * @param string $icon font-awesome icon name
      */
@@ -55,10 +58,12 @@ class PagesOverviewControl extends BaseControl
         $this->icon = $icon;
     }
 
+
     public function setPagesPerPage($pagesCount)
     {
         $this->pagesCount = $pagesCount;
     }
+
 
     protected function createComponentVs()
     {
@@ -73,6 +78,7 @@ class PagesOverviewControl extends BaseControl
 
         return $vs;
     }
+
 
     public function render()
     {
@@ -98,6 +104,7 @@ class PagesOverviewControl extends BaseControl
         $template->render();
     }
 
+
     public function handlePublishArticle($id)
     {
         $this->pageFacade->publishPage($id);
@@ -105,6 +112,7 @@ class PagesOverviewControl extends BaseControl
         $this->flashMessage('Článek byl úspěšně publikován.', 'success');
         $this->onToggleVisibility($this);
     }
+
 
     public function handleHideArticle($id)
     {

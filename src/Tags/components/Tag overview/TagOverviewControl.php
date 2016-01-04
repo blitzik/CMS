@@ -2,10 +2,9 @@
 
 namespace Tags\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use Nette\Application\UI\Multiplier;
 use Tags\Facades\TagFacade;
-use Tracy\Debugger;
 
 class TagsOverviewControl extends BaseControl
 {
@@ -21,6 +20,7 @@ class TagsOverviewControl extends BaseControl
     /** @var  array */
     private $tags = [];
 
+
     public function __construct(
         TagFacade $tagFacade,
         ITagControlFactory $tagControlFactory
@@ -28,6 +28,7 @@ class TagsOverviewControl extends BaseControl
         $this->tagControlFactory = $tagControlFactory;
         $this->tagFacade = $tagFacade;
     }
+
 
     protected function createComponentTag()
     {
@@ -38,6 +39,7 @@ class TagsOverviewControl extends BaseControl
             return $comp;
         });
     }
+
 
     /**
      * @param $tagId
@@ -59,6 +61,7 @@ class TagsOverviewControl extends BaseControl
 
         return $tag;
     }
+
 
     public function render()
     {

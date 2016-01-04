@@ -75,10 +75,13 @@ class Image
 
         $this->id = Uuid::uuid4();
 
-        $name = $file->getSanitizedName();
+        $pathInfo = pathinfo($file->getSanitizedName());
+        if (!isset($pathInfo['extension'])) {
+            throw new FileNameException('Filename must have extension');
+        }
 
-        $this->extension = $this->separateExtension($name);
-        $this->originalName = \mb_substr($name, 0, ((-1) * \mb_strlen($this->extension) - 1));
+        $this->extension = $pathInfo['extension'];
+        $this->originalName = $pathInfo['filename'];
 
         $imgSize = $file->getImageSize();
         $this->width = $imgSize[0];
@@ -87,29 +90,6 @@ class Image
         $this->uploadedAt = new \DateTime('now');
     }
 
-    /**
-     * Returns extension including e.g. [jpg]
-     *
-     * @param $filename
-     * @return string
-     */
-    private function separateExtension($filename)
-    {
-        $dotPos = \mb_strrpos($filename, '.');
-        if ($dotPos === false) {
-            throw new FileNameException;
-        }
-
-        return \mb_substr($filename, $dotPos + 1);
-    }
-
-    /**
-     * @return string
-     */
-    private function determineLocation()
-    {
-        return self::UPLOAD_DIRECTORY . $this->getImageName();
-    }
 
     /**
      * @return string
@@ -119,13 +99,6 @@ class Image
         return $this->id . '.' . $this->extension;
     }
 
-    /**
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->determineLocation();
-    }
 
     /**
      * @return string
@@ -135,6 +108,7 @@ class Image
         return $this->originalName;
     }
 
+
     /**
      * @return string
      */
@@ -142,6 +116,7 @@ class Image
     {
         return $this->extension;
     }
+
 
     /**
      * @return \DateTime
@@ -151,6 +126,7 @@ class Image
         return $this->uploadedAt;
     }
 
+
     /**
      * @return int
      */
@@ -158,6 +134,7 @@ class Image
     {
         return $this->width;
     }
+
 
     /**
      * @return int

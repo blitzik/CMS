@@ -3,13 +3,7 @@
 namespace Pages\Utils;
 use Images\Image;
 
-/**
- * This class is used for processing Pages bodies only
- *
- * Class BlogTexy
- * @package Articles\Utils
- */
-class BlogTexy extends \Texy
+class BlogTexy extends \Texy // todo relocate image paths into config
 {
     public function __construct()
     {

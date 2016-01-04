@@ -17,11 +17,15 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
      */
     public function loadConfiguration()
     {
+        $config = $this->getConfig() + $this->defaults;
+        $this->setConfig($config);
+
         $cb = $this->getContainerBuilder();
 
-        $this->setConfig($this->defaults);
-
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
+
+        $pagesOverview = $cb->getDefinition($this->prefix('pagesOverviewControlFactory'));
+        $pagesOverview->addSetup('setPagesPerPage', [$config['pagesPerPage']]);
     }
 
 

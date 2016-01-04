@@ -41,6 +41,6 @@ monolog:
 	#registerFallback: %debugMode%
 
 decorator:
-	App\BaseControl:
+	App\Components\BaseControl:
 		setup:
 			- injectFlashMessagesFactory(@App\Components\IFlashMessagesControlFactory)

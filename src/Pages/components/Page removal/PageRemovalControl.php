@@ -2,7 +2,7 @@
 
 namespace Pages\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;

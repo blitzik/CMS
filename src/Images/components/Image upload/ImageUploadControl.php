@@ -2,13 +2,13 @@
 
 namespace Images\Components;
 
+use App\Components\BaseControl;
 use App\Exceptions\Runtime\FileSizeException;
 use App\Exceptions\Runtime\NotImageUploadedException;
 use Doctrine\DBAL\DBALException;
 use Images\Facades\ImageFacade;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
-use App\BaseControl;
 use Images\Image;
 use Nette\InvalidStateException;
 
@@ -17,11 +17,13 @@ class ImageUploadControl extends BaseControl
     /** @var ImageFacade  */
     private $imageFacade;
 
+
     public function __construct(
         ImageFacade $imageFacade
     ) {
         $this->imageFacade = $imageFacade;
     }
+
 
     public function render()
     {
@@ -30,6 +32,7 @@ class ImageUploadControl extends BaseControl
 
         $template->render();
     }
+
 
     protected function createComponentImageUpload()
     {
@@ -45,6 +48,7 @@ class ImageUploadControl extends BaseControl
 
         return $form;
     }
+
 
     public function processImageUpload(Form $form, $values)
     {

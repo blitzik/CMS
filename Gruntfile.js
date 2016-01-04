@@ -17,6 +17,7 @@ module.exports = function (grunt) {
                     'bower_components/nette.ajax.js/nette.ajax.js',
                     'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
                     'assets/js/my_js/image_management.js',
+                    //'assets/js/my_js/webfont.js',
                     'assets/js/my_js/main.js'
                 ],
                 dest: 'assets/js/original/js.js'
@@ -174,6 +175,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build_front_css', ['sass:front', 'cssmin:front']);
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
+
+    grunt.registerTask('build_js', ['concat:mutual_js', 'uglify:mutual']);
 
     grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:new_page', 'uglify:mutual', 'uglify:new_page']);
     grunt.registerTask('build_admin_page_js', ['concat:new_page', 'uglify:new_page']);

@@ -12,6 +12,10 @@ a{
   }
 }
 
+.wf-active p{
+  font-family: 'Poppins', Helvetica, Arial, sans-serif;
+}
+
 body{
   background-image: url('../images/front_bg.jpg');
   padding: 0 20px 150px 20px;
@@ -63,6 +67,8 @@ header{
     font-size: 175%;
 
     a{
+      text-transform: uppercase;
+      font-weight: bolder;
       color: #C03555;
       text-decoration: none;
 
@@ -83,6 +89,16 @@ header{
       float: left;
       margin-right: 15px;
       margin-bottom: 5px;
+    }
+  }
+
+  .page-info{
+    border-bottom: 1px solid #ccc;
+
+    a{
+      text-decoration: none;
+
+      &:hover{ text-decoration: underline }
     }
   }
 

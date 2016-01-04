@@ -2,12 +2,11 @@
 
 namespace Tags\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 use Tags\Facades\TagFacade;
-use Tracy\Debugger;
 
 class TagControl extends BaseControl
 {
@@ -20,6 +19,7 @@ class TagControl extends BaseControl
     /** @var array  */
     private $tag;
 
+
     public function __construct(
         array $tag,
         TagFacade $tagFacade
@@ -27,6 +27,7 @@ class TagControl extends BaseControl
         $this->tagFacade = $tagFacade;
         $this->tag = $tag;
     }
+
 
     public function render()
     {
@@ -37,6 +38,7 @@ class TagControl extends BaseControl
 
         $template->render();
     }
+
 
     protected function createComponentTagForm()
     {
@@ -56,6 +58,7 @@ class TagControl extends BaseControl
 
         return $form;
     }
+
 
     public function processTag(Form $form, $values)
     {
@@ -78,6 +81,7 @@ class TagControl extends BaseControl
             }
         }
     }
+
 
     public function handleRemoveTag($id)
     {

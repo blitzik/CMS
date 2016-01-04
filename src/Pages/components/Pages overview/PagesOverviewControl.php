@@ -2,7 +2,7 @@
 
 namespace Pages\Components;
 
-use App\BaseControl;
+use App\Components\BaseControl;
 use blitzik\IPaginatorFactory;
 use Doctrine\ORM\AbstractQuery;
 use Nette\Application\UI\Multiplier;

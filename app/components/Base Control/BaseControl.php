@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\Components;
 
-use App\Components\IFlashMessagesControlFactory;
 use Nette\Application\UI\Control;
 
 abstract class BaseControl extends Control
 {
     /** @var  IFlashMessagesControlFactory */
     protected $flashMessagesFactory;
+
 
     /**
      * @param IFlashMessagesControlFactory $factory
@@ -17,6 +17,7 @@ abstract class BaseControl extends Control
     {
         $this->flashMessagesFactory = $factory;
     }
+
 
     protected function createComponentFlashMessages()
     {

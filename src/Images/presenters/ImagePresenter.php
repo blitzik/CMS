@@ -27,15 +27,18 @@ class ImagePresenter extends ProtectedPresenter
      */
     public $imageFacade;
 
+
     public function actionDefault()
     {
 
     }
 
+
     public function renderDefault()
     {
 
     }
+
 
     protected function createComponentImageUpload()
     {
@@ -43,6 +46,7 @@ class ImagePresenter extends ProtectedPresenter
 
         return $comp;
     }
+
 
     protected function createComponentImagesOverview()
     {

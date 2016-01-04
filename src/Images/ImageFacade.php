@@ -13,7 +13,6 @@ use Nette\Http\FileUpload;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
 use Images\Image;
-use Tracy\Debugger;
 
 class ImageFacade extends Object
 {
@@ -26,6 +25,7 @@ class ImageFacade extends Object
     /** @var \Kdyby\Doctrine\EntityRepository  */
     private $imageRepository;
 
+
     public function __construct(
         EntityManager $entityManager,
         Logger $logger
@@ -35,6 +35,7 @@ class ImageFacade extends Object
 
         $this->imageRepository = $this->em->getRepository(Image::class);
     }
+
 
     /**
      * @param FileUpload $file
@@ -58,7 +59,7 @@ class ImageFacade extends Object
             $image = new Image($file);
             $this->em->persist($image)->flush();
 
-            $file->move($image->getLocation());
+            $file->move($image->getLocation()); // todo images
 
             $this->em->commit();
         } catch (InvalidStateException $is) {
@@ -78,10 +79,12 @@ class ImageFacade extends Object
         }
     }
 
+
     public function fetchImages(ImageQuery $imageQuery)
     {
         return $this->imageRepository->fetch($imageQuery);
     }
+
 
     /**
      * @param string $imageName [uuid.extension]

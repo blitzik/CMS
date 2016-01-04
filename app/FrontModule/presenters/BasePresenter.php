@@ -2,14 +2,18 @@
 
 namespace App\FrontModule\Presenters;
 
+use App\Components\IMetaTagsControlFactory;
 use App\Presenters\AppPresenter;
 use Nette;
 
-
 class BasePresenter extends AppPresenter
 {
-    /** @persistent */
-    //public $lang;
+    /**
+     * @var IMetaTagsControlFactory
+     * @inject
+     */
+    public $metaTagsControlFactory;
+
 
     public function findLayoutTemplateFile()
     {
@@ -31,4 +35,10 @@ class BasePresenter extends AppPresenter
     }
 
 
+    protected function createComponentMetas()
+    {
+        $comp = $this->metaTagsControlFactory->create();
+
+        return $comp;
+    }
 }

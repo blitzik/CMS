@@ -3,7 +3,7 @@
 namespace Pages\Components;
 
 use Nette\Utils\ArrayHash;
-use App\BaseControl;
+use App\Components\BaseControl;
 
 class PageControl extends BaseControl
 {
@@ -13,15 +13,18 @@ class PageControl extends BaseControl
     /** @var bool  */
     private $isOnlyIntroShown = false;
 
+
     public function __construct(ArrayHash $page)
     {
         $this->page = $page;
     }
 
+
     public function onlyIntro()
     {
         $this->isOnlyIntroShown = true;
     }
+
 
     public function render()
     {

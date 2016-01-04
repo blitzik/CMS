@@ -7,7 +7,7 @@ use App\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Pages\Facades\PageFacade;
-use App\BaseControl;
+use App\Components\BaseControl;
 use Pages\Page;
 use Users\User;
 use Tags\Tag;
@@ -27,7 +27,7 @@ class PageFormControl extends BaseControl
     private $page;
 
     /** @var  Tag[] */
-    private $tags;
+    private $tags; // todo
 
 
     public function __construct(
