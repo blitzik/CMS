@@ -10,6 +10,7 @@ extensions:
 	options: Options\DI\OptionsExtension
 	users: Users\DI\UsersExtension
 	url: Url\DI\UrlExtension
+	navigation: Navigations\DI\NavigationExtension
 	dashboard: Dashboard\DI\DashboardExtension
 	pages: Pages\DI\PagesExtension
 	#comments: Comments\DI\CommentsExtension # still thinking about implementation

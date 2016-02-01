@@ -1,0 +1,24 @@
+{block node}
+    <ul>
+    {foreach $node as $n}
+        <li>
+            <b>{$n->getName()}</b>
+            {*{include #breadcrumbs n => $n}*}
+            {if $n->hasChildren()}
+                {include #node node => $n->getChildren()}
+            {/if}
+        </li>
+    {/foreach}
+    </ul>
+{/block}
+
+{define breadcrumbs}
+    {var $parents = $n->getParents()}
+    {if !empty($parents)}
+    (
+        {foreach $n->getParents() as $parent}
+            {$parent->getName()} {sep}>{/sep}
+        {/foreach}
+    )
+    {/if}
+{/define}

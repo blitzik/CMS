@@ -1,0 +1,14 @@
+services:
+
+	navigationReader: Navigations\NavigationReader
+	treeBuilder: Navigations\TreeBuilder
+	navigationRenderer: Navigations\NavigationRenderer
+
+	navigationFacade: Navigations\NavigationFacade
+
+	# component factories
+
+	navigationControlFactory:
+		implement: Navigations\Controls\INavigationControlFactory
+		parameters: [navigationId]
+		arguments: [%navigationId%]

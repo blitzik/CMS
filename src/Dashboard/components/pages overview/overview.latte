@@ -11,7 +11,6 @@
         <th class="w100">Vytvořen</th>
         <th class="w100">Publikace</th>
         <th>Článek</th>
-        <th class="w300"></th>
     </tr>
 {if count($pages) > 0}
     {foreach $pages as $page}
@@ -19,12 +18,15 @@
             <td>{$page->id}</td>
             <td>{$page->createdAt|date:'j.n.Y v H:i'}</td>
             <td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>
-            <td><a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></td>
-            <td class="actions">
-                <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="update-page"><i class="fa fa-edit"></i> Upravit</a>
-                <a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax publish-page"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
-                <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax hide-page"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>
-                <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="remove-page" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
+            <td>
+                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a>
+
+                <div class="actions">
+                    <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="update-page"><i class="fa fa-edit"></i> Upravit</a>
+                    <a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax publish-page"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
+                    <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax hide-page"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>
+                    <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="remove-page" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
+                </div>
             </td>
         </tr>
     {/foreach}
