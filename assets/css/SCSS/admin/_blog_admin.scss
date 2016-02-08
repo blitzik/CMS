@@ -39,6 +39,7 @@ $main-sidebar-width: 250px;
   width: $main-sidebar-width;
   //border: 1px solid #fff;
   float: left;
+  transition: all .5s;
 }
 
 $main-header-background-color: #d43f3a;
@@ -47,7 +48,6 @@ $main-header-background-color: #d43f3a;
   background-color: $main-header-background-color;
 
   h1{
-    width: $main-sidebar-width;
     font-size: 1.5em;
     line-height: 50px;
     text-align: center;
@@ -66,9 +66,14 @@ $main-header-background-color: #d43f3a;
   }
 }
 
+.logo-mini{
+  display: none;
+}
+
 .content-wrapper{
   background-color: #ecf0f5;
   margin-left: $main-sidebar-width;
+  transition: margin .5s;
 }
 
 .content{
@@ -100,6 +105,7 @@ $main-header-background-color: #d43f3a;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
         padding: 10px 15px;
+        transition: all .5s;
 
         i{ margin-right: 10px; }
 
@@ -168,5 +174,66 @@ h1, h2, h3, h4, h5, h6{
 
   i{
     margin-right: 10px;
+  }
+}
+
+
+//////////// MEDIA QUERIES ////////////
+
+@media (max-width: 550px) {
+  .main-sidebar{
+    width: 0;
+  }
+
+  .content-wrapper{
+    margin-left: 0;
+  }
+
+  
+}
+
+@media (min-width: 550px) and (max-width: 900px) {
+  .main-sidebar{
+    width: 55px;
+  }
+
+  .logo-large{
+    display: none;
+  }
+
+  .logo-mini{
+    display: inline;
+  }
+
+
+  .content-wrapper{
+    margin-left: 55px;
+  }
+
+  .navigation{
+    ul li {
+      &.nav-heading{
+        display: none;
+      }
+
+      a {
+        &.active {
+          border-right: 5px solid transparent;
+        }
+
+        &:hover {
+          border-right: 5px solid transparent;
+        }
+
+        i {
+
+        }
+
+        span {
+          display: none;
+        }
+      }
+    }
+
   }
 }
