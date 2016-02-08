@@ -13,6 +13,23 @@
 }
 
 
+@mixin row($gutter: $grid-gutter-width) {
+  margin-left: ceil(($gutter / -2));
+  margin-right: floor(($gutter / -2));
+  clear: both;
+}
+
+
+@mixin column($columns, $gutter: $grid-gutter-width) {
+  width: percentage(($columns / $grid-columns));
+  position: relative;
+  min-height: 1px;
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
+  float: left;
+}
+
+
 .left{ float: left; }
 .right{ float: right; }
 

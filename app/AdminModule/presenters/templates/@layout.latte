@@ -11,42 +11,36 @@
 		<link rel="stylesheet" href="{$basePath}/assets/css/admin.min.css">
 	{/block}
 </head>
-
 <body>
+<div class="page-wrapper">
 
-<div class="container main">
-	<div class="header">
-    	<nav class="navbar navbar-default">
-    		<div class="container-fluid">
-    			<div class="navbar-header">
-    				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-            		    <span class="sr-only">Toggle navigation</span>
-            		    <span class="icon-bar"></span>
-            		    <span class="icon-bar"></span>
-            		    <span class="icon-bar"></span>
-            		</button>
-            		<a class="navbar-brand" n:href=":Dashboard:Dashboard:default">Administrace</a>
-            	</div>
+    <aside class="main-sidebar">
+        <div class="main-header">
+            <h1><a n:href=":Dashboard:Dashboard:default">Administrace</a></h1>
+        </div>
 
-    			<div class="collapse navbar-collapse" id="navbar-collapse">
-            		<ul class="nav navbar-nav">
-            		    <li><a n:href=":Pages:Admin:Page:new"><i class="fa fa-pencil fa-fw"></i> Nový článek</a></li>
-            		    <li><a href="{link :Tags:Tag:default}"><i class="fa fa-tags fa-fw"></i> Správa tagů</a></li>
-            		    <li><a href="{link :Images:Image:default}"><i class="fa fa-image fa-fw"></i> Správa obrázků</a></li>
-            		    <li><a href="{link :Options:Options:default}"><i class="fa fa-cog fa-fw"></i> Nastavení blogu</a></li>
-            		    <li><a href="{link :Users:Auth:logout}"><i class="fa fa-sign-out fa-fw"></i>Odhlásit se</a></li>
-            		</ul>
-            	</div>
-    		</div>
-    	</nav>
+        <nav class="navigation">
+        	<ul>
+        	    <li class="nav-heading">Navigation</li>
+        	    <li><a n:href=":Pages:Admin:Page:new"><i class="fa fa-pencil fa-fw"></i> Nový článek</a></li>
+        	    <li><a class="active" n:href=":Tags:Tag:default"><i class="fa fa-tags fa-fw"></i> Správa tagů</a></li>
+        	    <li><a n:href=":Images:Image:default"><i class="fa fa-image fa-fw"></i> Správa obrázků</a></li>
+        	    <li><a n:href=":Options:Options:default"><i class="fa fa-cog fa-fw"></i> Nastavení blogu</a></li>
+        	    <li><a n:href=":Users:Auth:logout"><i class="fa fa-sign-out fa-fw"></i>Odhlásit se</a></li>
+        	</ul>
+        </nav>
+    </aside>
+
+    <div class="content-wrapper">
+        <div class="page-heading">
+    	    {ifset #title}<h1>{include #title}</h1>{/ifset}
+    	</div>
+
+	    <section class="content">
+	        {control flashMessages}
+		    {include content}
+	    </section>
     </div>
-
-	{control flashMessages}
-
-	<div class="content">
-		{include content}
-	</div>
-
 </div>
 
 {block scripts}

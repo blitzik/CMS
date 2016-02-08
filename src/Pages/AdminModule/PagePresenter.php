@@ -105,7 +105,7 @@ class PagePresenter extends ProtectedPresenter
     {
         $comp = $this->pageRemovalFactory->create($this->page);
 
-        $comp->onArticleRemoval[] = [$this, 'onArticleRemoval'];
+        $comp->onPageRemoval[] = [$this, 'onArticleRemoval'];
         $comp->onCancelClick[] = [$this, 'onCancelClick'];
 
         return $comp;

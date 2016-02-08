@@ -1,24 +1,17 @@
+{block title}Správa obrázků{/block}
+
 {block content}
 
-<section>
-    <div class="row">
-        <div class="col-xs-12">
-            <h1 n:inner-block="title">Správa obrázků</h1>
-        </div>
+<div class="row">
+    <div class="col-md-5">
+        {control imageUpload}
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-5">
-            {control imageUpload}
-        </div>
+<div class="row images">
+    <div class="col-xs-12">
+        {control imagesOverview}
     </div>
-
-    <div class="row images">
-        <div class="col-xs-12">
-            {control imagesOverview}
-        </div>
-    </div>
-
-</section>
+</div>
 
 {/block}

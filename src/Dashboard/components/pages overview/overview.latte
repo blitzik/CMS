@@ -1,38 +1,43 @@
 
-{snippet table}
-<h2 n:ifset="$title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
+<div class="table-wrapper">
+    {snippet table}
+    <h2 n:ifset="$title" class="box-title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
 
-{control flashMessages}
+    <div class="table-content">
+        {control flashMessages}
 
-{control vs}
-<table class="table page-overview-table table-striped table-bordered table-hover">
-    <tr>
-        <th class="w25">ID</th>
-        <th class="w100">Vytvořen</th>
-        <th class="w100">Publikace</th>
-        <th>Článek</th>
-    </tr>
-{if count($pages) > 0}
-    {foreach $pages as $page}
-        <tr>
-            <td>{$page->id}</td>
-            <td>{$page->createdAt|date:'j.n.Y v H:i'}</td>
-            <td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>
-            <td>
-                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a>
+        {if count($pages) > 0}
+        {control vs}
+        <table class="">
+            <tr>
+                <th class="w25">ID</th>
+                <th class="w100">Vytvořen</th>
+                <th class="w100">Publikace</th>
+                <th>Článek</th>
+            </tr>
 
-                <div class="actions">
-                    <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="update-page"><i class="fa fa-edit"></i> Upravit</a>
-                    <a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax publish-page"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
-                    <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax hide-page"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>
-                    <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="remove-page" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
-                </div>
-            </td>
-        </tr>
-    {/foreach}
+            {foreach $pages as $page}
+                <tr>
+                    <td>{$page->id}</td>
+                    <td>{$page->createdAt|date:'j.n.Y v H:i'}</td>
+                    <td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>
+                    <td>
+                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a>
 
-{else}
-<tr><td colspan="5">Nebyly nalezeny žádné články</td></tr>
-{/if}
-</table>
-{/snippet}
+                        <div class="actions">
+                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="update-page"><i class="fa fa-edit"></i> Upravit</a>
+                            <a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax publish-page"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
+                            <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax hide-page"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>
+                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="remove-page" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
+                        </div>
+                    </td>
+                </tr>
+            {/foreach}
+
+        {else}
+        <tr><td colspan="5">Nebyly nalezeny žádné články</td></tr>
+        </table>
+        {/if}
+    </div>
+    {/snippet}
+</div>
