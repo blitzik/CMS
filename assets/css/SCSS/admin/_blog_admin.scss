@@ -9,6 +9,14 @@
   @include row();
 }
 
+%col-8{
+  @include column(8);
+}
+
+%col-10{
+  @include column(10);
+}
+
 %col-12{
   @include column(12);
 }
@@ -170,6 +178,7 @@ $main-header-background-color: #d43f3a;
   background-color: #333;
   opacity: 0;
   transition: opacity .5s;
+  z-index: -1;
 }
 
 .content-wrapper{
@@ -257,6 +266,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .table{
+  width: 100%;
   border: 1px solid #F4F4F4;
   border-collapse: collapse;
 
@@ -268,6 +278,28 @@ h1, h2, h3, h4, h5, h6{
 
 .articles-overview{
   @extend %col-12;
+
+  .article-name{
+    font-size: 1.5em;
+    //color: red;
+
+    &:hover{
+      color: #337AB7;
+    }
+  }
+}
+
+.articles-overview-actions{
+  margin: 15px 0;
+
+  a{
+    font-size: .8em;
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  a i{ margin-right: 5px; }
 }
 
 .box-title{
@@ -280,7 +312,6 @@ h1, h2, h3, h4, h5, h6{
     margin-right: 10px;
   }
 }
-
 
 //////////// MEDIA QUERIES ////////////
 
@@ -339,9 +370,6 @@ h1, h2, h3, h4, h5, h6{
     transition: margin-left .5s;
   }
 
-  .overlay{
-    z-index: -1;
-  }
 }
 
 
@@ -374,5 +402,13 @@ h1, h2, h3, h4, h5, h6{
   .content-wrapper{
     margin-left: $main-sidebar-width;
     transition: margin-left .5s;
+  }
+}
+
+@media (min-width: 1150px) {
+  .articles-overview {
+    @include column(10);
+
+    transition: all .5s;
   }
 }

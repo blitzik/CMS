@@ -7,12 +7,12 @@
         {control flashMessages}
 
         {control vs}
-        <table class="table table-bordered">
         {if count($pages) > 0}
+        <table class="table table-bordered">
             <tr>
                 <th class="w25">#</th>
                 <th class="w100">Vytvořen</th>
-                <th class="w100">Publikace</th>
+                {*<th class="w100">Publikace</th>*}
                 <th>Článek</th>
             </tr>
 
@@ -20,24 +20,24 @@
                 <tr>
                     <td>{$page->id}</td>
                     <td>{$page->createdAt|date:'j.n.Y v H:i'}</td>
-                    <td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>
+                    {*<td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>*}
                     <td>
-                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a>
-
-                        <div class="actions">
-                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="update-page"><i class="fa fa-edit"></i> Upravit</a>
-                            <a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax publish-page"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
-                            <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax hide-page"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>
-                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="remove-page" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
+                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id}" class="article-name">{$page->title}</a>
+                    </td>
+                    <td>
+                        <div class="articles-overview-actions">
+                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="btn btn-river"><i class="fa fa-edit"></i> Upravit</a>
+                            {*<a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax btn btn-turquoise"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
+                            <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax btn btn-asphalt"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>*}
+                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="btn btn-red" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
                         </div>
                     </td>
                 </tr>
             {/foreach}
-
-        {else}
-        <tr><td colspan="5">Nebyly nalezeny žádné články</td></tr>
-        {/if}
         </table>
+        {else}
+            Nebyly nalezeny žádné články
+        {/if}
     </div>
     {/snippet}
 </div>

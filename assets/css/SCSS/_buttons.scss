@@ -1,0 +1,63 @@
+@mixin make-button() {
+  color: #fff;
+  padding: 6px 12px;
+  //font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  @include border-radius(5px);
+}
+
+.btn{
+  @include make-button();
+
+  &:hover{
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+
+.btn-red{
+  background-color: #dd4b39;
+  border: 1px solid #dd4b39;
+
+  &:hover{
+    background-color: #d33724;
+    border: 1px solid #d33724;
+  }
+}
+
+
+.btn-asphalt{
+  background-color: #34495E;
+  border: 1px solid #34495E;
+
+  &:hover{
+    background-color: #2C3E50;
+    border: 1px solid #2C3E50;
+  }
+}
+
+
+.btn-river{
+  background-color: #3498DB;
+  border: 1px solid #3498DB;
+
+  &:hover{
+    background-color: #2980B9;
+    border: 1px solid #2980B9;
+  }
+}
+
+
+.btn-turquoise{
+  background-color: #1ABC9C;
+  border: 1px solid #1ABC9C;
+
+  &:hover{
+    background-color: #16A085;
+    border: 1px solid #16A085;
+  }
+}
