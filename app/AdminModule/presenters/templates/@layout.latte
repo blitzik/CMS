@@ -14,19 +14,21 @@
 <body>
 <div class="page-wrapper">
 
+    <input type="radio" name="nav" id="nav-expand" class="nav-control-hidden">
+    <label for="nav-expand" id="navigation">MENU</label>
     <aside class="main-sidebar">
         <div class="main-header">
             <h1>
                 <a n:href=":Dashboard:Dashboard:default">
-                    <span class="logo-large">Administrace</span>
                     <span class="logo-mini">A</span>
+                    <span class="logo-large">Administrace</span>
                 </a>
             </h1>
         </div>
 
         <nav class="navigation">
         	<ul>
-        	    <li class="nav-heading">Navigace</li>
+        	    <li class="nav-heading"><span>Navigace</span></li>
         	    <li><a n:href=":Pages:Admin:Page:new"><i class="fa fa-pencil fa-fw"></i> <span>Nový článek</span></a></li>
         	    <li><a class="active" n:href=":Tags:Tag:default"><i class="fa fa-tags fa-fw"></i> <span>Správa tagů</span></a></li>
         	    <li><a n:href=":Images:Image:default"><i class="fa fa-image fa-fw"></i> <span>Správa obrázků</span></a></li>
@@ -37,15 +39,19 @@
     </aside>
 
     <div class="content-wrapper">
-        <div class="page-heading">
-    	    {ifset #title}<h1>{include #title}</h1>{/ifset}
-    	</div>
-
 	    <section class="content">
+	        <div class="page-heading">
+                {ifset #title}<h1>{include #title}</h1>{/ifset}
+            </div>
 	        {control flashMessages}
-		    {include content}
+		    {include #content}
 	    </section>
     </div>
+
+    <label for="nav-collapse" class="overlay"></label>
+    <label for="nav-collapse" class="close-menu">ŽAVŘÍT MENU</label>
+    <input type="radio" name="nav" id="nav-collapse" checked class="nav-control-hidden">
+
 </div>
 
 {block scripts}
