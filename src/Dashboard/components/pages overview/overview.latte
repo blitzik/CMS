@@ -1,4 +1,5 @@
 
+{if count($pages) > 0}
 <div class="table-wrapper">
     {snippet table}
     <h2 n:ifset="$title" class="box-title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
@@ -7,13 +8,14 @@
         {control flashMessages}
 
         {control vs}
-        {if count($pages) > 0}
+        {*{if count($pages) > 0}*}
         <table class="table table-bordered">
             <tr>
                 <th class="w25">#</th>
                 <th class="w100">Vytvořen</th>
                 {*<th class="w100">Publikace</th>*}
                 <th>Článek</th>
+                <th class="w100">Akce</th>
             </tr>
 
             {foreach $pages as $page}
@@ -35,9 +37,10 @@
                 </tr>
             {/foreach}
         </table>
-        {else}
+        {*{else}
             Nebyly nalezeny žádné články
-        {/if}
+        {/if}*}
     </div>
     {/snippet}
 </div>
+{/if}

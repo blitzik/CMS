@@ -281,6 +281,7 @@ h1, h2, h3, h4, h5, h6{
 
   .article-name{
     font-size: 1.5em;
+    text-decoration: underline;
     //color: red;
 
     &:hover{
@@ -293,7 +294,7 @@ h1, h2, h3, h4, h5, h6{
   margin: 15px 0;
 
   a{
-    font-size: .8em;
+    font-size: 1em;
     text-align: left;
     display: block;
     margin-bottom: 5px;
