@@ -1,12 +1,10 @@
 
 
-<div class="tags-overview">
-    {control flashMessages}
-        {if count($tags)}
-            {foreach $tags as $id => $tag}
-                {control tag-$id}
-            {/foreach}
-        {else}
-        <p>Nebyly nalezeny žádné tagy.</p>
-        {/if}
-</div>
+{control flashMessages}
+{if count($tags)}
+    {foreach $tags as $id => $tag}
+        {control tag-$id}
+    {/foreach}
+{else}
+<p>Nebyly nalezeny žádné tagy.</p>
+{/if}

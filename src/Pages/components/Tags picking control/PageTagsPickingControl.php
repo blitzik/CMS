@@ -3,10 +3,10 @@
 namespace Pages\Components;
 
 use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use App\Components\BaseControl;
 use Tags\Facades\TagFacade;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
-use App\Components\BaseControl;
 use Pages\Page;
 
 class PageTagsPickingControl extends BaseControl

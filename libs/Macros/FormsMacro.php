@@ -21,12 +21,16 @@ class FormsMacro extends MacroSet
         // this marco should be used only inside manual rendered form
         return '
             if (isset($form) and $form->hasErrors()) {
-                echo \'<ul class="form-errors">\';
-                foreach ($form->errors as $error) {
-                    echo \'<li class="form-error">
-                                <i class="fa fa-warning fa-2x"></i> \' .$error. \'</li>\';
-                }
-                echo \'</ul>\';
+                echo \'<div class="row">\';
+                    echo \'<div class="form-errors-col">\';
+                        echo \'<ul class="form-errors">\';
+                        foreach ($form->errors as $error) {
+                            echo \'<li class="form-error">
+                                       <i class="fa fa-warning"></i> \' .$error. \'</li>\';
+                        }
+                        echo \'</ul>\';
+                    echo \'</div>\';
+                echo \'</div>\';
             }
         ';
     }

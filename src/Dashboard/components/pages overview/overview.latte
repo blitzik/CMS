@@ -1,13 +1,15 @@
 
 {if count($pages) > 0}
-<div class="table-wrapper">
+
+{control flashMessages}
+
+<div class="box box-river">
     {snippet table}
     <h2 n:ifset="$title" class="box-title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
 
     <div class="table-content">
-        {control flashMessages}
 
-        {control vs}
+        {*{control vs}*}
         {*{if count($pages) > 0}*}
         <table class="table table-bordered">
             <tr>
@@ -37,6 +39,7 @@
                 </tr>
             {/foreach}
         </table>
+        {control vs}
         {*{else}
             Nebyly nalezeny žádné články
         {/if}*}

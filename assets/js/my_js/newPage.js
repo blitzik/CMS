@@ -29,7 +29,7 @@
 
         // TAGS
 
-        var newArticleSection = $('.new-page');
+        var tagsPickingBox = $('.tags-picking-box');
 
         function setDefaultAppearance(tag)
         {
@@ -45,7 +45,7 @@
             tag.style['border'] = '0';
         }
 
-        var tags = $('.tags input');
+        var tags = $('.article-tags-list input');
         tags.each(function () {
             var span = this.parentNode;
             if (!this.checked) {
@@ -65,7 +65,7 @@
             };
         });
 
-        newArticleSection.on('click', '.tag-checkbox', function () {
+        tagsPickingBox.on('click', '.tag-checkbox', function () {
             if (this.checked) {
                 highlightTag(this.parentNode);
             } else {

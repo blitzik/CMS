@@ -62,7 +62,6 @@
 
         //var tagsOverview = $('.tags-overview');
 
-
         // OVERVIEW
         tagsOverview.on('input', '.tag-input', function () {
             var tagId = this.dataset.tagid;
@@ -75,7 +74,7 @@
 
             var tagUndoButton = $('#tag-undo-button-' + tagId);
             if (this.value != tagUndoButton.data('tagOriginalColor')) {
-                tagUndoButton.css('display', 'block');
+                tagUndoButton.css('display', 'inline-block');
                 tagUndoButton.attr('disabled', false);
             }
         });
@@ -87,7 +86,7 @@
             var submitButton = $('#new-tag-submit');
             processColor(this, submitButton);
 
-            var colorBox = $('#color-box');
+            var colorBox = $('#tag-color-box');
             if (this.value != '') {
                 if (checkColorFormat(this.value)) {
                     colorBox.css('background-color', this.value);

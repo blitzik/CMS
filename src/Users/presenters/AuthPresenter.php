@@ -15,17 +15,20 @@ class AuthPresenter extends AppPresenter
      * --------------------
      */
 
+
     public function actionLogin()
     {
         if ($this->user->isLoggedIn()) {
             $this->redirect(':Dashboard:Dashboard:default');
         }
     }
-    
+
+
     public function renderLogin()
     {
         
     }
+
 
     protected function createComponentLoginForm()
     {
@@ -47,6 +50,7 @@ class AuthPresenter extends AppPresenter
         return $form;
     }
 
+
     public function processLogin(Form $form, $values)
     {
         try {
@@ -59,17 +63,20 @@ class AuthPresenter extends AppPresenter
         }
     }
 
+
     /*
      * --------------------
      * ----- LOGOUT -------
      * --------------------
      */
 
+
     public function actionLogout()
     {
         $this->user->logout();
         $this->redirect('Auth:login');
     }
+
 
     public function renderLogout()
     {

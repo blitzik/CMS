@@ -1,60 +1,142 @@
 
 {form pageForm}
-<div class="row">
-    <div class="col-xs-12">
-    {snippet messages-top}
-        {control flashMessages}
-        {customFormErrors}
-    {/snippet}
-    </div>
-</div>
-
-<div class="row">
-    <div class="form-group col-xs-12 page-draft">
-        {input isPublished class => form-control}
-    </div>
-</div>
-
-<div class="row">
-    <div class="form-group col-md-3 page-publish-time">
-        {label time /}
-        {input time class => 'form-control'}
-    </div>
-
-    <div class="form-group col-md-9 page-title">
-        {label title /}
-            <small>[max. {Pages\Page::LENGTH_TITLE} znaků]</small>
-            <span id="page-title-counter" class="right"></span>
-        {input title class => 'form-control'}
-    </div>
-</div>
-
-<div class="row ">
-    <div class="col-md-9 col-md-push-3">
-        <div class="form-group">
-            {label intro /}
-                <small>[max. {Pages\Page::LENGTH_INTRO} znaků] (Bude zobrazen ve výpisu článků)</small>
-                <span id="page-intro-counter" class="right"></span>
-            {input intro class => 'form-control page-textArea'}
-        </div>
-
-        <div class="form-group">
-            {label text /}
-            {input text class => 'form-control page-textArea'}
-        </div>
-
-        {snippet messages-bottom}
+<div class="article-form" id="top"> {* col *}
+    <div class="row">
+        <div class="article-form-messages">
+        {snippet messages-top}
             {control flashMessages}
             {customFormErrors}
         {/snippet}
-
-        {input save class => 'ajax btn btn-default page-submitButton'}
-
-        <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up"></i></a>
+        </div>
     </div>
 
-    <div class="col-md-3 col-md-pull-9 page-tags">
-        {control pageTagsPicking}
+    {*<div class="row">
+        <div class="article-options">
+            <input type="checkbox" id="texy-hint-checkbox" class="nav-control-hidden">
+            <ul class="texy-hint-box">
+                <li><a>Nadpisy</a>
+                    <ul>
+                        <li>
+                            <pre>
+Nadpis1   Nadpis2   Podnadpis
+=======   *******   ---------<!--
+                         --></pre>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a>Typografie</a>
+                    <ul>
+                        <li>
+                            <pre>
+**Tučně napsaný text**   *Text napsaný kurzívou*<!--
+                         --></pre>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a>Odkazy</a>
+                    <ul>
+                        <li>
+                            <pre>
+"text odkazu":http://www.nejaky-web.cz<!--
+                         --></pre>
+                        </li>
+                    </ul>
+                </li>
+
+                <li><a>Obrázky</a>
+                    <ul>
+                        <li>
+                            <pre>
+[* obrazek.jpg .(alt-text) *] - obrázek s laternativním textem<!--
+                         --></pre>
+                        </li>
+                        <li>
+                            <pre>
+[* obrazek.jpg &lt;] - doleva zarovnaný obrázek<!--
+                         --></pre>
+                        </li>
+                        <li>
+                            <pre>
+[* obrazek.jpg >] - doprava zarovnaný obrázek<!--
+                         --></pre>
+                        </li>
+                        <li>
+                            <pre>
+[* obrazek.jpg *] *** text pod obrázkem<!--
+                         --></pre>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="article-options-trigger">
+            <label for="texy-hint-checkbox" class="article-texy-hint">NÁPOVĚDA</label>
+        </div>
+    </div>*}
+
+    <div class="box box-river"> {* just div *}
+        <div class="row">
+            <div class="article-draft">
+                <div>
+                    {input isPublished:}
+                    {label isPublished: /}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group article-publish-time">
+                {label time /}
+                {input time class => 'form-control'}
+            </div>
+
+            <div class="form-group article-title">
+                {label title /}
+                    <small>[max. {Pages\Page::LENGTH_TITLE} znaků]</small>
+                    <span id="page-title-counter" class="right"></span>
+                {input title class => 'form-control'}
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="article-intro">
+                <div class="form-group">
+                    {label intro /}
+                        <small>[max. {Pages\Page::LENGTH_INTRO} znaků] (Bude zobrazen ve výpisu článků)</small>
+                        <span id="page-intro-counter" class="right"></span>
+                    {input intro class => 'form-control page-textArea'}
+                </div>
+
+                <div class="form-group">
+                    {label text /}
+                    {input text class => 'form-control page-textArea'}
+                </div>
+
+                {snippet messages-bottom}
+                    {control flashMessages}
+                    {customFormErrors}
+                {/snippet}
+
+                {input save class => 'ajax btn btn-river'}
+
+                <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up"></i></a>
+            </div>
+        </div>
     </div>
-</div>
+</div> {* end article-form col *}
+
+<div class="tags-picking-box"> {* col *}
+<a href="{plink :Tags:Tag:default}">+ přidat štítek</a>
+<h2>ŠTÍTKY</h2>
+    <div class="box box-turquoise">
+        {*<div class="row">*}
+            {*<div class="article-tags">*}
+                {control pageTagsPicking}
+            {*</div>*}
+        {*</div>*}
+    </div>
+</div> {* end tags-picking-box *}
 {/form}

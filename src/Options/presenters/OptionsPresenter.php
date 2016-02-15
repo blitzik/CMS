@@ -16,15 +16,18 @@ class OptionsPresenter extends ProtectedPresenter
      */
     public $optionFacade;
 
+
     public function actionDefault()
     {
         $this['optionsForm']->setDefaults($this->options);
     }
-    
+
+
     public function renderDefault()
     {
         
     }
+
 
     protected function createComponentOptionsForm()
     {
@@ -54,6 +57,7 @@ class OptionsPresenter extends ProtectedPresenter
         return $form;
     }
 
+
     public function processForm(Form $form, $values)
     {
         $options = $this->prepareOptions($this->optionFacade->findOptions());
@@ -71,6 +75,7 @@ class OptionsPresenter extends ProtectedPresenter
             $form->addError('');
         }
     }
+
 
     private function prepareOptions(array $options)
     {

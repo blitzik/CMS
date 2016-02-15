@@ -68,7 +68,7 @@ class PagesOverviewControl extends BaseControl
     protected function createComponentVs()
     {
         $vs = new VisualPaginator();
-        $vs->notAjaxified();
+        //$vs->notAjaxified();
         $vs->setAnchor($this->getUniqueId());
 
         $vs->onPaginate[] = function () {

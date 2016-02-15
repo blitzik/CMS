@@ -22,10 +22,10 @@ class Tag
     use Identifier;
     use MagicAccessors;
 
-    const LENGTH_NAME = 100;
+    const LENGTH_NAME = 30;
 
     /**
-     * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
+     * @ORM\Column(name="name", type="string", length=30, nullable=false, unique=true)
      * @var string
      */
     protected $name;

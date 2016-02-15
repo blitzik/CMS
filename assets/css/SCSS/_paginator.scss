@@ -6,8 +6,8 @@
 .blitzik__btn,
 .blitzik__counter{
   color: #FFF;
-  background-color: #428BCA;
-  border-color: #357EBD;
+  background-color: #34495E;
+  border-color: #34495E;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -18,11 +18,18 @@
   -webkit-border-radius: 6px;
 }
 
-.blitzik__btn{ &:hover{
-  color: #FFF;
-  background-color: #3071A9;
-  border-color:#285E8E;
-}}
+.blitzik__btn{
+  &:active{
+    color: #fff;
+  }
+
+  &:hover{
+    color: #FFF;
+    background-color: darken(#34495E, 10%);
+    border-color: darken(#34495E, 10%);
+    text-decoration: none;
+  }
+}
 
 $counter-color: #D0D0D0;
 .blitzik__counter{

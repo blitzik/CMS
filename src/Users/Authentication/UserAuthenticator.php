@@ -45,11 +45,11 @@ class UserAuthenticator extends Object implements IAuthenticator
                      ->findOneBy(['email' => $email]);
 
         if ($user === null) {
-            throw new AuthenticationException('Wrong E-mail address');
+            throw new AuthenticationException('Špatná E-mailová adresa');
         }
 
         if (!Passwords::verify($password, $user->password)) {
-            throw new AuthenticationException('Wrong password');
+            throw new AuthenticationException('Špatné heslo');
 
         } elseif (Passwords::needsRehash($user->password)) {
 

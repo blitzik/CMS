@@ -54,15 +54,16 @@ class TagPresenter extends ProtectedPresenter
     {
         $form = new Form;
 
-        $form->addText('name', 'Název nového tagu', null, Tag::LENGTH_NAME)
-                ->setRequired('Vyplňte název tagu');
+        $form->addText('name', 'Název štítku', null, Tag::LENGTH_NAME)
+                ->setRequired('Vyplňte název štítku');
 
-        $form->addText('color', 'Barva', null, 7)
-                ->setRequired('Přiřaďte novému tagu barvu')
+        $form->addText('color', 'Barva (hex)', null, 7)
+                ->setRequired('Přiřaďte novému štítku barvu')
+                ->setDefaultValue('#')
                 ->setHtmlId('creation-form-color')
                 ->addRule(Form::PATTERN, 'Špatný formát barvy.', '^#([0-f]{3}|[0-f]{6})$');;
 
-        $form->addSubmit('save', 'Uložit tag');
+        $form->addSubmit('save', 'Uložit štítek');
 
         $form->onSuccess[] = [$this, 'processNewTag'];
 
@@ -76,13 +77,13 @@ class TagPresenter extends ProtectedPresenter
         try {
             $this->tagFacade->saveTag($tag);
 
-            $this->flashMessage('Tag byl úspěšně přidán', 'success');
+            $this->flashMessage('Štítek byl úspěšně přidán', 'success');
             $this->redirect('this');
 
         } catch (TagNameAlreadyExistsException $t) {
-            $form->addError('Tag s tímto názvem již existuje');
+            $form->addError('Štítek s tímto názvem již existuje');
         } catch (DBALException $e) {
-            $form->addError('Při vytvážení tagu nastala chyba');
+            $form->addError('Při vytvážení štítku nastala chyba');
         }
     }
 }

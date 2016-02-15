@@ -83,7 +83,7 @@ class PageFormControl extends BaseControl
             ->setAttribute('data-text-length', Page::LENGTH_TITLE)
             ->addRule(Form::MAX_LENGTH, 'Titulek článku může obsahovat pouze %d znaků', Page::LENGTH_TITLE);
 
-        $form->addText('time', 'Datum publikování článku', null, 16)
+        $form->addText('time', 'Datum publikace (*)', null, 16)
             ->setHtmlId('datetimepicker')
             //->setRequired('Nastavte datum publikování článku')
             ->addRule(Form::MAX_LENGTH, 'Neplatná délka řetězce (publikování článku)', 16);

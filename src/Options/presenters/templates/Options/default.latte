@@ -2,11 +2,11 @@
 
 {block content}
 
-    <div class="row">
-        {form optionsForm}
-        <div class="col-xs-12">{customFormErrors}</div>
-
-        <div class="col-xs-6">
+<div class="row">
+    <div class="blog-options"> {* col *}
+    <div class="box box-river"> {* just div *}
+        {form optionsForm novalidate => novalidate}
+        {customFormErrors}
 
         <div class="form-group">
             {label blog_title /}
@@ -28,10 +28,11 @@
             {input articles_per_page class => form-control}
         </div>
 
-        {input save class => 'btn btn-default'}
+        {input save class => 'btn btn-river'}
 
-        </div>
         {/form}
     </div>
+    </div>
+</div>
 
 {/block}

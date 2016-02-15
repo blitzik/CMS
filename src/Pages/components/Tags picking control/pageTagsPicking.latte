@@ -1,7 +1,6 @@
-<h2>Tagy k článku</h2>
 
 {if count($tags) > 0}
-<ul class="tags">
+<ul class="article-tags-list">
     {foreach $tags as $tag}
         <li>
             <label for="tag-{$tag->id}">

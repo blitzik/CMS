@@ -29,6 +29,64 @@
   float: left;
 }
 
+@mixin column-push($columns) {
+  left: percentage($columns / $grid-columns);
+}
+
+.flash-messages{
+  @include column(12);
+}
+
+.flash{
+  padding: 10px 15px;
+  color: #fff;
+  margin-bottom: 5px;
+
+  i{
+    margin-right: 10px;
+  }
+
+  &.success{
+    background-color: #00a65a ;
+    border: 1px solid #00a65a ;
+  }
+
+  &.warning{
+    background-color: #f39c12;
+    border: 1px solid #f39c12;
+  }
+
+  &.error{
+    background-color: #dd4b39 ;
+    border: 1px solid #dd4b39 ;
+  }
+}
+
+.form-errors{
+  padding: 0;
+  margin: 0;
+  margin-bottom: 15px;
+
+  li{
+    list-style: none;
+
+    i{
+      margin-right: 10px;
+    }
+  }
+}
+
+.form-error{
+  padding: 10px 15px;
+  color: #fff;
+  margin-bottom: 5px;
+  background-color: #f39c12;
+  border: 1px solid #f39c12;
+}
+
+.form-errors-col{
+  @include column(12);
+}
 
 .left{ float: left; }
 .right{ float: right; }

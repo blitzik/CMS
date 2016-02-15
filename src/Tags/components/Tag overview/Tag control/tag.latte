@@ -1,32 +1,48 @@
 {snippet tag}
+<div class="row">
+    <div class="tag-box"> {* col *}
+        {* just div *}
+        <div class="box box-river" style="border-top-color: {$tag->color|noescape};">
 
+        {snippet flashes}
+            {control flashMessages}
+        {/snippet}
 
-{snippet flashes}
-{control flashMessages}
-{/snippet}
+        {form tagForm}
+        <div class="row" n:if="$_form->hasErrors()" n:snippet="errors">
+            <div class="tag-messages">
+                {customFormErrors}
+            </div>
+        </div>
 
-{form tagForm}
-<div class="row" n:if="$_form->hasErrors()" n:snippet="errors">
-    <div class="col-xs-12">
-        {customFormErrors}
+        <div class="row" id="tag-row-{$tag->id}">
+            <div class="tag-row-name"> {* col *}
+                <span class="tag-preview" id="tag-{$tag->id}" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
+                    <i class="fa fa-tag fa-fw"></i> {$tag->name}
+                </span>
+            </div>
+
+            <div class="tag-row-color"> {* col *}
+                <div class="row">
+                    <div class="tag-row-form-input">
+                    {input color class => 'form-control tag-input', data-tagid => $tag->id}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="tag-row-form-actions">
+                        {input save class => 'ajax btn btn-river tag-submit'}
+                        <button class="btn btn-turquoise undo-color" id="tag-undo-button-{$tag->id}" title="Vrátit původní barvu" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tag-row-remove"> {* col *}
+                <a href="{link removeTag! id => $tag->id}" class="btn btn-red remove" data-tagname="{$tag->name}" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a>
+            </div>
+        </div>
+        {/form}
+        </div>
     </div>
 </div>
-
-<div class="row tag-row" id="tag-row-{$tag->id}">
-    <div class="col-xs-5">
-        <span class="tag" id="tag-{$tag->id}" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
-            <i class="fa fa-tag fa-fw"></i> {$tag->name}
-        </span>
-    </div>
-
-    <div class="col-xs-4">
-        {input color class => 'form-control tag-input', data-tagid => $tag->id}
-        <button class="btn btn-default undo-color" id="tag-undo-button-{$tag->id}" title="Vrátit původní barvu" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
-        {input save class => 'ajax btn btn-default tag-submit'}
-    </div>
-
-    <div class="col-xs-3"><a href="{link removeTag! id => $tag->id}" class="btn btn-danger remove" data-tagname="{$tag->name}" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a></div>
-</div>
-{/form}
-
 {/snippet}
