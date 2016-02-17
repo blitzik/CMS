@@ -57,7 +57,7 @@ class TagPresenter extends ProtectedPresenter
         $form->addText('name', 'Název štítku', null, Tag::LENGTH_NAME)
                 ->setRequired('Vyplňte název štítku');
 
-        $form->addText('color', 'Barva (hex)', null, 7)
+        $form->addText('color', 'Barva', null, 7)
                 ->setRequired('Přiřaďte novému štítku barvu')
                 ->setDefaultValue('#')
                 ->setHtmlId('creation-form-color')

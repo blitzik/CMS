@@ -3,15 +3,22 @@
 {block content}
 
 <div class="row">
-    <div class="col-md-5">
-        {control imageUpload}
+    <div class="images-upload">
+        <div class="box box-river">
+            {control imageUpload}
+        </div>
     </div>
 </div>
 
-<div class="row images">
-    <div class="col-xs-12">
+<div class="row">
+    <div class="images-overview">
         {control imagesOverview}
     </div>
 </div>
 
+{/block}
+
+{block scripts}
+    {include parent}
+    <script src="{$basePath}/assets/js/my_js/image_management.js"></script>
 {/block}

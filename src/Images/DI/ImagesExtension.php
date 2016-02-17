@@ -25,6 +25,12 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider
 
         $cb = $this->getContainerBuilder();
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
+
+        $imagesUploader = $cb->getDefinition($this->prefix('imagesUploader'));
+        $imagesUploader->setArguments(['imageFileRoot' => $config['fileRoot']]);
+
+        $imagesRemover = $cb->getDefinition($this->prefix('imagesRemover'));
+        $imagesRemover->setArguments(['imageFileRoot' => $config['fileRoot']]);
     }
 
 

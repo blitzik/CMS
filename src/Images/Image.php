@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Http\FileUpload;
+use Nette\Utils\Strings;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -60,6 +61,12 @@ class Image
     private $height;
 
     /**
+     * @ORM\Column(name="file_size", type="integer", nullable=false, unique=false)
+     * @var int
+     */
+    private $fileSize;
+
+    /**
      * @ORM\Column(name="uploaded_at", type="datetime", nullable=false, unique=false)
      * @var \DateTime
      */
@@ -87,6 +94,8 @@ class Image
         $this->width = $imgSize[0];
         $this->height = $imgSize[1];
 
+        $this->fileSize = $file->getSize();
+
         $this->uploadedAt = new \DateTime('now');
     }
 
@@ -94,9 +103,9 @@ class Image
     /**
      * @return string
      */
-    public function getImageName()
+    public function getId()
     {
-        return $this->id . '.' . $this->extension;
+        return $this->id;
     }
 
 
@@ -142,6 +151,29 @@ class Image
     public function getHeight()
     {
         return $this->height;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getFileSize()
+    {
+        return $this->fileSize;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getComposedFilePath()
+    {
+        return sprintf(
+            '%s/%s.%s',
+            $this->id,
+            Strings::webalize($this->originalName),
+            $this->extension
+        );
     }
 
 }

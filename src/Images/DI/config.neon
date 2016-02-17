@@ -1,5 +1,8 @@
 services:
 
+	imagesUploader: Images\Services\ImagesUploader
+	imagesRemover: Images\Services\ImagesRemover
+
 	# Facades
 	imageFacade: Images\Facades\ImageFacade
 

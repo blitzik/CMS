@@ -9,6 +9,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\AbstractQuery;
 use Images\Facades\ImageFacade;
 use Images\Query\ImageQuery;
+use Nette\Application\UI\ITemplate;
 use Nette\Utils\Paginator;
 
 class ImagesOverviewControl extends BaseControl
@@ -47,6 +48,25 @@ class ImagesOverviewControl extends BaseControl
         $template->images = $imagesResultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
 
         $template->render();
+    }
+
+
+    /**
+     * @return ITemplate
+     */
+    protected function createTemplate()
+    {
+        $template = parent::createTemplate();
+
+        $template->addFilter('formatSizeUnits', function ($size) {
+            if ($size >= 1024) {
+                return floor($size / 1024) . 'KB';
+            }
+
+            return $size . 'B';
+        });
+
+        return $template;
     }
 
 

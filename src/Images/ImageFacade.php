@@ -6,6 +6,8 @@ use App\Exceptions\Runtime\FileRemovalException;
 use App\Exceptions\Runtime\NotImageUploadedException;
 use App\Exceptions\Runtime\FileSizeException;
 use Images\Query\ImageQuery;
+use Images\Services\ImagesRemover;
+use Images\Services\ImagesUploader;
 use Nette\InvalidStateException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
@@ -16,8 +18,14 @@ use Images\Image;
 
 class ImageFacade extends Object
 {
+    /** @var ImagesUploader */
+    private $imagesUploader;
+
     /** @var EntityManager */
     private $em;
+
+    /** @var ImagesRemover */
+    private $imagesRemover;
 
     /** @var Logger  */
     private $logger;
@@ -27,9 +35,13 @@ class ImageFacade extends Object
 
 
     public function __construct(
+        ImagesUploader $imagesUploader,
+        ImagesRemover $imagesRemover,
         EntityManager $entityManager,
         Logger $logger
     ) {
+        $this->imagesUploader = $imagesUploader;
+        $this->imagesRemover = $imagesRemover;
         $this->em = $entityManager;
         $this->logger = $logger->channel('images');
 
@@ -46,37 +58,7 @@ class ImageFacade extends Object
      */
     public function saveImage(FileUpload $file)
     {
-        if (!$file->isImage()) {
-            throw new NotImageUploadedException;
-        }
-
-        if (\filesize($file->getTemporaryFile()) > Image::MAX_FILE_SIZE) {
-            throw new FileSizeException;
-        }
-
-        try {
-            $this->em->beginTransaction();
-            $image = new Image($file);
-            $this->em->persist($image)->flush();
-
-            $file->move($image->getLocation()); // todo images
-
-            $this->em->commit();
-        } catch (InvalidStateException $is) {
-            $this->em->rollback();
-            $this->em->close();
-            $this->logger->addError('Error occurs while moving temp. image file to new location.');
-
-            throw $is;
-
-        } catch (DBALException $e) {
-            $this->em->rollback();
-            $this->em->close();
-
-            $this->logger->addError('Image error'); // todo err message
-
-            throw $e;
-        }
+        $this->imagesUploader->processImage($file);
     }
 
 
@@ -87,38 +69,12 @@ class ImageFacade extends Object
 
 
     /**
-     * @param string $imageName [uuid.extension]
+     * @param string $imageName [uuid/origName.extension]
      * @throws DBALException
      * @throws FileRemovalException
      */
     public function removeImage($imageName)
     {
-        $id = \mb_substr($imageName, 0, \mb_strrpos($imageName, '.'));
-        $file = Image::UPLOAD_DIRECTORY . $imageName;
-
-        try {
-            $this->em->beginTransaction();
-
-            $d = $this->em->createQuery(
-                'DELETE ' . Image::class . ' i WHERE i.id = :id'
-            )->execute(['id' => $id]);
-
-            if ($d > 0 and \file_exists($file)) {
-                $r = \unlink($file);
-                if ($r === false) {
-                    $this->em->rollback();
-                    $this->em->close();
-                    throw new FileRemovalException;
-                }
-            }
-
-            $this->em->commit();
-
-        } catch (DBALException $e) {
-            $this->em->rollback();
-            $this->em->close();
-
-            throw $e;
-        }
+        $this->imagesRemover->removeImage($imageName);
     }
 }

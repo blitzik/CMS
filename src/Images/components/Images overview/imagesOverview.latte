@@ -1,43 +1,70 @@
 
 {snippet imagesOverview}
-{control flashMessages}
-{if count($images) > 0}
+<div class="row">
+    <div class="image-overview">
+        {control flashMessages}
+    </div>
+</div>
+
+    {if count($images) > 0}
 
     {control vs}
     {foreach $images as $image}
-    {var $imageName = $image['id'].'.'.$image['extension']}
+    {var $imageName = $image['id'] .'/'. $image['originalName']. '.' .$image['extension']}
         <div class="row">
-            <div class="col-xs-12">
-            <div class="image-row">
-                <div class="row image-preview">
-                    <div class="col-xs-12"><span class="image-size">{$image['width']} x {$image['height']}</span></div>
-                    <div class="col-sm-3">
-                        <a href="{$basePath}/uploads/images/{$imageName}" target="_blank"><img src="{$basePath}/uploads/images/{$imageName}" class="image"></a>
+            <div class="image-overview"> {* col *}
+            <div class="box box-carrot"> {* just div *}
+                <div class="row">
+                    <div class="texy-image-name">
+                        <b>Texy zápis:</b>
+                        <div class="image-texy">[* {$imageName} *]</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="image-preview"> {* col *}
+                        <a href="{$basePath}/uploads/images/{$imageName}" target="_blank">
+                            <img src="{$basePath}/uploads/images/{$imageName}" class="image">
+                        </a>
                     </div>
 
-                    <div class="col-sm-9">
+                    <div class="image-info"> {* col *}
                         <div class="row">
-                            <div class="col-sm-12">
-                                <span class="image-texy">[* {$imageName} *]</span>
+                            <div class="image-name">
+                                <b>Původní název:</b>
+                                <div>{$image['originalName']}.{$image['extension']}</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="image-size"> {* col *}
+                                <b>Rozměry:</b>
+                                <div>{$image['width']} x {$image['height']}</div>
                             </div>
 
-                            <div class="col-sm-8">
-                                <div class="image-name">{$image['originalName']}.{$image['extension']}</div>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <a href="{link imageRemove imageName => $imageName}" data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" class="btn btn-danger remove-image">Odstranit obrázek</a>
+                            <div class="image-file-size"> {* col *}
+                                <b>Velikost:</b>
+                                <div>~ {$image['fileSize']|formatSizeUnits}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <a href="{link imageRemove imageName => $imageName}" data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" class="btn btn-red remove-image">
+                    <i class="fa fa-trash"></i> Odstranit obrázek
+                </a>
             </div>
             </div>
         </div>
     {/foreach}
 
-{else}
-    <p>Nebyly nalezeny žádné obrázky</p>
-{/if}
+    {else}
+    <div class="row">
+        <div class="image-overview"> {* col *}
+            <div class="box box-alizarin"> {* just div *}
+                <p>Nebyly nalezeny žádné obrázky</p>
+            </div>
+        </div>
+    </div>
+    {/if}
 {/snippet}

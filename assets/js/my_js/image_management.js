@@ -2,7 +2,7 @@
     "use strict";
 
     $(function () {
-       var imageRow = $('.image-row');
+       var imageRow = $('.image-overview');
        imageRow.on('click', '.remove-image', function (e) {
            e.preventDefault();
 

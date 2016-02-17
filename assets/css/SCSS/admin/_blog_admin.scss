@@ -242,6 +242,10 @@ $main-header-background-color: #d43f3a;
 
 //////////// STYLES ////////////
 
+a i{
+  margin-right: 5px;
+}
+
 .navigation{
   ul{
     padding: 0;
@@ -375,8 +379,6 @@ h1, h2, h3, h4, h5, h6{
     display: block;
     margin-bottom: 5px;
   }
-
-  a i{ margin-right: 5px; }
 }
 
 .box-title{
@@ -737,6 +739,104 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
+// images
+
+
+.images-upload{
+  @extend %col-12;
+}
+
+.images-overview{
+  @extend %col-12;
+
+  p{
+    margin-bottom: 0;
+  }
+}
+
+.image-overview{
+  @extend %col-12;
+
+  .box{
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .remove-image{
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+}
+
+.texy-image-name{
+  @extend %col-12;
+
+    //border-bottom: 1px solid #f39c12;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    overflow: auto;
+}
+
+.image-preview{
+  @extend %col-4;
+}
+
+.image-info{
+  @extend %col-8;
+
+  padding-bottom: 50px;
+
+  ul{
+    padding: 0;
+    margin: 0;
+
+    li{
+      list-style: none;
+      margin-bottom: 5px;
+    }
+  }
+
+  .image-name{
+    @extend %col-12;
+  }
+
+  .image-size,
+  .image-file-size{
+    @extend %col-5;
+  }
+
+  .image-name,
+  .image-size,
+  .image-file-size{
+    margin-bottom: 10px;
+
+    div{
+      padding: 5px;
+      border: 1px solid #e5e5e5;
+    }
+  }
+
+  .image-size,
+  .image-file-size{
+    div{
+      text-align: center;
+    }
+  }
+}
+
+
+.image{
+  max-width: 150px;
+  max-height: 150px;
+}
+
+.image-texy{
+  padding: 5px;
+  border: 1px solid #e5e5e5;
+  word-wrap: break-word;
+}
+
 //////////// UTILS ////////////
 
 
@@ -873,4 +973,20 @@ h1, h2, h3, h4, h5, h6{
   .blog-options{
     @include column(5);
   }
+
+  .images-upload{
+    @include column(6);
+  }
+
+  .image-overview{
+    @include column(9);
+  }
+
+  .image-info {
+    .image-size,
+    .image-file-size {
+      max-width: 150px;
+    }
+  }
+
 }
