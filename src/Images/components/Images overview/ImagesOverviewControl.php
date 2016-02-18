@@ -20,13 +20,19 @@ class ImagesOverviewControl extends BaseControl
     /** @var ImageFacade  */
     private $imageFacade;
 
+    /** @var ImageQuery */
+    private $imageQuery;
+
+
 
     public function __construct(
+        ImageQuery $imageQuery,
         ImageFacade $imageFacade,
         IPaginatorFactory $paginatorFactory
     ) {
         $this->imageFacade = $imageFacade;
         $this->paginatorFactory = $paginatorFactory;
+        $this->imageQuery = $imageQuery;
     }
 
 
@@ -36,14 +42,12 @@ class ImagesOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/imagesOverview.latte');
 
         $imagesResultSet = $this->imageFacade
-                                ->fetchImages(
-                                    (new ImageQuery())
-                                );
+                                ->fetchImages($this->imageQuery);
 
         /** @var Paginator $paginator */
         $paginator = $this['vs']->getPaginator();
 
-        $imagesResultSet->applyPaginator($paginator, 10);
+        $imagesResultSet->applyPaginator($paginator, 15);
 
         $template->images = $imagesResultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
 
@@ -101,7 +105,8 @@ class ImagesOverviewControl extends BaseControl
 interface IImagesOverviewControlFactory
 {
     /**
+     * @param ImageQuery $imageQuery
      * @return ImagesOverviewControl
      */
-    public function create();
+    public function create(ImageQuery $imageQuery);
 }

@@ -3,12 +3,20 @@
 namespace Images\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Images\Components\IImagesFilterControlFactory;
 use Images\Components\IImagesOverviewControlFactory;
 use Images\Components\IImageUploadControlFactory;
 use Images\Facades\ImageFacade;
+use Images\Query\ImageQuery;
 
 class ImagePresenter extends ProtectedPresenter
 {
+    /**
+     * @var IImagesFilterControlFactory
+     * @inject
+     */
+    public $imagesFilterControlFactory;
+
     /**
      * @var IImagesOverviewControlFactory
      * @inject
@@ -28,15 +36,33 @@ class ImagePresenter extends ProtectedPresenter
     public $imageFacade;
 
 
+    // ----
+
+
+    /** @persistent */
+    public $name;
+
+    /** @persistent */
+    public $extension;
+
+    /** @persistent */
+    public $maxWidth;
+
+    /** @persistent */
+    public $maxHeight;
+
+
     public function actionDefault()
     {
-
+        $this['filter-form']['name']->setDefaultValue($this->name);
+        $this['filter-form']['extension']->setDefaultValue($this->extension);
+        $this['filter-form']['maxWidth']->setDefaultValue($this->maxWidth);
+        $this['filter-form']['maxHeight']->setDefaultValue($this->maxHeight);
     }
 
 
     public function renderDefault()
     {
-
     }
 
 
@@ -48,9 +74,24 @@ class ImagePresenter extends ProtectedPresenter
     }
 
 
+    protected function createComponentFilter()
+    {
+        $comp = $this->imagesFilterControlFactory->create();
+
+        return $comp;
+    }
+
+
     protected function createComponentImagesOverview()
     {
-        $comp = $this->imagesOverviewFactory->create();
+        $comp = $this->imagesOverviewFactory
+                     ->create(
+                         (new ImageQuery())
+                         ->byName($this->name)
+                         ->byExtension($this->extension)
+                         ->maxWidth($this->maxWidth)
+                         ->maxHeight($this->maxHeight)
+                     );
 
         return $comp;
     }

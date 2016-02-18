@@ -817,6 +817,10 @@ h1, h2, h3, h4, h5, h6{
     }
   }
 
+  .image-name{
+    word-wrap: break-word;
+  }
+
   .image-size,
   .image-file-size{
     div{
@@ -836,6 +840,36 @@ h1, h2, h3, h4, h5, h6{
   border: 1px solid #e5e5e5;
   word-wrap: break-word;
 }
+
+// images filter
+
+.images-filter{
+  @extend %col-12;
+
+  .box{
+    margin-bottom: 15px;
+  }
+}
+
+.images-filter{
+  //@extend %col-12;
+
+  .form-group{
+    float: left;
+    margin-right: 5px;
+  }
+
+  .width,
+  .height{
+    max-width: 80px;
+  }
+
+  .filter-submit{
+    clear: both;
+
+  }
+}
+
 
 //////////// UTILS ////////////
 
@@ -987,6 +1021,10 @@ h1, h2, h3, h4, h5, h6{
     .image-file-size {
       max-width: 150px;
     }
+  }
+
+  .images-filter{
+    @include column(9);
   }
 
 }

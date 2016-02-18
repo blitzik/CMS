@@ -19,7 +19,7 @@
 }
 
 .blitzik__btn{
-  &:active{
+  &:link{
     color: #fff;
   }
 
@@ -28,6 +28,10 @@
     background-color: darken(#34495E, 10%);
     border-color: darken(#34495E, 10%);
     text-decoration: none;
+  }
+
+  &:active{
+    color: #fff;
   }
 }
 

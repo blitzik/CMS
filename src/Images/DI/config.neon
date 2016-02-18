@@ -10,5 +10,10 @@ services:
 	imageUploadControlFactory:
 		implement: Images\Components\IImageUploadControlFactory
 
+	imagesFilter:
+		implement: Images\Components\IImagesFilterControlFactory
+
 	imagesOverviewControlFactory:
 		implement: Images\Components\IImagesOverviewControlFactory
+		parameters: [Images\Query\ImageQuery imageQuery]
+		arguments: [%imageQuery%]

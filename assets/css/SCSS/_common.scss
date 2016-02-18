@@ -33,6 +33,14 @@
   left: percentage($columns / $grid-columns);
 }
 
+.clearfix{
+  clear: both;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
 .flash-messages{
   @include column(12);
 }
