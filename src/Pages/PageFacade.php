@@ -2,7 +2,7 @@
 
 namespace Pages\Facades;
 
-use App\Exceptions\LogicExceptions\DateTimeFormatException;
+use Pages\Exceptions\Logic\DateTimeFormatException;
 use Pages\Exceptions\Runtime\PagePublicationException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\UrlAlreadyExistsException;

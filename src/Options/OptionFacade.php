@@ -2,7 +2,7 @@
 
 namespace Options\Facades;
 
-use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Options\Exceptions\Logic\InvalidArgumentException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;

@@ -2,7 +2,7 @@
 
 namespace Pages\Components;
 
-use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Pages\Exceptions\Logic\InvalidArgumentException;
 use App\Components\BaseControl;
 use Tags\Facades\TagFacade;
 use Nette\Utils\ArrayHash;

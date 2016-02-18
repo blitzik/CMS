@@ -2,7 +2,7 @@
 
 namespace Tags;
 
-use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Tags\Exceptions\Logic\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;

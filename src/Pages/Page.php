@@ -2,7 +2,7 @@
 
 namespace Pages;
 
-use App\Exceptions\LogicExceptions\DateTimeFormatException;
+use Pages\Exceptions\Logic\DateTimeFormatException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;

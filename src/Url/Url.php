@@ -2,7 +2,7 @@
 
 namespace Url;
 
-use App\Exceptions\LogicExceptions\InvalidArgumentException;
+use Pages\Exceptions\Logic\InvalidArgumentException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
