@@ -2,8 +2,8 @@
 
 namespace Pages\Components;
 
-use App\Exceptions\Runtime\PageTitleAlreadyExistsException;
-use App\Exceptions\Runtime\UrlAlreadyExistsException;
+use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
+use Pages\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Pages\Facades\PageFacade;

@@ -3,8 +3,8 @@
 namespace Images\Components;
 
 use App\Components\BaseControl;
-use App\Exceptions\Runtime\FileSizeException;
-use App\Exceptions\Runtime\NotImageUploadedException;
+use Images\Exceptions\Runtime\FileSizeException;
+use Images\Exceptions\Runtime\NotImageUploadedException;
 use Doctrine\DBAL\DBALException;
 use Images\Facades\ImageFacade;
 use Nette\Application\UI\Form;

@@ -3,9 +3,9 @@
 namespace Pages\Facades;
 
 use App\Exceptions\LogicExceptions\DateTimeFormatException;
-use App\Exceptions\Runtime\PagePublicationException;
-use App\Exceptions\Runtime\PageTitleAlreadyExistsException;
-use App\Exceptions\Runtime\UrlAlreadyExistsException;
+use Pages\Exceptions\Runtime\PagePublicationException;
+use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
+use Pages\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;

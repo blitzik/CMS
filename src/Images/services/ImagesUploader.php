@@ -8,8 +8,8 @@
 
 namespace Images\Services;
 
-use App\Exceptions\Runtime\FileSizeException;
-use App\Exceptions\Runtime\NotImageUploadedException;
+use Images\Exceptions\Runtime\FileSizeException;
+use Images\Exceptions\Runtime\NotImageUploadedException;
 use Doctrine\DBAL\DBALException;
 use Images\Image;
 use Kdyby\Doctrine\EntityManager;

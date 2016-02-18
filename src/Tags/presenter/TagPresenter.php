@@ -3,14 +3,13 @@
 namespace Tags\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
-use App\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Tags\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Tags\Components\ITagsOverviewControlFactory;
 use Tags\Components\TagsOverviewControl;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
-use Tracy\Debugger;
 
 class TagPresenter extends ProtectedPresenter
 {

@@ -8,7 +8,7 @@
 
 namespace Images\Services;
 
-use App\Exceptions\Runtime\FileRemovalException;
+use Images\Exceptions\Runtime\FileRemovalException;
 use Doctrine\DBAL\DBALException;
 use Images\Image;
 use Kdyby\Doctrine\EntityManager;

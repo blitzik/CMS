@@ -2,13 +2,12 @@
 
 namespace Tags\Facades;
 
-use App\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Tags\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
 use Nette\Utils\Arrays;
-use Pages\Page;
 use Tags\Tag;
 
 class TagFacade extends Object

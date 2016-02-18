@@ -2,8 +2,8 @@
 
 namespace Images;
 
-use App\Exceptions\Runtime\FileNameException;
-use App\Exceptions\Runtime\NotImageUploadedException;
+use Images\Exceptions\Runtime\FileNameException;
+use Images\Exceptions\Runtime\NotImageUploadedException;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;

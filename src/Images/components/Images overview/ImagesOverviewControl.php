@@ -2,14 +2,14 @@
 
 namespace Images\Components;
 
-use App\Components\BaseControl;
-use App\Exceptions\Runtime\FileRemovalException;
-use blitzik\IPaginatorFactory;
+use Images\Exceptions\Runtime\FileRemovalException;
+use Nette\Application\UI\ITemplate;
 use Doctrine\DBAL\DBALException;
+use App\Components\BaseControl;
 use Doctrine\ORM\AbstractQuery;
 use Images\Facades\ImageFacade;
+use blitzik\IPaginatorFactory;
 use Images\Query\ImageQuery;
-use Nette\Application\UI\ITemplate;
 use Nette\Utils\Paginator;
 
 class ImagesOverviewControl extends BaseControl

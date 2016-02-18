@@ -2,9 +2,9 @@
 
 namespace Images\Facades;
 
-use App\Exceptions\Runtime\FileRemovalException;
-use App\Exceptions\Runtime\NotImageUploadedException;
-use App\Exceptions\Runtime\FileSizeException;
+use Images\Exceptions\Runtime\FileRemovalException;
+use Images\Exceptions\Runtime\NotImageUploadedException;
+use Images\Exceptions\Runtime\FileSizeException;
 use Images\Query\ImageQuery;
 use Images\Services\ImagesRemover;
 use Images\Services\ImagesUploader;
