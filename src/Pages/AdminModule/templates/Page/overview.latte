@@ -1,0 +1,25 @@
+{block title}Přehled článků{/block}
+
+{block content}
+
+{snippet pagesTables}
+<div class="row">
+    <div class="articles-overview">
+        {control unpublishedPagesOverview}
+    </div>
+</div>
+
+<div class="row">
+    <div class="articles-overview">
+        {control waitingPagesOverview}
+    </div>
+</div>
+
+<div class="row">
+    <div class="articles-overview">
+        {control publishedPagesOverview}
+    </div>
+</div>
+{/snippet}
+
+{/block}

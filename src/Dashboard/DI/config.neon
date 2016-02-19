@@ -1,5 +1,1 @@
 services:
-
-	pagesOverviewControlFactory:
-		implement: Dashboard\Components\IPagesOverviewControlFactory
-		arguments: [Pages\Query\ArticleQuery pageQuery]

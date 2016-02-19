@@ -3,15 +3,24 @@
 namespace Pages\AdminModule\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Pages\Components\Admin\IPagesOverviewControlFactory;
 use Pages\Components\Admin\PageFormControl;
 use Pages\Components\Admin\PageRemovalControl;
 use Pages\Components\Admin\IPageFormControlFactory;
 use Pages\Components\Admin\IPageRemovalControlFactory;
+use Pages\Components\Admin\PagesOverviewControl;
 use Pages\Facades\PageFacade;
 use Pages\Page;
+use Pages\Query\PageQuery;
 
 class PagePresenter extends ProtectedPresenter
 {
+    /**
+     * @var IPagesOverviewControlFactory
+     * @inject
+     */
+    public $pagesOverviewFactory;
+
     /**
      * @var IPageRemovalControlFactory
      * @inject
@@ -44,6 +53,91 @@ class PagePresenter extends ProtectedPresenter
 
         return $article;
     }
+
+
+    /*
+     * -----------------------------
+     * ----- ARTICLES OVERVIEW -----
+     * -----------------------------
+     */
+
+
+    public function actionOverview()
+    {
+    }
+
+
+    public function renderOverview()
+    {
+    }
+
+
+    protected function createComponentPublishedPagesOverview()
+    {
+        $comp = $this->pagesOverviewFactory
+            ->create(
+                (new PageQuery())
+                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
+                 ->onlyPublished()
+                 ->orderByPublishedAt('DESC')
+            );
+
+        $comp->setTitle('Publikované články');
+        $comp->setPrependTitleIcon('eye');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+
+        return $comp;
+    }
+
+
+    protected function createComponentWaitingPagesOverview()
+    {
+        $comp = $this->pagesOverviewFactory
+            ->create(
+                (new PageQuery())
+                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
+                 ->waitingForBeingPublished()
+            );
+
+        $comp->setTitle('Články čekající na zveřejnění');
+        $comp->setPrependTitleIcon('hourglass-half');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+
+        return $comp;
+    }
+
+
+    protected function createComponentUnpublishedPagesOverview()
+    {
+        $comp = $this->pagesOverviewFactory
+            ->create(
+                (new PageQuery())
+                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
+                 ->notPublished()
+                 ->orderByPublishedAt('DESC')
+            );
+
+        $comp->setTitle('Nepublikované články');
+        $comp->setPrependTitleIcon('eye-slash');
+
+        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+
+        return $comp;
+    }
+
+
+    public function onToggleVisibility(PagesOverviewControl $control)
+    {
+        if ($this->isAjax()) {
+            $control->redrawControl('table');
+            $this->redrawControl('pagesTables');
+        } else {
+            $this->redirect('this#'.$control->getUniqueId());
+        }
+    }
+
 
     /*
      * ----------------------------

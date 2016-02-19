@@ -28,3 +28,7 @@ services:
 	pageRemovalControlFactory:
 		implement: Pages\Components\Admin\IPageRemovalControlFactory
 		arguments: [Pages\Page page]
+
+	pagesAdminOverviewControlFactory:
+		implement: Pages\Components\Admin\IPagesOverviewControlFactory
+		arguments: [Pages\Query\ArticleQuery pageQuery]

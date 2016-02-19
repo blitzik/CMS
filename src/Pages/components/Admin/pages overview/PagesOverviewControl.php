@@ -1,6 +1,6 @@
 <?php
 
-namespace Dashboard\Components;
+namespace Pages\Components\Admin;
 
 use App\Components\BaseControl;
 use blitzik\VisualPaginator;
