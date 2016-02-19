@@ -87,3 +87,6 @@
 .#{$fa-css-prefix}-photo:before,
 .#{$fa-css-prefix}-image:before,
 .#{$fa-css-prefix}-picture-o:before { content: $fa-var-picture-o; }
+
+.#{$fa-css-prefix}-dashboard:before,
+.#{$fa-css-prefix}-tachometer:before { content: $fa-var-tachometer; }

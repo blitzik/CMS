@@ -1,6 +1,6 @@
 <?php
 
-namespace Pages\Components;
+namespace Pages\Components\Admin;
 
 use Pages\Exceptions\Logic\InvalidArgumentException;
 use App\Components\BaseControl;

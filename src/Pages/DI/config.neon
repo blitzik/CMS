@@ -11,20 +11,20 @@ services:
 
 	# Factories
 	pageControlFactory:
-		implement: Pages\Components\IPageControlFactory
+		implement: Pages\Components\Front\IPageControlFactory
 		arguments: [Nette\Utils\ArrayHash page]
 
 	pagesOverviewControlFactory:
-		implement: Pages\Components\IPagesOverviewControlFactory
+		implement: Pages\Components\Front\IPagesOverviewControlFactory
 
 	pageFormControl:
-		implement: Pages\Components\IPageFormControlFactory
+		implement: Pages\Components\Admin\IPageFormControlFactory
 		arguments: [Users\User user]
 
 	pageTagsPickingControlFactory:
-		implement: Pages\Components\IPageTagsPickingControlFactory
+		implement: Pages\Components\Admin\IPageTagsPickingControlFactory
 		arguments: [page]
 
 	pageRemovalControlFactory:
-		implement: Pages\Components\IPageRemovalControlFactory
+		implement: Pages\Components\Admin\IPageRemovalControlFactory
 		arguments: [Pages\Page page]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pages\Components;
+namespace Pages\Components\Admin;
 
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\Strings;

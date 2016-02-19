@@ -1,6 +1,6 @@
 <?php
 
-namespace Pages\Components;
+namespace Pages\Components\Front;
 
 use App\Components\BaseControl;
 use blitzik\IPaginatorFactory;

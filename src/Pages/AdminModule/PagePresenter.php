@@ -3,10 +3,10 @@
 namespace Pages\AdminModule\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
-use Pages\Components\PageFormControl;
-use Pages\Components\PageRemovalControl;
-use Pages\Components\IPageFormControlFactory;
-use Pages\Components\IPageRemovalControlFactory;
+use Pages\Components\Admin\PageFormControl;
+use Pages\Components\Admin\PageRemovalControl;
+use Pages\Components\Admin\IPageFormControlFactory;
+use Pages\Components\Admin\IPageRemovalControlFactory;
 use Pages\Facades\PageFacade;
 use Pages\Page;
 

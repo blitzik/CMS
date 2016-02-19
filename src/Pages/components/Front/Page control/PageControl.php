@@ -1,6 +1,6 @@
 <?php
 
-namespace Pages\Components;
+namespace Pages\Components\Front;
 
 use Nette\Utils\ArrayHash;
 use App\Components\BaseControl;

@@ -5,8 +5,8 @@ namespace Pages\FrontModule\Presenters;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Nette\Utils\ArrayHash;
-use Pages\Components\IPageControlFactory;
-use Pages\Components\IPagesOverviewControlFactory;
+use Pages\Components\Front\IPageControlFactory;
+use Pages\Components\Front\IPagesOverviewControlFactory;
 use Pages\Facades\PageFacade;
 
 class PagePresenter extends BasePresenter

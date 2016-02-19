@@ -1,6 +1,6 @@
 <?php
 
-namespace Pages\Components;
+namespace Pages\Components\Admin;
 
 use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;
