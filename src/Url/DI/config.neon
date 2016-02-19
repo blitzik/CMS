@@ -1,3 +1,5 @@
 services:
 	router: Url\Router
 	requestPanel: Url\RequestPanel
+
+	urlFacade: Url\Facades\UrlFacade

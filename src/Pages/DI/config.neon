@@ -3,6 +3,8 @@ services:
 	blogTexy: Pages\Utils\BlogTexy
 	filterLoader: Pages\Filters\FilterLoader
 
+	pagePersister: Pages\Services\PagePersister
+
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
 

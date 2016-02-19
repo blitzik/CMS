@@ -3,6 +3,7 @@
 namespace Pages\AdminModule\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Pages\Components\PageFormControl;
 use Pages\Components\PageRemovalControl;
 use Pages\Components\IPageFormControlFactory;
 use Pages\Components\IPageRemovalControlFactory;
@@ -81,9 +82,21 @@ class PagePresenter extends ProtectedPresenter
     protected function createComponentArticleForm()
     {
         $comp = $this->pageFormFactory->create($this->userEntity);
+        $comp->onSuccessPageSaving[] = [$this, 'onSuccessPageSaving'];
 
         return $comp;
     }
+
+
+    public function onSuccessPageSaving(PageFormControl $pageFormControl, Page $page)
+    {
+        if ($this->isAjax()) {
+            $pageFormControl->redrawControl();
+        } else {
+            $this->redirect('Page:edit', ['id' => $page->getId()]);
+        }
+    }
+
 
     /*
      * --------------------------

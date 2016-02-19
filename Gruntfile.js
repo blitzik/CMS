@@ -23,29 +23,17 @@ module.exports = function (grunt) {
                 dest: 'assets/js/original/js.js'
             },
 
-            shivAndRespond: {
-                options: {
-                    separator: ';'
-                },
-
-                src: [
-                    'bower_components/html5shiv/dist/html5shiv.js',
-                    'bower_components/respond/src/respond.js'
-                ],
-                dest: 'assets/js/original/shivAndRespond.js'
-            },
-
-            new_page: {
+            edit_page: {
                 options: {
                     separator: ';'
                 },
 
                 src: [
                     'assets/js/original/jquery.datetimepicker.js',
-                    'assets/js/my_js/newPageDatetimepicker.js',
-                    'assets/js/my_js/newPage.js'
+                    'assets/js/my_js/editPageDatetimepicker.js',
+                    'assets/js/my_js/editPage.js'
                 ],
-                dest: 'assets/js/original/newPage.js'
+                dest: 'assets/js/original/editPage.js'
             }
         },
 
@@ -56,15 +44,9 @@ module.exports = function (grunt) {
                 }
             },
 
-            shivAndRespond: {
+            edit_page: {
                 files: {
-                    'assets/js/shivAndRespond.min.js': 'assets/js/original/shivAndRespond.js'
-                }
-            },
-
-            new_page: {
-                files: {
-                    'assets/js/newPage.min.js': 'assets/js/original/newPage.js'
+                    'assets/js/editPage.min.js': 'assets/js/original/editPage.js'
                 }
             }
         },
@@ -166,6 +148,17 @@ module.exports = function (grunt) {
                         dest: 'assets/js/original/'
                     }
                 ]
+            },
+
+            jquery_autosize: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['bower_components/autosize/dist/autosize.min.js'],
+                        dest: 'assets/js/original/'
+                    }
+                ]
             }
         }
 
@@ -178,8 +171,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build_js', ['concat:mutual_js', 'uglify:mutual']);
 
-    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:new_page', 'uglify:mutual', 'uglify:new_page']);
-    grunt.registerTask('build_admin_page_js', ['concat:new_page', 'uglify:new_page']);
+    grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:edit_page', 'uglify:mutual', 'uglify:edit_page']);
+    grunt.registerTask('build_admin_page_js', ['concat:edit_page', 'uglify:edit_page']);
 
     grunt.registerTask('watch_front_css', ['watch:front']);
     grunt.registerTask('watch_admin_css', ['watch:admin']);

@@ -3,9 +3,9 @@
 namespace Pages\Facades;
 
 use Pages\Exceptions\Logic\DateTimeFormatException;
-use Pages\Exceptions\Runtime\PagePublicationException;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
-use Pages\Exceptions\Runtime\UrlAlreadyExistsException;
+use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
@@ -16,11 +16,14 @@ use Nette\Object;
 use Nette\Utils\Strings;
 use Pages\Page;
 use Pages\Query\PageQuery;
-use Tags\Tag;
+use Pages\Services\PagePersister;
 use Url\Url;
 
 class PageFacade extends Object
 {
+    /** @var PagePersister */
+    private $pagePersister;
+
     /** @var EntityManager */
     private $em;
 
@@ -36,11 +39,13 @@ class PageFacade extends Object
 
     public function __construct(
         EntityManager $entityManager,
+        PagePersister $pagePersister,
         IStorage $storage,
         Logger $logger
     )
     {
         $this->em = $entityManager;
+        $this->pagePersister = $pagePersister;
         $this->logger = $logger->channel('pages');
         $this->cache = new Cache($storage, 'articles');
 
@@ -49,128 +54,20 @@ class PageFacade extends Object
 
 
     /**
-     * @param Page $page
-     * @param array $tags
+     * @param array $values
+     * @param Page|null $page
      * @return Page
      * @throws PageTitleAlreadyExistsException
      * @throws UrlAlreadyExistsException
-     * @throws PagePublicationException
+     * @throws PagePublicationTimeException
      * @throws DateTimeFormatException
-     */
-    public function save(Page $page, $values, array $tags)
-    {
-        $values['tags'] = $tags; // values from Form [key => tagId]
-
-        if ($values['time'] == null and $values['isPublished'] == true) {
-            throw new PagePublicationException;
-        }
-
-        try {
-            $this->em->beginTransaction();
-
-            if ($page->getId() === null) {
-                $page = $this->createNewPage($page, $values);
-            } else {
-                $page = $this->updatePage($page, $values);
-            }
-
-            $this->em->flush();
-            $this->em->commit();
-
-        } catch (DBALException $e) {
-            $this->em->rollback();
-            $this->em->close();
-
-            $this->logger->addError('Page saving error:' . $e->getMessage());
-        }
-
-        return $page;
-    }
-
-
-    /**
-     * @param Page $page
-     * @param $values
-     * @return Page
      * @throws \Exception
-     * @throws PageTitleAlreadyExistsException
-     * @throws PagePublicationException
-     * @throws UrlAlreadyExistsException
-     * @throws DateTimeFormatException
      */
-    private function createNewPage(Page $page, $values)
+    public function save(array $values, Page $page = null)
     {
-        $page->setPublishedAt($values['time']);
-        $page->setArticleVisibility($values['isPublished']);
-
-        /** @var Page $page */
-        $page = $this->em->safePersist($page);
-        if ($page === false) {
-            throw new PageTitleAlreadyExistsException;
-        }
-
-        $pageUrl = $this->establishPageUrl($page);
-        $pageUrl = $this->em->safePersist($pageUrl);
-        if ($pageUrl === false) {
-            throw new UrlAlreadyExistsException;
-        }
-
-        $this->addTags2Page($page, $values['tags']);
-
-        $this->em->persist($page);
-
-        return $page;
+        return $this->pagePersister->save($values, $page);
     }
-
-
-    /**
-     * @param Page $page
-     * @param $values
-     * @return Page
-     * @throws DateTimeFormatException
-     */
-    private function updatePage(Page $page, $values)
-    {
-        $page->setTitle($values['title']);
-        $page->setIntro($values['intro']);
-        $page->setText($values['text']);
-        $page->setPublishedAt($values['time']);
-        $page->setArticleVisibility($values['isPublished']);
-
-        $page->clearTags();
-
-        $this->addTags2Page($page, $values['tags']);
-
-        $this->em->persist($page);
-
-        return $page;
-    }
-
-
-    private function addTags2Page(Page $page, array $tags)
-    {
-        foreach ($tags as $tagId) {
-            /** @var Tag $tag */
-            $tag = $this->em->getReference(Tag::class, $tagId);
-            $page->addTag($tag);
-        }
-    }
-
-
-    /**
-     * @param Page $page
-     * @return Url
-     */
-    private function establishPageUrl(Page $page)
-    {
-        $url = new Url;
-        $url->setUrlPath(Strings::webalize($page->title));
-        $url->setDestination(Page::PRESENTER, Page::PRESENTER_ACTION);
-        $url->setInternalId($page->getId());
-
-        return $url;
-    }
-
+    
 
     /**
      * @param PageQuery $query
@@ -189,10 +86,12 @@ class PageFacade extends Object
     public function getPage($pageID)
     {
         return $this->getBasePageDql()
-            ->where('p.id = :id')
-            ->setParameter('id', $pageID)
-            ->getQuery()
-            ->getOneOrNullResult();
+                    ->innerJoin('p.url', 'u')
+                    ->addSelect('u')
+                    ->where('p.id = :id')
+                    ->setParameter('id', $pageID)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 
 

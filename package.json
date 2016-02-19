@@ -13,5 +13,8 @@
     "grunt-contrib-watch": "*",
     "grunt-cssc": "*",
     "matchdep": "*"
+  },
+  "dependencies": {
+    "autosize": "^3.0.15"
   }
 }

@@ -402,27 +402,8 @@ h1, h2, h3, h4, h5, h6{
   @extend %col-12;
 }
 
-.article-draft{
+.article-url{
   @extend %col-12;
-
-  padding-bottom: 10px;
-  border-bottom: 1px solid #D2D6DE;
-  margin-bottom: 10px;
-
-  label{ color: #d43f3a; }
-
-  input[type="checkbox"], label{
-    //line-height: 1.6em;
-    //height: 1.6em;
-    float: left;
-    padding: 0;
-    margin-right: 10px;
-    font-size: inherit;
-  }
-
-  input[type="checkbox"]{
-    clear: left;
-  }
 }
 
 .article-publish-time{

@@ -2,18 +2,22 @@
 
 namespace Pages\Components;
 
+use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\Strings;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
-use Pages\Exceptions\Runtime\UrlAlreadyExistsException;
+use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Pages\Facades\PageFacade;
 use App\Components\BaseControl;
 use Pages\Page;
 use Users\User;
-use Tags\Tag;
 
 class PageFormControl extends BaseControl
 {
+    /** @var array */
+    public $onSuccessPageSaving = [];
+
     /** @var IPageTagsPickingControlFactory */
     private $pageTagsPickingControlFactory;
 
@@ -25,9 +29,6 @@ class PageFormControl extends BaseControl
 
     /** @var  Page */
     private $page;
-
-    /** @var  Tag[] */
-    private $tags; // todo
 
 
     public function __construct(
@@ -59,7 +60,7 @@ class PageFormControl extends BaseControl
             $this->fillFormBy($this->page);
         }
 
-        $template->form = $this['pageForm'];
+        //$template->form = $this['pageForm'];
 
         $template->render();
     }
@@ -83,14 +84,10 @@ class PageFormControl extends BaseControl
             ->setAttribute('data-text-length', Page::LENGTH_TITLE)
             ->addRule(Form::MAX_LENGTH, 'Titulek článku může obsahovat pouze %d znaků', Page::LENGTH_TITLE);
 
-        $form->addText('time', 'Datum publikace (*)', null, 16)
+        $form->addText('publishedAt', 'Datum publikace (*)', null, 16)
             ->setHtmlId('datetimepicker')
             //->setRequired('Nastavte datum publikování článku')
             ->addRule(Form::MAX_LENGTH, 'Neplatná délka řetězce (publikování článku)', 16);
-
-        $form->addCheckbox('isPublished', 'Publikovat článek')
-            ->setHtmlId('checkbox-is-published')
-            ->setDefaultValue(false);
 
         $form->addTextArea('intro', 'Úvodní text článku (*)', null, 7)
             ->setMaxLength(Page::LENGTH_INTRO)
@@ -103,13 +100,18 @@ class PageFormControl extends BaseControl
             ->setRequired('Vyplňte text článku')
             ->setHtmlId('page-form-text');
 
-        $form->addSubmit('save', 'Uložit článek');
+        $form->addText('url', 'Url adresa', null, 255);
+
+        $form->addSubmit('saveAndPublish', 'Uložit a publikovat')
+                ->onClick[] = [$this, 'processPageSavingAndPublishing'];
+
+        $form->addSubmit('saveAndHide', 'Uložit a skrýt')
+                ->onClick[] = [$this, 'processPageSavingAndHiding'];
 
         $form->addProtection();
 
 
         $form->onValidate[] = [$this, 'checkPublishing'];
-        $form->onSuccess[] = [$this, 'processPageSaving'];
 
         return $form;
     }
@@ -117,8 +119,12 @@ class PageFormControl extends BaseControl
 
     public function checkPublishing(Form $form)
     {
-        $values = $form->getValues();
-        if (empty($form['time']->value) and $values->isPublished == true) {
+        if ($form['saveAndHide']->isSubmittedBy()) {
+            return;
+        }
+
+        // if the form was submitted by save and publish button
+        if (empty($form['publishedAt']->value)) {
             $form->addError('Aby mohl být článek publikován, musíte nastavit datum publikace.');
         }
 
@@ -126,37 +132,41 @@ class PageFormControl extends BaseControl
     }
 
 
-    public function processPageSaving(Form $form, $values)
+    public function processPageSavingAndPublishing(SubmitButton $buttonControl)
     {
+        $this->pageSaving($buttonControl->getForm(), true);
+    }
+
+
+    public function processPageSavingAndHiding(SubmitButton $buttonControl)
+    {
+        $this->pageSaving($buttonControl->getForm(), false);
+    }
+
+
+    private function pageSaving(\Nette\Forms\Form $form, $isPublished)
+    {
+        $values = $form->getValues(true);
+        $values['isPublished'] = (bool)$isPublished;
+        $values['author'] = $this->user;
 
         $tags = $form->getHttpData(Form::DATA_TEXT, 'tags[]');
-
-        if ($this->page !== null) {
-            $page = $this->page;
-
-        } else {
-            $page = new Page(
-                $values->title,
-                $values->intro,
-                $values->text,
-                $this->user
-            );
-        }
-
-        /*if (!empty($tags)) {
-            $tags = \array_intersect_key($this->tags, $tags);
-        }*/
+        $values['tags'] = $tags;
 
         try {
-            $this->pageFacade->save($page, $values, $tags);
-            $this->flashMessage('Článek byl úspěšně uložen.', 'success');
+            $page = $this->pageFacade->save($values, $this->page);
+            $this->flashMessage(
+                'Článek byl úspěšně uložen a ' . ($values['isPublished'] ? 'publikován' : 'skryt'),
+                'success'
+            );
 
         } catch (PageTitleAlreadyExistsException $at) {
-            $form->addError('Článek s tímto titulkem již existuje');
+            $form->addError('Článek s tímto titulkem již existuje. Zvolte jiný titulek.');
 
             return;
         } catch (UrlAlreadyExistsException $ur) {
-            $form->addError('URL s tímto titulkem již existuje.');
+            $form['url']->setValue(Strings::webalize($values['title'], '/'));
+            $form->addError('URL adresa článku již existuje. Změňte titulek článku nebo URL adresu.');
 
             return;
         } catch (DBALException $e) {
@@ -165,23 +175,20 @@ class PageFormControl extends BaseControl
             return;
         }
 
-        if ($this->presenter->isAjax()) {
-            $this->redrawControl();
-        } else {
-            $this->redirect('this');
-        }
+        $this->onSuccessPageSaving($this, $page);
     }
 
 
-    public function fillFormBy(Page $page)
+    private function fillFormBy(Page $page)
     {
-        $this['pageForm']['title']->setDefaultValue($page->title);
+        $this['pageForm']['url']->setDefaultValue($page->getUrlPath());
+        $this['pageForm']['publishedAt']->setDefaultValue($page->title);
 
         if ($page->getPublishedAt() !== null) {
-            $this['pageForm']['time']->setDefaultValue($page->publishedAt->format('j.n.Y H:i'));
+            $this['pageForm']['publishedAt']->setDefaultValue($page->publishedAt->format('j.n.Y H:i'));
         }
 
-        $this['pageForm']['isPublished']->setDefaultValue($page->isPublished);
+        $this['pageForm']['title']->setDefaultValue($page->title);
         $this['pageForm']['intro']->setDefaultValue($page->intro);
         $this['pageForm']['text']->setDefaultValue($page->text);
     }

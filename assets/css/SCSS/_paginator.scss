@@ -6,8 +6,8 @@
 .blitzik__btn,
 .blitzik__counter{
   color: #FFF;
-  background-color: #34495E;
-  border-color: #34495E;
+  background-color: #428BCA;
+  border-color: #357EBD;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -18,22 +18,11 @@
   -webkit-border-radius: 6px;
 }
 
-.blitzik__btn{
-  &:link{
-    color: #fff;
-  }
-
-  &:hover{
-    color: #FFF;
-    background-color: darken(#34495E, 10%);
-    border-color: darken(#34495E, 10%);
-    text-decoration: none;
-  }
-
-  &:active{
-    color: #fff;
-  }
-}
+.blitzik__btn{ &:hover{
+  color: #FFF;
+  background-color: #3071A9;
+  border-color:#285E8E;
+}}
 
 $counter-color: #D0D0D0;
 .blitzik__counter{

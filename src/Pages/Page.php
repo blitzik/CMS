@@ -3,15 +3,16 @@
 namespace Pages;
 
 use Pages\Exceptions\Logic\DateTimeFormatException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
-use Tags\Tag;
 use Users\User;
+use Tags\Tag;
+use Url\Url;
 
 /**
  * @ORM\Entity
@@ -53,11 +54,18 @@ class Page
     protected $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Users\User")
+     * @ORM\ManyToOne(targetEntity="Users\User")
      * @ORM\JoinColumn(name="author", referencedColumnName="id", nullable=false)
      * @var \Users\User
      */
     private $author;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Url\Url")
+     * @ORM\JoinColumn(name="url", referencedColumnName="id", nullable=false)
+     * @var Url
+     */
+    private $url;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false, unique=false)
@@ -88,12 +96,14 @@ class Page
         $title,
         $intro,
         $text,
+        Url $url,
         User $author
     )
     {
         $this->setTitle($title);
         $this->setIntro($intro);
         $this->setText($text);
+        $this->setUrl($url);
         $this->author = $author;
 
         $this->createdAt = new \DateTime('now');
@@ -183,6 +193,15 @@ class Page
 
 
     /**
+     * @param Url $url
+     */
+    public function setUrl(Url $url)
+    {
+        $this->url = $url;
+    }
+
+
+    /**
      * @param \DateTime|null $publishTime
      * @throws DateTimeFormatException
      */
@@ -244,12 +263,29 @@ class Page
     }
 
 
-    /**
-     * @return User
+
+    /*
+     * -----------------------
+     * ----- URL GETTERS -----
+     * -----------------------
      */
-    public function getAuthor()
+
+
+    /**
+     * @return int
+     */
+    public function getUrlId()
     {
-        return $this->author;
+        return $this->url->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUrlPath()
+    {
+        return $this->url->urlPath;
     }
 
 
