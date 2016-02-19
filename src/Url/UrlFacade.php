@@ -64,7 +64,7 @@ class UrlFacade extends Object
 
 
     /**
-     * @param string|null $urlPath
+     * @param string $urlPath
      * @return Url|null
      */
     public function getByPath($urlPath)
@@ -72,12 +72,8 @@ class UrlFacade extends Object
         $qb = $this->em->createQueryBuilder();
         $qb->select('u')
            ->from(Url::class, 'u')
-           ->where('u.urlPath IS NULL');
-
-        if ($urlPath !== null) {
-            $qb->where('u.urlPath = :urlPath')
-               ->setParameter('urlPath', $urlPath);
-        }
+           ->where('u.urlPath = :urlPath')
+           ->setParameter('urlPath', $urlPath);
 
         return $qb->getQuery()->getOneOrNullResult();
     }
