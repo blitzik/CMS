@@ -322,6 +322,13 @@ h1, h2, h3, h4, h5, h6{
   border-top-color: #9b59b6;
 }
 
+.box-critical{
+  color: #fff;
+  font-size: 1.4em;
+  border: 0;
+  background-color: #e74c3c;
+}
+
 .page-heading{
   @extend %row;
 }
@@ -381,15 +388,8 @@ h1, h2, h3, h4, h5, h6{
   }
 }
 
-.box-title{
-  font-size: 1.5em;
-  border-bottom: 1px solid #D2D6DE;
-  padding-bottom: 15px;
-  margin: 0;
-
-  i{
-    margin-right: 10px;
-  }
+.articles-overview-title i{
+  margin-right: 10px;
 }
 
 .article-form{
@@ -420,11 +420,6 @@ h1, h2, h3, h4, h5, h6{
 
 .tags-picking-box{
  @extend %col-12;
-
-  h2{
-    font-size: 1.1em;
-    font-weight: bold;
-  }
 
   a{
     float: right;
@@ -671,6 +666,39 @@ h1, h2, h3, h4, h5, h6{
 
 .blog-options{
   @extend %col-12;
+}
+
+
+// article removal
+
+
+.article-removal{
+  @extend %col-12;
+
+  .box-critical{
+    margin-bottom: 15px;
+  }
+}
+
+.article-removal-warning{
+  @extend %col-12;
+}
+
+.article-removal-form{
+  @extend %col-12;
+}
+
+
+////////// common
+
+
+.article-form,
+.article-removal,
+.tags-picking-box,
+.articles-overview-title{
+  h2{
+    font-size: 1.4em;
+  }
 }
 
 
@@ -1005,6 +1033,10 @@ h1, h2, h3, h4, h5, h6{
   }
 
   .images-filter{
+    @include column(9);
+  }
+
+  .article-removal{
     @include column(9);
   }
 

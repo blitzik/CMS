@@ -3,9 +3,12 @@
 
 {control flashMessages}
 
+<div class="articles-overview-title">
+    <h2 n:ifset="$title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
+</div>
+
 <div class="box box-river">
     {snippet table}
-    <h2 n:ifset="$title" class="box-title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
 
     <div class="table-content">
 
@@ -40,9 +43,7 @@
             {/foreach}
         </table>
         {control vs}
-        {*{else}
-            Nebyly nalezeny žádné články
-        {/if}*}
+
     </div>
     {/snippet}
 </div>

@@ -1,9 +1,6 @@
 
+{control flashMessages}
 {form removalForm}
-    <div class="page-removal-title">Titulek článku</div>
-    <div class="page-removal-box">{$page->title}</div>
-
-    {control flashMessages}
     {customFormErrors}
     <div class="form-group">
         {label check /}
@@ -11,9 +8,8 @@
     </div>
 
     <div class="form-group">
-        {input remove class => 'btn btn-danger'}
-        {input cancel class => 'btn btn-default'}
+        {input remove class => 'btn btn-red'}
+        {input cancel class => 'btn btn-river'}
     </div>
-
 
 {/form}

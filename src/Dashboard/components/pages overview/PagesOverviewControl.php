@@ -105,7 +105,7 @@ class PagesOverviewControl extends BaseControl
     }
 
 
-    public function handlePublishArticle($id)
+    /*public function handlePublishArticle($id)
     {
         $this->pageFacade->publishPage($id);
 
@@ -120,7 +120,7 @@ class PagesOverviewControl extends BaseControl
 
         $this->flashMessage('Článek již není veřejné přístupný.', 'success');
         $this->onToggleVisibility($this);
-    }
+    }*/
 }
 
 

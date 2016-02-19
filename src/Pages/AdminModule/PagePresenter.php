@@ -111,7 +111,7 @@ class PagePresenter extends ProtectedPresenter
     
     public function renderRemove($id)
     {
-        
+        $this->template->page = $this->page;
     }
 
     protected function createComponentArticleRemovalForm()

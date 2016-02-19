@@ -60,6 +60,7 @@ class PageFormControl extends BaseControl
             $this->fillFormBy($this->page);
         }
 
+        $template->page = $this->page;
         //$template->form = $this['pageForm'];
 
         $template->render();

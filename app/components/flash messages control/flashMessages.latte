@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" n:if="!empty($flashes)">
     <div class="flash-messages">
         <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{include #flashMessageIcon, type => $flash->type} {$flash->message}</div>
     </div>
