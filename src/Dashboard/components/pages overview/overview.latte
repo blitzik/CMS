@@ -18,7 +18,7 @@
             <tr>
                 <th class="w25">#</th>
                 <th class="w100">Vytvořen</th>
-                {*<th class="w100">Publikace</th>*}
+                <th class="w100">Publikace</th>
                 <th>Článek</th>
                 <th class="w100">Akce</th>
             </tr>
@@ -27,7 +27,7 @@
                 <tr>
                     <td>{$page->id}</td>
                     <td>{$page->createdAt|date:'j.n.Y v H:i'}</td>
-                    {*<td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>*}
+                    <td>{$page->publishedAt|date:'j.n.Y v H:i'}</td>
                     <td>
                         <a href="{plink :Pages:Front:Page:show internal_id => $page->id}" class="article-name">{$page->title}</a>
                     </td>
