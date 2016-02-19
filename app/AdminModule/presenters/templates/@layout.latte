@@ -29,7 +29,9 @@
         <nav class="navigation">
         	<ul>
         	    <li class="nav-heading"><span>Navigace</span></li>
+        	    <li><a n:href=":Dashboard:Dashboard:default" n:class="$this->presenter->isLinkCurrent(':Dashboard:Dashboard:default') ? active"><i class="fa fa-dashboard fa-fw"></i> <span>Dashboard</span></a></li>
         	    <li><a n:href=":Pages:Admin:Page:new" n:class="$this->presenter->isLinkCurrent(':Pages:Admin:Page:new') ? active"><i class="fa fa-pencil fa-fw"></i> <span>Nový článek</span></a></li>
+        	    <li><a n:href=":Pages:Admin:Page:overview" n:class="$this->presenter->isLinkCurrent(':Pages:Admin:Page:overview') ? active"><i class="fa fa-list fa-fw"></i> <span>Správa článků</span></a></li>
         	    <li><a n:href=":Tags:Tag:default" n:class="$this->presenter->isLinkCurrent(':Tags:Tag:default') ? active"><i class="fa fa-tags fa-fw"></i> <span>Správa štítků</span></a></li>
         	    <li><a n:href=":Images:Image:default" n:class="$this->presenter->isLinkCurrent(':Images:Image:default') ? active"><i class="fa fa-image fa-fw"></i> <span>Správa obrázků</span></a></li>
         	    <li><a n:href=":Options:Options:default" n:class="$this->presenter->isLinkCurrent(':Options:Options:default') ? active"><i class="fa fa-cog fa-fw"></i> <span>Nastavení blogu</span></a></li>
