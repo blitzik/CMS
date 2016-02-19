@@ -4,6 +4,7 @@ services:
 	filterLoader: Pages\Filters\FilterLoader
 
 	pagePersister: Pages\Services\PagePersister
+	pageRemover: Pages\Services\PageRemover
 
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
