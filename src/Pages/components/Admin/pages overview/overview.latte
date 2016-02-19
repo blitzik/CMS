@@ -30,6 +30,11 @@
                     <td>{$page->publishedAt|date:'j.n.Y'} <br>v {$page->publishedAt|date:'H:i'}</td>
                     <td>
                         <a href="{plink :Pages:Front:Page:show internal_id => $page->id}" class="article-name">{$page->title}</a>
+                        <div class="article-mini-tags" n:if="!empty($page->getTags())">
+                            {foreach $page->getTags() as $tag}
+                                <span style="background-color: {$tag->color|noescape}">{$tag->name}</span>
+                            {/foreach}
+                        </div>
                     </td>
                     <td>
                         <div class="articles-overview-actions">

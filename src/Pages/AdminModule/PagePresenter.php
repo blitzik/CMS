@@ -79,6 +79,7 @@ class PagePresenter extends ProtectedPresenter
                 (new PageQuery())
                  ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                  ->onlyPublished()
+                 ->withTags()
                  ->orderByPublishedAt('DESC')
             );
 
@@ -98,6 +99,7 @@ class PagePresenter extends ProtectedPresenter
                 (new PageQuery())
                  ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                  ->waitingForBeingPublished()
+                 ->withTags()
             );
 
         $comp->setTitle('Články čekající na zveřejnění');
@@ -116,6 +118,7 @@ class PagePresenter extends ProtectedPresenter
                 (new PageQuery())
                  ->onlyWith(['title, createdAt, publishedAt, isPublished'])
                  ->notPublished()
+                 ->withTags()
                  ->orderByPublishedAt('DESC')
             );
 

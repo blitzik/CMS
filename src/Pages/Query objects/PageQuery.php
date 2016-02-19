@@ -2,10 +2,10 @@
 
 namespace Pages\Query;
 
-use Kdyby;
-use Kdyby\Doctrine\QueryObject;
 use Kdyby\Persistence\Queryable;
+use Kdyby\Doctrine\QueryObject;
 use Pages\Page;
+use Kdyby;
 
 class PageQuery extends QueryObject
 {
@@ -14,6 +14,7 @@ class PageQuery extends QueryObject
 
     /** @var array  */
     private $filter = [];
+
 
     public function onlyWith(array $fields)
     {
@@ -27,6 +28,7 @@ class PageQuery extends QueryObject
         return $this;
     }
 
+
     public function withTags()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
@@ -37,6 +39,7 @@ class PageQuery extends QueryObject
         return $this;
     }
 
+
     public function forOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
@@ -46,6 +49,7 @@ class PageQuery extends QueryObject
         return $this;
     }
 
+
     public function onlyPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
@@ -54,6 +58,7 @@ class PageQuery extends QueryObject
 
         return $this;
     }
+
 
     public function waitingForBeingPublished()
     {
@@ -66,6 +71,7 @@ class PageQuery extends QueryObject
         return $this;
     }
 
+
     public function notPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
@@ -75,6 +81,7 @@ class PageQuery extends QueryObject
         return $this;
     }
 
+
     public function orderByPublishedAt($order)
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {
@@ -83,6 +90,7 @@ class PageQuery extends QueryObject
 
         return $this;
     }
+
 
     /**
      * @param Queryable $repository
@@ -111,6 +119,7 @@ class PageQuery extends QueryObject
 
         return $qb;
     }
+
 
     private function createBasicDQL(Kdyby\Doctrine\EntityManager $entityManager)
     {

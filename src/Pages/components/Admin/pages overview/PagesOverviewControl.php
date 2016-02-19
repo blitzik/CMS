@@ -93,9 +93,9 @@ class PagesOverviewControl extends BaseControl
 
         $resultSet->applyPaginator($paginator, $this->pagesCount);
 
-        $pages = $resultSet->toArray(AbstractQuery::HYDRATE_ARRAY);
+        $pages = $resultSet->toArray();
 
-        $template->pages = ArrayHash::from($pages);
+        $template->pages = $pages;
         $template->title = $this->title;
         $template->icon = $this->icon;
 
