@@ -81,9 +81,10 @@ class PagePresenter extends BasePresenter
             throw new BadRequestException;
         }
 
-        $this->page = ArrayHash::from($page);
+        $this['pageTitle']->setPageTitle($this->options->blog_title)
+                          ->joinTitleText(' - ' . $page['title']);
 
-        //$this['metas']
+        $this->page = ArrayHash::from($page);
     }
 
 

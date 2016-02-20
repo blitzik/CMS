@@ -19,6 +19,8 @@ class OptionsPresenter extends ProtectedPresenter
 
     public function actionDefault()
     {
+        $this['pageTitle']->setPageTitle('Nastavení blogu');
+
         $this['optionsForm']->setDefaults($this->options);
     }
 

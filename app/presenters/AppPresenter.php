@@ -27,6 +27,7 @@ abstract class AppPresenter extends Presenter
     /** @var  array */
     protected $options;
 
+
     protected function startup()
     {
         parent::startup();
@@ -34,6 +35,7 @@ abstract class AppPresenter extends Presenter
         $this->userEntity = $this->user->getIdentity();
         $this->options = $this->optionFacade->loadOptions();
     }
+
 
     protected function createComponentFlashMessages()
     {

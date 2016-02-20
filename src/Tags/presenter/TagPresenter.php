@@ -25,15 +25,17 @@ class TagPresenter extends ProtectedPresenter
      */
     public $tagFacade;
 
+
     public function actionDefault()
     {
-        
+        $this['pageTitle']->setPageTitle('Správa štítků');
     }
+
 
     public function renderDefault()
     {
-
     }
+
 
     protected function createComponentTagsOverview()
     {
@@ -43,12 +45,14 @@ class TagPresenter extends ProtectedPresenter
         return $comp;
     }
 
+
     public function onMissingTag(TagsOverviewControl $control)
     {
         $control->flashMessage('Požadovanou akci nelze vykonat nad neexistujícím Tagem', 'warning');
         $this->redirect('this');
     }
-    
+
+
     protected function createComponentTagCreationForm()
     {
         $form = new Form;
@@ -68,6 +72,7 @@ class TagPresenter extends ProtectedPresenter
 
         return $form;
     }
+
 
     public function processNewTag(Form $form, $values)
     {

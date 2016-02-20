@@ -48,7 +48,7 @@ class PagePresenter extends ProtectedPresenter
         $article = $this->pageFacade->getPage(intval($id));
         if ($article === null) {
             $this->flashMessage('Požadovaný článek nebyl nalezen.', 'warning');
-            $this->redirect(':Dashboard:Dashboard:default');
+            $this->redirect(':Pages:Admin:Page:overview');
         }
 
         return $article;
@@ -64,6 +64,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionOverview()
     {
+        $this['pageTitle']->setPageTitle('Přehled článků');
     }
 
 
@@ -148,14 +149,15 @@ class PagePresenter extends ProtectedPresenter
      * ----------------------------
      */
 
+
     public function actionNew()
     {
-
+        $this['pageTitle']->setPageTitle('Nový článek');
     }
+
 
     public function renderNew()
     {
-
     }
 
     /*
@@ -168,13 +170,18 @@ class PagePresenter extends ProtectedPresenter
     {
         $this->page = $this->getPage($id);
 
+        $this['pageTitle']->setPageTitle('Editace článku')
+                          ->joinTitleText(' - ' . $this->page->title);
+
         $this['articleForm']->setPageToEdit($this->page);
     }
 
+
     public function renderEdit($id)
     {
-
+        $this->template->page = $this->page;
     }
+
 
     protected function createComponentArticleForm()
     {
@@ -201,15 +208,21 @@ class PagePresenter extends ProtectedPresenter
      * --------------------------
      */
 
+
     public function actionRemove($id)
     {
         $this->page = $this->getPage($id);
+
+        $this['pageTitle']->setPageTitle('Smazání článku')
+                          ->joinTitleText(' - ' . $this->page->title);
     }
-    
+
+
     public function renderRemove($id)
     {
         $this->template->page = $this->page;
     }
+
 
     protected function createComponentArticleRemovalForm()
     {
@@ -221,11 +234,13 @@ class PagePresenter extends ProtectedPresenter
         return $comp;
     }
 
+
     public function onArticleRemoval(PageRemovalControl $control)
     {
         $this->flashMessage('Článek byl úspěšně smazán', 'success');
         $this->redirect(':Dashboard:Dashboard:default');
     }
+
 
     public function onCancelClick(PageRemovalControl $control)
     {

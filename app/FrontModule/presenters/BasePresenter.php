@@ -3,6 +3,7 @@
 namespace App\FrontModule\Presenters;
 
 use App\Components\IMetaTagsControlFactory;
+use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 use Nette;
 
@@ -13,6 +14,12 @@ class BasePresenter extends AppPresenter
      * @inject
      */
     public $metaTagsControlFactory;
+
+    /**
+     * @var IPageTitleControlFactory
+     * @inject
+     */
+    public $pageTitleFactory;
 
 
     public function findLayoutTemplateFile()
@@ -38,6 +45,14 @@ class BasePresenter extends AppPresenter
     protected function createComponentMetas()
     {
         $comp = $this->metaTagsControlFactory->create();
+
+        return $comp;
+    }
+
+
+    protected function createComponentPageTitle()
+    {
+        $comp = $this->pageTitleFactory->create($this->options->blog_title);
 
         return $comp;
     }

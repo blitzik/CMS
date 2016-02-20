@@ -54,6 +54,8 @@ class ImagePresenter extends ProtectedPresenter
 
     public function actionDefault()
     {
+        $this['pageTitle']->setPageTitle('Správa obrázků');
+
         $this['filter-form']['name']->setDefaultValue($this->name);
         $this['filter-form']['extension']->setDefaultValue($this->extension);
         $this['filter-form']['maxWidth']->setDefaultValue($this->maxWidth);

@@ -2,10 +2,18 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 
 abstract class ProtectedPresenter extends AppPresenter
 {
+    /**
+     * @var IPageTitleControlFactory
+     * @inject
+     */
+    public $pageTitleFactory;
+
+
     protected function startup()
     {
         parent::startup();
@@ -27,4 +35,12 @@ abstract class ProtectedPresenter extends AppPresenter
         return __DIR__ . '/templates/@layout.latte';
     }
 
+
+    protected function createComponentPageTitle()
+    {
+        $comp = $this->pageTitleFactory
+                     ->create('Blog - Administrace');
+
+        return $comp;
+    }
 }

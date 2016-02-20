@@ -2,6 +2,11 @@ services:
 
 	paginatorFactory: blitzik\IPaginatorFactory
 
+	pageTitleControlFactory:
+		implement: App\Components\IPageTitleControlFactory
+		parameters: [defaultTitle]
+		arguments: [%defaultTitle%]
+
 	metaTagsControlFactory:
 		implement: App\Components\IMetaTagsControlFactory
 
