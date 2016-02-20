@@ -110,7 +110,10 @@ class Url
     }
 
 
-    public function setRedirectTo($actualUrlToRedirect)
+    /**
+     * @param Url $actualUrlToRedirect
+     */
+    public function setRedirectTo(Url $actualUrlToRedirect)
     {
         $this->actualUrlToRedirect = $actualUrlToRedirect;
     }

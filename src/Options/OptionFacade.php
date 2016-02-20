@@ -24,6 +24,7 @@ class OptionFacade extends Object
     /** @var  Cache */
     private $cache;
 
+
     public function __construct(
         EntityManager $entityManager,
         IStorage $storage,
@@ -33,6 +34,7 @@ class OptionFacade extends Object
         $this->cache = new Cache($storage, 'blog_options');
         $this->logger = $logger->channel('options');
     }
+
 
     public function saveOptions(array $options)
     {
@@ -56,6 +58,7 @@ class OptionFacade extends Object
         }
     }
 
+
     /**
      * @return ArrayHash|null
      */
@@ -76,6 +79,7 @@ class OptionFacade extends Object
 
         return $options;
     }
+
 
     public function findOptions()
     {

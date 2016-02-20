@@ -12,6 +12,7 @@ use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\EntityManager;
+use Url\Exceptions\Runtime\UrlNotPersistedException;
 use Url\Facades\UrlFacade;
 use Nette\Utils\Strings;
 use Nette\Object;
@@ -127,10 +128,19 @@ class PagePersister extends Object
      * @param Page $page
      * @param array $values
      * @return Page
+     * @throws UrlAlreadyExistsException
      */
     private function updatePage(Page $page, array $values)
     {
         $this->fillPageEntity($values, $page);
+
+        if ($page->getUrlPath() !== Strings::webalize($values['url'])) {
+            $newUrl = $this->redirectPageToUrl(
+                $values['url'],
+                $page
+            );
+            $page->setUrl($newUrl);
+        }
 
         $page->clearTags();
         $this->addTags2Page($values['tags'], $page);
@@ -165,11 +175,7 @@ class PagePersister extends Object
             $urlAddress = $pageTitle;
         }
 
-        $url = new Url();
-        $url->setDestination(Page::PRESENTER, Page::PRESENTER_ACTION);
-        $url->setUrlPath(Strings::webalize($urlAddress, '/'));
-
-        return $url;
+        return $this->createUrl($urlAddress);
     }
 
 
@@ -184,6 +190,46 @@ class PagePersister extends Object
             $tag = $this->em->getReference(Tag::class, $tagId);
             $page->addTag($tag);
         }
+    }
+
+
+    /**
+     * @param string $urlAddress
+     * @return Url
+     */
+    private function createUrl($urlAddress)
+    {
+        $url = new Url();
+        $url->setDestination(Page::PRESENTER, Page::PRESENTER_ACTION);
+        $url->setUrlPath($urlAddress);
+
+        return $url;
+    }
+
+
+    /**
+     * @param string $newUrlAddress
+     * @param Page $page
+     * @return Url
+     * @throws UrlAlreadyExistsException
+     */
+    private function redirectPageToUrl($newUrlAddress, Page $page)
+    {
+        $newUrlEntity = $this->createUrl($newUrlAddress);
+        $newUrlEntity->setInternalId($page->getId());
+
+        // if we first try to save url entity, the current transaction is marked for
+        // rollback only if there is unique constraint violation.
+        $newUrl = $this->urlFacade->getByPath($newUrlEntity->urlPath);
+        if ($newUrl === null) {
+            $newUrl = $this->urlFacade->saveUrl($newUrlEntity);
+        }
+
+        $oldUrl = $this->urlFacade->find($page->getUrlId());
+
+        $this->urlFacade->linkUrls($oldUrl, $newUrl);
+
+        return $newUrl;
     }
 
 

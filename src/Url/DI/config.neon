@@ -2,4 +2,6 @@ services:
 	router: Url\Router
 	requestPanel: Url\RequestPanel
 
+	urlLinker: Url\Services\UrlLinker
+
 	urlFacade: Url\Facades\UrlFacade

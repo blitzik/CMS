@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * Author: Aleš Tichava
@@ -8,27 +9,40 @@
 namespace Url\Facades;
 
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
-use Doctrine\DBAL\DBALException;
+use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
+use Doctrine\DBAL\DBALException;
+use Url\Exceptions\Runtime\UrlNotPersistedException;
+use Url\Services\UrlLinker;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
 use Url\Url;
 
 class UrlFacade extends Object
 {
-    /** @var EntityManager */
-    private $em;
+    /** @var EntityRepository */
+    private $urlRepository;
+
+    /** @var UrlLinker */
+    private $urlLinker;
 
     /** @var Logger */
     private $logger;
 
+    /** @var EntityManager */
+    private $em;
+
 
     public function __construct(
         EntityManager $entityManager,
+        UrlLinker $urlLinker,
         Logger $logger
     ) {
         $this->em = $entityManager;
         $this->logger = $logger->channel('urlsEntities');
+        $this->urlLinker = $urlLinker;
+
+        $this->urlRepository = $this->em->getRepository(Url::class);
     }
 
 
@@ -64,6 +78,17 @@ class UrlFacade extends Object
 
 
     /**
+     * @param Url $old
+     * @param Url $new
+     * @return void
+     */
+    public function linkUrls(Url $old, Url $new)
+    {
+        $this->urlLinker->linkUrls($old, $new);
+    }
+
+
+    /**
      * @param string $urlPath
      * @return Url|null
      */
@@ -76,6 +101,16 @@ class UrlFacade extends Object
            ->setParameter('urlPath', $urlPath);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+
+    /**
+     * @param int $urlId
+     * @return Url|null
+     */
+    public function find($urlId)
+    {
+        return $this->urlRepository->find($urlId);
     }
 
 }

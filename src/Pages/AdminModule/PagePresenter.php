@@ -12,6 +12,7 @@ use Pages\Components\Admin\PagesOverviewControl;
 use Pages\Facades\PageFacade;
 use Pages\Page;
 use Pages\Query\PageQuery;
+use Url\Facades\UrlFacade;
 
 class PagePresenter extends ProtectedPresenter
 {
@@ -160,11 +161,13 @@ class PagePresenter extends ProtectedPresenter
     {
     }
 
+
     /*
      * ---------------------------
      * ----- ARTICLE EDITING -----
      * ---------------------------
      */
+
 
     public function actionEdit($id)
     {
