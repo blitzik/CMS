@@ -13,3 +13,5 @@ class RuntimeException extends \RuntimeException {}
     class PageTitleAlreadyExistsException extends RuntimeException {}
 
     class PagePublicationTimeException extends RuntimeException {}
+
+    class TagNameAlreadyExistsException extends RuntimeException {}

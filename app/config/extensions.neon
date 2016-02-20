@@ -14,5 +14,4 @@ extensions:
 	dashboard: Dashboard\DI\DashboardExtension
 	pages: Pages\DI\PagesExtension
 	#comments: Comments\DI\CommentsExtension # still thinking about implementation
-	tags: Tags\DI\TagsExtension
 	images: Images\DI\ImagesExtension

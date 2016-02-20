@@ -2,7 +2,7 @@
 
 namespace Tags\Facades;
 
-use Tags\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;

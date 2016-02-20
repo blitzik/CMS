@@ -8,8 +8,16 @@ services:
 
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
+	tagFacade: Tags\Facades\TagFacade
 
 	# Factories
+	tagsOverviewControlFactory:
+		implement: Tags\Components\ITagsOverviewControlFactory
+
+	tagControlFactory:
+		implement: Tags\Components\ITagControlFactory
+		arguments: [array tag]
+
 	pageControlFactory:
 		implement: Pages\Components\Front\IPageControlFactory
 		arguments: [Nette\Utils\ArrayHash page]

@@ -3,7 +3,7 @@
 namespace Tags\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
-use Tags\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Tags\Components\ITagsOverviewControlFactory;

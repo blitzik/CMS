@@ -39,6 +39,7 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
 
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Pages' => 'Pages\\*Module\\Presenters\\*Presenter']);
+        $this->setPresenterMapping($cb, ['Tags' => 'Tags\\*Module\\Presenters\\*Presenter']);
 
         $cb->getDefinition($this->prefix('pagesOverviewControlFactory'))
             ->addSetup('setPagesPerPage', [$config['pagesPerPage']]);
@@ -54,7 +55,10 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
      */
     public function getEntityMappings()
     {
-        return ['Pages' => __DIR__ . '/..'];
+        return [
+            'Pages' => __DIR__ . '/..',
+            'Tags'  => __DIR__ . '/..'
+        ];
     }
 
 }
