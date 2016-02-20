@@ -2,17 +2,16 @@
 
 namespace Pages\AdminModule\Presenters;
 
-use App\AdminModule\Presenters\ProtectedPresenter;
 use Pages\Components\Admin\IPagesOverviewControlFactory;
-use Pages\Components\Admin\PageFormControl;
-use Pages\Components\Admin\PageRemovalControl;
-use Pages\Components\Admin\IPageFormControlFactory;
 use Pages\Components\Admin\IPageRemovalControlFactory;
+use Pages\Components\Admin\IPageFormControlFactory;
+use App\AdminModule\Presenters\ProtectedPresenter;
 use Pages\Components\Admin\PagesOverviewControl;
+use Pages\Components\Admin\PageRemovalControl;
+use Pages\Components\Admin\PageFormControl;
 use Pages\Facades\PageFacade;
-use Pages\Page;
 use Pages\Query\PageQuery;
-use Url\Facades\UrlFacade;
+use Pages\Page;
 
 class PagePresenter extends ProtectedPresenter
 {

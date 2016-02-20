@@ -38,6 +38,7 @@ class UrlLinker extends Object
      * @param Url $oldUrl
      * @param Url $newUrl
      * @return void
+     * @throws \Exception
      */
     public function linkUrls(Url $oldUrl, Url $newUrl)
     {
@@ -45,18 +46,31 @@ class UrlLinker extends Object
             throw new UrlNotPersistedException;
         }
 
-        $alreadyRedirectedUrls = $this->findByActualUrl($oldUrl->getId());
+        try {
+            $this->em->beginTransaction();
 
-        /** @var Url $url */
-        foreach ($alreadyRedirectedUrls as $url) {
-            $url->setRedirectTo($newUrl);
-            $this->em->persist($url);
-            $this->cache->clean([Cache::TAGS => [$url->getCacheKey()]]);
+            $alreadyRedirectedUrls = $this->findByActualUrl($oldUrl->getId());
+
+            /** @var Url $url */
+            foreach ($alreadyRedirectedUrls as $url) {
+                $url->setRedirectTo($newUrl);
+                $this->em->persist($url);
+                $this->cache->clean([Cache::TAGS => [$url->getCacheKey()]]);
+            }
+
+            $oldUrl->setRedirectTo($newUrl);
+            $this->em->persist($oldUrl);
+            $this->cache->clean([Cache::TAGS => [$oldUrl->getCacheKey()]]);
+
+            $this->em->flush();
+            $this->em->commit();
+
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            $this->em->close();
+
+            throw $e;
         }
-
-        $oldUrl->setRedirectTo($newUrl);
-        $this->em->persist($oldUrl);
-        $this->cache->clean([Cache::TAGS => [$oldUrl->getCacheKey()]]);
     }
 
 
