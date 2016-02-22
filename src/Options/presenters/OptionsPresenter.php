@@ -17,12 +17,6 @@ class OptionsPresenter extends ProtectedPresenter
      */
     public $optionFacade;
 
-    /**
-     * @var ITranslator
-     * @inject
-     */
-    public $translator;
-
 
     public function actionDefault()
     {

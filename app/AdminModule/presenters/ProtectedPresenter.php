@@ -5,7 +5,7 @@ namespace App\AdminModule\Presenters;
 use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 use blitzik\FlashMessages\TFlashMessages;
-use Kdyby\Translation\Translator;
+use Nette\Localization\ITranslator;
 
 abstract class ProtectedPresenter extends AppPresenter
 {
@@ -15,7 +15,7 @@ abstract class ProtectedPresenter extends AppPresenter
     public $locale;
 
     /**
-     * @var Translator
+     * @var ITranslator
      * @inject
      */
     public $translator;

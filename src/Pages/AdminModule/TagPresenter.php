@@ -34,12 +34,6 @@ class TagPresenter extends ProtectedPresenter
      */
     public $tagFacade;
 
-    /**
-     * @var Translator
-     * @inject
-     */
-    public $translator;
-
 
     public function actionDefault()
     {
