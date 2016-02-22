@@ -4,8 +4,9 @@ namespace Options\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use Kdyby\Translation\DI\ITranslationProvider;
 
-class OptionsExtension extends CompilerExtension implements IEntityProvider
+class OptionsExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -37,5 +38,19 @@ class OptionsExtension extends CompilerExtension implements IEntityProvider
     {
         return ['Options' => __DIR__ . '/..'];
     }
+
+
+    /**
+     * Return array of directories, that contain resources for translator.
+     *
+     * @return string[]
+     */
+    function getTranslationResources()
+    {
+        return [
+            __DIR__ . '/../lang'
+        ];
+    }
+
 
 }

@@ -4,9 +4,22 @@ namespace App\AdminModule\Presenters;
 
 use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
+use blitzik\FlashMessages\TFlashMessages;
+use Kdyby\Translation\Translator;
 
 abstract class ProtectedPresenter extends AppPresenter
 {
+    use TFlashMessages;
+
+    /** @persistent */
+    public $locale;
+
+    /**
+     * @var Translator
+     * @inject
+     */
+    public $translator;
+
     /**
      * @var IPageTitleControlFactory
      * @inject

@@ -1,0 +1,12 @@
+logoTitle:
+	mini: A
+	large: Administration
+
+navigation:
+	dashboard: Dashboard
+	newPage: "New Article"
+	pagesOverview: "Articles overview"
+	tags: Tags
+	images: Images
+	options: Options
+	signOut: Sign Out

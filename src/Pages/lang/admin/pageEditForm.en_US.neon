@@ -1,0 +1,48 @@
+title:
+	label: "Article title (*)"
+	info: "[max. %count% characters]"
+	messages:
+		required: "Please type the title of your Article"
+		maxLength: "Maximal allowed length of Article title is %count% characters"
+
+publishedAt:
+	label: "Date of publication (*)"
+	messages:
+		required: "Please set the Date of publication"
+		maxLength: "Maximal allowed length of Date of publication is %count% characters"
+		emptyOnPublishing: "You must set Date of Publication before publishing Article"
+
+intro:
+	label: "Article intro (*)"
+	info: "[max. %count% characters] (It will be visible in articles overview)"
+	messages:
+		required: "Type the intro of your Article"
+		maxLength: "Maximal allowed length of Article intro is %count% characters"
+
+text:
+	label: "Article text (*)"
+	messages:
+		required: "Please type the text of your Article"
+
+url:
+	label: "Url address"
+	info: "If you do NOT type Article URL address then it will be created from Article title"
+
+saveAndPublish:
+	caption: "Save and Publish"
+	title: "Saves the Article and displays it publicly"
+
+saveAndHide:
+	caption: "Save and Hide"
+	title: "Saves the Article but does NOT display it publicly"
+
+returnAtTop: "Return at the start of the form"
+
+# flash messages
+
+messages:
+	successPublished: "Article has been successfully saved and displayed publicly"
+	successHidden: "Article has been successfully saved and hidden"
+	titleExists: "Article with this title already exists. Please change the Article title."
+	urlExists: "This URL address already exists. Please change the URL address."
+	savingError: "An Error has occurred. Please try again later."

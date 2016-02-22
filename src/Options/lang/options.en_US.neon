@@ -1,0 +1,30 @@
+title: "Blog options"
+
+form:
+	blogTitle:
+		label: "Blog name (*)"
+		messages:
+			required: "Please type the title of the Blog"
+
+	blogSubtitle:
+		label: "Blog subtitle"
+		info: "It's displayed underneath the Blog title"
+
+	copyright:
+		label: "Copyright (*)"
+		info: "It's displayed at the bottom of the page"
+		messages:
+			required: "Please type copyright"
+
+	articlesPerPage:
+		label: "Articles per page (*)"
+		messages:
+			required: "Please type how many Articles should be displayed on one page"
+			wrongInput: "Articles per page input can only contain integer number bigger than 0"
+
+	save:
+		caption: "Save"
+
+	messages:
+		success: "Options has been successfully saved"
+		savingError: "An Error has occurred. Please try again later."

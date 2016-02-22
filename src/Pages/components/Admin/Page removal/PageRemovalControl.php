@@ -4,8 +4,10 @@ namespace Pages\Components\Admin;
 
 use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;
+use Kdyby\Translation\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Localization\ITranslator;
 use Pages\Page;
 use Pages\Facades\PageFacade;
 
@@ -18,16 +20,21 @@ class PageRemovalControl extends BaseControl
     /** @var PageFacade */
     private $pageFacade;
 
-    /** @var  Page */
+    /** @var Translator */
+    private $translator;
+
+    /** @var Page */
     private $page;
 
 
     public function __construct(
         Page $page,
-        PageFacade $pageFacade
+        PageFacade $pageFacade,
+        ITranslator $translator
     ) {
         $this->page = $page;
         $this->pageFacade = $pageFacade;
+        $this->translator = $translator;
     }
 
 
@@ -45,17 +52,18 @@ class PageRemovalControl extends BaseControl
     protected function createComponentRemovalForm()
     {
         $form = new Form;
+        $form->setTranslator($this->translator->domain('pageRemoval'));
 
-        $form->addText('check', 'Do textového pole opište titulek článku pro jeho smazání:')
-            ->setRequired('Vyplňte kontrolní text, aby mohl být článek smazán.')
-            ->addRule(Form::EQUAL, 'Nesouhlasí kontrolní text.', $this->page->title);
+        $form->addText('check', 'check.label')
+                ->setRequired('check.messages.required')
+                ->addRule(Form::EQUAL, 'check.messages.notEqual', $this->page->title);
 
-        $form->addSubmit('remove', 'Nenávratně článek smazat')
-            ->onClick[] = [$this, 'removePage'];
+        $form->addSubmit('remove', 'remove.caption')
+                ->onClick[] = [$this, 'removePage'];
 
-        $form->addSubmit('cancel', 'Vrátit se zpět')
-            ->setValidationScope([])
-            ->onClick[] = [$this, 'cancelClick'];
+        $form->addSubmit('cancel', 'cancel.caption')
+                ->setValidationScope([])
+                ->onClick[] = [$this, 'cancelClick'];
 
         return $form;
     }
@@ -66,11 +74,11 @@ class PageRemovalControl extends BaseControl
         try {
             $this->pageFacade->removePage($this->page);
         } catch (DBALException $e) {
-            $this->flashMessage('Při mazání článku došlo k chybě', 'error');
+            $this->flashMessage('pageRemoval.flashMessages.savingError', 'error');
             $this->redirect('this');
         }
 
-        $this->onPageRemoval($this);
+        $this->onPageRemoval($this, $this->page);
     }
 
 

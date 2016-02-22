@@ -21,7 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="form-login">
-            <h1 n:inner-block="title">Přihlášení</h1>
+            <h1 n:inner-block="title">{_users.login.title}</h1>
             <div class="login-box">
                 {form loginForm}
                 {control flashMessages}
@@ -30,13 +30,13 @@
                 </ul>
 
                 <div class="form-group has-icon">
-                    {input email class => login-email, title => 'E-mailová adresa'}
-                    <i class="fa fa-envelope fa-fw" title="E-mailová adresa"></i>
+                    {input email class => login-email}
+                    <i class="fa fa-envelope fa-fw" title="{_users.login.form.email.title}"></i>
                 </div>
 
                 <div class="form-group has-icon">
-                    {input password class => login-password, title => 'Heslo'}
-                    <i class="fa fa-key fa-fw" title="Heslo"></i>
+                    {input password class => login-password}
+                    <i class="fa fa-key fa-fw" title="{_users.login.form.password.title}"></i>
                 </div>
 
                 {input login class => 'btn btn-river'}

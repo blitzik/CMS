@@ -6,11 +6,11 @@ includes:
 	- extensions.neon
 	- services.neon
 
-parameters:
 
 
 php:
 	date.timezone: Europe/Prague
+
 
 
 application:
@@ -23,24 +23,41 @@ application:
 		bar:
 			- Nette\Bridges\HttpTracy\SessionPanel
 
+
+
 session:
 	autoStart: true
 	expiration: 14 days
 	savePath: %appDir%/../temp/sessions
 	name: 'blog'
 
+
+
 latte:
 	macros:
 		- blitzik\Macros\FormsMacro
 
+
+
 doctrine:
 	defaultRepositoryClassName: Kdyby\Doctrine\EntityRepository
+
+
+
+translation:
+	default: cs
+	fallback: [cs_CZ, cs]
+
+
 
 monolog:
 	name: blitzik-blog
 	#registerFallback: %debugMode%
 
+
+
 decorator:
 	App\Components\BaseControl:
 		setup:
 			- injectFlashMessagesFactory(@App\Components\IFlashMessagesControlFactory)
+			- injectFlashMessagesTranslator(@Kdyby\Translation\Translator)

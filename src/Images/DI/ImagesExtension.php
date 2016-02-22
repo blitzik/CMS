@@ -4,9 +4,10 @@ namespace Images\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use Kdyby\Translation\DI\ITranslationProvider;
 use Nette\DI\Statement;
 
-class ImagesExtension extends CompilerExtension implements IEntityProvider
+class ImagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
 {
     /** @var array */
     private $defaults = [
@@ -54,4 +55,19 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider
     {
         return ['Images' => __DIR__ . '/..'];
     }
+
+
+    /**
+     * Return array of directories, that contain resources for translator.
+     *
+     * @return string[]
+     */
+    function getTranslationResources()
+    {
+        return [
+            __DIR__ . '/../lang'
+        ];
+    }
+
+
 }

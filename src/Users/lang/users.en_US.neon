@@ -1,0 +1,20 @@
+login:
+	title: "Administration"
+	form:
+		email:
+			label: "E-mail address"
+			placeholder: "E-mail address"
+			title: "Your E-mail address"
+			messages:
+				required: "Please type your E-mail"
+				wrongFormat: "Your E-mail address has wrong format"
+
+		password:
+			label: Password
+			placeholder: Password
+			title: "Your Password"
+			messages:
+				required: "Please type your Password"
+
+		login:
+			caption: "Sing In"

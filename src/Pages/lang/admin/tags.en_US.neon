@@ -1,0 +1,36 @@
+title: "Tags management"
+
+newTagFormTitle: "New Tag"
+
+tagForm:
+	name:
+		label: "Tag name"
+		messages:
+			required: "Type the name of the new Tag"
+
+	color:
+		label: "Color"
+		messages:
+			required: "Type the color of the new Tag"
+			wrongPattern: "Wrong format of color entry. Use HEX notation."
+
+	save:
+		caption: "Save"
+
+	messages:
+		success: "Tag %name% has been successfully saved"
+		nameExists: "Tag with name %name% already exists"
+		savingError: "An Error has occurred. Please try again later."
+
+overview:
+	noTagsFound: "No tags have been found."
+
+	actions:
+		remove:
+			label: "Remove"
+			title: "Permanently removes the Tag"
+			messages:
+				removeError: "An Error has occurred. Please try again later."
+
+		returnColor:
+			title: "Returns the original color of the Tag"

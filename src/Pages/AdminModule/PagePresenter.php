@@ -2,6 +2,8 @@
 
 namespace Pages\AdminModule\Presenters;
 
+use Kdyby\Translation\Phrase;
+use Kdyby\Translation\Translator;
 use Pages\Components\Admin\IPagesOverviewControlFactory;
 use Pages\Components\Admin\IPageRemovalControlFactory;
 use Pages\Components\Admin\IPageFormControlFactory;
@@ -64,7 +66,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionOverview()
     {
-        $this['pageTitle']->setPageTitle('Přehled článků');
+        $this['pageTitle']->setPageTitle('pagesOverview.pageTitle');
     }
 
 
@@ -84,7 +86,7 @@ class PagePresenter extends ProtectedPresenter
                  ->orderByPublishedAt('DESC')
             );
 
-        $comp->setTitle('Publikované články');
+        $comp->setTitle('pagesOverview.tableTitle.published');
         $comp->setPrependTitleIcon('eye');
 
         $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
@@ -103,7 +105,7 @@ class PagePresenter extends ProtectedPresenter
                  ->withTags()
             );
 
-        $comp->setTitle('Články čekající na zveřejnění');
+        $comp->setTitle('pagesOverview.tableTitle.waiting');
         $comp->setPrependTitleIcon('hourglass-half');
 
         $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
@@ -123,7 +125,7 @@ class PagePresenter extends ProtectedPresenter
                  ->orderByPublishedAt('DESC')
             );
 
-        $comp->setTitle('Nepublikované články');
+        $comp->setTitle('pagesOverview.tableTitle.unpublished');
         $comp->setPrependTitleIcon('eye-slash');
 
         $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
@@ -152,7 +154,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionNew()
     {
-        $this['pageTitle']->setPageTitle('Nový článek');
+        $this['pageTitle']->setPageTitle('pageEdit.title.new');
     }
 
 
@@ -172,7 +174,7 @@ class PagePresenter extends ProtectedPresenter
     {
         $this->page = $this->getPage($id);
 
-        $this['pageTitle']->setPageTitle('Editace článku')
+        $this['pageTitle']->setPageTitle('pageEdit.title.edit')
                           ->joinTitleText(' - ' . $this->page->title);
 
         $this['articleForm']->setPageToEdit($this->page);
@@ -196,11 +198,11 @@ class PagePresenter extends ProtectedPresenter
 
     public function onSuccessPageSaving(PageFormControl $pageFormControl, Page $page)
     {
-        if ($this->isAjax()) {
+        /*if ($this->isAjax()) {
             $pageFormControl->redrawControl();
-        } else {
+        } else {*/
             $this->redirect('Page:edit', ['id' => $page->getId()]);
-        }
+        //}
     }
 
 
@@ -210,12 +212,17 @@ class PagePresenter extends ProtectedPresenter
      * --------------------------
      */
 
+    /**
+     * @var Translator
+     * @inject
+     */
+    public $t;
 
     public function actionRemove($id)
     {
         $this->page = $this->getPage($id);
 
-        $this['pageTitle']->setPageTitle('Smazání článku')
+        $this['pageTitle']->setPageTitle('pageRemoval.title')
                           ->joinTitleText(' - ' . $this->page->title);
     }
 
@@ -237,9 +244,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
-    public function onArticleRemoval(PageRemovalControl $control)
+    public function onArticleRemoval(PageRemovalControl $control, Page $page)
     {
-        $this->flashMessage('Článek byl úspěšně smazán', 'success');
+        $this->flashMessage('pageRemoval.flashMessages.success', 'success', null, ['name' => $page->title]);
         $this->redirect(':Dashboard:Dashboard:default');
     }
 

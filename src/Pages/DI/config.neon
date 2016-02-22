@@ -6,6 +6,8 @@ services:
 	pagePersister: Pages\Services\PagePersister
 	pageRemover: Pages\Services\PageRemover
 
+	tagFormFactory: Pages\Factories\TagFormFactory
+
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
 	tagFacade: Tags\Facades\TagFacade

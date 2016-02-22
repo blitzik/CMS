@@ -1,12 +1,10 @@
-
 {form pageForm}
+
 <div class="article-form" id="top"> {* col *}
     <div class="row">
         <div class="article-form-messages">
-        {snippet messages-top}
-            {control flashMessages}
-            {customFormErrors}
-        {/snippet}
+        {control flashMessages}
+        {customFormErrors}
         </div>
     </div>
 
@@ -76,12 +74,12 @@ Nadpis1   Nadpis2   Podnadpis
             <label for="texy-hint-checkbox" class="article-texy-hint">NÁPOVĚDA</label>
         </div>
     </div>*}
-
+{translator pageEditForm}
     <h2 n:ifset="$page">{$page->title}</h2>
     <div class="box box-river"> {* just div *}
         <div class="row">
             <div class="form-group article-url">
-                {label url /} | <span>Pokud není vyplněna, vytvoří se URL adresa z titulku stránky</span>
+                {label url /} | <span>{_url.info}</span>
                 <div class="input-group">
                     <div class="input-group-addon">{$baseUrl} / </div>
                     {input url class => 'form-control'}
@@ -97,7 +95,7 @@ Nadpis1   Nadpis2   Podnadpis
 
             <div class="form-group article-title">
                 {label title /}
-                    <small>[max. {Pages\Page::LENGTH_TITLE} znaků]</small>
+                    <small>{_title.info, Pages\Page::LENGTH_TITLE}</small>
                     <span id="page-title-counter" class="right"></span>
                 {input title class => 'form-control'}
             </div>
@@ -107,7 +105,7 @@ Nadpis1   Nadpis2   Podnadpis
             <div class="article-intro">
                 <div class="form-group">
                     {label intro /}
-                        <small>[max. {Pages\Page::LENGTH_INTRO} znaků] (Bude zobrazen ve výpisu článků)</small>
+                        <small>{_intro.info, Pages\Page::LENGTH_INTRO}</small>
                         <span id="page-intro-counter" class="right"></span>
                     {input intro class => 'form-control page-textArea'}
                 </div>
@@ -122,18 +120,20 @@ Nadpis1   Nadpis2   Podnadpis
                     {customFormErrors}
                 {/snippet}
 
-                {input saveAndPublish class => 'btn btn-turquoise', title => 'Uloží článek, který bude veřejně přístupný'}
-                {input saveAndHide class => 'btn btn-river', title => 'Uloží článek, ale nezobrazí ho veřejně'}
+                {input saveAndPublish class => 'btn btn-turquoise'}
+                {input saveAndHide class => 'btn btn-river'}
 
-                <a href="#top" class="right">vrátit se na začátek stránky <i class="fa fa-level-up"></i></a>
+                <a href="#top" class="right">{_returnAtTop} <i class="fa fa-level-up"></i></a>
             </div>
         </div>
     </div>
+{/translator}
 </div> {* end article-form col *}
 
+{translator pageEdit.section.tags}
 <div class="tags-picking-box"> {* col *}
-<a href="{plink :Tags:Tag:default}">+ přidat štítek</a>
-<h2>Štítky</h2>
+<a href="{plink :Tags:Tag:default}">{_actions.add}</a>
+<h2>{_title}</h2>
     <div class="box box-turquoise">
         {*<div class="row">*}
             {*<div class="article-tags">*}
@@ -142,4 +142,6 @@ Nadpis1   Nadpis2   Podnadpis
         {*</div>*}
     </div>
 </div> {* end tags-picking-box *}
+{/translator}
+
 {/form}

@@ -1,0 +1,16 @@
+pageTitle: "Articles overview"
+
+tableTitle:
+	unpublished: "Unpublished articles"
+	waiting: "Articles waiting to be published"
+	published: "Published articles"
+
+rowTitle:
+	created: created
+	published: published
+	article: article
+	action: action
+
+actions:
+	edit: edit
+	remove: remove

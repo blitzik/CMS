@@ -5,13 +5,21 @@ namespace Tags\Components;
 use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
+use Nette\Localization\ITranslator;
 use Nette\Utils\ArrayHash;
+use Pages\Factories\TagFormFactory;
 use Tags\Facades\TagFacade;
 
 class TagControl extends BaseControl
 {
     /** @var array */
     public $onColorChange = [];
+
+    /** @var TagFormFactory */
+    private $tagFormFactory;
+
+    /** @var ITranslator */
+    private $translator;
 
     /** @var TagFacade  */
     private $tagFacade;
@@ -22,10 +30,12 @@ class TagControl extends BaseControl
 
     public function __construct(
         array $tag,
-        TagFacade $tagFacade
+        TagFacade $tagFacade,
+        TagFormFactory $tagFormFactory
     ) {
-        $this->tagFacade = $tagFacade;
         $this->tag = $tag;
+        $this->tagFacade = $tagFacade;
+        $this->tagFormFactory = $tagFormFactory;
     }
 
 
@@ -42,17 +52,15 @@ class TagControl extends BaseControl
 
     protected function createComponentTagForm()
     {
-        $form = new Form;
+        $form = $this->tagFormFactory->create();
+        unset($form['name']);
 
         $form->getElementPrototype()->id = 'form-tag-'.$this->tag['id'];
 
-        $form->addText('color', null, null, 7)
-                ->setHtmlId('tag-color-input-'.$this->tag['id'])
-                ->setDefaultValue($this->tag['color'])
-                ->addRule(Form::PATTERN, 'Špatný formát barvy.', '^#([0-f]{3}|[0-f]{6})$');
+        $form['color']->setHtmlId('tag-color-input-'.$this->tag['id'])
+                      ->setDefaultValue($this->tag['color']);
 
-        $form->addSubmit('save', 'Uložit')
-                ->setHtmlId('tag-submit-'.$this->tag['id']);
+        $form['save']->setHtmlId('tag-submit-'.$this->tag['id']);
 
         $form->onSuccess[] = [$this, 'processTag'];
 
@@ -73,7 +81,7 @@ class TagControl extends BaseControl
             }
 
         } catch (DBALException $e) {
-            $this->flashMessage('Změnu pro tag ['.$this->tag['name'].'] se nepodařilo uložit', 'error');
+            $this->flashMessage('tags.tagForm.messages.savingError', 'error', null, ['name' => $this->tag['name']]);
             if ($this->presenter->isAjax()) {
                 $this->redrawControl('flashes');
             } else {
@@ -94,7 +102,7 @@ class TagControl extends BaseControl
                 $this->redirect('this');
             }
         } catch (DBALException $e) {
-            $this->flashMessage('Při odstraňování tagu nastala chyba.', 'error');
+            $this->flashMessage('tags.overview.actions.remove.messages.removeError', 'error');
             if ($this->presenter->isAjax()) {
                 // value does not matter, in JS we just check existence of this variable
                 $this->presenter->payload->errorEl = true;

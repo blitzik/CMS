@@ -11,9 +11,19 @@ namespace Images\Components;
 use App\Components\BaseControl;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Localization\ITranslator;
 
 class ImagesFilterControl extends BaseControl
 {
+    /** @var ITranslator */
+    private $translator;
+
+
+    public function __construct(ITranslator $translator)
+    {
+        $this->translator = $translator;
+    }
+
 
     public function render()
     {
@@ -29,26 +39,27 @@ class ImagesFilterControl extends BaseControl
     protected function createComponentForm()
     {
         $form = new Form;
+        $form->setTranslator($this->translator->domain('images.filterForm'));
 
-        $form->addText('name', 'Název:', 30);
+        $form->addText('name', 'name.label', 30);
 
-        $form->addSelect('extension', 'Přípona:', ['png' => 'PNG', 'jpg' => 'JPG'])
-                ->setPrompt('Vše');
+        $form->addSelect('extension', 'extension.label', ['png' => 'PNG', 'jpg' => 'JPG'])
+                ->setPrompt('extension.prompt');
 
-        $form->addText('maxWidth', 'Max. šířka:')
+        $form->addText('maxWidth', 'maxWidth.label')
                 ->addCondition(Form::FILLED)
-                ->addRule(Form::INTEGER, 'Do pole maximální šířky lze zadávat pouze celá čísla')
-                ->addRule(Form::MIN, 'Do pole maximální šířky lze zadávat pouze celá čísla větší než 0', 1);
+                ->addRule(Form::INTEGER, 'maxWidth.messages.integerType')
+                ->addRule(Form::MIN, 'maxWidth.messages.minValue', 1);
 
-        $form->addText('maxHeight', 'Max. výška:')
+        $form->addText('maxHeight', 'maxHeight.label')
                 ->addCondition(Form::FILLED)
-                ->addRule(Form::INTEGER, 'Do pole maximální výšky lze zadávat pouze celá čísla')
-                ->addRule(Form::MIN, 'Do pole maximální výšky lze zadávat pouze celá čísla větší než 0', 1);;
+                ->addRule(Form::INTEGER, 'maxHeight.messages.integerType')
+                ->addRule(Form::MIN, 'maxHeight.messages.integerType', 1);;
 
-        $form->addSubmit('filter', 'Vyhledat')
+        $form->addSubmit('filter', 'filter.caption')
                 ->onClick[] = [$this, 'processFilter'];
 
-        $form->addSubmit('reset', 'Reset filtru')
+        $form->addSubmit('reset', 'reset.caption')
                 ->onClick[] = [$this, 'resetFilter'];
 
 

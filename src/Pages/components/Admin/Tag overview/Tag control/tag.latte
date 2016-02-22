@@ -32,13 +32,13 @@
                 <div class="row">
                     <div class="tag-row-form-actions">
                         {input save class => 'ajax btn btn-river tag-submit'}
-                        <button class="btn btn-turquoise undo-color" id="tag-undo-button-{$tag->id}" title="Vrátit původní barvu" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
+                        <button class="btn btn-turquoise undo-color" id="tag-undo-button-{$tag->id}" title="{_tags.overview.actions.returnColor.title}" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
                     </div>
                 </div>
             </div>
 
             <div class="tag-row-remove"> {* col *}
-                <a href="{link removeTag! id => $tag->id}" class="btn btn-red remove" data-tagname="{$tag->name}" title="Smazat tag"><i class="fa fa-trash fa-fw"></i> <span>Smazat</span></a>
+                <a href="{link removeTag! id => $tag->id}" class="btn btn-red remove" data-tagname="{$tag->name}" title="{_tags.overview.actions.remove.title}"><i class="fa fa-trash fa-fw"></i> <span>{_tags.overview.actions.remove.label}</span></a>
             </div>
         </div>
         {/form}

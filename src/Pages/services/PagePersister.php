@@ -12,7 +12,6 @@ use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\EntityManager;
-use Url\Exceptions\Runtime\UrlNotPersistedException;
 use Url\Facades\UrlFacade;
 use Nette\Utils\Strings;
 use Nette\Object;

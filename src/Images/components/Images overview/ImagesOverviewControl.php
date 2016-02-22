@@ -89,12 +89,12 @@ class ImagesOverviewControl extends BaseControl
     {
         try {
             $this->imageFacade->removeImage($imageName);
-            $this->flashMessage('Obrázek byl úspěšně odstraněn', 'success');
+            $this->flashMessage('images.overview.actions.remove.messages.success', 'success');
 
         } catch (FileRemovalException $fr) {
-            $this->flashMessage('Při pokusu o odstranění obrázku [ '.$imageName.' ] došlo k chybě', 'error');
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', null, ['name' => $imageName]);
         } catch (DBALException $e) {
-            $this->flashMessage('Při pokusu o odstranění obrázku [ '.$imageName.' ] došlo k chybě', 'error');
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', null, ['name' => $imageName]);
         }
 
         $this->redirect('this');

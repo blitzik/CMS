@@ -2,10 +2,13 @@
 
 namespace App\Components;
 
+use blitzik\FlashMessages\TFlashMessages;
 use Nette\Application\UI\Control;
 
 abstract class BaseControl extends Control
 {
+    use TFlashMessages;
+
     /** @var  IFlashMessagesControlFactory */
     protected $flashMessagesFactory;
 

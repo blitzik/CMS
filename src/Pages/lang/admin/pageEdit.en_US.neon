@@ -1,0 +1,10 @@
+title:
+	new: "New Article"
+	edit: "Article editing"
+
+section:
+	tags:
+		title: Tags
+		actions:
+			add: "+ add Tag"
+

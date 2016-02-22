@@ -1,0 +1,62 @@
+title: "Images management"
+
+uploadForm:
+	image:
+		label: "Pick an image (max. %size%)"
+		messages:
+			imageFile: "Only image files are allowed. (jpg, gif, png)"
+			maxFileSize: "Maximal allowed size of image is %size%"
+
+	upload:
+		caption: "Upload image"
+
+	messages:
+		success: "The Image has been successfully uploaded"
+		wrongFileType: "Only image files can be uploaded"
+		wrongFileSize: "Maximal allowed size of image is %size%"
+		savingError: "An Error has occured. Try again later."
+
+filterForm:
+	formTitle: Filter
+	name:
+		label: "Image name:"
+
+	extension:
+		label: "Extension:"
+		prompt: All
+	# in select
+	PNG: PNG
+	JPG: JPG
+
+	maxWidth:
+		label: "Max. Width:"
+		messages:
+			integerType: "Max width input can contain only integer numbers are allowed"
+			minValue: "Max width input can contain only integer numbers bigger than 0 are allowed"
+
+	maxHeight:
+		label: "Max. Height:"
+		messages:
+			integerType: "Max height input can contain only integer numbers are allowed"
+			minValue: "Max height input can contain only integer numbers bigger than 0 are allowed"
+
+	filter:
+		caption: "Filter"
+
+	reset:
+		caption: "reset"
+
+overview:
+	actions:
+		remove:
+			label: "Remove image"
+			messages:
+				success: "Image has been successfully removed"
+				removalError: "An Error occurred while removing image %name%"
+
+	noImages: "No images have been found"
+
+	texyNotation: "Texy notation"
+	originalImageName: "Original name"
+	resolution: Resolution
+	size: Size

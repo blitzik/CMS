@@ -1,5 +1,6 @@
 
 {snippet imagesOverview}
+{translator images.overview}
 <div class="row">
     <div class="image-overview">
         {control flashMessages}
@@ -16,7 +17,7 @@
             <div class="box box-carrot"> {* just div *}
                 <div class="row">
                     <div class="texy-image-name">
-                        <b>Texy zápis:</b>
+                        <b>{_texyNotation}:</b>
                         <div class="image-texy">[* {$imageName} *]</div>
                     </div>
                 </div>
@@ -31,19 +32,19 @@
                     <div class="image-info"> {* col *}
                         <div class="row">
                             <div class="image-name">
-                                <b>Původní název:</b>
+                                <b>{_originalImageName}:</b>
                                 <div>{$image['originalName']}.{$image['extension']}</div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="image-size"> {* col *}
-                                <b>Rozměry:</b>
+                                <b>{_resolution}:</b>
                                 <div>{$image['width']} x {$image['height']}</div>
                             </div>
 
                             <div class="image-file-size"> {* col *}
-                                <b>Velikost:</b>
+                                <b>{_size}:</b>
                                 <div>~ {$image['fileSize']|formatSizeUnits}</div>
                             </div>
                         </div>
@@ -51,7 +52,7 @@
                 </div>
 
                 <a href="{link imageRemove imageName => $imageName}" data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" class="btn btn-red remove-image">
-                    <i class="fa fa-trash"></i> Odstranit obrázek
+                    <i class="fa fa-trash"></i> {_actions.remove.label}
                 </a>
             </div>
             </div>
@@ -62,9 +63,10 @@
     <div class="row">
         <div class="image-overview"> {* col *}
             <div class="box box-alizarin"> {* just div *}
-                <p>Nebyly nalezeny žádné obrázky</p>
+                <p>{_noImages}</p>
             </div>
         </div>
     </div>
     {/if}
+{/translator}
 {/snippet}

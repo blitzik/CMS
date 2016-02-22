@@ -4,12 +4,13 @@ namespace  Users\DI;
 
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
+use Kdyby\Translation\DI\ITranslationProvider;
 use Users\Authentication\UserStorage;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IUserStorage;
 use Nette\Http\Session;
 
-class UsersExtension extends CompilerExtension implements IEntityProvider
+class UsersExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -20,6 +21,7 @@ class UsersExtension extends CompilerExtension implements IEntityProvider
         $cb = $this->getContainerBuilder();
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
     }
+
 
     /**
      * Adjusts DI container before is compiled to PHP class. Intended to be overridden by descendant.
@@ -48,5 +50,19 @@ class UsersExtension extends CompilerExtension implements IEntityProvider
     {
         return ['Users' => __DIR__ . '/..'];
     }
+
+
+    /**
+     * Return array of directories, that contain resources for translator.
+     *
+     * @return string[]
+     */
+    function getTranslationResources()
+    {
+        return [
+            __DIR__ . '/../lang'
+        ];
+    }
+
 
 }

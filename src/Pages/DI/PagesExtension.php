@@ -4,12 +4,14 @@ namespace Pages\DI;
 
 use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use Kdyby\Translation\DI\ITranslationProvider;
 
-class PagesExtension extends CompilerExtension implements IEntityProvider
+class PagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
 {
     private $defaults = [
         'pagesPerPage' => 10
     ];
+
 
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -48,6 +50,7 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
         $latteFactory->addSetup('addFilter', [null, ['@Pages\\Filters\\FilterLoader', 'loader']]);
     }
 
+
     /**
      * Returns associative array of Namespace => mapping definition
      *
@@ -60,5 +63,19 @@ class PagesExtension extends CompilerExtension implements IEntityProvider
             'Tags'  => __DIR__ . '/..'
         ];
     }
+
+
+    /**
+     * Return array of directories, that contain resources for translator.
+     *
+     * @return string[]
+     */
+    function getTranslationResources()
+    {
+        return [
+            __DIR__ . '/../lang'
+        ];
+    }
+
 
 }

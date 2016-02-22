@@ -7,21 +7,31 @@ use Images\Exceptions\Runtime\FileSizeException;
 use Images\Exceptions\Runtime\NotImageUploadedException;
 use Doctrine\DBAL\DBALException;
 use Images\Facades\ImageFacade;
+use Kdyby\Translation\Phrase;
 use Nette\Application\UI\Form;
 use Nette\Http\FileUpload;
 use Images\Image;
 use Nette\InvalidStateException;
+use Nette\Localization\ITranslator;
 
 class ImageUploadControl extends BaseControl
 {
     /** @var ImageFacade  */
     private $imageFacade;
 
+    /** @var ITranslator */
+    private $translator;
+
+    /** @var string */
+    private $imageSize;
 
     public function __construct(
-        ImageFacade $imageFacade
+        ImageFacade $imageFacade,
+        ITranslator $translator
     ) {
         $this->imageFacade = $imageFacade;
+        $this->translator = $translator;
+        $this->imageSize = (Image::MAX_FILE_SIZE / 1048576) . 'MB';
     }
 
 
@@ -37,12 +47,13 @@ class ImageUploadControl extends BaseControl
     protected function createComponentImageUpload()
     {
         $form = new Form();
+        $form->setTranslator($this->translator->domain('images.uploadForm'));
 
-        $form->addUpload('image', 'Vyberte obrázek (max. 1MB)')
-            ->addRule(Form::IMAGE, 'Lze nahrávat pouze obrázky. (jpg, gif, png)')
-            ->addRule(Form::MAX_FILE_SIZE, 'Lze nahrát obrázek s max. velikostí do 1MB', Image::MAX_FILE_SIZE);
+        $form->addUpload('image', new Phrase('image.label', null, ['size' => $this->imageSize]))
+                ->addRule(Form::IMAGE, 'image.messages.imageFile')
+                ->addRule(Form::MAX_FILE_SIZE, new Phrase('image.messages.maxFileSize', null, ['size' => $this->imageSize]), Image::MAX_FILE_SIZE);
 
-        $form->addSubmit('upload', 'Nahrát obrázek');
+        $form->addSubmit('upload', 'upload.caption');
 
         $form->onSuccess[] = [$this, 'processImageUpload'];
 
@@ -58,20 +69,20 @@ class ImageUploadControl extends BaseControl
         try {
             if ($image->isOk()) {
                 $this->imageFacade->saveImage($image);
-                $this->flashMessage('Obrázek byl úspěšně nahrán', 'success');
+                $this->flashMessage('images.uploadForm.messages.success', 'success');
                 $this->redirect('this');
             }
         } catch (NotImageUploadedException $iu) {
-            $form->addError('Lze nahrávat pouze obrázky');
+            $form->addError($this->translator->translate('images.uploadForm.messages.wrongFileType'));
 
         } catch (FileSizeException $fs) {
-            $form->addError('Lze nahrávat obrázky o max. velikosti ' . (Image::MAX_FILE_SIZE / 1048576) . 'MB');
+            $form->addError($this->translator->translate('images.uploadForm.messages.wrongFileSize', null, ['size' => $this->imageSize]));
 
         } catch (InvalidStateException $is) {
-            $form->addError('Při nahrávání obrázku došlo k chybě');
+            $form->addError($this->translator->translate('images.uploadForm.messages.savingError'));
 
         } catch (DBALException $e) {
-            $form->addError('Při nahrávání obrázku došlo k chybě');
+            $form->addError($this->translator->translate('images.uploadForm.messages.savingError'));
         }
 
     }

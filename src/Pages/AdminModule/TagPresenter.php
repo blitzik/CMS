@@ -3,9 +3,12 @@
 namespace Tags\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Kdyby\Translation\Translator;
+use Nette\Localization\ITranslator;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
+use Pages\Factories\TagFormFactory;
 use Tags\Components\ITagsOverviewControlFactory;
 use Tags\Components\TagsOverviewControl;
 use Tags\Facades\TagFacade;
@@ -20,15 +23,27 @@ class TagPresenter extends ProtectedPresenter
     public $tagsOverviewControl;
 
     /**
+     * @var TagFormFactory
+     * @inject
+     */
+    public $tagFormFactory;
+
+    /**
      * @var TagFacade
      * @inject
      */
     public $tagFacade;
 
+    /**
+     * @var Translator
+     * @inject
+     */
+    public $translator;
+
 
     public function actionDefault()
     {
-        $this['pageTitle']->setPageTitle('Správa štítků');
+        $this['pageTitle']->setPageTitle('tags.title');
     }
 
 
@@ -55,18 +70,9 @@ class TagPresenter extends ProtectedPresenter
 
     protected function createComponentTagCreationForm()
     {
-        $form = new Form;
+        $form = $this->tagFormFactory->create();
 
-        $form->addText('name', 'Název štítku', null, Tag::LENGTH_NAME)
-                ->setRequired('Vyplňte název štítku');
-
-        $form->addText('color', 'Barva', null, 7)
-                ->setRequired('Přiřaďte novému štítku barvu')
-                ->setDefaultValue('#')
-                ->setHtmlId('creation-form-color')
-                ->addRule(Form::PATTERN, 'Špatný formát barvy.', '^#([0-f]{3}|[0-f]{6})$');;
-
-        $form->addSubmit('save', 'Uložit štítek');
+        $form['color']->setHtmlId('creation-form-color');
 
         $form->onSuccess[] = [$this, 'processNewTag'];
 
@@ -81,13 +87,13 @@ class TagPresenter extends ProtectedPresenter
         try {
             $this->tagFacade->saveTag($tag);
 
-            $this->flashMessage('Štítek byl úspěšně přidán', 'success');
+            $this->flashMessage('tags.tagForm.messages.success', 'success', null, ['name' => $tag->name]);
             $this->redirect('this');
 
         } catch (TagNameAlreadyExistsException $t) {
-            $form->addError('Štítek s tímto názvem již existuje');
+            $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', null, ['name' => $tag->name]));
         } catch (DBALException $e) {
-            $form->addError('Při vytvážení štítku nastala chyba');
+            $form->addError($this->translator->translate('tags.tagForm.messages.savingError'));
         }
     }
 }

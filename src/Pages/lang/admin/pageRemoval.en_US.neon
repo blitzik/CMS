@@ -1,0 +1,21 @@
+title: "Article removal"
+
+warning: "The Article is going to be <strong>removed PERMANENTLY</strong> including the comments of your readers."
+
+check:
+	label: "Please type the title of the Article that is being removed"
+	messages:
+		required: "Please type Article title into control input"
+		notEqual: "Title of the Article does NOT match with content of the control input"
+
+remove:
+	caption: "PERMANENTLY remove the Article"
+
+cancel:
+	caption: cancel
+
+# flash messages
+
+flashMessages:
+	success: "The Article %name% has been successfully removed"
+	savingError: ""

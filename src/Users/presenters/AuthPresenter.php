@@ -4,10 +4,17 @@ namespace Users\Presenters;
 
 use App\Presenters\AppPresenter;
 use Nette\Application\UI\Form;
+use Nette\Localization\ITranslator;
 use Nette\Security\AuthenticationException;
 
 class AuthPresenter extends AppPresenter
 {
+    /**
+     * @var ITranslator
+     * @inject
+     */
+    public $translator;
+
 
     /*
      * --------------------
@@ -33,17 +40,20 @@ class AuthPresenter extends AppPresenter
     protected function createComponentLoginForm()
     {
         $form = new Form;
+        $form->setTranslator($this->translator->domain('users.login.form'));
 
-        $form->addText('email', 'E-mailová adresa')
-                ->setAttribute('placeholder', 'Emailová adresa')
-                ->setRequired('Vyplňte E-mailovou adresu')
-                ->addRule(Form::EMAIL, 'Vaše E-mailová adresa nemá správný tvar');
+        $form->addText('email', 'email.label')
+                ->setAttribute('placeholder', 'email.placeholder')
+                ->setAttribute('title', $this->translator->translate('users.login.form.email.title'))
+                ->setRequired('email.messages.required')
+                ->addRule(Form::EMAIL, 'email.messages.wrongFormat');
 
-        $form->addPassword('password', 'Heslo')
-                ->setAttribute('placeholder', 'Heslo')
-                ->setRequired('Vyplňte své heslo');
+        $form->addPassword('password', 'password.label')
+                ->setAttribute('placeholder', 'password.placeholder')
+                ->setAttribute('title', $this->translator->translate('users.login.form.password.title'))
+                ->setRequired('password.messages.required');
 
-        $form->addSubmit('login', 'Přihlásit se');
+        $form->addSubmit('login', 'login.caption');
 
         $form->onSuccess[] = [$this, 'processLogin'];
 

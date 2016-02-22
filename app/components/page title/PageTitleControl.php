@@ -55,12 +55,8 @@ class PageTitleControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/title.latte');
 
-        $title = $this->pageTitle;
-        if ($entireTitle === true and $this->joinedTitleText !== null) {
-            $title .= $this->joinedTitleText;
-        }
-
-        $this->template->title = $title;
+        $this->template->title = $this->pageTitle;
+        $this->template->joinedTitleText = $this->joinedTitleText;
         $this->template->defaultTitle = $this->defaultTitle;
         $this->template->entireTitle = $entireTitle;
 

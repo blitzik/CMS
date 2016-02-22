@@ -4,7 +4,7 @@
 {control flashMessages}
 
 <div class="articles-overview-title">
-    <h2 n:ifset="$title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{$title}</h2>
+    <h2 n:ifset="$title" id="{$control->getUniqueId()}"><i n:ifset="$icon" class="fa fa-{$icon} fa-fw"></i>{_$title}</h2>
 </div>
 
 <div class="box box-river">
@@ -16,11 +16,13 @@
         {*{if count($pages) > 0}*}
         <table class="table table-bordered">
             <tr>
+                {translator pagesOverview.rowTitle}
                 <th class="w25">#</th>
-                <th class="w100">Vytvořen</th>
-                <th class="w100">Publikace</th>
-                <th>Článek</th>
-                <th class="w100">Akce</th>
+                <th class="w100">{_created|firstUpper}</th>
+                <th class="w100">{_published|firstUpper}</th>
+                <th>{_article|firstUpper}</th>
+                <th class="w100">{_action|firstUpper}</th>
+                {/translator}
             </tr>
 
             {foreach $pages as $page}
@@ -38,10 +40,12 @@
                     </td>
                     <td>
                         <div class="articles-overview-actions">
-                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="btn btn-river"><i class="fa fa-edit"></i> Upravit</a>
+                            {translator pagesOverview.actions}
+                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="btn btn-river"><i class="fa fa-edit"></i> {_edit}</a>
                             {*<a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax btn btn-turquoise"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
                             <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax btn btn-asphalt"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>*}
-                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="btn btn-red" title="Smazání článku"><i class="fa fa-trash"></i> <span>Odstranit</span></a>
+                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="btn btn-red" title="Smazání článku"><i class="fa fa-trash"></i> <span>{_remove}</span></a>
+                            {/translator}
                         </div>
                     </td>
                 </tr>

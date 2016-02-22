@@ -4,6 +4,7 @@ namespace Options\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Doctrine\DBAL\DBALException;
+use Nette\Localization\ITranslator;
 use Options\Facades\OptionFacade;
 use Nette\Application\UI\Form;
 use Nette\Utils\Validators;
@@ -16,10 +17,16 @@ class OptionsPresenter extends ProtectedPresenter
      */
     public $optionFacade;
 
+    /**
+     * @var ITranslator
+     * @inject
+     */
+    public $translator;
+
 
     public function actionDefault()
     {
-        $this['pageTitle']->setPageTitle('Nastavení blogu');
+        $this['pageTitle']->setPageTitle('options.title');
 
         $this['optionsForm']->setDefaults($this->options);
     }
@@ -34,25 +41,26 @@ class OptionsPresenter extends ProtectedPresenter
     protected function createComponentOptionsForm()
     {
         $form = new Form;
+        $form->setTranslator($this->translator->domain('options.form'));
 
-        $form->addText('blog_title', 'Název blogu (*)', null, 255)
-                ->setRequired('Název blogu je povinná položka');
+        $form->addText('blog_title', 'blogTitle.label', null, 255)
+                ->setRequired('blogTitle.messages.required');
 
-        $form->addText('blog_subtitle', 'Popisek blogu', null, 255);
+        $form->addText('blog_subtitle', 'blogSubtitle.label', null, 255);
 
-        $form->addText('copyright', 'Copyright (*)', null, 255)
-                ->setRequired('Vyplňte, komu náleží práva toho Blogu');
+        $form->addText('copyright', 'copyright.label', null, 255)
+                ->setRequired('copyright.messages.required');
 
-        $form->addText('articles_per_page', 'Počet článků na stránku (*)', null, 2)
-                ->setRequired('Nastavte počet článků zobrazujících se na jedné stránce.')
+        $form->addText('articles_per_page', 'articlesPerPage.label', null, 2)
+                ->setRequired('articlesPerPage.messages.required')
                 ->addRule(function ($input) {
                     if (Validators::is($input->value, 'numericint:1..')) {
                         return true;
                     }
                     return false;
-                }, 'Do pole "počet článků na stránku" lze zadat pouze přirozená čísla.');
+                }, 'articlesPerPage.messages.wrongInput');
 
-        $form->addSubmit('save', 'Uložit nastavení');
+        $form->addSubmit('save', 'save.caption');
 
         $form->onSuccess[] = [$this, 'processForm'];
 
@@ -70,11 +78,11 @@ class OptionsPresenter extends ProtectedPresenter
         try {
             $this->optionFacade->saveOptions($options);
 
-            $this->flashMessage('Změny byly úspěšně uloženy', 'success');
+            $this->flashMessage('options.form.messages.success', 'success');
             $this->redirect('this');
 
         } catch (DBALException $e) {
-            $form->addError('');
+            $form->addError($this->translator->translate('options.form.messages.savingError')); // todo
         }
     }
 

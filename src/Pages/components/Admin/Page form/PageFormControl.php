@@ -2,14 +2,17 @@
 
 namespace Pages\Components\Admin;
 
-use Nette\Forms\Controls\SubmitButton;
-use Nette\Utils\Strings;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
+use Nette\Forms\Controls\SubmitButton;
+use Nette\Localization\ITranslator;
+use Kdyby\Translation\Translator;
 use Doctrine\DBAL\DBALException;
-use Nette\Application\UI\Form;
-use Pages\Facades\PageFacade;
 use App\Components\BaseControl;
+use Nette\Application\UI\Form;
+use Kdyby\Translation\Phrase;
+use Pages\Facades\PageFacade;
+use Nette\Utils\Strings;
 use Pages\Page;
 use Users\User;
 
@@ -30,15 +33,19 @@ class PageFormControl extends BaseControl
     /** @var  Page */
     private $page;
 
+    /** @var Translator */
+    private $translator;
+
 
     public function __construct(
         User $user,
         PageFacade $pageFacade,
+        ITranslator $translator,
         IPageTagsPickingControlFactory $articleTagsPickingControlFactory
-    )
-    {
-        $this->pageFacade = $pageFacade;
+    ) {
         $this->user = $user;
+        $this->pageFacade = $pageFacade;
+        $this->translator = $translator;
         $this->pageTagsPickingControlFactory = $articleTagsPickingControlFactory;
     }
 
@@ -76,60 +83,47 @@ class PageFormControl extends BaseControl
     protected function createComponentPageForm()
     {
         $form = new Form();
+        $form->setTranslator($this->translator->domain('pageEditForm'));
+
         $form->getElementPrototype()->id = 'page-form';
 
-        $form->addText('title', 'Titulek (*)', null, Page::LENGTH_TITLE)
-            ->setMaxLength(Page::LENGTH_TITLE)
-            ->setHtmlId('form-page-title')
-            ->setRequired('Vyplňte titulek článku')
-            ->setAttribute('data-text-length', Page::LENGTH_TITLE)
-            ->addRule(Form::MAX_LENGTH, 'Titulek článku může obsahovat pouze %d znaků', Page::LENGTH_TITLE);
+        $form->addText('title', 'title.label', null, Page::LENGTH_TITLE)
+                ->setMaxLength(Page::LENGTH_TITLE)
+                ->setHtmlId('form-page-title')
+                ->setRequired('title.messages.required')
+                ->setAttribute('data-text-length', Page::LENGTH_TITLE)
+                ->addRule(Form::MAX_LENGTH, new Phrase('title.messages.maxLength', Page::LENGTH_TITLE), Page::LENGTH_TITLE);
 
-        $form->addText('publishedAt', 'Datum publikace (*)', null, 16)
-            ->setHtmlId('datetimepicker')
-            //->setRequired('Nastavte datum publikování článku')
-            ->addRule(Form::MAX_LENGTH, 'Neplatná délka řetězce (publikování článku)', 16);
+        $form->addText('publishedAt', 'publishedAt.label', null, 16)
+                ->setHtmlId('datetimepicker')
+                ->setRequired('publishedAt.messages.required')
+                ->addCondition(Form::FILLED)
+                ->addRule(Form::MAX_LENGTH, new Phrase('publishedAt.messages.maxLength', 16), 16);
 
-        $form->addTextArea('intro', 'Úvodní text článku (*)', null, 7)
-            ->setMaxLength(Page::LENGTH_INTRO)
-            ->setHtmlId('form-page-intro')
-            ->setRequired('Vyplňte text úvodu článku')
-            ->setAttribute('data-text-length', Page::LENGTH_INTRO)
-            ->addRule(Form::MAX_LENGTH, 'Úvod článku může obsahovat pouze %d znaků', Page::LENGTH_INTRO);
+        $form->addTextArea('intro', 'intro.label', null, 7)
+                ->setMaxLength(Page::LENGTH_INTRO)
+                ->setHtmlId('form-page-intro')
+                ->setRequired('intro.messages.required')
+                ->setAttribute('data-text-length', Page::LENGTH_INTRO)
+                ->addRule(Form::MAX_LENGTH, new Phrase('intro.messages.maxLength', Page::LENGTH_INTRO), Page::LENGTH_INTRO);
 
-        $form->addTextArea('text', 'Text článku (*)', null, 25)
-            ->setRequired('Vyplňte text článku')
-            ->setHtmlId('page-form-text');
+        $form->addTextArea('text', 'text.label', null, 25)
+                ->setRequired('text.messages.required')
+                ->setHtmlId('page-form-text');
 
-        $form->addText('url', 'Url adresa', null, 255);
+        $form->addText('url', 'url.label', null, 255);
 
-        $form->addSubmit('saveAndPublish', 'Uložit a publikovat')
+        $form->addSubmit('saveAndPublish', 'saveAndPublish.caption')
+                ->setAttribute('title', $this->translator->translate('pageEditForm.saveAndPublish.title'))
                 ->onClick[] = [$this, 'processPageSavingAndPublishing'];
 
-        $form->addSubmit('saveAndHide', 'Uložit a skrýt')
+        $form->addSubmit('saveAndHide', 'saveAndHide.caption')
+                ->setAttribute('title', $this->translator->translate('pageEditForm.saveAndHide.title'))
                 ->onClick[] = [$this, 'processPageSavingAndHiding'];
 
         $form->addProtection();
 
-
-        $form->onValidate[] = [$this, 'checkPublishing'];
-
         return $form;
-    }
-
-
-    public function checkPublishing(Form $form)
-    {
-        if ($form['saveAndHide']->isSubmittedBy()) {
-            return;
-        }
-
-        // if the form was submitted by save and publish button
-        if (empty($form['publishedAt']->value)) {
-            $form->addError('Aby mohl být článek publikován, musíte nastavit datum publikace.');
-        }
-
-        $this->redrawControl();
     }
 
 
@@ -157,21 +151,21 @@ class PageFormControl extends BaseControl
         try {
             $page = $this->pageFacade->save($values, $this->page);
             $this->flashMessage(
-                'Článek byl úspěšně uložen a ' . ($values['isPublished'] ? 'publikován' : 'skryt'),
+                'pageEditForm.messages.success' . ($values['isPublished'] ? 'Published' : 'Hidden'),
                 'success'
             );
 
         } catch (PageTitleAlreadyExistsException $at) {
-            $form->addError('Článek s tímto titulkem již existuje. Zvolte jiný titulek.');
+            $form->addError($this->translator->translate('pageEditForm.messages.titleExists'));
 
             return;
         } catch (UrlAlreadyExistsException $ur) {
             $form['url']->setValue(Strings::webalize($values['title'], '/'));
-            $form->addError('URL adresa článku již existuje. Změňte titulek článku nebo URL adresu.');
+            $form->addError($this->translator->translate('pageEditForm.messages.urlExists'));
 
             return;
         } catch (DBALException $e) {
-            $form->addError('Při ukládání došlo k chybě');
+            $form->addError($this->translator->translate('pageEditForm.messages.savingError'));
 
             return;
         }
