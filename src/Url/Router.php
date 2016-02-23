@@ -71,11 +71,6 @@ class Router extends RouteList
 
         $params = $httpRequest->getQuery();
         $params['action'] = $action;
-
-        if (!array_key_exists($urlPath->getLocale(), $this->locales)) {
-            return null; // such locale does NOT exist. route not found
-        }
-
         $params['locale'] = $urlPath->getLocale();
 
         if ($internal_id !== null) {

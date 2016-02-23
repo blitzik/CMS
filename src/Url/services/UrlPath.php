@@ -64,6 +64,9 @@ class UrlPath extends Object
             if (empty($this->locales)) {
                 throw new NoLocalesSetException;
             }
+            // clears locale from path only if the locale is found
+            // so if there is no matching locale, it will return entire path
+            // including nonexisting "locale"
             return $this->clearLocaleFromPath($this->path);
         }
 
