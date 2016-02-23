@@ -44,4 +44,17 @@ abstract class AppPresenter extends Presenter
         return $comp;
     }
 
+
+    /**
+     * Common render method.
+     * @return void
+     */
+    protected function beforeRender()
+    {
+        parent::beforeRender();
+
+        $this->template->userEntity = $this->userEntity;
+    }
+
+
 }
