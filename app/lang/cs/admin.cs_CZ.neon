@@ -3,10 +3,12 @@ logoTitle:
 	large: Administrace
 
 navigation:
-	dashboard: Dashboard
-	newPage: "Nový článek"
-	pagesOverview: "Přehled článků"
-	tags: Štítky
-	images: Obrázky
-	options: Nastavení
-	signOut: "Odhlásit se"
+	title: "Navigace"
+	items:
+		dashboard: Dashboard
+		newPage: "Nový článek"
+		pagesOverview: "Přehled článků"
+		tags: Štítky
+		images: Obrázky
+		options: Nastavení
+		signOut: "Odhlásit se"
