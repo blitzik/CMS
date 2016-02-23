@@ -1,0 +1,30 @@
+title: "Nastavení Blogu"
+
+form:
+	blogTitle:
+		label: "Titulek Blogu (*)"
+		messages:
+			required: "Vyplňte prosím titulek Blogu"
+
+	blogSubtitle:
+		label: "Podtitulek Blogu"
+		info: "Zobrazuje se pod titulkem Blogu"
+
+	copyright:
+		label: "Copyright (*)"
+		info: "Je zobrazen v patičce Blogu"
+		messages:
+			required: "Vyplňte prosím copyright"
+
+	articlesPerPage:
+		label: "Počet článků na stránku (*)"
+		messages:
+			required: "Zadejte počet článků na stránku"
+			wrongInput: "Počet článků na stránku může být pouze celé číslo větší než 0"
+
+	save:
+		caption: "Uložit"
+
+	messages:
+		success: "Nastavení bylo úspěšně uloženo"
+		savingError: "Při ukládání nastavení došlo k chybě"

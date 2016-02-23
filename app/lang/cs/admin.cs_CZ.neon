@@ -1,0 +1,12 @@
+logoTitle:
+	mini: A
+	large: Administrace
+
+navigation:
+	dashboard: Dashboard
+	newPage: "Nový článek"
+	pagesOverview: "Přehled článků"
+	tags: Štítky
+	images: Obrázky
+	options: Nastavení
+	signOut: "Odhlásit se"

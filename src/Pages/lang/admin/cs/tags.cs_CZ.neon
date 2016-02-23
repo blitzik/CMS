@@ -1,0 +1,36 @@
+title: "Správa štítků"
+
+newTagFormTitle: "Nový štítek"
+
+tagForm:
+	name:
+		label: "Název tagu"
+		messages:
+			required: "Vyplňte název tagu"
+
+	color:
+		label: Barva
+		messages:
+			required: "Vyplňte barvu nového štítku"
+			wrongPattern: "Špatný formát barvy nového štítku. Použijte HEX zápis."
+
+	save:
+		caption: "Uložit"
+
+	messages:
+		success: "Štítek s názvem %name% byl úspěšně uložen"
+		nameExists: "Štítek s názvem %name% již existuje"
+		savingError: "Při ukládání štítku došlo k chybě. Zkuste akci opakovat později."
+
+overview:
+	noTagsFound: "Nebyli nalezeny žádné štítky"
+
+	actions:
+		remove:
+			label: "Odstranit"
+			title: "Nenávratně odstraní štítek"
+			messages:
+				removeError: "Při odstraňování štítku došlo k chybě"
+
+		returnColor:
+			title: "Vrátí původní barvu štítku"

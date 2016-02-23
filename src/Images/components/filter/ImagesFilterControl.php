@@ -43,8 +43,9 @@ class ImagesFilterControl extends BaseControl
 
         $form->addText('name', 'name.label', 30);
 
-        $form->addSelect('extension', 'extension.label', ['png' => 'PNG', 'jpg' => 'JPG'])
-                ->setPrompt('extension.prompt');
+        $form->addSelect('extension', $this->translator->translate('images.filterForm.extension.label'), ['png' => 'PNG', 'jpg' => 'JPG'])
+                ->setPrompt($this->translator->translate('images.filterForm.extension.prompt'))
+                ->setTranslator(null);
 
         $form->addText('maxWidth', 'maxWidth.label')
                 ->addCondition(Form::FILLED)

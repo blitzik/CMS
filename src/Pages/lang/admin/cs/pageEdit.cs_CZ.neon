@@ -1,0 +1,10 @@
+title:
+	new: "Nový článek"
+	edit: "Úprava článku"
+
+section:
+	tags:
+		title: Štítky
+		actions:
+			add: "+ přidat Štítek"
+

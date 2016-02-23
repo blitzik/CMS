@@ -1,0 +1,16 @@
+pageTitle: "Přehled článků"
+
+tableTitle:
+	unpublished: "Nepublikované články"
+	waiting: "Články čekající na zveřejnění"
+	published: "Publikované články"
+
+rowTitle:
+	created: vytvořen
+	published: publikován
+	article: článek
+	action: akce
+
+actions:
+	edit: upravit
+	remove: odstranit

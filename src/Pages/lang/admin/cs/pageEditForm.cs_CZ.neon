@@ -1,0 +1,48 @@
+title:
+	label: "Titulek článku (*)"
+	info: "[max. %count% znaků]"
+	messages:
+		required: "Vyplňte prosím titulek článku"
+		maxLength: "Titulek může mít maximálně %numChars% znaků"
+
+publishedAt:
+	label: "Datum publikace (*)"
+	messages:
+		required: "Nastavte prosím datum publikace"
+		maxLength: "Datum publikace může mít max. %numChars% znaků"
+		emptyOnPublishing: "Před publikací článku musí být nastaveno datum publikace"
+
+intro:
+	label: "Úvod článku (*)"
+	info: "[max. %count% znaků] (Bude zobrazen ve výpisu článků)"
+	messages:
+		required: "Vyplňte úvod článku"
+		maxLength: "maximální délka úvodu článku je %numChars% znaků"
+
+text:
+	label: "Text článku (*)"
+	messages:
+		required: "Vyplňte text článku"
+
+url:
+	label: "Url adresa"
+	info: "Pokud nevyplníte URL adresu, bude vytvořena z titulku článku"
+
+saveAndPublish:
+	caption: "Uložit a publikovat"
+	title: "Uloží článek a zobrazí ho veřejně"
+
+saveAndHide:
+	caption: "Uložit a skrýt"
+	title: "Uloží článek ale nezobrazí ho veřejně"
+
+returnAtTop: "Vrátit se na začátek formuláře"
+
+# flash messages
+
+messages:
+	successPublished: "Článek byl úspěšně uložen a zobrazen veřejně"
+	successHidden: "Článek byl úspěšně uložen a skryt"
+	titleExists: "Článek s tímto titulkem již existuje. Změňte prosím titulek článku."
+	urlExists: "Tato URL adresa již existuje. Změňte prosím URL adresu."
+	savingError: "Nastala chyba při ukládání. Zkuste to prosím později."

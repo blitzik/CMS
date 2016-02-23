@@ -1,0 +1,20 @@
+login:
+	title: "Administrace"
+	form:
+		email:
+			label: "E-mailová adresa"
+			placeholder: "E-mailová adresa"
+			title: "Vaše E-mailová adresa"
+			messages:
+				required: "Vyplňte E-mailovou adresu"
+				wrongFormat: "E-mailová adresa má špatný formát"
+
+		password:
+			label: Heslo
+			placeholder: Heslo
+			title: "Vaše heslo"
+			messages:
+				required: "Vyplňte přístupové heslo"
+
+		login:
+			caption: "Přihlásit"

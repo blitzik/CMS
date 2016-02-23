@@ -1,0 +1,59 @@
+title: "Správa obrázků"
+
+uploadForm:
+	image:
+		label: "Vyberte obrázek (max. %size%)"
+		messages:
+			imageFile: "Lze nahrávat pouze obrázky. (jpg, gif, png)"
+			maxFileSize: "Maximální povolená velikost jednoho obrázku je %size%"
+
+	upload:
+		caption: "Nahrát obrázek"
+
+	messages:
+		success: "Obrázek byl úspěšně nahrán"
+		wrongFileType: "Lze nahrávat pouze obrázky"
+		wrongFileSize: "Maximální povolená velikost jednoho obrázku je %size%"
+		savingError: "Při nahrávání obrázku došlo k chybě"
+
+filterForm:
+	formTitle: Vyhledat
+	name:
+		label: "Název obrázku:"
+
+	extension:
+		label: "Typ:"
+		prompt: Vše
+
+	maxWidth:
+		label: "Max. šířka:"
+		messages:
+			integerType: "Maximální šířka může být pouze celé číslo"
+			minValue: "Maximální šířka může být pouze celé číslo větší než 0"
+
+	maxHeight:
+		label: "Max. výška:"
+		messages:
+			integerType: "Maximální výška může být pouze celé číslo"
+			minValue: "Maximální výška může být pouze celé číslo větší než 0"
+
+	filter:
+		caption: Vyhledat
+
+	reset:
+		caption: reset
+
+overview:
+	actions:
+		remove:
+			label: "Odstranit obrázek"
+			messages:
+				success: "Obrázek byl úspěšně odstraněn"
+				removalError: "Při odstraňování obrázku %name% došlo k chybě"
+
+	noImages: "Nebyly nalezeny žádné obrázky"
+
+	texyNotation: "Texy zápis"
+	originalImageName: "Původní název"
+	resolution: Rozměry
+	size: Velikost

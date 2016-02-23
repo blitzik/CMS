@@ -1,0 +1,21 @@
+title: "Odstranění článku"
+
+warning: "Článek bude <strong>nenávratně odstraněn</strong> včetně komentářů od Vaších čtenářů."
+
+check:
+	label: "Pro smazání opište titulek článku"
+	messages:
+		required: "Opište titulek článku do kontrolního pole"
+		notEqual: "Titulek článku neodpovídá titulku v kontrolním poli"
+
+remove:
+	caption: "Nenávratně odstranit článek"
+
+cancel:
+	caption: zpět
+
+# flash messages
+
+flashMessages:
+	success: "Článek %name% byl úspěšně odstraněn"
+	savingError: "Při odstraňování článku nastala chyba. Zkuste to prosím později."

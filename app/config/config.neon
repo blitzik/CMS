@@ -46,7 +46,7 @@ doctrine:
 
 translation:
 	default: cs
-	fallback: [cs_CZ, cs]
+	fallback: [en_US, en]
 
 
 
