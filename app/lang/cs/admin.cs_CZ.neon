@@ -12,3 +12,8 @@ navigation:
 		images: Obrázky
 		options: Nastavení
 		signOut: "Odhlásit se"
+
+localization:
+	form:
+		change:
+			caption: změnit

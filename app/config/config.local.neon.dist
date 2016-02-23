@@ -1,0 +1,39 @@
+parameters:
+	adminEmail: admin@mail.it
+
+	database:
+		host: 127.0.0.1
+		user: root
+		password: asqw
+		dbname: blog
+
+	uploads:
+		images:
+			fileRoot: %wwwDir%/uploads/images # physical location of images on server
+			root: /uploads/images # root of relative images
+
+	localization:
+		defaultLocale: %localization.locales.en%
+		locales:
+			en: en
+			cs: cs
+
+
+
+
+doctrine:
+	host: %database.host%
+	user: %database.user%
+	password: %database.password%
+	dbname: %database.dbname%
+
+images:
+	fileRoot: %uploads.images.fileRoot%
+	root: %uploads.images.root%
+
+url:
+	localization: # or %localization%
+		defaultLocale: en
+		locales:
+			en: en
+			cs: cs

@@ -12,3 +12,7 @@ services:
 
 	flashMessagesControl:
 		implement: App\Components\IFlashMessagesControlFactory
+
+	localeSwitcherControlFactory:
+		implement: App\Components\ILocaleSwitcherControlFactory
+		arguments: [%localization%]

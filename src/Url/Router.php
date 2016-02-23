@@ -25,10 +25,14 @@ class Router extends RouteList
     private $urlRepository;
 
     /** @var array */
-    private $locales = ['en' => true, 'cs' => null];
+    private $locales;
+
+    /** @var array */
+    private $localization; // check config.local.neon
 
 
     public function __construct(
+        array $localization,
         EntityManager $em,
         Nette\Caching\IStorage $storage,
         Logger $logger
@@ -38,6 +42,10 @@ class Router extends RouteList
 
         $this->urlRepository = $em->getRepository(Url::class);
         $this->logger = $logger->channel('router');
+
+        foreach ($localization['locales'] as $key => $locale) {
+            $this->locales[$key] = $localization['defaultLocale'] === $locale ? true : null;
+        }
     }
 
 

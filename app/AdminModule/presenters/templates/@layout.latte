@@ -48,9 +48,9 @@
                 <a n:href=":Users:Auth:logout" class="logout"><i class="fa fa-sign-out fa-fw"></i><span> {_admin.navigation.items.signOut}</span></a>
             </div>
 
-            <div class="user">
-                <i class="fa fa-user"></i>{$userEntity->username}
-                <span class="languages">CZ | EN</span>
+            <div class="left-bar">
+                <div class="user"><i class="fa fa-user"></i>{$userEntity->username}</div>
+                <div class="languages">{control localeSwitcher}</div>
             </div>
         </div>
 

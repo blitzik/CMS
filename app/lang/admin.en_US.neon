@@ -12,3 +12,8 @@ navigation:
 		images: Images
 		options: Options
 		signOut: Sign Out
+
+localization:
+	form:
+		change:
+			caption: Change

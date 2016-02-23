@@ -113,7 +113,7 @@ header{
 
       &:hover{ text-decoration: underline; }
 
-      @include border-radius(8px);
+      @include border-radius(5px);
 
       i{
         margin-right: 5px;

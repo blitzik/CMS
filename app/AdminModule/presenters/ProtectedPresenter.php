@@ -2,6 +2,7 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Components\ILocaleSwitcherControlFactory;
 use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 use blitzik\FlashMessages\TFlashMessages;
@@ -13,6 +14,12 @@ abstract class ProtectedPresenter extends AppPresenter
 
     /** @persistent */
     public $locale;
+
+    /**
+     * @var ILocaleSwitcherControlFactory
+     * @inject
+     */
+    public $localeSwitcherFactory;
 
     /**
      * @var ITranslator
@@ -53,6 +60,15 @@ abstract class ProtectedPresenter extends AppPresenter
     {
         $comp = $this->pageTitleFactory
                      ->create('Blog - Administrace');
+
+        return $comp;
+    }
+
+
+    protected function createComponentLocaleSwitcher()
+    {
+        $comp = $this->localeSwitcherFactory->create();
+        $comp->setLocale($this->locale);
 
         return $comp;
     }
