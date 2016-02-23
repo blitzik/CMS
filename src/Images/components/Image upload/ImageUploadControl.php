@@ -49,9 +49,9 @@ class ImageUploadControl extends BaseControl
         $form = new Form();
         $form->setTranslator($this->translator->domain('images.uploadForm'));
 
-        $form->addUpload('image', new Phrase('image.label', null, ['size' => $this->imageSize]))
+        $form->addUpload('image', new Phrase('image.label', ['size' => $this->imageSize]))
                 ->addRule(Form::IMAGE, 'image.messages.imageFile')
-                ->addRule(Form::MAX_FILE_SIZE, new Phrase('image.messages.maxFileSize', null, ['size' => $this->imageSize]), Image::MAX_FILE_SIZE);
+                ->addRule(Form::MAX_FILE_SIZE, new Phrase('image.messages.maxFileSize', ['size' => $this->imageSize]), Image::MAX_FILE_SIZE);
 
         $form->addSubmit('upload', 'upload.caption');
 
@@ -76,7 +76,7 @@ class ImageUploadControl extends BaseControl
             $form->addError($this->translator->translate('images.uploadForm.messages.wrongFileType'));
 
         } catch (FileSizeException $fs) {
-            $form->addError($this->translator->translate('images.uploadForm.messages.wrongFileSize', null, ['size' => $this->imageSize]));
+            $form->addError($this->translator->translate('images.uploadForm.messages.wrongFileSize', ['size' => $this->imageSize]));
 
         } catch (InvalidStateException $is) {
             $form->addError($this->translator->translate('images.uploadForm.messages.savingError'));

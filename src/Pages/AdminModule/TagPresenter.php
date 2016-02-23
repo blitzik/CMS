@@ -81,11 +81,11 @@ class TagPresenter extends ProtectedPresenter
         try {
             $this->tagFacade->saveTag($tag);
 
-            $this->flashMessage('tags.tagForm.messages.success', 'success', null, ['name' => $tag->name]);
+            $this->flashMessage('tags.tagForm.messages.success', 'success', ['name' => $tag->name]);
             $this->redirect('this');
 
         } catch (TagNameAlreadyExistsException $t) {
-            $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', null, ['name' => $tag->name]));
+            $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', ['name' => $tag->name]));
         } catch (DBALException $e) {
             $form->addError($this->translator->translate('tags.tagForm.messages.savingError'));
         }

@@ -92,20 +92,20 @@ class PageFormControl extends BaseControl
                 ->setHtmlId('form-page-title')
                 ->setRequired('title.messages.required')
                 ->setAttribute('data-text-length', Page::LENGTH_TITLE)
-                ->addRule(Form::MAX_LENGTH, new Phrase('title.messages.maxLength', null, ['numChars' => Page::LENGTH_TITLE]), Page::LENGTH_TITLE);
+                ->addRule(Form::MAX_LENGTH, new Phrase('title.messages.maxLength', ['numChars' => Page::LENGTH_TITLE]), Page::LENGTH_TITLE);
 
         $form->addText('publishedAt', 'publishedAt.label', null, 16)
                 ->setHtmlId('datetimepicker')
                 ->setRequired('publishedAt.messages.required')
                 ->addCondition(Form::FILLED)
-                ->addRule(Form::MAX_LENGTH, new Phrase('publishedAt.messages.maxLength', null, ['numChars' => 16]), 16);
+                ->addRule(Form::MAX_LENGTH, new Phrase('publishedAt.messages.maxLength', ['numChars' => 16]), 16);
 
         $form->addTextArea('intro', 'intro.label', null, 7)
                 ->setMaxLength(Page::LENGTH_INTRO)
                 ->setHtmlId('form-page-intro')
                 ->setRequired('intro.messages.required')
                 ->setAttribute('data-text-length', Page::LENGTH_INTRO)
-                ->addRule(Form::MAX_LENGTH, new Phrase('intro.messages.maxLength', null, ['numChars' => Page::LENGTH_INTRO]), Page::LENGTH_INTRO);
+                ->addRule(Form::MAX_LENGTH, new Phrase('intro.messages.maxLength', ['numChars' => Page::LENGTH_INTRO]), Page::LENGTH_INTRO);
 
         $form->addTextArea('text', 'text.label', null, 25)
                 ->setRequired('text.messages.required')

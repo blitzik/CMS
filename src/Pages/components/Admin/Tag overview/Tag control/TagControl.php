@@ -81,7 +81,7 @@ class TagControl extends BaseControl
             }
 
         } catch (DBALException $e) {
-            $this->flashMessage('tags.tagForm.messages.savingError', 'error', null, ['name' => $this->tag['name']]);
+            $this->flashMessage('tags.tagForm.messages.savingError', 'error', ['name' => $this->tag['name']]);
             if ($this->presenter->isAjax()) {
                 $this->redrawControl('flashes');
             } else {

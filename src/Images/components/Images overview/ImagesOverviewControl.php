@@ -92,9 +92,9 @@ class ImagesOverviewControl extends BaseControl
             $this->flashMessage('images.overview.actions.remove.messages.success', 'success');
 
         } catch (FileRemovalException $fr) {
-            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', null, ['name' => $imageName]);
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', ['name' => $imageName]);
         } catch (DBALException $e) {
-            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', null, ['name' => $imageName]);
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', ['name' => $imageName]);
         }
 
         $this->redirect('this');
