@@ -7,7 +7,6 @@ use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette;
-use Tracy\Debugger;
 
 class Router extends RouteList
 {
@@ -25,6 +24,8 @@ class Router extends RouteList
     /** @var  EntityRepository */
     private $urlRepository;
 
+    /** @var array */
+    private $locales = ['en' => true, 'cs' => null];
 
 
     public function __construct(
@@ -40,7 +41,6 @@ class Router extends RouteList
     }
 
 
-
     /**
      * CLI commands run from app/console.php
      *
@@ -49,10 +49,12 @@ class Router extends RouteList
      */
     public function match(Nette\Http\IRequest $httpRequest)
     {
-        $path = $this->prepareUrlPath($httpRequest);
+        $urlPath = new Services\UrlPath($httpRequest);
+        $urlPath->setPredefinedLocales($this->locales);
+
 
         /** @var Url $urlEntity */
-        $urlEntity = $this->loadUrlEntity($path);
+        $urlEntity = $this->loadUrlEntity($urlPath->getPath(true));
         if ($urlEntity === null) { // no route found
             return null;
         }
@@ -69,6 +71,13 @@ class Router extends RouteList
 
         $params = $httpRequest->getQuery();
         $params['action'] = $action;
+
+        if (!array_key_exists($urlPath->getLocale(), $this->locales)) {
+            return null; // such locale does NOT exist. route not found
+        }
+
+        $params['locale'] = $urlPath->getLocale();
+
         if ($internal_id !== null) {
             $params['internal_id'] = $internal_id;
         }
@@ -81,7 +90,6 @@ class Router extends RouteList
             $httpRequest->getFiles()
         );
     }
-
 
 
     /**
@@ -146,12 +154,22 @@ class Router extends RouteList
 
         $params = $appRequest->getParameters();
 
-        $resultUrl = $baseUrl . Nette\Utils\Strings::webalize($path, '/');
-
         unset($params['action']);
         if ($fallback === false) {
             unset($params['internal_id']);
         }
+
+        $defaultLocale = array_search(true, $this->locales);
+        $locale = isset($params['locale']) ? $params['locale'] : $defaultLocale;
+        unset($params['locale']);
+
+        if ($defaultLocale === $locale) {
+            $locale = '';
+        } else {
+            $locale .= '/';
+        }
+
+        $resultUrl = $baseUrl . $locale . Nette\Utils\Strings::webalize($path, '/');
 
         $q = http_build_query($params, null, '&');
         if ($q != '') {
@@ -160,22 +178,6 @@ class Router extends RouteList
 
         return $resultUrl;
     }
-
-
-
-    private function prepareUrlPath(Nette\Http\IRequest $httpRequest)
-    {
-        $url = $httpRequest->getUrl();
-        $basePath = $url->getPath();
-
-        $path = mb_substr($basePath, \mb_strlen($url->getBasePath()));
-        if ($path !== '') {
-            $path = rtrim(rawurldecode($path), '/');
-        }
-
-        return $path;
-    }
-
 
 
     /**
