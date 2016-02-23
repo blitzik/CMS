@@ -3,8 +3,9 @@
 namespace Dashboard\DI;
 
 use App\Extensions\CompilerExtension;
+use Kdyby\Translation\DI\ITranslationProvider;
 
-class DashboardExtension extends CompilerExtension
+class DashboardExtension extends CompilerExtension implements ITranslationProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -26,5 +27,19 @@ class DashboardExtension extends CompilerExtension
         $cb = $this->getContainerBuilder();
         $this->setPresenterMapping($cb, ['Dashboard' => 'Dashboard\\*Module\\Presenters\\*Presenter']);
     }
+
+
+    /**
+     * Return array of directories, that contain resources for translator.
+     *
+     * @return string[]
+     */
+    function getTranslationResources()
+    {
+        return [
+            __DIR__ . '/../lang'
+        ];
+    }
+
 
 }

@@ -8,7 +8,7 @@ class DashboardPresenter extends ProtectedPresenter
 {
     public function actionDefault()
     {
-        $this['pageTitle']->setPageTitle('Dashboard');
+        $this['pageTitle']->setPageTitle('dashboard.title');
     }
 
 
