@@ -1,0 +1,29 @@
+<div class="comments-form"> {* container *}
+{form form}
+
+    {*<div class="row">*}
+    <div class="comment-author-input">
+        <div class="form-group">
+            {label author /}
+            {input author class => "form-control input-lg"}
+        </div>
+    </div>
+    {*</div>*}
+
+    {*<div class="row">*}
+    <div class="comment-text-input">
+        <div class="form-group">
+            {label text /}
+            {input text class => "form-control input-lg"}
+        </div>
+    </div>
+    {*</div>*}
+
+    {*<div class="row">*}
+    <div class="comment-submit">
+        {input send}
+    </div>
+    {*</div>*}
+
+{/form}
+</div>

@@ -60,7 +60,8 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
     {
         return [
             'Pages' => __DIR__ . '/..',
-            'Tags'  => __DIR__ . '/..'
+            'Tags'  => __DIR__ . '/..',
+            'Comments'  => __DIR__ . '/..'
         ];
     }
 

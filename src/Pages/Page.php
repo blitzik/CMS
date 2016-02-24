@@ -289,4 +289,16 @@ class Page
     }
 
 
+    /*
+     * ------------------------
+     * ----- USER GETTERS -----
+     * ------------------------
+     */
+
+
+    public function getAuthorId()
+    {
+        return $this->author->getId();
+    }
+
 }

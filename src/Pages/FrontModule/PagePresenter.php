@@ -3,6 +3,7 @@
 namespace Pages\FrontModule\Presenters;
 
 use App\FrontModule\Presenters\BasePresenter;
+use Comments\ICommentFormControlFactory;
 use Nette\Application\BadRequestException;
 use Nette\Utils\ArrayHash;
 use Pages\Components\Front\IPageControlFactory;
@@ -16,6 +17,12 @@ class PagePresenter extends BasePresenter
      * @inject
      */
     public $pagesOverviewFactory;
+
+    /**
+     * @var ICommentFormControlFactory
+     * @inject
+     */
+    public $commentsFormFactory;
 
     /**
      * @var IPageControlFactory
@@ -100,4 +107,10 @@ class PagePresenter extends BasePresenter
         return $comp;
     }
 
+
+    protected function createComponentCommentsForm()
+    {
+        $comp = $this->commentsFormFactory->create();
+        return $comp;
+    }
 }

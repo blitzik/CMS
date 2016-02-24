@@ -1,4 +1,0 @@
-services:
-
-	# Facades
-	commentFacade: Comments\Facade\CommentFacade

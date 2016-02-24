@@ -1,4 +1,11 @@
 
+.row{
+  @include row();
+}
+
+// ---------------
+
+
 
 .error-page{
   margin-top: 100px;
@@ -136,6 +143,25 @@ header{
   margin-top: 50px;
   float: right;
 }
+
+
+// comments
+
+.comments{
+  margin-top: 100px;
+}
+
+.comments-form{
+}
+
+.comment-author-input,
+.comment-text-input,
+.comment-submit{
+  //@include column(12);
+}
+
+
+
 
 .blitzik__paginator{
   margin-top: 175px;
