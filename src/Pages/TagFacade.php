@@ -2,12 +2,13 @@
 
 namespace Tags\Facades;
 
+use Kdyby\Doctrine\EntityRepository;
+use Kdyby\Doctrine\ResultSet;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
-use Nette\Utils\Arrays;
 use Tags\Tag;
 
 class TagFacade extends Object
@@ -18,12 +19,17 @@ class TagFacade extends Object
     /** @var Logger  */
     private $logger;
 
+    /** @var EntityRepository */
+    private $tagRepository;
+
     public function __construct(
         EntityManager $entityManager,
         Logger $logger
     ) {
         $this->em = $entityManager;
         $this->logger = $logger->channel('Tags');
+
+        $this->tagRepository = $this->em->getRepository(Tag::class);
     }
 
     /**
@@ -56,6 +62,17 @@ class TagFacade extends Object
         return $tag;
     }
 
+
+    /**
+     * @param int $id
+     * @return Tag|null
+     */
+    public function find($id)
+    {
+        return $this->tagRepository->find($id);
+    }
+
+
     /**
      * @param int $tagId
      */
@@ -65,6 +82,7 @@ class TagFacade extends Object
             'DELETE ' . Tag::class . ' t WHERE t.id = :id'
         )->execute(['id' => $tagId]);
     }
+
 
     /**
      * @param int $id
@@ -78,33 +96,22 @@ class TagFacade extends Object
         )->execute(['id' => $id, 'color' => $color]);
     }
 
-    /**
-     * @param $tagId
-     * @return array
-     */
-    public function getTagAsArray($tagId)
-    {
-        return $this->em->createQuery(
-            'SELECT t FROM ' . Tag::class . ' t WHERE t.id = :id'
-        )->setParameter('id', $tagId)->getArrayResult();
-    }
 
     /**
-     * @return array
+     * @return ResultSet
      */
     public function findAllTags($ordered = true)
     {
         $qb = $this->getBasicDql();
+        $qb->indexBy('t', 't.id');
 
         if ($ordered === true) {
             $qb->orderBy('t.name', 'ASC');
         }
 
-        $tags = $qb->getQuery()
-                   ->getArrayResult();
-
-        return Arrays::associate($tags, 'id');
+        return new ResultSet($qb->getQuery());
     }
+
 
     /**
      * @return \Kdyby\Doctrine\QueryBuilder

@@ -9,6 +9,7 @@ use Nette\Localization\ITranslator;
 use Nette\Utils\ArrayHash;
 use Pages\Factories\TagFormFactory;
 use Tags\Facades\TagFacade;
+use Tags\Tag;
 
 class TagControl extends BaseControl
 {
@@ -24,12 +25,12 @@ class TagControl extends BaseControl
     /** @var TagFacade  */
     private $tagFacade;
 
-    /** @var array  */
+    /** @var Tag  */
     private $tag;
 
 
     public function __construct(
-        array $tag,
+        Tag $tag,
         TagFacade $tagFacade,
         TagFormFactory $tagFormFactory
     ) {
@@ -44,7 +45,7 @@ class TagControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/tag.latte');
 
-        $template->tag = ArrayHash::from($this->tag);
+        $template->tag = $this->tag;
 
         $template->render();
     }
@@ -55,12 +56,12 @@ class TagControl extends BaseControl
         $form = $this->tagFormFactory->create();
         unset($form['name']);
 
-        $form->getElementPrototype()->id = 'form-tag-'.$this->tag['id'];
+        $form->getElementPrototype()->id = 'form-tag-'.$this->tag->getId();
 
-        $form['color']->setHtmlId('tag-color-input-'.$this->tag['id'])
-                      ->setDefaultValue($this->tag['color']);
+        $form['color']->setHtmlId('tag-color-input-'.$this->tag->getId())
+                      ->setDefaultValue($this->tag->color);
 
-        $form['save']->setHtmlId('tag-submit-'.$this->tag['id']);
+        $form['save']->setHtmlId('tag-submit-'.$this->tag->getId());
 
         $form->onSuccess[] = [$this, 'processTag'];
 
@@ -70,14 +71,14 @@ class TagControl extends BaseControl
 
     public function processTag(Form $form, $values)
     {
+        $this->tag->setColor($values->color);
         try {
-            $this->tagFacade->changeColor($this->tag['id'], $values->color);
+            $this->tagFacade->saveTag($this->tag);
 
             if ($this->presenter->isAjax()) {
-                $this->tag['color'] = $values->color;
                 $this->redrawControl();
             } else {
-                $this->redirect('this#tag-' . $this->tag['id']);
+                $this->redirect('this#tag-' . $this->tag->getId());
             }
 
         } catch (DBALException $e) {
@@ -118,8 +119,8 @@ class TagControl extends BaseControl
 interface ITagControlFactory
 {
     /**
-     * @param array $tag
+     * @param Tag $tag
      * @return TagControl
      */
-    public function create(array $tag);
+    public function create(Tag $tag);
 }

@@ -24,6 +24,7 @@ tagForm:
 
 overview:
 	noTagsFound: "No tags have been found."
+	nonExistentTag: "You are trying to modify non-existent Tag"
 
 	actions:
 		remove:

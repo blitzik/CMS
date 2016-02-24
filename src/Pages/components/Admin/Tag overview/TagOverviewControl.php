@@ -5,6 +5,7 @@ namespace Tags\Components;
 use App\Components\BaseControl;
 use Nette\Application\UI\Multiplier;
 use Tags\Facades\TagFacade;
+use Tags\Tag;
 
 class TagsOverviewControl extends BaseControl
 {
@@ -42,19 +43,19 @@ class TagsOverviewControl extends BaseControl
 
 
     /**
-     * @param $tagId
-     * @return array
+     * @param int $tagId
+     * @return Tag
      */
     private function getTag($tagId)
     {
         if (empty($this->tags)) {
             // if processing "handle" method, $this->tags is always empty array
             // because this factory is invoked before render method
-            $tag = $this->tagFacade->getTagAsArray($tagId);
-            if (!isset($tag[0])) { // trying to request non-existing tag
+            $tag = $this->tagFacade->find($tagId);
+            if ($tag === null) { // trying to request non-existing tag
                 $this->onMissingTag($this); // there is happening redirect
             }
-            $this->tags[$tagId] = $tag = $tag[0];
+            $this->tags[$tagId] = $tag;
         } else { // common request
             $tag = $this->tags[$tagId];
         }
@@ -69,7 +70,7 @@ class TagsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/tagOverview.latte');
 
         if (empty($this->tags)) {
-            $this->tags = $this->tagFacade->findAllTags(false);
+            $this->tags = $this->tagFacade->findAllTags(false)->toArray();
         }
 
         $template->tags = $this->tags;

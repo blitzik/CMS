@@ -24,6 +24,7 @@ tagForm:
 
 overview:
 	noTagsFound: "Nebyli nalezeny žádné štítky"
+	nonExistentTag: "Štítek, který se pokoušíte upravit, neexistuje"
 
 	actions:
 		remove:

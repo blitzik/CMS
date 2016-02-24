@@ -2,7 +2,6 @@
 
 namespace Tags;
 
-use Tags\Exceptions\Logic\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Kdyby\Doctrine\Entities\MagicAccessors;
@@ -10,6 +9,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Pages\Exceptions\Logic\InvalidArgumentException;
 use Pages\Page;
 
 /**

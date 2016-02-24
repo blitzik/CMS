@@ -57,7 +57,7 @@ class TagPresenter extends ProtectedPresenter
 
     public function onMissingTag(TagsOverviewControl $control)
     {
-        $control->flashMessage('Požadovanou akci nelze vykonat nad neexistujícím Tagem', 'warning');
+        $control->flashMessage('tags.overview.nonExistentTag', 'warning');
         $this->redirect('this');
     }
 
