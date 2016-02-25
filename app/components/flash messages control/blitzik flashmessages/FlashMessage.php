@@ -13,6 +13,12 @@ use Nette\Object;
 
 class FlashMessage extends Object
 {
+    const INFO = 'info';
+    const SUCCESS = 'success';
+    const WARNING = 'warning';
+    const ERROR = 'error';
+
+
     /** @var ITranslator */
     private $translator;
 

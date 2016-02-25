@@ -2,6 +2,7 @@
 
 namespace Images\Components;
 
+use blitzik\FlashMessages\FlashMessage;
 use Images\Exceptions\Runtime\FileRemovalException;
 use Nette\Application\UI\ITemplate;
 use Doctrine\DBAL\DBALException;
@@ -89,12 +90,12 @@ class ImagesOverviewControl extends BaseControl
     {
         try {
             $this->imageFacade->removeImage($imageName);
-            $this->flashMessage('images.overview.actions.remove.messages.success', 'success');
+            $this->flashMessage('images.overview.actions.remove.messages.success', FlashMessage::SUCCESS);
 
         } catch (FileRemovalException $fr) {
-            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', ['name' => $imageName]);
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', FlashMessage::ERROR, ['name' => $imageName]);
         } catch (DBALException $e) {
-            $this->flashMessage('images.overview.actions.remove.messages.removalError', 'error', ['name' => $imageName]);
+            $this->flashMessage('images.overview.actions.remove.messages.removalError', FlashMessage::ERROR, ['name' => $imageName]);
         }
 
         $this->redirect('this');

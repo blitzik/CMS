@@ -3,6 +3,7 @@
 namespace Tags\Components\Admin;
 
 use App\Components\BaseControl;
+use blitzik\FlashMessages\FlashMessage;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Nette\Localization\ITranslator;
@@ -82,7 +83,7 @@ class TagControl extends BaseControl
             }
 
         } catch (DBALException $e) {
-            $this->flashMessage('tags.tagForm.messages.savingError', 'error', ['name' => $this->tag['name']]);
+            $this->flashMessage('tags.tagForm.messages.savingError', FlashMessage::ERROR, ['name' => $this->tag['name']]);
             if ($this->presenter->isAjax()) {
                 $this->redrawControl('flashes');
             } else {
@@ -103,7 +104,7 @@ class TagControl extends BaseControl
                 $this->redirect('this');
             }
         } catch (DBALException $e) {
-            $this->flashMessage('tags.overview.actions.remove.messages.removeError', 'error');
+            $this->flashMessage('tags.overview.actions.remove.messages.removeError', FlashMessage::ERROR);
             if ($this->presenter->isAjax()) {
                 // value does not matter, in JS we just check existence of this variable
                 $this->presenter->payload->errorEl = true;

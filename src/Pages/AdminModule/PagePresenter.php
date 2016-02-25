@@ -2,6 +2,7 @@
 
 namespace Pages\AdminModule\Presenters;
 
+use blitzik\FlashMessages\FlashMessage;
 use Kdyby\Translation\Phrase;
 use Kdyby\Translation\Translator;
 use Pages\Components\Admin\IPagesOverviewControlFactory;
@@ -48,8 +49,8 @@ class PagePresenter extends ProtectedPresenter
     public function getPage($id)
     {
         $article = $this->pageFacade->getPage(intval($id));
-        if ($article === null) {
-            $this->flashMessage('Požadovaný článek nebyl nalezen.', 'warning');
+        if ($article === null) { // todo translation in flash message
+            $this->flashMessage('Požadovaný článek nebyl nalezen.', FlashMessage::WARNING);
             $this->redirect(':Pages:Admin:Page:overview');
         }
 
@@ -261,7 +262,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function onArticleRemoval(PageRemovalControl $control, Page $page)
     {
-        $this->flashMessage('pageRemoval.flashMessages.success', 'success', null, ['name' => $page->title]);
+        $this->flashMessage('pageRemoval.flashMessages.success', FlashMessage::SUCCESS, null, ['name' => $page->title]);
         $this->redirect(':Dashboard:Dashboard:default');
     }
 

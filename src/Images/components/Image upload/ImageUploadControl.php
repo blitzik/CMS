@@ -3,6 +3,7 @@
 namespace Images\Components;
 
 use App\Components\BaseControl;
+use blitzik\FlashMessages\FlashMessage;
 use Images\Exceptions\Runtime\FileSizeException;
 use Images\Exceptions\Runtime\NotImageUploadedException;
 use Doctrine\DBAL\DBALException;
@@ -69,7 +70,7 @@ class ImageUploadControl extends BaseControl
         try {
             if ($image->isOk()) {
                 $this->imageFacade->saveImage($image);
-                $this->flashMessage('images.uploadForm.messages.success', 'success');
+                $this->flashMessage('images.uploadForm.messages.success', FlashMessage::SUCCESS);
                 $this->redirect('this');
             }
         } catch (NotImageUploadedException $iu) {

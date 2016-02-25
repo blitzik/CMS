@@ -2,6 +2,7 @@
 
 namespace Pages\Components\Admin;
 
+use blitzik\FlashMessages\FlashMessage;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Nette\Forms\Controls\SubmitButton;
@@ -155,7 +156,7 @@ class PageFormControl extends BaseControl
             $page = $this->pageFacade->save($values, $this->page);
             $this->flashMessage(
                 'pageEditForm.messages.success' . ($values['isPublished'] ? 'Published' : 'Hidden'),
-                'success'
+                FlashMessage::SUCCESS
             );
 
         } catch (PageTitleAlreadyExistsException $at) {

@@ -2,6 +2,7 @@
 
 namespace Tags\Presenters;
 
+use blitzik\FlashMessages\FlashMessage;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Tags\Components\Admin\ITagsOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
@@ -58,7 +59,7 @@ class TagPresenter extends ProtectedPresenter
 
     public function onMissingTag(TagsOverviewControl $control)
     {
-        $control->flashMessage('tags.overview.nonExistentTag', 'warning');
+        $control->flashMessage('tags.overview.nonExistentTag', FlashMessage::WARNING);
         $this->redirect('this');
     }
 
@@ -85,7 +86,7 @@ class TagPresenter extends ProtectedPresenter
         try {
             $this->tagFacade->saveTag($tag);
 
-            $this->flashMessage('tags.tagForm.messages.success', 'success', ['name' => $tag->name]);
+            $this->flashMessage('tags.tagForm.messages.success', FlashMessage::SUCCESS, ['name' => $tag->name]);
             $this->redirect('this');
 
         } catch (TagNameAlreadyExistsException $t) {

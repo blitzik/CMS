@@ -3,6 +3,7 @@
 namespace Options\Presenters;
 
 use App\AdminModule\Presenters\ProtectedPresenter;
+use blitzik\FlashMessages\FlashMessage;
 use Doctrine\DBAL\DBALException;
 use Nette\Localization\ITranslator;
 use Options\Facades\OptionFacade;
@@ -75,11 +76,11 @@ class OptionsPresenter extends ProtectedPresenter
         try {
             $this->optionFacade->saveOptions($options);
 
-            $this->flashMessage('options.form.messages.success', 'success');
+            $this->flashMessage('options.form.messages.success', FlashMessage::SUCCESS);
             $this->redirect('this');
 
         } catch (DBALException $e) {
-            $form->addError($this->translator->translate('options.form.messages.savingError')); // todo
+            $form->addError($this->translator->translate('options.form.messages.savingError'));
         }
     }
 

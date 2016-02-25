@@ -3,6 +3,7 @@
 namespace Pages\Components\Admin;
 
 use App\Components\BaseControl;
+use blitzik\FlashMessages\FlashMessage;
 use Doctrine\DBAL\DBALException;
 use Kdyby\Translation\Translator;
 use Nette\Application\UI\Form;
@@ -74,7 +75,7 @@ class PageRemovalControl extends BaseControl
         try {
             $this->pageFacade->removePage($this->page);
         } catch (DBALException $e) {
-            $this->flashMessage('pageRemoval.flashMessages.savingError', 'error');
+            $this->flashMessage('pageRemoval.flashMessages.savingError', FlashMessage::ERROR);
             $this->redirect('this');
         }
 
