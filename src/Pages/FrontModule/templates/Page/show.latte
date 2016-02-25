@@ -6,11 +6,15 @@
 </div>
 
 <div class="comments">
-    <h2 id="comments">Komentáře <span class="comment-form-link">| <a href="#new-comment-form">přidat komentář</a></span></h2>
+    <h2 id="comments">Komentáře <span n:if="$page->allowedComments === true" class="comment-form-link">| <a href="#new-comment-form">přidat komentář</a></span></h2>
     {control commentsOverview}
 
-    <h2 id="new-comment-form">Nový komentář</h2>
-    {control commentsForm}
+    {if $page->allowedComments === true}
+        <h2 id="new-comment-form">Nový komentář</h2>
+        {control commentsForm}
+    {else}
+        <p>K tomuto článku nelze přidávat komentáře.</p>
+    {/if}
 </div>
 
 {/block}

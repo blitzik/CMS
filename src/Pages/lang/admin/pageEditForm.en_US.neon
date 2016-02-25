@@ -28,6 +28,9 @@ url:
 	label: "Url address"
 	info: "If you do NOT type Article URL address then it will be created from Article title"
 
+allowedComments:
+	label: "Allows people comment your Article"
+
 saveAndPublish:
 	caption: "Save and Publish"
 	title: "Saves the Article and displays it publicly"

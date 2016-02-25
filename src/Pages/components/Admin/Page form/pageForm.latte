@@ -109,12 +109,28 @@ Nadpis1   Nadpis2   Podnadpis
                         <span id="page-intro-counter" class="right"></span>
                     {input intro class => 'form-control page-textArea'}
                 </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="article-text">
                 <div class="form-group">
                     {label text /}
                     {input text class => 'form-control page-textArea'}
                 </div>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="article-comments">
+                <div class="checkbox">
+                    {input allowedComments}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="article-controls">
                 {snippet messages-bottom}
                     {control flashMessages}
                     {customFormErrors}

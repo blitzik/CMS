@@ -77,13 +77,19 @@ class Page
      * @ORM\Column(name="is_published", type="boolean", nullable=false, unique=false, options={"default": false})
      * @var bool
      */
-    private $isPublished = false;
+    private $isPublished;
 
     /**
      * @ORM\Column(name="published_at", type="datetime", nullable=true, unique=false)
      * @var \DateTime
      */
     protected $publishedAt;
+    
+    /**
+     * @ORM\Column(name="allowed_comments", type="boolean", nullable=false, unique=false, options={"default": true})
+     * @var bool
+     */
+    protected $allowedComments;
 
     /**
      * @ORM\ManyToMany(targetEntity="Tags\Tag")
@@ -105,6 +111,9 @@ class Page
         $this->setText($text);
         $this->setUrl($url);
         $this->author = $author;
+
+        $this->isPublished = false;
+        $this->allowedComments = true;
 
         $this->createdAt = new \DateTime('now');
 
@@ -224,8 +233,7 @@ class Page
      */
     public function setArticleVisibility($isPublished)
     {
-        Validators::assert($isPublished, 'bool');
-        $this->isPublished = $isPublished;
+        $this->isPublished = (bool)$isPublished;
     }
 
 
@@ -235,6 +243,15 @@ class Page
     public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
+    }
+
+
+    /**
+     * @param bool $allowedComments
+     */
+    public function setAllowedComments($allowedComments)
+    {
+        $this->allowedComments = (bool)$allowedComments;
     }
 
 
@@ -262,6 +279,11 @@ class Page
         return $this->isPublished;
     }
 
+
+    public function getAllowedComments()
+    {
+        return (bool)$this->allowedComments;
+    }
 
 
     /*

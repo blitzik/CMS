@@ -478,8 +478,15 @@ h1, h2, h3, h4, h5, h6{
   @extend %col-8;
 }
 
-.article-intro{
+.article-intro,
+.article-text,
+.article-comments,
+.article-controls{
   @extend %col-12;
+}
+
+.article-controls{
+  margin-top: 40px;
 }
 
 .tags-picking-box{

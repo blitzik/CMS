@@ -56,6 +56,7 @@ class CommentsOverviewControl extends BaseControl
                                )->toArray();
 
         $template->comments = $this->comments;
+        $template->page = $this->page;
 
         $template->render();
     }

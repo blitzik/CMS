@@ -28,6 +28,9 @@ url:
 	label: "Url adresa"
 	info: "Pokud nevyplníte URL adresu, bude vytvořena z titulku článku"
 
+allowedComments:
+	label: "Povolit komentáře k článku"
+
 saveAndPublish:
 	caption: "Uložit a publikovat"
 	title: "Uloží článek a zobrazí ho veřejně"

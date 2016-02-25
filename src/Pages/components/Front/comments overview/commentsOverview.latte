@@ -1,4 +1,4 @@
-
+{dump $page}
 {if !empty($comments)}
     <ol class="comments-list">
         {foreach $comments as $id => $comment}
@@ -6,5 +6,5 @@
         {/foreach}
     </ol>
 {else}
-    <p>Článek neobsahuje žádné komentáře.</p>
+    <p n:if="$page->allowedComments === true">Článek neobsahuje žádné komentáře.</p>
 {/if}

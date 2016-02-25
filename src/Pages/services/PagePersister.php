@@ -160,6 +160,7 @@ class PagePersister extends Object
         $page->setIntro($values['intro']);
         $page->setPublishedAt($values['publishedAt']);
         $page->setArticleVisibility($values['isPublished']);
+        $page->setAllowedComments($values['allowedComments']);
     }
 
 
