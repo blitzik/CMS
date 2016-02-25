@@ -1,0 +1,10 @@
+
+{if !empty($comments)}
+    <ol class="comments-list">
+        {foreach $comments as $id => $comment}
+            <li id="comment-{$id}">{control comment-$id $iterator->getCounter()}</li>
+        {/foreach}
+    </ol>
+{else}
+    <p>Článek neobsahuje žádné komentáře.</p>
+{/if}

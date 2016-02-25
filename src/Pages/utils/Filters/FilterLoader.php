@@ -2,17 +2,26 @@
 
 namespace Pages\Filters;
 
-use Pages\Utils\BlogTexy;
+use Pages\Utils\TexyFactory;
+use Nette\Object;
 
-class FilterLoader extends \Nette\Object
+class FilterLoader extends Object
 {
-    /** @var BlogTexy  */
-    private $texy;
+    /** @var TexyFactory  */
+    private $texyFactory;
 
-    public function __construct(BlogTexy $texy)
+    /** @var \Texy */
+    private $pageTexy;
+
+    /** @var \Texy */
+    private $commentTexy;
+
+
+    public function __construct(TexyFactory $texyFactory)
     {
-        $this->texy = $texy;
+        $this->texyFactory = $texyFactory;
     }
+
 
     public function loader($filter)
     {
@@ -23,10 +32,26 @@ class FilterLoader extends \Nette\Object
         return call_user_func_array([$this, $filter], array_slice(func_get_args(), 1));
     }
 
-    public function texy($text)
+
+    public function pageTexy($text)
     {
-        return $this->texy->process($text);
+        if (!isset($this->pageTexy)) {
+            $this->pageTexy = $this->texyFactory->createTexyForPage();
+        }
+
+        return $this->pageTexy->process($text);
     }
+
+
+    public function commentTexy($text)
+    {
+        if (!isset($this->commentTexy)) {
+            $this->commentTexy = $this->texyFactory->createTexyForComment();
+        }
+
+        return $this->commentTexy->process($text);
+    }
+
 
     /**
      * @param int $monthNumber

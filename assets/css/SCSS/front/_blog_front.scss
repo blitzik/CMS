@@ -148,10 +148,71 @@ header{
 // comments
 
 .comments{
-  margin-top: 100px;
+  h2{
+    margin-top: 100px;
+    margin-bottom: 50px;
+  }
+
+  .comments-list{
+    margin: 0;
+    padding: 0;
+
+    li{
+      list-style-type: none;
+      margin-bottom: 75px;
+    }
+  }
+
+  .comment-form-link{
+    font-size: .4em;
+  }
+}
+
+.comment{
+  clear: both;
+
+  h3 .link{
+    font-size: .5em;
+    color: #959595;
+    text-decoration: none;
+
+    i{ font-size: .8em; }
+
+    &:hover{
+      color: #3498DB;
+    }
+  }
+
+  .comment-meta{
+    font-size: .8em;
+  }
+
+  .reactions{
+    text-align: right;
+
+    a{
+      margin-left: 10px;
+      text-decoration: none;
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footer{
+    border-top: 1px solid #959595;
+  }
+
+  .comment-text{
+    p:first-letter{
+      margin-left: 20px;
+    }
+  }
 }
 
 .comments-form{
+  margin-top: 50px;
 }
 
 .comment-author-input,

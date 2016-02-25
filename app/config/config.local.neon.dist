@@ -31,9 +31,11 @@ images:
 	fileRoot: %uploads.images.fileRoot%
 	root: %uploads.images.root%
 
+pages:
+	texy:
+		images:
+			root: %uploads.images.root%
+			fileRoot: %uploads.images.fileRoot%
+
 url:
-	localization: # or %localization%
-		defaultLocale: en
-		locales:
-			en: en
-			cs: cs
+	localization: %localization%

@@ -2,15 +2,13 @@
 
 namespace Tags\Presenters;
 
-use App\AdminModule\Presenters\ProtectedPresenter;
-use Kdyby\Translation\Translator;
-use Nette\Localization\ITranslator;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Tags\Components\Admin\ITagsOverviewControlFactory;
+use App\AdminModule\Presenters\ProtectedPresenter;
+use Tags\Components\Admin\TagsOverviewControl;
+use Pages\Factories\TagFormFactory;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
-use Pages\Factories\TagFormFactory;
-use Tags\Components\ITagsOverviewControlFactory;
-use Tags\Components\TagsOverviewControl;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
 

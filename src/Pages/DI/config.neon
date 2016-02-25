@@ -1,6 +1,7 @@
 services:
 
-	blogTexy: Pages\Utils\BlogTexy
+	texyFactory: Pages\Utils\TexyFactory
+
 	filterLoader: Pages\Filters\FilterLoader
 
 	pagePersister: Pages\Services\PagePersister
@@ -11,18 +12,20 @@ services:
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
 	tagFacade: Tags\Facades\TagFacade
+	commentFacade: Comments\Facades\CommentFacade
 
-	# Factories
+	# components factories
 	tagsOverviewControlFactory:
-		implement: Tags\Components\ITagsOverviewControlFactory
+		implement: Tags\Components\Admin\ITagsOverviewControlFactory
 
 	tagControlFactory:
-		implement: Tags\Components\ITagControlFactory
+		implement: Tags\Components\Admin\ITagControlFactory
 		arguments: [Tags\Tag tag]
 
 	pageControlFactory:
 		implement: Pages\Components\Front\IPageControlFactory
-		arguments: [Nette\Utils\ArrayHash page]
+		parameters: [Pages\Page page]
+		arguments: [%page%]
 
 	pagesOverviewControlFactory:
 		implement: Pages\Components\Front\IPagesOverviewControlFactory
@@ -44,4 +47,16 @@ services:
 		arguments: [Pages\Query\ArticleQuery pageQuery]
 
 	commentFormControlFactory:
-		implement: Comments\ICommentFormControlFactory
+		implement: Comments\Components\Front\ICommentFormControlFactory
+		parameters: [Pages\Page page]
+		arguments: [%page%]
+
+	commentsOverviewControlFactory:
+		implement: Comments\Components\Front\ICommentsOverviewControlFactory
+		parameters: [Pages\Page page]
+		arguments: [%page%]
+
+	commentControlFactory:
+		implement: Comments\Components\Front\ICommentControlFactory
+		parameters: [Comments\Comment comment]
+		arguments: [%comment%]

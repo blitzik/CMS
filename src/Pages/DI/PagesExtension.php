@@ -9,7 +9,13 @@ use Kdyby\Translation\DI\ITranslationProvider;
 class PagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
 {
     private $defaults = [
-        'pagesPerPage' => 10
+        'pagesPerPage' => 10,
+        'texy' => [
+            'images' => [
+                'root' => null,
+                'fileRoot' => null
+            ]
+        ]
     ];
 
 
@@ -28,6 +34,14 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
 
         $pagesOverview = $cb->getDefinition($this->prefix('pagesOverviewControlFactory'));
         $pagesOverview->addSetup('setPagesPerPage', [$config['pagesPerPage']]);
+
+        $texyFactory = $cb->getDefinition($this->prefix('texyFactory'));
+        $texyFactory->setArguments(
+            [
+                'imagesRoot' => $config['texy']['images']['root'],
+                'imagesFileRoot' => $config['texy']['images']['fileRoot'],
+            ]
+        );
     }
 
 

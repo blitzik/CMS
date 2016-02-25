@@ -93,6 +93,21 @@ class PageQuery extends QueryObject
 
 
     /**
+     * Result (usually array) of the query will indexed by Pages IDs
+     *
+     * @return $this
+     */
+    public function indexedByPageId()
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->indexBy('p', 'p.id');
+        };
+
+        return $this;
+    }
+
+
+    /**
      * @param Queryable $repository
      * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
      */

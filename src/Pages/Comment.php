@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Pages\Page;
 
 /**
  * @ORM\Entity
@@ -50,7 +51,7 @@ class Comment
     private $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Page")
+     * @ORM\ManyToOne(targetEntity="Pages\Page")
      * @ORM\JoinColumn(name="page", referencedColumnName="id", nullable=false)
      * @var Page
      */
@@ -121,6 +122,40 @@ class Comment
         }
 
         $this->reactions->add($reaction);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getReactions()
+    {
+        return $this->reactions->toArray();
+    }
+
+
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+
+
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
     }
 
 

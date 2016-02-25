@@ -4,17 +4,18 @@ namespace Pages\Components\Front;
 
 use Nette\Utils\ArrayHash;
 use App\Components\BaseControl;
+use Pages\Page;
 
 class PageControl extends BaseControl
 {
-    /** @var ArrayHash  */
+    /** @var Page */
     private $page;
 
-    /** @var bool  */
+    /** @var bool */
     private $isOnlyIntroShown = false;
 
 
-    public function __construct(ArrayHash $page)
+    public function __construct(Page $page)
     {
         $this->page = $page;
     }
@@ -44,8 +45,8 @@ class PageControl extends BaseControl
 interface IPageControlFactory
 {
     /**
-     * @param ArrayHash $page
+     * @param Page $page
      * @return PageControl
      */
-    public function create(ArrayHash $page);
+    public function create(Page $page);
 }

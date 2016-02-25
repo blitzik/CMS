@@ -1,6 +1,6 @@
 <?php
 
-namespace Tags\Components;
+namespace Tags\Components\Admin;
 
 use App\Components\BaseControl;
 use Doctrine\DBAL\DBALException;

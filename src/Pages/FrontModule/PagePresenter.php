@@ -2,16 +2,23 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use App\FrontModule\Presenters\BasePresenter;
-use Comments\ICommentFormControlFactory;
-use Nette\Application\BadRequestException;
-use Nette\Utils\ArrayHash;
-use Pages\Components\Front\IPageControlFactory;
+use Comments\Components\Front\ICommentsOverviewControlFactory;
+use Comments\Components\Front\ICommentFormControlFactory;
 use Pages\Components\Front\IPagesOverviewControlFactory;
+use Pages\Components\Front\IPageControlFactory;
+use App\FrontModule\Presenters\BasePresenter;
+use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
+use Pages\Page;
 
 class PagePresenter extends BasePresenter
 {
+    /**
+     * @var ICommentsOverviewControlFactory
+     * @inject
+     */
+    public $commentsOverviewFactory;
+
     /**
      * @var IPagesOverviewControlFactory
      * @inject
@@ -37,7 +44,7 @@ class PagePresenter extends BasePresenter
     public $pageFacade;
 
     /**
-     * @var ArrayHash
+     * @var Page
      */
     private $page;
 
@@ -83,15 +90,15 @@ class PagePresenter extends BasePresenter
 
     public function actionShow($internal_id)
     {
-        $page = $this->pageFacade->getPageAsArray($internal_id);
+        $page = $this->pageFacade->getPage($internal_id);
         if ($page === null) {
             throw new BadRequestException;
         }
 
         $this['pageTitle']->setPageTitle($this->options->blog_title)
-                          ->joinTitleText(' - ' . $page['title']);
+                          ->joinTitleText(' - ' . $page->title);
 
-        $this->page = ArrayHash::from($page);
+        $this->page = $page;
     }
 
 
@@ -108,9 +115,18 @@ class PagePresenter extends BasePresenter
     }
 
 
+    protected function createComponentCommentsOverview()
+    {
+        $comp = $this->commentsOverviewFactory->create($this->page);
+        return $comp;
+    }
+
+
     protected function createComponentCommentsForm()
     {
-        $comp = $this->commentsFormFactory->create();
+        $comp = $this->commentsFormFactory
+                     ->create($this->page);
+
         return $comp;
     }
 }

@@ -87,16 +87,16 @@ class PagesOverviewControl extends BaseControl
         $resultSet = $this->pageFacade
                           ->fetchPages(
                               (new PageQuery())
-                                  ->forOverview()
-                                  ->withTags()
-                                  ->onlyPublished()
-                                  ->orderByPublishedAt('DESC')
+                               ->forOverview()
+                               ->withTags()
+                               ->onlyPublished()
+                               ->orderByPublishedAt('DESC')
+                               ->indexedByPageId()
                           );
 
         $resultSet->applyPaginator($paginator, $this->pagesPerPage);
 
-        $this->pages = Arrays::associate($resultSet->toArray(AbstractQuery::HYDRATE_ARRAY), 'id');
-        $this->pages = ArrayHash::from($this->pages);
+        $this->pages = $resultSet->toArray();
 
         $template->pages = $this->pages;
         $template->pagesCount = count($this->pages);

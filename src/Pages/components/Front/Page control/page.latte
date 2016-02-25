@@ -20,11 +20,11 @@
     </header>
 
     <div n:tag-if="!$isOnlyIntroShown" class="page-intro">
-        {$page->intro|texy|noescape}
+        {$page->intro|pageTexy|noescape}
     </div>
 
     {if !$isOnlyIntroShown}
-        {$page->text|texy|noescape} {* body of page *}
+        {$page->text|pageTexy|noescape} {* body of page *}
     {/if}
 
     {if $isOnlyIntroShown}

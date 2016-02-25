@@ -27,7 +27,6 @@ class Image
     use MagicAccessors;
 
     const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
-    const UPLOAD_DIRECTORY = __DIR__ . '/../../uploads/images/';
 
     /**
      * @ORM\Id
