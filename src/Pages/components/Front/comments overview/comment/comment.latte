@@ -12,14 +12,15 @@
     </div>
 
     <div class="comment-meta">
-        {*<div class="reactions">
+        {*<div class="reactions" n:if="!empty($comment->getReactions())">
+            Reagoval{if count($comment->getReactions()) > 1}i{/if}:
             {foreach $comment->getReactions() as $id => $reaction}
-                <a href="#comment-{$id}">[todo] {$reaction->author}</a>
+                <a href="#comment-{$id}">[{$reaction->getOrder()}] {$reaction->author}</a>{sep}, {/sep}
             {/foreach}
         </div>*}
 
         <div class="footer">
-            {$comment->created|date:"j.n.Y v H:i"} | <a href="">odpovědět</a>
+            {$comment->created|date:"j.n.Y v H:i"}{* | <a href="">odpovědět</a>*}
         </div>
     </div>
 </div>

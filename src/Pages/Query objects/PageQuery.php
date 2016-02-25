@@ -2,6 +2,7 @@
 
 namespace Pages\Query;
 
+use Comments\Comment;
 use Kdyby\Persistence\Queryable;
 use Kdyby\Doctrine\QueryObject;
 use Pages\Page;
@@ -31,9 +32,29 @@ class PageQuery extends QueryObject
 
     public function withTags()
     {
+        $this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {
+            $ids = array_keys(iterator_to_array($iterator, true));
+
+            $repository->createQueryBuilder()
+                       ->select('PARTIAL page.{id}, tags')
+                       ->from(Page::class, 'page')
+                       ->leftJoin('page.tags', 'tags')
+                       ->andWhere('page.id IN (:ids)')
+                       ->setParameter('ids', $ids)
+                       ->getQuery()
+                       ->getResult();
+        };
+
+        return $this;
+    }
+
+
+    public function withCommentsCount()
+    {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->leftJoin('p.tags', 't');
-            $qb->addSelect('t');
+            $qb->addSelect('COUNT(c.page) AS commentsCount')
+               ->leftJoin(Comment::class, 'c WITH c.page = p')
+               ->groupBy('p.id');
         };
 
         return $this;
@@ -86,6 +107,16 @@ class PageQuery extends QueryObject
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {
             $qb->orderBy('p.publishedAt', $order);
+        };
+
+        return $this;
+    }
+
+
+    public function byPageId($pageId)
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($pageId) {
+            $qb->andWhere('p.id = :id')->setParameter('id', $pageId);
         };
 
         return $this;

@@ -17,9 +17,7 @@ class CommentControl extends BaseControl
     private $comment;
 
 
-    public function __construct(
-        Comment $comment
-    ) {
+    public function __construct(Comment $comment) {
         $this->comment = $comment;
     }
 

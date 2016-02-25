@@ -2,11 +2,8 @@
 
 {if $pagesCount > 0}
 
-    {foreach $pages as $page}
-
-        {control page-$page->id}
-
-        {*<div class="delimiter" n:if="!$iterator->isLast()"></div>*}
+    {foreach $pages as $id => $page}
+        {control page-$id}
     {/foreach}
 
     {control vs}

@@ -216,9 +216,16 @@ header{
 }
 
 .comment-author-input,
-.comment-text-input,
-.comment-submit{
-  //@include column(12);
+.comment-text-input{
+  .form-control{
+    height: auto;
+  }
+
+  font-size: 1.5em;
+
+  input{
+    padding: 10px;
+  }
 }
 
 

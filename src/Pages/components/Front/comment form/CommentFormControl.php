@@ -49,7 +49,7 @@ class CommentFormControl extends BaseControl
         $form->addText('author', 'Autor', null, Comment::LENGTH_AUTHOR)
                 ->setRequired('Podepište se pod komentář prosím :-) (pole autor)');
 
-        $form->addTextArea('text', 'Text', null, 10)
+        $form->addTextArea('text', 'Text', null, 6)
                 ->setMaxLength(Comment::LENGTH_TEXT)
                 ->setRequired('Vyplňte prosím text komentáře');
 

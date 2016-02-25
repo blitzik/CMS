@@ -84,17 +84,6 @@ class Comment
 
 
     /**
-     * @param string $author
-     */
-    private function setAuthor($author)
-    {
-        Validators::assert($author, 'unicode:1..' . self::LENGTH_AUTHOR);
-
-        $this->author = $author;
-    }
-
-
-    /**
      * @param string $text
      */
     public function setText($text)
@@ -102,6 +91,17 @@ class Comment
         Validators::assert($text, 'unicode:1..' . self::LENGTH_TEXT);
 
         $this->text = $text;
+    }
+
+
+    /**
+     * @param string $author
+     */
+    private function setAuthor($author)
+    {
+        Validators::assert($author, 'unicode:1..' . self::LENGTH_AUTHOR);
+
+        $this->author = $author;
     }
 
 

@@ -86,6 +86,16 @@ class PageFacade extends Object
 
 
     /**
+     * @param PageQuery $pageQuery
+     * @return Page|null
+     */
+    public function fetchPage(PageQuery $pageQuery)
+    {
+        return $this->pageRepository->fetchOne($pageQuery);
+    }
+
+
+    /**
      * @param PageQuery $query
      * @return array|\Kdyby\Doctrine\ResultSet
      */
@@ -108,26 +118,6 @@ class PageFacade extends Object
                     ->setParameter('id', $pageID)
                     ->getQuery()
                     ->getOneOrNullResult();
-    }
-
-
-    /**
-     * @param $pageID
-     * @return array|null
-     */
-    public function getPageAsArray($pageID)
-    {
-        $page = $this->getBasePageDql()
-            ->where('p.id = :id AND p.isPublished = true AND p.publishedAt <= CURRENT_TIMESTAMP()')
-            ->setParameter('id', $pageID)
-            ->getQuery()
-            ->getArrayResult();
-
-        if (empty($page)) {
-            return null;
-        }
-
-        return $page[0];
     }
 
 

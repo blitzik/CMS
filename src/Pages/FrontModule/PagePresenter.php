@@ -10,6 +10,7 @@ use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
 use Pages\Page;
+use Pages\Query\PageQuery;
 
 class PagePresenter extends BasePresenter
 {
@@ -90,7 +91,14 @@ class PagePresenter extends BasePresenter
 
     public function actionShow($internal_id)
     {
-        $page = $this->pageFacade->getPage($internal_id);
+        $page = $this->pageFacade
+                     ->fetchPage(
+                         (new PageQuery())
+                          ->withTags()
+                          ->byPageId($internal_id)
+                          ->onlyPublished()
+                     );
+
         if ($page === null) {
             throw new BadRequestException;
         }

@@ -9,7 +9,10 @@
 namespace Comments\Components\Front;
 
 use App\Components\BaseControl;
+use Comments\Comment;
+use Comments\Decorators\CommentDecorator;
 use Comments\Facades\CommentFacade;
+use Comments\Query\CommentQuery;
 use Nette\Application\UI\Multiplier;
 use Pages\Page;
 
@@ -45,13 +48,18 @@ class CommentsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/commentsOverview.latte');
 
         $this->comments = $this->commentFacade
-                               ->findAll($this->page);
+                               ->fetchComments(
+                                   (new CommentQuery())
+                                    ->withReactions()
+                                    ->byPage($this->page->getId())
+                                    ->indexedById()
+                               )->toArray();
 
         $template->comments = $this->comments;
 
         $template->render();
     }
-    
+
     
     protected function createComponentComment()
     {

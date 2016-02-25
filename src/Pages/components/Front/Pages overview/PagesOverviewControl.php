@@ -2,15 +2,12 @@
 
 namespace Pages\Components\Front;
 
+use Nette\Application\UI\Multiplier;
 use App\Components\BaseControl;
 use blitzik\IPaginatorFactory;
-use Doctrine\ORM\AbstractQuery;
-use Nette\Application\UI\Multiplier;
-use Nette\Utils\ArrayHash;
-use Nette\Utils\Arrays;
-use Nette\Utils\Paginator;
-use Nette\Utils\Validators;
 use Pages\Facades\PageFacade;
+use Nette\Utils\Validators;
+use Nette\Utils\Paginator;
 use Pages\Query\PageQuery;
 
 class PagesOverviewControl extends BaseControl
@@ -66,7 +63,8 @@ class PagesOverviewControl extends BaseControl
     protected function createComponentPage()
     {
         return new Multiplier(function ($pageID) {
-            $comp = $this->pageControlFactory->create($this->pages[$pageID]);
+            $comp = $this->pageControlFactory->create($this->pages[$pageID][0]);
+            $comp->setCommentsCount($this->pages[$pageID]['commentsCount']);
             $comp->onlyIntro();
 
             return $comp;
@@ -91,6 +89,7 @@ class PagesOverviewControl extends BaseControl
                                ->withTags()
                                ->onlyPublished()
                                ->orderByPublishedAt('DESC')
+                               ->withCommentsCount()
                                ->indexedByPageId()
                           );
 

@@ -8,16 +8,28 @@ use Pages\Page;
 
 class PageControl extends BaseControl
 {
+    /** @var bool */
+    private $isOnlyIntroShown = false;
+
     /** @var Page */
     private $page;
 
-    /** @var bool */
-    private $isOnlyIntroShown = false;
+    /** @var int */
+    private $commentsCount = 0;
 
 
     public function __construct(Page $page)
     {
         $this->page = $page;
+    }
+
+
+    /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
     }
 
 
@@ -36,6 +48,7 @@ class PageControl extends BaseControl
         $template->month = $this->page->publishedAt->format('n');
 
         $template->isOnlyIntroShown = $this->isOnlyIntroShown;
+        $template->commentsCount = $this->commentsCount;
 
         $template->render();
     }

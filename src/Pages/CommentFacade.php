@@ -9,7 +9,9 @@
 namespace Comments\Facades;
 
 use Comments\Comment;
+use Comments\Query\CommentQuery;
 use Kdyby\Doctrine\EntityManager;
+use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\ResultSet;
 use Nette\Object;
 use Pages\Page;
@@ -19,10 +21,14 @@ class CommentFacade extends Object
     /** @var EntityManager */
     private $em;
 
+    /** @var EntityRepository */
+    private $commentsRepository;
+
 
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
+        $this->commentsRepository = $this->em->getRepository(Comment::class);
     }
 
 
@@ -37,24 +43,11 @@ class CommentFacade extends Object
 
 
     /**
-     * @param Page $page
-     * @return Comment[]
+     * @param CommentQuery $commentQuery
+     * @return ResultSet
      */
-    public function findAll(Page $page)
+    public function fetchComments(CommentQuery $commentQuery)
     {
-        $q = $this->em->createQuery(
-            'SELECT c FROM ' . Comment::class . ' c INDEX BY c.id
-             WHERE c.page = :page'
-        )->setParameter('page', $page)
-         ->getResult();
-
-        /*$this->em->createQuery(
-            'SELECT PARTIAL c.{id}, PARTIAL r.{id} FROM ' . Comment::class . ' c
-             LEFT JOIN c.reactions r INDEX BY r.id
-             WHERE c.page = :page'
-        )->setParameter('page', $page)
-         ->execute();*/
-
-        return $q;
+        return $this->commentsRepository->fetch($commentQuery);
     }
 }
