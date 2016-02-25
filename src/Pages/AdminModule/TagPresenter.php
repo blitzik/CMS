@@ -44,6 +44,9 @@ class TagPresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentTagsOverview()
     {
         $comp = $this->tagsOverviewControl->create();
@@ -60,6 +63,9 @@ class TagPresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentTagCreationForm()
     {
         $form = $this->tagFormFactory->create();

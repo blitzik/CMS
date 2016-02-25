@@ -68,6 +68,9 @@ class ImagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentImageUpload()
     {
         $comp = $this->imageUploadFactory->create();
@@ -76,6 +79,9 @@ class ImagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentFilter()
     {
         $comp = $this->imagesFilterControlFactory->create();
@@ -84,6 +90,9 @@ class ImagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentImagesOverview()
     {
         $comp = $this->imagesOverviewFactory

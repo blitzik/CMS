@@ -68,6 +68,9 @@ class PagePresenter extends BasePresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentPagesOverview()
     {
         $comp = $this->pagesOverviewFactory->create();
@@ -123,6 +126,9 @@ class PagePresenter extends BasePresenter
     }
 
 
+    /**
+     * @Actions show
+     */
     protected function createComponentPage()
     {
         $comp = $this-> pageFactory->create($this->page);
@@ -130,6 +136,9 @@ class PagePresenter extends BasePresenter
     }
 
 
+    /**
+     * @Actions show
+     */
     protected function createComponentCommentsOverview()
     {
         $comp = $this->commentsOverviewFactory->create($this->page);
@@ -137,6 +146,9 @@ class PagePresenter extends BasePresenter
     }
 
 
+    /**
+     * @Actions show
+     */
     protected function createComponentCommentsForm()
     {
         $comp = $this->commentsFormFactory

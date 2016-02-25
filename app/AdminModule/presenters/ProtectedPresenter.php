@@ -6,6 +6,7 @@ use App\Components\ILocaleSwitcherControlFactory;
 use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 use blitzik\FlashMessages\TFlashMessages;
+use Nette\Application\ForbiddenRequestException;
 use Nette\Localization\ITranslator;
 
 abstract class ProtectedPresenter extends AppPresenter
@@ -39,7 +40,7 @@ abstract class ProtectedPresenter extends AppPresenter
         parent::startup();
 
         if (!$this->user->isLoggedIn()) {
-            $this->flashMessage('Přihlašte se prosím.');
+            $this->flashMessage('admin.signIn', 'warning');
             $this->redirect(':Users:Auth:login');
         }
     }
@@ -53,6 +54,28 @@ abstract class ProtectedPresenter extends AppPresenter
     public function findLayoutTemplateFile()
     {
         return __DIR__ . '/templates/@layout.latte';
+    }
+
+
+    protected function createComponent($name)
+    {
+        $ucname = ucfirst($name);
+        $method = 'createComponent' . $ucname;
+        $presenterReflection = $this->getReflection();
+        if ($presenterReflection->hasMethod($method)) {
+            $methodReflection = $presenterReflection->getMethod($method);
+            $this->checkRequirements($methodReflection);
+            if ($methodReflection->hasAnnotation('Actions')) {
+                $actions = explode(',', $methodReflection->getAnnotation('Actions'));
+                foreach ($actions as $key => $action) {
+                    $actions[$key] = trim($action);
+                }
+                if (!empty($actions) and !in_array($this->getAction(), $actions)) {
+                    throw new ForbiddenRequestException("Creation of component '$name' is forbidden for action '$this->action'.");
+                }
+            }
+        }
+        return parent::createComponent($name);
     }
 
 

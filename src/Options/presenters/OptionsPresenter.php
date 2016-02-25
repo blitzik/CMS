@@ -32,6 +32,9 @@ class OptionsPresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions default
+     */
     protected function createComponentOptionsForm()
     {
         $form = new Form;

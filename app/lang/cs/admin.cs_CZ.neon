@@ -17,3 +17,5 @@ localization:
 	form:
 		change:
 			caption: změnit
+
+signIn: "Přihlašte se prosím"

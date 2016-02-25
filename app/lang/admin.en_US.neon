@@ -17,3 +17,5 @@ localization:
 	form:
 		change:
 			caption: Change
+
+signIn: "Sign In please"

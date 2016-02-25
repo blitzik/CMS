@@ -37,6 +37,9 @@ class AuthPresenter extends AppPresenter
     }
 
 
+    /**
+     * @Actions login
+     */
     protected function createComponentLoginForm()
     {
         $form = new Form;

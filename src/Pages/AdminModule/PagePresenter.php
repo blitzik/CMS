@@ -75,6 +75,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions overview
+     */
     protected function createComponentPublishedPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
@@ -95,6 +98,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions overview
+     */
     protected function createComponentWaitingPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
@@ -114,6 +120,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions overview
+     */
     protected function createComponentUnpublishedPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
@@ -187,6 +196,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions new, edit
+     */
     protected function createComponentArticleForm()
     {
         $comp = $this->pageFormFactory->create($this->userEntity);
@@ -233,6 +245,9 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
+    /**
+     * @Actions remove
+     */
     protected function createComponentArticleRemovalForm()
     {
         $comp = $this->pageRemovalFactory->create($this->page);
