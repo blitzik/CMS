@@ -4,6 +4,7 @@ namespace Pages\FrontModule\Presenters;
 
 use Comments\Components\Front\ICommentsOverviewControlFactory;
 use Comments\Components\Front\ICommentFormControlFactory;
+use Nette\Application\ForbiddenRequestException;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
@@ -96,11 +97,17 @@ class PagePresenter extends BasePresenter
                          (new PageQuery())
                           ->withTags()
                           ->byPageId($internal_id)
-                          ->onlyPublished()
                      );
 
-        if ($page === null) {
+        if ($page === null) { // nothing found
             throw new BadRequestException;
+        }
+
+        // only owner of blog can see unpublished articles
+        if (($page->getIsPublished() === false or
+            $page->getPublishedAt() > (new \DateTime('now'))) and
+            !$this->user->isLoggedIn()) {
+            throw new ForbiddenRequestException;
         }
 
         $this['pageTitle']->setPageTitle($this->options->blog_title)
