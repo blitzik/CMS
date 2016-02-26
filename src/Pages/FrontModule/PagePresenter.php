@@ -46,7 +46,7 @@ class PagePresenter extends BasePresenter
     public $pageFacade;
 
     /**
-     * @var Page
+     * @var array [0 => Pages\Page, 'commentsCount' => int]
      */
     private $page;
 
@@ -95,12 +95,15 @@ class PagePresenter extends BasePresenter
 
     public function actionShow($internal_id)
     {
-        $page = $this->pageFacade
+        $result = $this->pageFacade
                      ->fetchPage(
                          (new PageQuery())
                           ->withTags()
+                          ->withCommentsCount()
                           ->byPageId($internal_id)
                      );
+
+        $page = $result[0];
 
         if ($page === null) { // nothing found
             throw new BadRequestException;
@@ -116,13 +119,13 @@ class PagePresenter extends BasePresenter
         $this['pageTitle']->setPageTitle($this->options->blog_title)
                           ->joinTitleText(' - ' . $page->title);
 
-        $this->page = $page;
+        $this->page = $result;
     }
 
 
     public function renderShow($internal_id)
     {
-        $this->template->page = $this->page;
+        $this->template->page = $this->page[0];
     }
 
 
@@ -131,7 +134,8 @@ class PagePresenter extends BasePresenter
      */
     protected function createComponentPage()
     {
-        $comp = $this-> pageFactory->create($this->page);
+        $comp = $this-> pageFactory->create($this->page[0]);
+        $comp->setCommentsCount($this->page['commentsCount']);
         return $comp;
     }
 
@@ -141,7 +145,7 @@ class PagePresenter extends BasePresenter
      */
     protected function createComponentCommentsOverview()
     {
-        $comp = $this->commentsOverviewFactory->create($this->page);
+        $comp = $this->commentsOverviewFactory->create($this->page[0]);
         return $comp;
     }
 
@@ -152,7 +156,7 @@ class PagePresenter extends BasePresenter
     protected function createComponentCommentsForm()
     {
         $comp = $this->commentsFormFactory
-                     ->create($this->page);
+                     ->create($this->page[0]);
 
         return $comp;
     }
