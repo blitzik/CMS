@@ -35,9 +35,9 @@ saveAndPublish:
 	caption: "Uložit a publikovat"
 	title: "Uloží článek a zobrazí ho veřejně"
 
-saveAndHide:
-	caption: "Uložit a skrýt"
-	title: "Uloží článek ale nezobrazí ho veřejně"
+saveAsDraft:
+	caption: "Uložit jako pracovní verzi"
+	title: "Uloží článek jako pracovní verzi. Článek se nezobrazí veřejně"
 
 returnAtTop: "Vrátit se na začátek formuláře"
 

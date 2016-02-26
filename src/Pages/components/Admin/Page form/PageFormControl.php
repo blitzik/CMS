@@ -121,8 +121,8 @@ class PageFormControl extends BaseControl
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAndPublish.title'))
                 ->onClick[] = [$this, 'processPageSavingAndPublishing'];
 
-        $form->addSubmit('saveAndHide', 'saveAndHide.caption')
-                ->setAttribute('title', $this->translator->translate('pageEditForm.saveAndHide.title'))
+        $form->addSubmit('saveAsDraft', 'saveAsDraft.caption')
+                ->setAttribute('title', $this->translator->translate('pageEditForm.saveAsDraft.title'))
                 ->onClick[] = [$this, 'processPageSavingAndHiding'];
 
         $form->addProtection();

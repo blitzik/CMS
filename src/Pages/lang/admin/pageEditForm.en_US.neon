@@ -35,9 +35,9 @@ saveAndPublish:
 	caption: "Save and Publish"
 	title: "Saves the Article and displays it publicly"
 
-saveAndHide:
-	caption: "Save and Hide"
-	title: "Saves the Article but does NOT display it publicly"
+saveAsDraft:
+	caption: "Save as draft"
+	title: "Saves the Article for later editing. Article is NOT displayed publicly"
 
 returnAtTop: "Return at the start of the form"
 
