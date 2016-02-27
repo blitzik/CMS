@@ -2,9 +2,9 @@
 
 namespace Pages\Query;
 
-use Comments\Comment;
 use Kdyby\Persistence\Queryable;
 use Kdyby\Doctrine\QueryObject;
+use Comments\Comment;
 use Pages\Page;
 use Kdyby;
 
@@ -74,7 +74,7 @@ class PageQuery extends QueryObject
     public function onlyPublished()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('p.isPublished = true AND p.publishedAt <= CURRENT_TIMESTAMP()');
+            $qb->andWhere('p.isDraft = false AND p.publishedAt <= CURRENT_TIMESTAMP()');
         };
 
         return $this;
@@ -85,7 +85,7 @@ class PageQuery extends QueryObject
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
             $qb->resetDQLParts(['join', 'orderBy']);
-            $qb->where('p.isPublished = true AND p.publishedAt > CURRENT_TIMESTAMP()');
+            $qb->where('p.isDraft = false AND p.publishedAt > CURRENT_TIMESTAMP()');
             $qb->orderBy('p.publishedAt', 'ASC');
         };
 
@@ -93,10 +93,10 @@ class PageQuery extends QueryObject
     }
 
 
-    public function notPublished()
+    public function onlyDrafts()
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('p.isPublished = false');
+            $qb->andWhere('p.isDraft = true');
         };
 
         return $this;

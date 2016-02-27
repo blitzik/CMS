@@ -44,8 +44,10 @@ returnAtTop: "Return at the start of the form"
 # flash messages
 
 messages:
-	successPublished: "Article has been successfully saved and displayed publicly"
-	successHidden: "Article has been successfully saved and hidden"
+	successPublish: "Article has been successfully saved and displayed publicly"
+	successDraft: "Article has been successfully saved as draft"
+	missingPublicationTime: "Please set the Date of publication"
+	publishedPageInvalidPublicationTime: "You cannot set the publication time of already published Article into a past."
 	titleExists: "Article with this title already exists. Please change the Article title."
 	urlExists: "This URL address already exists. Please change the URL address."
 	savingError: "An Error has occurred. Please try again later."

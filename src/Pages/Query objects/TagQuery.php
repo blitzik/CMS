@@ -44,6 +44,16 @@ class TagQuery extends QueryObject
     }
 
 
+    public function orderByName($order = 'ASC')
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($order) {
+            $qb->orderBy('t.name', $order);
+        };
+
+        return $this;
+    }
+
+
     public function indexedByTagId()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {

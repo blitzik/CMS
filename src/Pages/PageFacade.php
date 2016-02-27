@@ -2,24 +2,22 @@
 
 namespace Pages\Facades;
 
+use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
+use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
 use Pages\Exceptions\Logic\DateTimeFormatException;
-use Pages\Exceptions\Runtime\PagePublicationTimeException;
-use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
-use Pages\Services\PageRemover;
-use Url\Exceptions\Runtime\UrlAlreadyExistsException;
-use Doctrine\DBAL\DBALException;
-use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
+use Pages\Services\PagePersister;
+use Kdyby\Doctrine\EntityManager;
+use Doctrine\DBAL\DBALException;
+use Pages\Services\PageRemover;
+use Nette\Caching\IStorage;
+use Pages\Query\PageQuery;
 use Kdyby\Monolog\Logger;
 use Nette\Caching\Cache;
-use Nette\Caching\IStorage;
 use Nette\Object;
-use Nette\Utils\Strings;
 use Pages\Page;
-use Pages\Query\PageQuery;
-use Pages\Services\PagePersister;
-use Url\Url;
 
 class PageFacade extends Object
 {
@@ -125,16 +123,7 @@ class PageFacade extends Object
     public function publishPage($id)
     {
         $this->em->createQuery(
-            'UPDATE ' . Page::class . ' p SET p.isPublished = true
-             WHERE p.id = :id'
-        )->execute(['id' => $id]);
-    }
-
-
-    public function hidePage($id)
-    {
-        $this->em->createQuery(
-            'UPDATE ' . Page::class . ' p SET p.isPublished = false
+            'UPDATE ' . Page::class . ' p SET p.is_draft = false
              WHERE p.id = :id'
         )->execute(['id' => $id]);
     }
@@ -173,7 +162,7 @@ class PageFacade extends Object
         $rsm->addMetaResult('p', 'url', 'url');
 
         $rsm->addFieldResult('p', 'created_at', 'createdAt');
-        $rsm->addFieldResult('p', 'is_published', 'isPublished');
+        $rsm->addFieldResult('p', 'is_draft', 'isDraft');
         $rsm->addFieldResult('p', 'published_at', 'publishedAt');
         $rsm->addFieldResult('p', 'allowed_comments', 'allowedComments');
 
@@ -183,7 +172,7 @@ class PageFacade extends Object
 
         $nativeQuery = $this->em->createNativeQuery(
             'SELECT p.id, p.title, p.intro, p.author, p.url,
-                    p.created_at, p.is_published, p.published_at,
+                    p.created_at, p.is_draft, p.published_at,
                     p.allowed_comments, COUNT(c.page) AS commentsCount
              FROM (
                 SELECT pts.page_id, pts.tag_id
@@ -191,7 +180,7 @@ class PageFacade extends Object
                 WHERE pts.tag_id IN (:ids)
                 GROUP BY pts.page_id
              ) AS pt
-             JOIN page p ON (p.id = pt.page_id)
+             JOIN page p ON (p.id = pt.page_id AND p.is_draft = 0 AND p.published_at <= NOW())
              LEFT JOIN comment c ON (c.page = pt.page_id)
              GROUP BY pt.page_id',
             $rsm

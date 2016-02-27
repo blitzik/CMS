@@ -3,6 +3,8 @@
 namespace Pages\Components\Admin;
 
 use blitzik\FlashMessages\FlashMessage;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
+use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Nette\Forms\Controls\SubmitButton;
@@ -123,7 +125,7 @@ class PageFormControl extends BaseControl
 
         $form->addSubmit('saveAsDraft', 'saveAsDraft.caption')
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAsDraft.title'))
-                ->onClick[] = [$this, 'processPageSavingAndHiding'];
+                ->onClick[] = [$this, 'processPageSavingAsDraft'];
 
         $form->addProtection();
 
@@ -133,20 +135,20 @@ class PageFormControl extends BaseControl
 
     public function processPageSavingAndPublishing(SubmitButton $buttonControl)
     {
-        $this->pageSaving($buttonControl->getForm(), true);
-    }
-
-
-    public function processPageSavingAndHiding(SubmitButton $buttonControl)
-    {
         $this->pageSaving($buttonControl->getForm(), false);
     }
 
 
-    private function pageSaving(\Nette\Forms\Form $form, $isPublished)
+    public function processPageSavingAsDraft(SubmitButton $buttonControl)
+    {
+        $this->pageSaving($buttonControl->getForm(), true);
+    }
+
+
+    private function pageSaving(\Nette\Forms\Form $form, $isDraft)
     {
         $values = $form->getValues(true);
-        $values['isPublished'] = (bool)$isPublished;
+        $values['saveAsDraft'] = (bool)$isDraft;
         $values['author'] = $this->user;
 
         $tags = $form->getHttpData(Form::DATA_TEXT, 'tags[]');
@@ -155,26 +157,33 @@ class PageFormControl extends BaseControl
         try {
             $page = $this->pageFacade->save($values, $this->page);
             $this->flashMessage(
-                'pageEditForm.messages.success' . ($values['isPublished'] ? 'Published' : 'Hidden'),
+                'pageEditForm.messages.success' . ($values['saveAsDraft'] ? 'Draft' : 'Publish'),
                 FlashMessage::SUCCESS
             );
 
+            $this->onSuccessPageSaving($this, $page);
+
+        } catch (PagePublicationTimeMissingException $ptm) {
+            $form->addError($this->translator->translate('pageEditForm.messages.missingPublicationTime'));
+            return;
+
+        } catch (PagePublicationTimeException $pt) {
+            $form->addError($this->translator->translate('pageEditForm.messages.publishedPageInvalidPublicationTime'));
+            return;
+
         } catch (PageTitleAlreadyExistsException $at) {
             $form->addError($this->translator->translate('pageEditForm.messages.titleExists'));
-
             return;
+
         } catch (UrlAlreadyExistsException $ur) {
             $form['url']->setValue(Strings::webalize($values['title'], '/'));
             $form->addError($this->translator->translate('pageEditForm.messages.urlExists'));
-
             return;
+
         } catch (DBALException $e) {
             $form->addError($this->translator->translate('pageEditForm.messages.savingError'));
-
             return;
         }
-
-        $this->onSuccessPageSaving($this, $page);
     }
 
 

@@ -84,7 +84,7 @@ class PagePresenter extends ProtectedPresenter
         $comp = $this->pagesOverviewFactory
             ->create(
                 (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
+                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
                  ->onlyPublished()
                  ->withTags()
                  ->orderByPublishedAt('DESC')
@@ -107,7 +107,7 @@ class PagePresenter extends ProtectedPresenter
         $comp = $this->pagesOverviewFactory
             ->create(
                 (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
+                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
                  ->waitingForBeingPublished()
                  ->withTags()
             );
@@ -124,18 +124,18 @@ class PagePresenter extends ProtectedPresenter
     /**
      * @Actions overview
      */
-    protected function createComponentUnpublishedPagesOverview()
+    protected function createComponentDraftPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
             ->create(
                 (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isPublished'])
-                 ->notPublished()
+                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                 ->onlyDrafts()
                  ->withTags()
                  ->orderByPublishedAt('DESC')
             );
 
-        $comp->setTitle('pagesOverview.tableTitle.unpublished');
+        $comp->setTitle('pagesOverview.tableTitle.draft');
         $comp->setPrependTitleIcon('eye-slash');
 
         //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];

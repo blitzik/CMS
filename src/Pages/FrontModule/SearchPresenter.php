@@ -32,16 +32,16 @@ class SearchPresenter extends BasePresenter
     public $pageControlFactory;
 
     /**
-     * @var TagFacade
-     * @inject
-     */
-    public $tagFacade;
-
-    /**
      * @var PageFacade
      * @inject
      */
     public $pageFacade;
+
+    /**
+     * @var TagFacade
+     * @inject
+     */
+    public $tagFacade;
 
     /** @var Tag[] */
     public $tags;
@@ -57,6 +57,7 @@ class SearchPresenter extends BasePresenter
         $this->tags = $this->tagFacade
                            ->fetchTags(
                                (new TagQuery())
+                                ->orderByName()
                                 ->indexedByTagId()
                            )->toArray();
 

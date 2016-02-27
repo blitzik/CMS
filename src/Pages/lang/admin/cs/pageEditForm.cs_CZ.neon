@@ -44,8 +44,10 @@ returnAtTop: "Vrátit se na začátek formuláře"
 # flash messages
 
 messages:
-	successPublished: "Článek byl úspěšně uložen a zobrazen veřejně"
-	successHidden: "Článek byl úspěšně uložen a skryt"
+	successPublish: "Článek byl úspěšně uložen a zobrazen veřejně"
+	successDraft: "Článek byl úspěšně uložen jako pracovní verze"
+	missingPublicationTime: "Nastavte prosím datum publikace"
+	publishedPageInvalidPublicationTime: "U publikovaného článku nelze nastavit čas publikace do minulosti"
 	titleExists: "Článek s tímto titulkem již existuje. Změňte prosím titulek článku."
 	urlExists: "Tato URL adresa již existuje. Změňte prosím URL adresu."
 	savingError: "Nastala chyba při ukládání. Zkuste to prosím později."

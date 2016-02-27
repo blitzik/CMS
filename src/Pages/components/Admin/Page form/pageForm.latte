@@ -136,8 +136,11 @@ Nadpis1   Nadpis2   Podnadpis
                     {customFormErrors}
                 {/snippet}
 
+                {if $page->isDraft()}
+                    {input saveAsDraft class => 'btn btn-river'}
+                {/if}
+
                 {input saveAndPublish class => 'btn btn-turquoise'}
-                {input saveAsDraft class => 'btn btn-river'}
 
                 <a href="#top" class="right">{_returnAtTop} <i class="fa fa-level-up"></i></a>
             </div>

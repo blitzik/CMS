@@ -14,6 +14,8 @@ class RuntimeException extends \RuntimeException {}
 
     class PagePublicationTimeException extends RuntimeException {}
 
+    class PagePublicationTimeMissingException extends RuntimeException {}
+
     class WrongPageCommentReaction extends RuntimeException {}
 
     class TagNameAlreadyExistsException extends RuntimeException {}

@@ -1,6 +1,6 @@
 <article class="page">
     <header>
-        <h1><a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h1>
+        <h1>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h1>
         <ul class="page-info">
             <li><i class="fa fa-calendar-plus-o fa-fw"></i>
                 {$page->publishedAt|date:"j"}.{*day*}

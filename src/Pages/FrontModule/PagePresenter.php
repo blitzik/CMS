@@ -10,6 +10,7 @@ use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
+use Pages\Page;
 use Pages\Query\PageQuery;
 
 class PagePresenter extends BasePresenter
@@ -102,17 +103,18 @@ class PagePresenter extends BasePresenter
                           ->byPageId($internal_id)
                      );
 
+        /** @var Page $page */
         $page = $result[0];
 
         if ($page === null) { // nothing found
             throw new BadRequestException;
         }
 
-        // only owner of blog can see unpublished articles
-        if (($page->getIsPublished() === false or
+        // only owner of blog can see articles drafts
+        if (($page->isDraft() === true or
             $page->getPublishedAt() > (new \DateTime('now'))) and
             !$this->user->isLoggedIn()) {
-            throw new ForbiddenRequestException;
+            throw new BadRequestException;
         }
 
         $this['pageTitle']->setPageTitle($this->options->blog_title)

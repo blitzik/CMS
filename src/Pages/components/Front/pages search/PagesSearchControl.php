@@ -9,6 +9,7 @@
 namespace Pages\Components\Front;
 
 use App\Components\BaseControl;
+use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
 use Tags\Query\TagQuery;
@@ -38,7 +39,7 @@ class PagesSearchControl extends BaseControl
     public function render()
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/tagsOverview.latte');
+        $template->setFile(__DIR__ . '/pagesSearch.latte');
 
         $template->tags = $this->tags;
         $template->selectedTags = array_flip($this->selectedTags);
@@ -71,6 +72,11 @@ class PagesSearchControl extends BaseControl
     public function processForm(Form $form, $values)
     {
         $selectedTags = array_flip($form->getHttpData(Form::DATA_TEXT, 'tags[]'));
+
+        if (empty($selectedTags)) {
+            $this->flashMessage('Vyberte štítky podle kterých chcete vyhledávat', FlashMessage::WARNING);
+            $this->redirect('this');
+        }
 
         $tags = '';
         foreach ($selectedTags as $id => $val) {

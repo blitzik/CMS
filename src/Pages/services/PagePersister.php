@@ -8,6 +8,7 @@
 
 namespace Pages\Services;
 
+use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
@@ -42,6 +43,7 @@ class PagePersister extends Object
      * @param Page|null $page
      * @return Page
      * @throws PagePublicationTimeException
+     * @throws PagePublicationTimeMissingException
      * @throws UrlAlreadyExistsException
      * @throws PageTitleAlreadyExistsException
      * @throws \Exception
@@ -50,8 +52,8 @@ class PagePersister extends Object
     {
         foreach ($values as $k => $v) $values[$k] = $v === '' ? null : $v;
 
-        if ($values['publishedAt'] === null and $values['isPublished'] === true) {
-            throw new PagePublicationTimeException;
+        if ($values['publishedAt'] === null and $values['saveAsDraft'] === false) {
+            throw new PagePublicationTimeMissingException;
         }
 
         try {
@@ -128,6 +130,7 @@ class PagePersister extends Object
      * @param array $values
      * @return Page
      * @throws UrlAlreadyExistsException
+     * @throws PagePublicationTimeException
      */
     private function updatePage(Page $page, array $values)
     {
@@ -159,8 +162,11 @@ class PagePersister extends Object
         $page->setTitle($values['title']);
         $page->setIntro($values['intro']);
         $page->setPublishedAt($values['publishedAt']);
-        $page->setArticleVisibility($values['isPublished']);
         $page->setAllowedComments($values['allowedComments']);
+
+        if ($page->isDraft() and $values['saveAsDraft'] === false) {
+            $page->setAsPublished();
+        }
     }
 
 

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Users\User;
 use Tags\Tag;
 use Url\Url;
@@ -19,7 +20,7 @@ use Url\Url;
  * @ORM\Table(
  *      name="page",
  *      indexes={
- *          @Index(name="published_at", columns={"published_at"})
+ *          @Index(name="is_draft_published_at", columns={"is_draft", "published_at"})
  *      }
  * )
  *
@@ -74,10 +75,10 @@ class Page
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="is_published", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @ORM\Column(name="is_draft", type="boolean", nullable=false, unique=false, options={"default": true})
      * @var bool
      */
-    private $isPublished;
+    private $isDraft;
 
     /**
      * @ORM\Column(name="published_at", type="datetime", nullable=true, unique=false)
@@ -112,7 +113,7 @@ class Page
         $this->setUrl($url);
         $this->author = $author;
 
-        $this->isPublished = false;
+        $this->isDraft = true;
         $this->allowedComments = true;
 
         $this->createdAt = new \DateTime('now');
@@ -219,16 +220,17 @@ class Page
             }
         }
 
+        if (!$this->isDraft() and $publishTime < (new \DateTime('now'))) {
+            throw new PagePublicationTimeException;
+        }
+
         $this->publishedAt = $publishTime;
     }
 
 
-    /**
-     * @param bool $isPublished
-     */
-    public function setArticleVisibility($isPublished)
+    public function setAsPublished()
     {
-        $this->isPublished = (bool)$isPublished;
+        $this->isDraft = false;
     }
 
 
@@ -269,9 +271,9 @@ class Page
     /**
      * @return bool
      */
-    public function getIsPublished()
+    public function isDraft()
     {
-        return $this->isPublished;
+        return $this->isDraft;
     }
 
 

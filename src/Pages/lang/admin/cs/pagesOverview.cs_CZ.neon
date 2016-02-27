@@ -1,7 +1,7 @@
 pageTitle: "Přehled článků"
 
 tableTitle:
-	unpublished: "Nepublikované články"
+	draft: "Pracovní verze článků"
 	waiting: "Články čekající na zveřejnění"
 	published: "Publikované články"
 

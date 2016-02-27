@@ -1,8 +1,8 @@
 pageTitle: "Articles overview"
 
 tableTitle:
-	unpublished: "Unpublished articles"
-	waiting: "Articles waiting to be published"
+	draft: "Draft articles"
+	waiting: "Articles waiting for publication"
 	published: "Published articles"
 
 rowTitle:
