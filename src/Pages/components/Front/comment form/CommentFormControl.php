@@ -68,7 +68,7 @@ class CommentFormControl extends BaseControl
         $this->commentFacade->saveComment($comment);
 
         $this->flashMessage('Komentář  byl úspěšně uložen', 'success');
-        $this->redirect('this');
+        $this->redirect('this#comment-' . $comment->getId());
     }
 }
 

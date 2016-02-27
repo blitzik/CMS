@@ -49,8 +49,8 @@ class PagePresenter extends ProtectedPresenter
     public function getPage($id)
     {
         $article = $this->pageFacade->getPage(intval($id));
-        if ($article === null) { // todo translation in flash message
-            $this->flashMessage('Požadovaný článek nebyl nalezen.', FlashMessage::WARNING);
+        if ($article === null) {
+            $this->flashMessage('pages.messages.articleNotFound', FlashMessage::WARNING);
             $this->redirect(':Pages:Admin:Page:overview');
         }
 
@@ -234,16 +234,28 @@ class PagePresenter extends ProtectedPresenter
 
     public function actionRemove($id)
     {
-        $this->page = $this->getPage($id);
+        $this->page = $this->pageFacade
+                           ->fetchPage(
+                               (new PageQuery())
+                                ->byPageId($id)
+                                ->withCommentsCount()
+                           );
+
+        if ($this->page === null) {
+            $this->flashMessage('pages.messages.articleNotFound', FlashMessage::WARNING);
+            $this->redirect(':Pages:Admin:Page:overview');
+
+        }
 
         $this['pageTitle']->setPageTitle('pageRemoval.title')
-                          ->joinTitleText(' - ' . $this->page->title);
+                          ->joinTitleText(' - ' . $this->page[0]->title);
     }
 
 
     public function renderRemove($id)
     {
-        $this->template->page = $this->page;
+        $this->template->page = $this->page[0];
+        $this->template->commentsCount = $this->page['commentsCount'];
     }
 
 
@@ -252,7 +264,7 @@ class PagePresenter extends ProtectedPresenter
      */
     protected function createComponentArticleRemovalForm()
     {
-        $comp = $this->pageRemovalFactory->create($this->page);
+        $comp = $this->pageRemovalFactory->create($this->page[0]);
 
         $comp->onPageRemoval[] = [$this, 'onArticleRemoval'];
         $comp->onCancelClick[] = [$this, 'onCancelClick'];

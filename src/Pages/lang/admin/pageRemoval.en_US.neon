@@ -1,6 +1,6 @@
 title: "Article removal"
 
-warning: "The Article is going to be <strong>removed PERMANENTLY</strong> including the comments of your readers."
+warning: "{0}The Article is going to be <strong>removed PERMANENTLY</strong>|{1}The Article is going to be <strong>removed PERMANENTLY</strong> including 1 comment|[2,+Inf[The Article is going to be <strong>removed PERMANENTLY</strong> including %count% comments"
 
 check:
 	label: "Please type the title of the Article that is being removed"

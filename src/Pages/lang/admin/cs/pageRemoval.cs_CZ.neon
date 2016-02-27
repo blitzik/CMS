@@ -1,6 +1,6 @@
 title: "Odstranění článku"
 
-warning: "Článek bude <strong>nenávratně odstraněn</strong> včetně komentářů od Vaších čtenářů."
+warning: "{0}Článek bude <strong>nenávratně odstraněn</strong>|{1}Článek bude <strong>nenávratně odstraněn</strong> včetně %count% komentáře od Vašeho čtenáře|[2,+Inf[Článek bude <strong>nenávratně odstraněn</strong> včetně %count% komentářů od Vašich čtenářů"
 
 check:
 	label: "Pro smazání opište titulek článku"
