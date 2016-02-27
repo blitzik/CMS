@@ -2,11 +2,11 @@
 
 namespace Tags\Presenters;
 
-use blitzik\FlashMessages\FlashMessage;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
 use Tags\Components\Admin\ITagsOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Tags\Components\Admin\TagsOverviewControl;
+use blitzik\FlashMessages\FlashMessage;
 use Pages\Factories\TagFormFactory;
 use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;

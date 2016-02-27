@@ -1,0 +1,20 @@
+
+{form form}
+<div class="tags-picking-box">
+<ul class="tags-list">
+{foreach $tags as $tag}
+    <li>
+        <label for="tag-{$tag->getId()}">
+        <span class="tag" style="background-color: {$tag->color|noescape}" data-tag-color="{$tag->color|noescape}">
+            <i class="fa fa-tag fa-fw"></i> {$tag->name}
+            <input type="checkbox" name="tags[]" id="tag-{$tag->getId()}" class="tag-checkbox" value="{$tag->getId()}"{if array_key_exists($tag->getId(), $selectedTags)} checked{/if}>
+        </span>
+        </label>
+    </li>
+{/foreach}
+</ul>
+</div>
+
+{input search}
+
+{/form}

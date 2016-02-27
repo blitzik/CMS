@@ -31,7 +31,9 @@ module.exports = function (grunt) {
                 src: [
                     'assets/js/original/jquery.datetimepicker.js',
                     'assets/js/my_js/editPageDatetimepicker.js',
-                    'assets/js/my_js/editPage.js'
+                    'assets/js/my_js/editPage.js',
+                    'assets/js/my_js/tagsPicking.js'
+
                 ],
                 dest: 'assets/js/original/editPage.js'
             }
@@ -47,6 +49,12 @@ module.exports = function (grunt) {
             edit_page: {
                 files: {
                     'assets/js/editPage.min.js': 'assets/js/original/editPage.js'
+                }
+            },
+
+            tags_picking: {
+                files: {
+                    'assets/js/tagsPicking.min.js': 'assets/js/my_js/tagsPicking.js'
                 }
             }
         },

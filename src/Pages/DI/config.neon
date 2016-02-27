@@ -15,8 +15,13 @@ services:
 	commentFacade: Comments\Facades\CommentFacade
 
 	# components factories
-	tagsOverviewControlFactory:
+	admin_tagsOverviewControlFactory:
 		implement: Tags\Components\Admin\ITagsOverviewControlFactory
+
+	pagesSearchControl:
+		implement: Pages\Components\Front\IPagesSearchControlFactory
+		parameters: [array tags]
+		arguments: [%tags%]
 
 	tagControlFactory:
 		implement: Tags\Components\Admin\ITagControlFactory

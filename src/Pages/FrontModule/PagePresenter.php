@@ -4,13 +4,12 @@ namespace Pages\FrontModule\Presenters;
 
 use Comments\Components\Front\ICommentsOverviewControlFactory;
 use Comments\Components\Front\ICommentFormControlFactory;
-use Nette\Application\ForbiddenRequestException;
 use Pages\Components\Front\IPagesOverviewControlFactory;
+use Nette\Application\ForbiddenRequestException;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
-use Pages\Page;
 use Pages\Query\PageQuery;
 
 class PagePresenter extends BasePresenter

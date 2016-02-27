@@ -156,12 +156,7 @@ class Page
      */
     public function getTags()
     {
-        $result = [];
-        foreach ($this->tags->toArray() as $tag) {
-            $result[$tag->getId()] = $tag;
-        }
-
-        return $result;
+        return $this->tags->toArray();
     }
 
 

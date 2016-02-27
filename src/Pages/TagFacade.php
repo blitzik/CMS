@@ -9,6 +9,8 @@ use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
+use Pages\Page;
+use Tags\Query\TagQuery;
 use Tags\Tag;
 
 class TagFacade extends Object
@@ -64,6 +66,26 @@ class TagFacade extends Object
 
 
     /**
+     * @param TagQuery $tagQuery
+     * @return Tag|null
+     */
+    public function fetchTag(TagQuery $tagQuery)
+    {
+        return $this->tagRepository->fetchOne($tagQuery);
+    }
+
+
+    /**
+     * @param TagQuery $tagQuery
+     * @return array|ResultSet
+     */
+    public function fetchTags(TagQuery $tagQuery)
+    {
+        return $this->tagRepository->fetch($tagQuery);
+    }
+
+
+    /**
      * @param int $id
      * @return Tag|null
      */
@@ -71,6 +93,9 @@ class TagFacade extends Object
     {
         return $this->tagRepository->find($id);
     }
+
+
+
 
 
     /**

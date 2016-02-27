@@ -38,7 +38,7 @@ class PageQuery extends QueryObject
             $repository->createQueryBuilder()
                        ->select('PARTIAL page.{id}, tags')
                        ->from(Page::class, 'page')
-                       ->leftJoin('page.tags', 'tags')
+                       ->leftJoin('page.tags', 'tags', null, null, 'tags.id')
                        ->andWhere('page.id IN (:ids)')
                        ->setParameter('ids', $ids)
                        ->getQuery()
@@ -150,7 +150,7 @@ class PageQuery extends QueryObject
         return $qb;
     }
 
-
+    
     /**
      * @param \Kdyby\Persistence\Queryable $repository
      * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder

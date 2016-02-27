@@ -229,6 +229,38 @@ header{
 }
 
 
+// search
+
+
+.search{
+  margin-top: 50px;
+
+  h1{
+    font-size: 1.5em;
+  }
+}
+
+.tags-list li{ // overriden from _common.scss
+  margin-bottom: 0;
+
+  label{ margin-bottom: 0; }
+}
+
+.tags-picking-box{
+  overflow: auto;
+  margin-bottom: 25px;
+}
+
+.tag{ // overriden from _common.scss
+  font-size: .5em;
+
+  @include border-radius(5px);
+}
+
+
+
+// -----
+
 
 
 .blitzik__paginator{

@@ -2,6 +2,7 @@
 
 namespace Pages\Facades;
 
+use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
 use Pages\Exceptions\Logic\DateTimeFormatException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
@@ -146,9 +147,65 @@ class PageFacade extends Object
     {
         $qb = $this->em->createQueryBuilder();
         $qb->select('p, t')
-            ->from(Page::class, 'p')
-            ->leftJoin('p.tags', 't');
+           ->from(Page::class, 'p')
+           ->leftJoin('p.tags', 't', null, null, 't.id');
 
         return $qb;
+    }
+
+
+    /**
+     * Method used for search functionality
+     *
+     * @param array $tagsIDs
+     * @return array
+     */
+    public function searchByTags(array $tagsIDs)
+    {
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addEntityResult(Page::class, 'p');
+        $rsm->addFieldResult('p', 'id', 'id');
+        $rsm->addFieldResult('p', 'title', 'title');
+        $rsm->addFieldResult('p', 'intro', 'intro');
+        //$rsm->addFieldResult('p', 'text', 'text');
+
+        $rsm->addMetaResult('p', 'author', 'author');
+        $rsm->addMetaResult('p', 'url', 'url');
+
+        $rsm->addFieldResult('p', 'created_at', 'createdAt');
+        $rsm->addFieldResult('p', 'is_published', 'isPublished');
+        $rsm->addFieldResult('p', 'published_at', 'publishedAt');
+        $rsm->addFieldResult('p', 'allowed_comments', 'allowedComments');
+
+        $rsm->addScalarResult('commentsCount', 'commentsCount', 'integer');
+
+        $rsm->addIndexByColumn('p', 'id');
+
+        $nativeQuery = $this->em->createNativeQuery(
+            'SELECT p.id, p.title, p.intro, p.author, p.url,
+                    p.created_at, p.is_published, p.published_at,
+                    p.allowed_comments, COUNT(c.page) AS commentsCount
+             FROM (
+                SELECT pts.page_id, pts.tag_id
+                FROM page_tag pts
+                WHERE pts.tag_id IN (:ids)
+                GROUP BY pts.page_id
+             ) AS pt
+             JOIN page p ON (p.id = pt.page_id)
+             LEFT JOIN comment c ON (c.page = pt.page_id)
+             GROUP BY pt.page_id',
+            $rsm
+        )->setParameter('ids', array_unique($tagsIDs));
+
+        $pages = $nativeQuery->getResult();
+
+        $this->em->createQuery(
+            'SELECT PARTIAL page.{id}, tags FROM ' . Page::class . ' page
+             LEFT JOIN page.tags tags
+             WHERE page.id IN (:ids)'
+        )->setParameter('ids', array_keys($pages))
+         ->execute();
+
+        return $pages;
     }
 }
