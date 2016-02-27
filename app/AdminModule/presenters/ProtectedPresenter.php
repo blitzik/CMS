@@ -43,6 +43,13 @@ abstract class ProtectedPresenter extends AppPresenter
             $this->flashMessage('admin.signIn', 'warning');
             $this->redirect(':Users:Auth:login');
         }
+
+        if ($this->session->hasSection('cms_localization')) {
+            $localizationSection = $this->session->getSection('cms_localization');
+            if ($localizationSection->locale !== null) {
+                $this->locale = $localizationSection->locale;
+            }
+        }
     }
 
 

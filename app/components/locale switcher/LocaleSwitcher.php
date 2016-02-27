@@ -9,6 +9,8 @@
 namespace App\Components;
 
 use Nette\Application\UI\Form;
+use Nette\Http\Session;
+use Nette\Http\SessionSection;
 use Nette\Localization\ITranslator;
 
 class LocaleSwitcherControl extends BaseControl
@@ -19,16 +21,21 @@ class LocaleSwitcherControl extends BaseControl
     /** @var ITranslator */
     private $translator;
 
+    /** @var SessionSection */
+    private $session;
+
     /** @var string */
     private $locale;
 
 
     public function __construct(
         array $localization,
-        ITranslator $translator
+        ITranslator $translator,
+        Session $session
     ) {
         $this->localization = $localization;
         $this->translator = $translator;
+        $this->session = $session->getSection('cms_localization');
     }
 
 
@@ -74,6 +81,7 @@ class LocaleSwitcherControl extends BaseControl
 
     public function processLocale(Form $form, $values)
     {
+        $this->session->locale = $values->locale;
         $this->presenter->redirect('this', ['locale' => $values->locale]);
     }
 }

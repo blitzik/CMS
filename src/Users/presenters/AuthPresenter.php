@@ -9,11 +9,27 @@ use Nette\Security\AuthenticationException;
 
 class AuthPresenter extends AppPresenter
 {
+    /** @persistent */
+    public $locale;
+
     /**
      * @var ITranslator
      * @inject
      */
     public $translator;
+
+
+    protected function startup()
+    {
+        parent::startup();
+
+        if ($this->session->hasSection('cms_localization')) {
+            $localizationSection = $this->session->getSection('cms_localization');
+            if ($localizationSection->locale !== null) {
+                $this->locale = $localizationSection->locale;
+            }
+        }
+    }
 
 
     /*
