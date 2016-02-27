@@ -1,7 +1,8 @@
 <title n:tag-if="$entireTitle">
     {if $title === null}
-            {_$defaultTitle}
+        {_$defaultTitle}
     {else}
-        {_$title}{if $entireTitle}{$joinedTitleText}{/if}
+        {_$title}
     {/if}
+    {if $entireTitle}{$joinedTitleText}{/if}
 </title>
