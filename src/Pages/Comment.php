@@ -52,7 +52,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="Pages\Page")
-     * @ORM\JoinColumn(name="page", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="page", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var Page
      */
     private $page;
@@ -61,8 +61,8 @@ class Comment
      * @ORM\ManyToMany(targetEntity="Comment")
      * @ORM\JoinTable(
      *     name="comment_reactions",
-     *     joinColumns={@JoinColumn(name="comment", referencedColumnName="id")},
-     *     inverseJoinColumns={@JoinColumn(name="reaction", referencedColumnName="id")}
+     *     joinColumns={@JoinColumn(name="comment", referencedColumnName="id", onDelete="CASCADE")},
+     *     inverseJoinColumns={@JoinColumn(name="reaction", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
     private $reactions;
