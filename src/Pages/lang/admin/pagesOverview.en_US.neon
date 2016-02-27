@@ -1,5 +1,7 @@
 pageTitle: "Articles overview"
 
+noArticlesFound: "No Articles found"
+
 tableTitle:
 	draft: "Draft articles"
 	waiting: "Articles waiting for publication"

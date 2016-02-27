@@ -1,5 +1,5 @@
 
-{if count($pages) > 0}
+{if $pagesCount > 0 or $hiddenOnNoPages === false}
 
 {control flashMessages}
 
@@ -25,6 +25,7 @@
                 {/translator}
             </tr>
 
+            {if $pagesCount > 0}
             {foreach $pages as $page}
                 <tr>
                     <td>{$page->id}</td>
@@ -50,6 +51,9 @@
                     </td>
                 </tr>
             {/foreach}
+            {else}
+                <tr><td colspan="5">{_pagesOverview.noArticlesFound}</td></tr>
+            {/if}
         </table>
         {control vs}
 

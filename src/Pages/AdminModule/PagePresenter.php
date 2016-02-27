@@ -92,6 +92,7 @@ class PagePresenter extends ProtectedPresenter
 
         $comp->setTitle('pagesOverview.tableTitle.published');
         $comp->setPrependTitleIcon('eye');
+        $comp->showOnNoPages();
 
         //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
@@ -263,7 +264,7 @@ class PagePresenter extends ProtectedPresenter
     public function onArticleRemoval(PageRemovalControl $control, Page $page)
     {
         $this->flashMessage('pageRemoval.flashMessages.success', FlashMessage::SUCCESS, null, ['name' => $page->title]);
-        $this->redirect(':Dashboard:Dashboard:default');
+        $this->redirect(':Pages:Admin:Page:overview');
     }
 
 

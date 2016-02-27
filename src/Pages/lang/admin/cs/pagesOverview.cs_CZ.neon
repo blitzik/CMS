@@ -1,5 +1,7 @@
 pageTitle: "Přehled článků"
 
+noArticlesFound: "Žádné články k zobrazení"
+
 tableTitle:
 	draft: "Pracovní verze článků"
 	waiting: "Články čekající na zveřejnění"

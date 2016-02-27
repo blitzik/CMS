@@ -28,6 +28,9 @@ class PagesOverviewControl extends BaseControl
     /** @var  string */
     private $icon;
 
+    /** @var bool */
+    private $hiddenOnNoPages = true;
+
     /** @var  int */
     private $pagesCount = 10;
 
@@ -65,6 +68,12 @@ class PagesOverviewControl extends BaseControl
     }
 
 
+    public function showOnNoPages()
+    {
+        $this->hiddenOnNoPages = false;
+    }
+
+
     protected function createComponentVs()
     {
         $vs = new VisualPaginator();
@@ -96,10 +105,10 @@ class PagesOverviewControl extends BaseControl
         $pages = $resultSet->toArray();
 
         $template->pages = $pages;
+        $template->pagesCount = count($pages);
         $template->title = $this->title;
         $template->icon = $this->icon;
-
-
+        $template->hiddenOnNoPages = $this->hiddenOnNoPages;
 
         $template->render();
     }
