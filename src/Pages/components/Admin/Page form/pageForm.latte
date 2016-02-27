@@ -136,7 +136,7 @@ Nadpis1   Nadpis2   Podnadpis
                     {customFormErrors}
                 {/snippet}
 
-                {if $page->isDraft()}
+                {if !isset($page) or $page->isDraft()}
                     {input saveAsDraft class => 'btn btn-river'}
                 {/if}
 
