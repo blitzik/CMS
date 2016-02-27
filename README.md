@@ -1,12 +1,16 @@
 # Systém pro správu obsahu
 
-Jednoduchý systém pro správu menšího Blogu.
+Systém pro správu obsahu Blogu.
+(PHP5.6+ a MySQL5.6+)
+
+Celé řešení je responzivní.
+Administrace optimalizována pro nejpoužívanější prohlížeče a IE9+.
 
 Obsahuje:
 - správa článků
 - správa tagů
 - správa obrázků
-- správa komentářů u článků (zatím neimplementováno)
+- správa komentářů u článků (základní implementace komentářů na frontendu zatím)
 - nastavení blogu
 
 <img src="http://alestichava.cz/github-images/blog-cms/articles_overview.png" width="600">
