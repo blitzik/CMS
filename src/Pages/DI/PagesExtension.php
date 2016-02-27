@@ -30,7 +30,7 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
 
         $cb = $this->getContainerBuilder();
 
-        $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
+        $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/services.neon'), $this->name);
 
         $pagesOverview = $cb->getDefinition($this->prefix('pagesOverviewControlFactory'));
         $pagesOverview->addSetup('setPagesPerPage', [$config['pagesPerPage']]);
