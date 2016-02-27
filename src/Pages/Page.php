@@ -207,8 +207,9 @@ class Page
 
 
     /**
-     * @param \DateTime|null $publishTime
+     * @param \DateTime $publishTime
      * @throws DateTimeFormatException
+     * @throws PagePublicationTimeException
      */
     public function setPublishedAt($publishTime)
     {
@@ -220,16 +221,21 @@ class Page
             }
         }
 
-        if (!$this->isDraft() and $publishTime < (new \DateTime('now'))) {
+        if (!$this->isDraft() and $publishTime > (new \DateTime('now'))) {
             throw new PagePublicationTimeException;
         }
 
         $this->publishedAt = $publishTime;
     }
 
-
-    public function setAsPublished()
+    /**
+     * @param \DateTime $publishTime
+     * @throws DateTimeFormatException
+     * @throws PagePublicationTimeException
+     */
+    public function setAsPublished($publishTime)
     {
+        $this->setPublishedAt($publishTime);
         $this->isDraft = false;
     }
 

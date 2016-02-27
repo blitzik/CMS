@@ -155,6 +155,7 @@ class PagePersister extends Object
     /**
      * @param array $values
      * @param Page $page
+     * @throws PagePublicationTimeException
      */
     private function fillPageEntity(array $values, Page $page)
     {
@@ -165,7 +166,7 @@ class PagePersister extends Object
         $page->setAllowedComments($values['allowedComments']);
 
         if ($page->isDraft() and $values['saveAsDraft'] === false) {
-            $page->setAsPublished();
+            $page->setAsPublished($values['publishedAt']);
         }
     }
 

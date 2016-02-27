@@ -8,14 +8,14 @@
 
 namespace Pages\Services;
 
-use Doctrine\DBAL\DBALException;
 use Kdyby\Doctrine\EntityManager;
+use Doctrine\DBAL\DBALException;
+use Nette\Caching\IStorage;
+use Url\Facades\UrlFacade;
 use Kdyby\Monolog\Logger;
 use Nette\Caching\Cache;
-use Nette\Caching\IStorage;
 use Nette\Object;
 use Pages\Page;
-use Url\Facades\UrlFacade;
 use Url\Url;
 
 class PageRemover extends Object
