@@ -75,7 +75,7 @@ class PagesSearchControl extends BaseControl
 
         if (empty($selectedTags)) {
             $this->flashMessage('Vyberte štítky podle kterých chcete vyhledávat', FlashMessage::WARNING);
-            $this->redirect('this');
+            $this->presenter->redirect('this', ['tags' => null]);
         }
 
         $tags = '';
