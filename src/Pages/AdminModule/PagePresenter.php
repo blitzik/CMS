@@ -93,7 +93,7 @@ class PagePresenter extends ProtectedPresenter
         $comp->setTitle('pagesOverview.tableTitle.published');
         $comp->setPrependTitleIcon('eye');
 
-        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+        //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
     }
@@ -115,7 +115,7 @@ class PagePresenter extends ProtectedPresenter
         $comp->setTitle('pagesOverview.tableTitle.waiting');
         $comp->setPrependTitleIcon('hourglass-half');
 
-        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+        //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
     }
@@ -138,13 +138,13 @@ class PagePresenter extends ProtectedPresenter
         $comp->setTitle('pagesOverview.tableTitle.unpublished');
         $comp->setPrependTitleIcon('eye-slash');
 
-        $comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
+        //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
         return $comp;
     }
 
 
-    public function onToggleVisibility(PagesOverviewControl $control)
+    /*public function onToggleVisibility(PagesOverviewControl $control)
     {
         if ($this->isAjax()) {
             $control->redrawControl('table');
@@ -152,7 +152,7 @@ class PagePresenter extends ProtectedPresenter
         } else {
             $this->redirect('this#'.$control->getUniqueId());
         }
-    }
+    }*/
 
 
     /*

@@ -13,7 +13,7 @@ use Pages\Query\PageQuery;
 class PagesOverviewControl extends BaseControl
 {
     /** @var array  */
-    public $onToggleVisibility = [];
+    //public $onToggleVisibility = [];
 
 
     /** @var PageFacade  */
