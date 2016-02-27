@@ -13,9 +13,3 @@ Obsahuje:
 - správa komentářů u článků (základní implementace komentářů na frontendu zatím)
 - nastavení blogu
 - lokalizace v CZ a EN
-
-<img src="http://alestichava.cz/github-images/blog-cms/articles_overview1.png" width="600">
-<img src="http://alestichava.cz/github-images/blog-cms/article_edit1.png" width="600">
-<img src="http://alestichava.cz/github-images/blog-cms/images1.png" width="600">
-<img src="http://alestichava.cz/github-images/blog-cms/tags1.png" width="600">
-<img src="http://alestichava.cz/github-images/blog-cms/options1.png" width="600">
