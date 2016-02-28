@@ -1,6 +1,7 @@
 pageTitle: "Přehled článků"
 
 noArticlesFound: "Žádné články k zobrazení"
+hasComments: "{1}obsahuje 1 komentář|[2,4]obsahuje %count% komentáře|[5, +Inf[obsahuje %count% komentářů"
 
 tableTitle:
 	draft: "Pracovní verze článků"

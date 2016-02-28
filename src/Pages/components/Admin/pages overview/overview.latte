@@ -17,7 +17,7 @@
         <table class="table table-bordered">
             <tr>
                 {translator pagesOverview.rowTitle}
-                <th class="w25">#</th>
+                {*<th class="w25">#</th>*}
                 <th class="w100">{_created|firstUpper}</th>
                 <th class="w100">{_published|firstUpper}</th>
                 <th>{_article|firstUpper}</th>
@@ -26,9 +26,11 @@
             </tr>
 
             {if $pagesCount > 0}
-            {foreach $pages as $page}
+            {foreach $pages as $pageData}
+            {var $page = $pageData[0]}
+            {var $commentsCount = $pageData['commentsCount']}
                 <tr>
-                    <td>{$page->id}</td>
+                    {*<td>{$page->getId()}</td>*}
                     <td>{$page->createdAt|date:'j.n.Y'} <br>v {$page->createdAt|date:'H:i'}</td>
                     <td>{$page->publishedAt|date:'j.n.Y'} <br>v {$page->publishedAt|date:'H:i'}</td>
                     <td>
@@ -38,6 +40,7 @@
                                 <span style="background-color: {$tag->color|noescape}">{$tag->name}</span>
                             {/foreach}
                         </div>
+                        <div n:if="$commentsCount > 0"><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}#comments">{_pagesOverview.hasComments, $commentsCount}</a></div>
                     </td>
                     <td>
                         <div class="articles-overview-actions">

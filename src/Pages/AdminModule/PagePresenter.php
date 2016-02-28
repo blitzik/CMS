@@ -82,13 +82,14 @@ class PagePresenter extends ProtectedPresenter
     protected function createComponentPublishedPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
-            ->create(
-                (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
-                 ->onlyPublished()
-                 ->withTags()
-                 ->orderByPublishedAt('DESC')
-            );
+                     ->create(
+                         (new PageQuery())
+                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->onlyPublished()
+                          ->withTags()
+                          ->withCommentsCount()
+                          ->orderByPublishedAt('DESC')
+                     );
 
         $comp->setTitle('pagesOverview.tableTitle.published');
         $comp->setPrependTitleIcon('eye');
@@ -106,12 +107,13 @@ class PagePresenter extends ProtectedPresenter
     protected function createComponentWaitingPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
-            ->create(
-                (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
-                 ->waitingForBeingPublished()
-                 ->withTags()
-            );
+                     ->create(
+                         (new PageQuery())
+                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->waitingForBeingPublished()
+                          ->withTags()
+                          ->withCommentsCount()
+                     );
 
         $comp->setTitle('pagesOverview.tableTitle.waiting');
         $comp->setPrependTitleIcon('hourglass-half');
@@ -128,13 +130,14 @@ class PagePresenter extends ProtectedPresenter
     protected function createComponentDraftPagesOverview()
     {
         $comp = $this->pagesOverviewFactory
-            ->create(
-                (new PageQuery())
-                 ->onlyWith(['title, createdAt, publishedAt, isDraft'])
-                 ->onlyDrafts()
-                 ->withTags()
-                 ->orderByPublishedAt('DESC')
-            );
+                     ->create(
+                         (new PageQuery())
+                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->onlyDrafts()
+                          ->withTags()
+                          ->withCommentsCount()
+                          ->orderByPublishedAt('DESC')
+                     );
 
         $comp->setTitle('pagesOverview.tableTitle.draft');
         $comp->setPrependTitleIcon('eye-slash');
@@ -212,11 +215,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function onSuccessPageSaving(PageFormControl $pageFormControl, Page $page)
     {
-        /*if ($this->isAjax()) {
-            $pageFormControl->redrawControl();
-        } else {*/
-            $this->redirect('Page:edit', ['id' => $page->getId()]);
-        //}
+        $this->redirect('Page:edit', ['id' => $page->getId()]);
     }
 
 
@@ -226,11 +225,6 @@ class PagePresenter extends ProtectedPresenter
      * --------------------------
      */
 
-    /**
-     * @var Translator
-     * @inject
-     */
-    public $t;
 
     public function actionRemove($id)
     {

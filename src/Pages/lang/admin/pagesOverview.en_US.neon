@@ -1,6 +1,7 @@
 pageTitle: "Articles overview"
 
 noArticlesFound: "No Articles found"
+hasComments: "has one comment|has %count% comments"
 
 tableTitle:
 	draft: "Draft articles"

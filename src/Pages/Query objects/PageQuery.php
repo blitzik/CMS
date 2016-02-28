@@ -32,6 +32,10 @@ class PageQuery extends QueryObject
 
     public function withTags()
     {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->indexBy('p', 'p.id');
+        };
+
         $this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {
             $ids = array_keys(iterator_to_array($iterator, true));
 
