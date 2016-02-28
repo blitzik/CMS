@@ -92,7 +92,6 @@ class PageFormControl extends BaseControl
 
         $form->addText('title', 'title.label', null, Page::LENGTH_TITLE)
                 ->setMaxLength(Page::LENGTH_TITLE)
-                ->setHtmlId('form-page-title')
                 ->setRequired('title.messages.required')
                 ->setAttribute('data-text-length', Page::LENGTH_TITLE)
                 ->addRule(Form::MAX_LENGTH, new Phrase('title.messages.maxLength', ['numChars' => Page::LENGTH_TITLE]), Page::LENGTH_TITLE);
@@ -105,14 +104,12 @@ class PageFormControl extends BaseControl
 
         $form->addTextArea('intro', 'intro.label', null, 7)
                 ->setMaxLength(Page::LENGTH_INTRO)
-                ->setHtmlId('form-page-intro')
                 ->setRequired('intro.messages.required')
                 ->setAttribute('data-text-length', Page::LENGTH_INTRO)
                 ->addRule(Form::MAX_LENGTH, new Phrase('intro.messages.maxLength', ['numChars' => Page::LENGTH_INTRO]), Page::LENGTH_INTRO);
 
         $form->addTextArea('text', 'text.label', null, 25)
-                ->setRequired('text.messages.required')
-                ->setHtmlId('page-form-text');
+                ->setRequired('text.messages.required');
 
         $form->addText('url', 'url.label', null, 255);
 

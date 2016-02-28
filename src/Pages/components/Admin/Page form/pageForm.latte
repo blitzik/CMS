@@ -97,7 +97,7 @@ Nadpis1   Nadpis2   Podnadpis
                 {label title /}
                     <small>{_title.info, Pages\Page::LENGTH_TITLE}</small>
                     <span id="page-title-counter" class="right"></span>
-                {input title class => 'form-control'}
+                {input title id => 'form-page-title', class => 'form-control'}
             </div>
         </div>
 
@@ -107,7 +107,7 @@ Nadpis1   Nadpis2   Podnadpis
                     {label intro /}
                         <small>{_intro.info, Pages\Page::LENGTH_INTRO}</small>
                         <span id="page-intro-counter" class="right"></span>
-                    {input intro class => 'form-control page-textArea'}
+                    {input intro id => 'form-page-intro', class => 'form-control page-textArea'}
                 </div>
             </div>
         </div>
@@ -116,7 +116,8 @@ Nadpis1   Nadpis2   Podnadpis
             <div class="article-text">
                 <div class="form-group">
                     {label text /}
-                    {input text class => 'form-control page-textArea'}
+                    <span id="page-text-counter" class="right"></span>
+                    {input text id => 'form-page-text', class => 'form-control page-textArea'}
                 </div>
             </div>
         </div>

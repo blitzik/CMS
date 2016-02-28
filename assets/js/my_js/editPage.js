@@ -16,15 +16,24 @@
         }
 
         var articleForm = $('#page-form');
-        articleForm.on('input', '#form-page-title', function () {
-            var textCounter = $('#page-title-counter');
-            processCounter(this, textCounter);
+
+        var titleSpan = $('#page-title-counter');
+        var introSpan = $('#page-intro-counter');
+        var textSpan = $('#page-text-counter');
+
+        articleForm.on('input', '#form-page-title', {span: titleSpan}, function (event) {
+            processCounter(this, event.data.span);
         });
 
-        articleForm.on('input', '#form-page-intro', function () {
-            var textCounter = $('#page-intro-counter');
-            processCounter(this, textCounter);
+        articleForm.on('input', '#form-page-intro', {span: introSpan}, function (event) {
+            processCounter(this, event.data.span);
         });
+
+        articleForm.on('input', '#form-page-text', {span: textSpan}, function (event) {
+            var charCount = this.value.length;
+            event.data.span.html('<small>Napsáno <b>' + charCount + '</b> znaků</small>');
+        });
+
 
     });
 
