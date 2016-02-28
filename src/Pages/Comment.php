@@ -58,6 +58,12 @@ class Comment
     private $page;
 
     /**
+     * @ORM\Column(name="is_silenced", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @var bool
+     */
+    private $isSilenced;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Comment")
      * @ORM\JoinTable(
      *     name="comment_reactions",
@@ -76,6 +82,7 @@ class Comment
         $this->setAuthor($author);
         $this->setText($text);
         $this->page = $page;
+        $this->isSilenced = false;
 
         $this->created = new \DateTime('now');
 
@@ -102,6 +109,18 @@ class Comment
         Validators::assert($author, 'unicode:1..' . self::LENGTH_AUTHOR);
 
         $this->author = $author;
+    }
+
+
+    public function silence()
+    {
+        $this->isSilenced = true;
+    }
+
+
+    public function release()
+    {
+        $this->isSilenced = false;
     }
 
 
@@ -156,6 +175,15 @@ class Comment
     public function getCreated()
     {
         return $this->created;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isSilenced()
+    {
+        return $this->isSilenced;
     }
 
 

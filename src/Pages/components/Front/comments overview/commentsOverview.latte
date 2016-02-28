@@ -2,7 +2,7 @@
 {if !empty($comments)}
     <ol class="comments-list">
         {foreach $comments as $id => $comment}
-            <li id="comment-{$id}">{control comment-$id $iterator->getCounter()}</li>
+            <li id="comment-{$id}">{control comment-$id}</li>
         {/foreach}
     </ol>
 {else}

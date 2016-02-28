@@ -1,26 +1,40 @@
 
+{control flashMessages}
 <div class="comment">
     <h3>
         {$comment->author}
         <a class="link" href="#comment-{$comment->getId()}">
-            <i class="fa fa-anchor"></i> {$order}
+            <i class="fa fa-anchor"></i> {$getOrderNumber($comment)}
         </a>
     </h3>
 
-    <div class="comment-text">
-        {$comment->text|commentTexy|noescape}
+    <div class="comment-text" n:snippet="comment-text">
+        {if $comment->isSilenced()}
+            <p class="silenced-comment">
+                <i class="fa fa-eye-slash"></i> Obsah komentáře byl skryt z důvodu jeho nevhodnosti
+            </p>
+        {else}
+            {$comment->text|commentTexy|noescape}
+        {/if}
     </div>
 
     <div class="comment-meta">
-        {*<div class="reactions" n:if="!empty($comment->getReactions())">
-            Reagoval{if count($comment->getReactions()) > 1}i{/if}:
+        <div class="reactions" n:if="!empty($comment->getReactions())">
+            reagoval{if count($comment->getReactions()) > 1}i{/if}:
             {foreach $comment->getReactions() as $id => $reaction}
-                <a href="#comment-{$id}">[{$reaction->getOrder()}] {$reaction->author}</a>{sep}, {/sep}
+                <a href="#comment-{$id}">[{$getOrderNumber($reaction)}] {$reaction->author}</a>{sep}, {/sep}
             {/foreach}
-        </div>*}
+        </div>
 
         <div class="footer">
             {$comment->created|date:"j.n.Y v H:i"}{* | <a href="">odpovědět</a>*}
+            <span n:if="$user->isLoggedIn()" n:snippet="comment-actions">
+                {if $comment->isSilenced()}
+                    <a href="{link release! commentId => $comment->getId()}" class="ajax right">zobrazit</a>
+                {else}
+                    <a href="{link silence! commentId => $comment->getId()}" class="ajax right">umlčet</a>
+                {/if}
+            </span>
         </div>
     </div>
 </div>

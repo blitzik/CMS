@@ -44,6 +44,16 @@ class CommentFacade extends Object
 
     /**
      * @param CommentQuery $commentQuery
+     * @return Comment|null
+     */
+    public function fetchComment(CommentQuery $commentQuery)
+    {
+        return $this->commentsRepository->fetchOne($commentQuery);
+    }
+
+
+    /**
+     * @param CommentQuery $commentQuery
      * @return ResultSet
      */
     public function fetchComments(CommentQuery $commentQuery)

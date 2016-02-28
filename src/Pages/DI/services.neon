@@ -63,5 +63,5 @@ services:
 
 	commentControlFactory:
 		implement: Comments\Components\Front\ICommentControlFactory
-		parameters: [Comments\Comment comment]
-		arguments: [%comment%]
+		parameters: [Comments\Comment comment, Pages\Components\CommentsOrderList orderList]
+		arguments: [%comment%, %orderList%]

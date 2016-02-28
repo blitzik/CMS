@@ -22,6 +22,17 @@ class CommentQuery extends QueryObject
     private $filter = [];
 
 
+    public function byId($commentId)
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($commentId) {
+            $qb->andWhere('c.id = :id')
+                ->setParameter('id', $commentId);
+        };
+
+        return $this;
+    }
+
+
     public function byPage($pageID)
     {
         $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($pageID) {
