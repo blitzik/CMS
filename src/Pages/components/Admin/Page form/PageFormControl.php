@@ -108,8 +108,8 @@ class PageFormControl extends BaseControl
                 ->setAttribute('data-text-length', Page::LENGTH_INTRO)
                 ->addRule(Form::MAX_LENGTH, new Phrase('intro.messages.maxLength', ['numChars' => Page::LENGTH_INTRO]), Page::LENGTH_INTRO);
 
-        $form->addTextArea('text', 'text.label', null, 25)
-                ->setRequired('text.messages.required');
+        $form->addTextArea('text', 'text.label', null, 25);
+                //->setRequired('text.messages.required');
 
         $form->addText('url', 'url.label', null, 255);
 

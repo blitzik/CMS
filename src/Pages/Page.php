@@ -49,7 +49,7 @@ class Page
     protected $intro;
 
     /**
-     * @ORM\Column(name="text", type="text", nullable=false, unique=false)
+     * @ORM\Column(name="text", type="text", nullable=true, unique=false)
      * @var string
      */
     protected $text;
@@ -192,7 +192,7 @@ class Page
      */
     public function setText($text)
     {
-        Validators::assert($text, 'unicode');
+        Validators::assert($text, 'unicode|null');
         $this->text = $text;
     }
 
