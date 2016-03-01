@@ -2,25 +2,17 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use Comments\Components\Front\ICommentsOverviewControlFactory;
-use Comments\Components\Front\ICommentFormControlFactory;
 use Pages\Components\Front\IPagesOverviewControlFactory;
-use Nette\Application\ForbiddenRequestException;
+use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
-use Pages\Page;
 use Pages\Query\PageQuery;
+use Pages\Page;
 
 class PagePresenter extends BasePresenter
 {
-    /**
-     * @var ICommentsOverviewControlFactory
-     * @inject
-     */
-    public $commentsOverviewFactory;
-
     /**
      * @var IPagesOverviewControlFactory
      * @inject
@@ -28,10 +20,10 @@ class PagePresenter extends BasePresenter
     public $pagesOverviewFactory;
 
     /**
-     * @var ICommentFormControlFactory
+     * @var ICommentsControlFactory
      * @inject
      */
-    public $commentsFormFactory;
+    public $commentsFactory;
 
     /**
      * @var IPageControlFactory
@@ -117,8 +109,8 @@ class PagePresenter extends BasePresenter
             throw new BadRequestException;
         }
 
-        $this['pageTitle']->setPageTitle($this->options->blog_title)
-                          ->joinTitleText(' - ' . $page->title);
+        $this['pageTitle']->setPageTitle($page->title/*$this->options->blog_title*/);
+                          //->joinTitleText(' - ' . $page->title);
 
         $this->page = $result;
     }
@@ -141,24 +133,11 @@ class PagePresenter extends BasePresenter
     }
 
 
-    /**
-     * @Actions show
-     */
-    protected function createComponentCommentsOverview()
+    protected function createComponentComments()
     {
-        $comp = $this->commentsOverviewFactory->create($this->page[0]);
+        $comp = $this->commentsFactory->create($this->page[0]);
+
         return $comp;
     }
 
-
-    /**
-     * @Actions show
-     */
-    protected function createComponentCommentsForm()
-    {
-        $comp = $this->commentsFormFactory
-                     ->create($this->page[0]);
-
-        return $comp;
-    }
 }

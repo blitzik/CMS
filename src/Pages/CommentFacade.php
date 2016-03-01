@@ -33,12 +33,65 @@ class CommentFacade extends Object
 
 
     /**
-     * @param Comment $comment
+     * @param Comment $comment It's a new comment or reaction on given comment ids
+     * @param array $commentIDs
      * @throws \Exception
      */
-    public function saveComment(Comment $comment)
+    public function saveComment(Comment $comment, array $commentIDs = [])
     {
+        $this->em->persist($comment);
+
+        if (!empty($commentIDs)) {
+            $comments = $this->em->createQuery(
+                'SELECT c FROM ' . Comment::class . ' c WHERE c.id IN (:ids)'
+            )->setParameter('ids', $commentIDs)->execute();
+
+            /** @var Comment $c */
+            foreach ($comments as $c) {
+                $c->addReaction($comment);
+                $this->em->persist($c);
+            }
+        }
+
+        $this->em->flush();
+    }
+
+
+    /**
+     * @param int $commentId
+     * @return Comment|void
+     */
+    public function hide($commentId)
+    {
+        /** @var Comment $comment */
+        $comment = $this->commentsRepository->find($commentId);
+        if ($comment === null) {
+            return null;
+        }
+
+        $comment->hide();
         $this->em->persist($comment)->flush();
+
+        return $comment;
+    }
+
+
+    /**
+     * @param int $commentId
+     * @return Comment|null
+     */
+    public function show($commentId)
+    {
+        /** @var Comment $comment */
+        $comment = $this->commentsRepository->find($commentId);
+        if ($comment === null) {
+            return null;
+        }
+
+        $comment->show();
+        $this->em->persist($comment)->flush();
+
+        return $comment;
     }
 
 

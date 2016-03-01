@@ -56,6 +56,11 @@ services:
 		parameters: [Pages\Page page]
 		arguments: [%page%]
 
+	commentsControlFactory:
+		implement: Comments\Components\ICommentsControlFactory
+		parameters: [Pages\Page page]
+		arguments: [%page%]
+
 	commentsOverviewControlFactory:
 		implement: Comments\Components\Front\ICommentsOverviewControlFactory
 		parameters: [Pages\Page page]

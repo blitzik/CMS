@@ -1,0 +1,36 @@
+
+{form form}
+
+{control commentsOverview}
+
+
+{if !$page->isDraft()}
+    {if $page->allowedComments === true}
+        <h2 id="new-comment-form">Nový komentář</h2>
+        <div class="comments-form"> {* container *}
+            <div class="comment-text-input">
+                <div class="form-group">
+                    {label text /}
+                    {input text class => "form-control"}
+                </div>
+            </div>
+
+            <div class="comment-author-input">
+                <div class="form-group">
+                    {label author /}
+                    {input author class => "form-control"}
+                </div>
+            </div>
+
+            <div class="comment-submit">
+                {input send class => 'btn btn-river'}
+            </div>
+        </div>
+    {else}
+        <p>K tomuto článku nelze přidávat komentáře.</p>
+    {/if}
+{else}
+    <p>Toto je pracovní verze článku. Nelze přidávat komentáře.</p>
+{/if}
+
+{/form}

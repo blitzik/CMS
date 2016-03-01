@@ -171,6 +171,11 @@ header{
 .comment{
   clear: both;
 
+  .comment-admin-meta{
+    font-size: .8em;
+    margin-top: -15px;
+  }
+
   h3 .link{
     font-size: .5em;
     color: #959595;
@@ -202,6 +207,33 @@ header{
 
   .footer{
     border-top: 1px solid #959595;
+
+    label{
+      font-weight: normal;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover{ text-decoration: none; }
+    }
+
+    input{
+      visibility: hidden;
+      position: absolute;
+    }
+
+    input:checked + label{
+      color: #1ABC9C;
+      font-weight: bold;
+    }
+
+    input + label + i{
+      display: none;
+    }
+
+    input:checked + label + i{
+      display: inline;
+      color: #1ABC9C;
+    }
   }
 
   .comment-text{
@@ -215,6 +247,10 @@ header{
   padding: 15px;
   border: 1px solid #ddd;
   background-color: #fff;
+}
+
+.hidden-comment{
+  color: #E74C3C;
 }
 
 .comments-form{
@@ -231,6 +267,10 @@ header{
 
   input{
     padding: 10px;
+  }
+
+  label{
+    font-size: .66em;
   }
 }
 

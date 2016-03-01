@@ -8,11 +8,13 @@
 
 namespace Comments\Components\Front;
 
+use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\Multiplier;
 use Comments\Facades\CommentFacade;
 use Comments\Query\CommentQuery;
 use App\Components\BaseControl;
 use Comments\Comment;
+use Nette\Security\User;
 use Pages\Components\CommentsOrderList;
 use Pages\Page;
 
@@ -30,16 +32,21 @@ class CommentsOverviewControl extends BaseControl
     /** @var array */
     private $comments;
 
+    /** @var User */
+    private $user;
+
     /** @var Page */
     private $page;
 
 
     public function __construct(
         Page $page,
+        User $user,
         CommentFacade $commentFacade,
         ICommentControlFactory $commentControlFactory
     ) {
         $this->page = $page;
+        $this->user = $user;
         $this->commentFacade = $commentFacade;
         $this->commentControlFactory = $commentControlFactory;
 
@@ -53,13 +60,17 @@ class CommentsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/commentsOverview.latte');
 
         if (empty($this->comments)) {
+            $query = (new CommentQuery())
+                      ->withReactions()
+                      ->byPage($this->page->getId())
+                      ->indexedById();
+
+            if (!$this->user->isLoggedIn()) {
+                $query->onlyVisible();
+            }
+
             $this->comments = $this->commentFacade
-                                   ->fetchComments(
-                                       (new CommentQuery())
-                                        ->withReactions()
-                                        ->byPage($this->page->getId())
-                                        ->indexedById()
-                                   )->toArray();
+                                   ->fetchComments($query)->toArray();
 
             $this->fillOrderList($this->comments);
         }

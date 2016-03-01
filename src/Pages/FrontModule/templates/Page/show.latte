@@ -7,18 +7,7 @@
 
 <div class="comments">
     <h2 id="comments"><i class="fa fa-comments-o"></i> Komentáře <span n:if="$page->allowedComments === true and $page->isDraft() === false" class="comment-form-link">| <a href="#new-comment-form">přidat komentář</a></span></h2>
-    {control commentsOverview}
-
-    {if !$page->isDraft()}
-        {if $page->allowedComments === true}
-            <h2 id="new-comment-form">Nový komentář</h2>
-            {control commentsForm}
-        {else}
-            <p>K tomuto článku nelze přidávat komentáře.</p>
-        {/if}
-    {else}
-        <p>Toto je pracovní verze článku. Nelze přidávat komentáře.</p>
-    {/if}
+    {control comments}
 </div>
 
 {/block}

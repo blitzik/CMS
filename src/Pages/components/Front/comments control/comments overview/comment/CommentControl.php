@@ -17,6 +17,9 @@ use Pages\Components\CommentsOrderList;
 
 class CommentControl extends BaseControl
 {
+    /** @var array */
+    public $onSuccessCommentHide;
+
     /** @var CommentFacade */
     private $commentFacade;
 
@@ -64,8 +67,7 @@ class CommentControl extends BaseControl
         $this->comment->silence();
         $this->commentFacade->saveComment($this->comment);
 
-        $this->flashMessage('Komentář byl úspěšně utlumen', 'success');
-        $this->refresh();
+        $this->refresh('Text komentáře byl úspěšně potlačen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
 
 
@@ -76,8 +78,27 @@ class CommentControl extends BaseControl
         $this->comment->release();
         $this->commentFacade->saveComment($this->comment);
 
-        $this->flashMessage('Komentář byl úspěšně zobrazen', 'success');
-        $this->refresh();
+        $this->refresh('Text komentáře byl úspěšně zobrazen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
+    }
+
+
+    public function handleHide()
+    {
+        $this->userPermissionCheck();
+
+        $this->commentFacade->hide($this->comment->getId());
+
+        $this->refresh('Komentář byl úspěšně skryt', FlashMessage::SUCCESS, ['admin-meta', 'comment-hide']);
+    }
+
+
+    public function handleShow()
+    {
+        $this->userPermissionCheck();
+
+        $this->commentFacade->show($this->comment->getId());
+
+        $this->refresh('Komentář byl úspěšně zobrazen', FlashMessage::SUCCESS, ['admin-meta', 'comment-hide']);
     }
 
 
@@ -90,12 +111,18 @@ class CommentControl extends BaseControl
     }
 
 
-    private function refresh()
+    private function refresh($message, $type, array $snippets = null)
     {
         if ($this->presenter->isAjax()) {
-            $this->redrawControl();
+            if ($snippets === null) { return; }
+            if (empty($snippets)) { $this->redrawControl(); return; }
+
+            foreach ($snippets as $snippet) {
+                $this->redrawControl($snippet);
+            }
         } else {
-            $this->redirect('this#comment-' . $this->comment->getId());
+            $this->flashMessage($message, $type);
+            $this->redirect('this#' . $this->comment->getId());
         }
     }
 }

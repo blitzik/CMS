@@ -21,19 +21,23 @@ use Pages\Page;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="comment")
- *
+ * @ORM\Table(
+ *     name="comment",
+ *     indexes={
+ *         @Index(name="page_is_hidden", columns={"page", "is_hidden"})
+ *     }
+ * )
  */
 class Comment
 {
     use Identifier;
     use MagicAccessors;
 
-    const LENGTH_AUTHOR = 50;
+    const LENGTH_AUTHOR = 25;
     const LENGTH_TEXT = 65535;
 
     /**
-     * @ORM\Column(name="author", type="string", length=50, nullable=false, unique=false)
+     * @ORM\Column(name="author", type="string", length=25, nullable=false, unique=false)
      * @var string
      */
     private $author;
@@ -64,11 +68,17 @@ class Comment
     private $isSilenced;
 
     /**
+     * @ORM\Column(name="is_hidden", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @var bool
+     */
+    private $isHidden;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Comment")
      * @ORM\JoinTable(
      *     name="comment_reactions",
-     *     joinColumns={@JoinColumn(name="comment", referencedColumnName="id", onDelete="CASCADE")},
-     *     inverseJoinColumns={@JoinColumn(name="reaction", referencedColumnName="id", onDelete="CASCADE")}
+     *     joinColumns={@JoinColumn(name="reaction", referencedColumnName="id", onDelete="CASCADE")},
+     *     inverseJoinColumns={@JoinColumn(name="comment", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
     private $reactions;
@@ -82,7 +92,9 @@ class Comment
         $this->setAuthor($author);
         $this->setText($text);
         $this->page = $page;
+
         $this->isSilenced = false;
+        $this->isHidden = false;
 
         $this->created = new \DateTime('now');
 
@@ -121,6 +133,18 @@ class Comment
     public function release()
     {
         $this->isSilenced = false;
+    }
+
+
+    public function hide()
+    {
+        $this->isHidden = true;
+    }
+
+
+    public function show()
+    {
+        $this->isHidden = false;
     }
 
 
@@ -184,6 +208,15 @@ class Comment
     public function isSilenced()
     {
         return $this->isSilenced;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->isHidden;
     }
 
 
