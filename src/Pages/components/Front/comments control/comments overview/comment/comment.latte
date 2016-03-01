@@ -5,10 +5,10 @@
 
 <div class="comment">
     <h3>
-        {$comment->author}
         <a class="link" href="#comment-{$comment->getId()}">
-            <i class="fa fa-anchor"></i> {$getOrderNumber($comment)}
+            {*<i class="fa fa-anchor"></i>*} #{$getOrderNumber($comment)}
         </a>
+        {$comment->author}
     </h3>
     {snippet admin-meta}
     <div class="comment-admin-meta" n:if="$comment->isHidden()">
