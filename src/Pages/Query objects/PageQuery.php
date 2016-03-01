@@ -53,11 +53,15 @@ class PageQuery extends QueryObject
     }
 
 
-    public function withCommentsCount()
+    public function withCommentsCount($includingHiddenComments = false)
     {
-        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($includingHiddenComments) {
+            $condition = 'c WITH c.page = p AND c.isHidden = 0';
+            if ($includingHiddenComments === true) {
+                $condition = 'c WITH c.page = p';
+            }
             $qb->addSelect('COUNT(c.page) AS commentsCount')
-               ->leftJoin(Comment::class, 'c WITH c.page = p')
+               ->leftJoin(Comment::class, $condition)
                ->groupBy('p.id');
         };
 
