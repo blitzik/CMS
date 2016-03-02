@@ -61,11 +61,13 @@ class CommentsOverviewControl extends BaseControl
 
         if (empty($this->comments)) {
             $query = (new CommentQuery())
-                      ->withReactions()
                       ->byPage($this->page->getId())
                       ->indexedById();
 
-            if (!$this->user->isLoggedIn()) {
+            if ($this->user->isLoggedIn()) {
+                $query->withReactions(false);
+            } else {
+                $query->withReactions();
                 $query->onlyVisible();
             }
 

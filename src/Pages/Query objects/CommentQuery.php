@@ -54,19 +54,28 @@ class CommentQuery extends QueryObject
     }
 
 
-    public function withReactions()
+    public function withReactions($onlyVisible = true)
     {
-        $this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {
+        /*$this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {
             $ids = array_keys(iterator_to_array($iterator, true));
 
             $repository->createQueryBuilder()
                             ->select('PARTIAL c.{id}, reaction')
                             ->from(Comment::class, 'c')
-                            ->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id')
+                            ->join('c.reactions', 'reaction', null, null, 'reaction.id')
                             ->where('c.id IN (:ids)')
                             ->setParameter('ids', $ids)
                             ->getQuery()
                             ->getResult();
+        };*/
+
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyVisible) {
+            $qb->addSelect('reaction');
+            if ($onlyVisible === true) {
+                $qb->leftJoin('c.reactions', 'reaction', Kdyby\Doctrine\Dql\Join::WITH, 'reaction.isHidden = 0', 'reaction.id');
+            } else {
+                $qb->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id');
+            }
         };
 
         return $this;
