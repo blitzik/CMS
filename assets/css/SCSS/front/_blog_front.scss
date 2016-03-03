@@ -280,6 +280,38 @@ header{
   }
 }
 
+.comments-help{
+  margin-top: 50px;
+
+  label{
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover{
+      text-decoration: none;
+    }
+
+    i{
+      margin-right: 10px;
+    }
+  }
+
+  input{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    display: none;
+  }
+
+  .texy-help{
+    display: none;
+  }
+
+  input:checked + .texy-help{
+    display: block;
+  }
+}
+
 
 // search
 

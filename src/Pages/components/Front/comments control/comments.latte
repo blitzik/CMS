@@ -1,13 +1,12 @@
 
-{form form}
-
 {control commentsOverview}
-
 
 {if !$page->isDraft()}
     {if $page->allowedComments === true or $user->isLoggedIn()}
         {control flashMessages}
+
         <h2 id="new-comment-form">Nový komentář</h2>
+        {form form}
         {customFormErrors}
         <div class="comments-form"> {* container *}
             <div class="comment-text-input">
@@ -28,11 +27,29 @@
                 {input send class => 'btn btn-river'}
             </div>
         </div>
+        {/form}
+
+        <div class="comments-help">
+            <label for="texy-help-expand"><i class="fa fa-info"></i>Texy nápověda</label>
+            <input type="checkbox" id="texy-help-expand">
+            <div class="texy-help">
+<pre>
+<b>tučné písmo</b> - **tučné písmo**
+<i>kurzíva</i>     - *kurzíva*
+<a href="http://www.ab.cd">odkaz</a>       - "text odkazu":www.ab.cd
+
+Seznam se vytvoří pomlčkou na začátku řádku.
+
+Reakci na jiný příspěvek vytvoříte zavináčem a pořadovým
+číslem komentáře, na který reagujete.
+např. <strong>@5</strong> text komentáře
+</pre>
+            </div>
+        </div>
+
     {else}
         <p>K tomuto článku nelze přidávat komentáře.</p>
     {/if}
 {else}
     <p>Toto je pracovní verze článku. Nelze přidávat komentáře.</p>
 {/if}
-
-{/form}
