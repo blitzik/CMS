@@ -53,11 +53,6 @@ services:
 		implement: Pages\Components\Admin\IPagesOverviewControlFactory
 		arguments: [Pages\Query\ArticleQuery pageQuery]
 
-	commentFormControlFactory:
-		implement: Comments\Components\Front\ICommentFormControlFactory
-		parameters: [Pages\Page page]
-		arguments: [%page%]
-
 	commentsControlFactory:
 		implement: Comments\Components\ICommentsControlFactory
 		parameters: [Pages\Page page]
