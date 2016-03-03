@@ -252,6 +252,8 @@ header{
 .comment-remove{
   color: #E74C3C;
 
+  span{ display: none; }
+
   &:hover{
     color: #C0392B;
   }
