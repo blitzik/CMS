@@ -96,8 +96,7 @@ class CommentsControl extends BaseControl
             $this->redirect('this#comment-' . $comment->getId());
 
         } catch (ActionFailedException $e) {
-            $this->flashMessage('Při ukládání komentáře došlo k chybě', FlashMessage::ERROR);
-            $this->redirect('this#new-comment-form');
+            $form->addError('Při ukládání komentáře došlo k chybě');
         }
     }
 }
