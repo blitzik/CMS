@@ -9,6 +9,7 @@
 namespace Comments\Components;
 
 use blitzik\FlashMessages\FlashMessage;
+use Comments\Components\Front\CommentsOverviewControl;
 use Comments\Components\Front\ICommentsOverviewControlFactory;
 use Comments\Facades\CommentFacade;
 use App\Components\BaseControl;

@@ -19,6 +19,9 @@ use Pages\Page;
 
 class CommentsOverviewControl extends BaseControl
 {
+    /** @var array */
+    public $onMissingComment = [];
+
     /** @var ICommentControlFactory */
     private $commentControlFactory;
 
@@ -68,13 +71,12 @@ class CommentsOverviewControl extends BaseControl
     {
         return new Multiplier(function ($commentId) {
             if (empty($this->comments)) {
-                if ($this->presenter->isAjax()) {
-                    $comment = $this->getComment($commentId);
-                    if ($comment !== null) {
-                        $this->comments[$commentId] = $comment;
-                    }
+                $comment = $this->getComment($commentId);
+                if ($comment !== null) {
+                    $this->comments[$commentId] = $comment;
                 } else {
-                    $this->findComments();
+                    $this->flashMessage('Akce nemohla být povedena nad neexistujícím komentářem', FlashMessage::WARNING);
+                    $this->redirect('this');
                 }
             }
 
