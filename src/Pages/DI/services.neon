@@ -5,6 +5,7 @@ services:
 	filterLoader: Pages\Filters\FilterLoader
 
 	commentPersister: Pages\Services\CommentPersister
+	commentRemover: Pages\Services\CommentRemover
 	pagePersister: Pages\Services\PagePersister
 	pageRemover: Pages\Services\PageRemover
 

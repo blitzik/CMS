@@ -14,8 +14,10 @@ use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\ResultSet;
 use Nette\Object;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use Pages\Page;
 use Pages\Services\CommentPersister;
+use Pages\Services\CommentRemover;
 
 class CommentFacade extends Object
 {
@@ -28,12 +30,17 @@ class CommentFacade extends Object
     /** @var CommentPersister */
     private $commentPersister;
 
+    /** @var CommentRemover */
+    private $commentRemover;
+
 
     public function __construct(
         EntityManager $entityManager,
+        CommentRemover $commentRemover,
         CommentPersister $commentPersister
     ) {
         $this->em = $entityManager;
+        $this->commentRemover = $commentRemover;
         $this->commentPersister = $commentPersister;
         $this->commentsRepository = $this->em->getRepository(Comment::class);
     }
@@ -42,9 +49,9 @@ class CommentFacade extends Object
     /**
      * @param array $values
      * @return Comment
-     * @throws \Exception
+     * @throws ActionFailedException
      */
-    public function saveComment(array $values)
+    public function save(array $values)
     {
         return $this->commentPersister->save($values);
     }
@@ -54,9 +61,23 @@ class CommentFacade extends Object
      * @param Comment $comment
      * @throws \Exception
      */
-    public function updateComment(Comment $comment)
+    public function update(Comment $comment)
     {
-        $this->em->persist($comment)->flush();
+        try {
+            $this->em->persist($comment)->flush();
+        } catch (\Exception $e) {
+            throw new ActionFailedException;
+        }
+    }
+
+
+    /**
+     * @param Comment $comment
+     * @throws ActionFailedException
+     */
+    public function remove(Comment $comment)
+    {
+        $this->commentRemover->remove($comment);
     }
 
 
@@ -78,4 +99,5 @@ class CommentFacade extends Object
     {
         return $this->commentsRepository->fetch($commentQuery);
     }
+
 }

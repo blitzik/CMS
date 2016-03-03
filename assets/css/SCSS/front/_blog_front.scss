@@ -249,6 +249,14 @@ header{
   background-color: #fff;
 }
 
+.comment-remove{
+  color: #E74C3C;
+
+  &:hover{
+    color: #C0392B;
+  }
+}
+
 .comments-form{
   margin-top: 50px;
 }

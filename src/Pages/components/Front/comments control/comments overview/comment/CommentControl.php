@@ -11,15 +11,14 @@ namespace Comments\Components\Front;
 use App\Components\BaseControl;
 use blitzik\FlashMessages\FlashMessage;
 use Comments\Facades\CommentFacade;
-use Nette\Http\Session;
 use Nette\Security\User;
 use Comments\Comment;
-use Pages\Components\CommentsOrderList;
+use Pages\Exceptions\Runtime\ActionFailedException;
 
 class CommentControl extends BaseControl
 {
     /** @var array */
-    public $onSuccessCommentHide;
+    public $onSuccessCommentRemoval;
 
     /** @var CommentFacade */
     private $commentFacade;
@@ -59,7 +58,7 @@ class CommentControl extends BaseControl
         $this->userPermissionCheck();
 
         $this->comment->silence();
-        $this->commentFacade->updateComment($this->comment);
+        $this->commentFacade->update($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně potlačen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
@@ -70,9 +69,24 @@ class CommentControl extends BaseControl
         $this->userPermissionCheck();
 
         $this->comment->release();
-        $this->commentFacade->updateComment($this->comment);
+        $this->commentFacade->update($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně zobrazen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
+    }
+
+
+    public function handleRemove()
+    {
+        $this->userPermissionCheck();
+
+        try {
+            $this->commentFacade->remove($this->comment);
+        } catch (ActionFailedException $e) {
+            $this->refresh('Při odstraňování komentáře došlo k chybě', FlashMessage::ERROR);
+        }
+
+        $this->onSuccessCommentRemoval($this->comment);
+        $this->redirect('this#comments');
     }
 
 
@@ -96,7 +110,7 @@ class CommentControl extends BaseControl
             }
         } else {
             $this->flashMessage($message, $type);
-            $this->redirect('this#' . $this->comment->getId());
+            $this->redirect('this#comment-' . $this->comment->getId());
         }
     }
 }

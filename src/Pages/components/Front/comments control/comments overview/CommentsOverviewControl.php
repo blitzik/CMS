@@ -8,6 +8,7 @@
 
 namespace Comments\Components\Front;
 
+use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\Multiplier;
 use Comments\Facades\CommentFacade;
 use Comments\Query\CommentQuery;
@@ -79,6 +80,10 @@ class CommentsOverviewControl extends BaseControl
 
             $comp = $this->commentControlFactory
                          ->create($this->comments[$commentId]);
+
+            $comp->onSuccessCommentRemoval[] = function (Comment $comment) {
+                $this->flashMessage(sprintf('Komentář autora "%s" byl úspěšně odstraněn', $comment->getAuthor()), FlashMessage::SUCCESS);
+            };
 
             return $comp;
         });

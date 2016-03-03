@@ -12,6 +12,7 @@ use Comments\Comment;
 use Doctrine\ORM\NoResultException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use Pages\Page;
 
 class CommentPersister extends Object
@@ -29,34 +30,46 @@ class CommentPersister extends Object
     /**
      * @param array $values
      * @return Comment
-     * @throws \Exception
+     * @throws ActionFailedException
      */
     public function save(array $values)
     {
         $numberOfComments = $this->getNumberOfComments($values['page']);
         $repliesReferences = $this->findRepliesReferences($values['text']);
 
-        // no replies references found
-        if (empty($repliesReferences)) {
+        try {
+            $this->em->beginTransaction();
+
+            // no replies references found
+            if (empty($repliesReferences)) {
+                $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
+                $this->em->persist($comment)->flush();
+
+                $this->em->commit();
+                return $comment;
+            }
+
+            $commentsToReply = $this->findCommentsToReply($values['page'], $repliesReferences);
+            $values['text'] = $this->replaceReplyReferencesByAuthors($values['text'], $commentsToReply);
+
             $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
-            $this->em->persist($comment)->flush();
+            $this->em->persist($comment);
 
-            return $comment;
+            /** @var Comment $comment */
+            foreach ($commentsToReply as $commentToReply) {
+                $commentToReply->addReaction($comment);
+                $this->em->persist($commentToReply);
+            }
+
+            $this->em->flush();
+            $this->em->commit();
+
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            $this->em->close();
+
+            throw new ActionFailedException;
         }
-
-        $commentsToReply = $this->findCommentsToReply($values['page'], $repliesReferences);
-        $values['text'] = $this->replaceReplyReferencesByAuthors($values['text'], $commentsToReply);
-
-        $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
-        $this->em->persist($comment);
-
-        /** @var Comment $comment */
-        foreach ($commentsToReply as $commentToReply) {
-            $commentToReply->addReaction($comment);
-            $this->em->persist($commentToReply);
-        }
-
-        $this->em->flush();
 
         return $comment;
     }

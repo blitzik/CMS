@@ -8,11 +8,13 @@
 
 namespace Comments\Components;
 
+use blitzik\FlashMessages\FlashMessage;
 use Comments\Components\Front\ICommentsOverviewControlFactory;
 use Comments\Facades\CommentFacade;
 use App\Components\BaseControl;
 use Nette\Application\UI\Form;
 use Comments\Comment;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use Pages\Page;
 
 class CommentsControl extends BaseControl
@@ -87,10 +89,16 @@ class CommentsControl extends BaseControl
     public function processForm(Form $form, $values)
     {
         $values['page'] = $this->page;
-        $comment = $this->commentFacade->saveComment((array)$values);
+        try {
+            $comment = $this->commentFacade->save((array)$values);
 
-        $this->flashMessage('Komentář  byl úspěšně uložen', 'success');
-        $this->redirect('this#comment-' . $comment->getId());
+            $this->flashMessage('Komentář  byl úspěšně uložen', 'success');
+            $this->redirect('this#comment-' . $comment->getId());
+
+        } catch (ActionFailedException $e) {
+            $this->flashMessage('Při ukládání komentáře došlo k chybě', FlashMessage::ERROR);
+            $this->redirect('this#new-comment-form');
+        }
     }
 }
 
