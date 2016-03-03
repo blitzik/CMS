@@ -32,10 +32,22 @@ module.exports = function (grunt) {
                     'assets/js/original/jquery.datetimepicker.js',
                     'assets/js/my_js/editPageDatetimepicker.js',
                     'assets/js/my_js/editPage.js',
-                    'assets/js/my_js/tagsPicking.js'
-
+                    'assets/js/my_js/tagsPicking.js',
+                    'assets/js/original/autosize.js'
                 ],
                 dest: 'assets/js/original/editPage.js'
+            },
+
+            comments: {
+                options: {
+                    separator: ';'
+                },
+
+                src: [
+                    'assets/js/original/autosize.js',
+                    'assets/js/my_js/comments.js'
+                ],
+                dest: 'assets/js/original/comments.js'
             }
         },
 
@@ -49,6 +61,12 @@ module.exports = function (grunt) {
             edit_page: {
                 files: {
                     'assets/js/editPage.min.js': 'assets/js/original/editPage.js'
+                }
+            },
+
+            comments: {
+                files: {
+                    'assets/js/comments.js': 'assets/js/original/comments.js'
                 }
             },
 
@@ -163,7 +181,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['bower_components/autosize/dist/autosize.min.js'],
+                        src: ['bower_components/autosize/dist/autosize.js'],
                         dest: 'assets/js/original/'
                     }
                 ]
@@ -178,6 +196,8 @@ module.exports = function (grunt) {
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
 
     grunt.registerTask('build_js', ['concat:mutual_js', 'uglify:mutual']);
+
+    grunt.registerTask('build_comments_js', ['concat:comments', 'uglify:comments']);
 
     grunt.registerTask('build_admin_css_js', ['sass:admin', 'cssmin:admin', 'cssmin:datetime_picker', 'concat:mutual_js', 'concat:edit_page', 'uglify:mutual', 'uglify:edit_page']);
     grunt.registerTask('build_admin_page_js', ['concat:edit_page', 'uglify:edit_page']);

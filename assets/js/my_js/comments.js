@@ -42,4 +42,6 @@
         });
     }
 
+    autosize(commentTextarea);
+
 })(window);

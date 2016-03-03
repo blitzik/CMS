@@ -34,6 +34,8 @@
             event.data.span.html('<small>Napsáno <b>' + charCount + '</b> znaků</small>');
         });
 
+        var textAreas = $('.page-textArea');
+        autosize(textAreas);
 
     });
 
