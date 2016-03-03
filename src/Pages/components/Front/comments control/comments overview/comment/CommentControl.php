@@ -11,6 +11,7 @@ namespace Comments\Components\Front;
 use App\Components\BaseControl;
 use blitzik\FlashMessages\FlashMessage;
 use Comments\Facades\CommentFacade;
+use Nette\Http\Session;
 use Nette\Security\User;
 use Comments\Comment;
 use Pages\Components\CommentsOrderList;
@@ -26,8 +27,6 @@ class CommentControl extends BaseControl
     /** @var User */
     private $user;
 
-    /** @var CommentsOrderList */
-    private $orderList;
 
     /** @var Comment */
     private $comment;
@@ -35,12 +34,10 @@ class CommentControl extends BaseControl
 
     public function __construct(
         Comment $comment,
-        CommentsOrderList $commentsOrderList,
         CommentFacade $commentFacade,
         User $user
     ) {
         $this->comment = $comment;
-        $this->orderList = $commentsOrderList;
         $this->commentFacade = $commentFacade;
         $this->user = $user;
     }
@@ -52,9 +49,6 @@ class CommentControl extends BaseControl
         $template->setFile(__DIR__ . '/comment.latte');
 
         $template->comment = $this->comment;
-        $template->getOrderNumber = function (Comment $comment) {
-            return $this->orderList->getOrder($comment);
-        };
 
         $template->render();
     }
@@ -65,7 +59,7 @@ class CommentControl extends BaseControl
         $this->userPermissionCheck();
 
         $this->comment->silence();
-        $this->commentFacade->saveComment($this->comment);
+        $this->commentFacade->updateComment($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně potlačen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
@@ -76,29 +70,9 @@ class CommentControl extends BaseControl
         $this->userPermissionCheck();
 
         $this->comment->release();
-        $this->commentFacade->saveComment($this->comment);
+        $this->commentFacade->updateComment($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně zobrazen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
-    }
-
-
-    public function handleHide()
-    {
-        $this->userPermissionCheck();
-
-        $this->commentFacade->hide($this->comment->getId());
-
-        $this->refresh('Komentář byl úspěšně skryt', FlashMessage::SUCCESS, ['admin-meta', 'comment-hide']);
-    }
-
-
-    public function handleShow()
-    {
-        $this->userPermissionCheck();
-
-        $this->commentFacade->show($this->comment->getId());
-
-        $this->refresh('Komentář byl úspěšně zobrazen', FlashMessage::SUCCESS, ['admin-meta', 'comment-hide']);
     }
 
 
@@ -132,8 +106,7 @@ interface ICommentControlFactory
 {
     /**
      * @param Comment $comment
-     * @param CommentsOrderList $orderList
      * @return CommentControl
      */
-    public function create(Comment $comment, CommentsOrderList $orderList);
+    public function create(Comment $comment);
 }

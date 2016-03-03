@@ -8,14 +8,12 @@
 
 namespace Comments\Components\Front;
 
-use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\Multiplier;
 use Comments\Facades\CommentFacade;
 use Comments\Query\CommentQuery;
 use App\Components\BaseControl;
 use Comments\Comment;
 use Nette\Security\User;
-use Pages\Components\CommentsOrderList;
 use Pages\Page;
 
 class CommentsOverviewControl extends BaseControl
@@ -25,9 +23,6 @@ class CommentsOverviewControl extends BaseControl
 
     /** @var CommentFacade */
     private $commentFacade;
-
-    /** @var CommentsOrderList */
-    private $orderList;
 
     /** @var array */
     private $comments;
@@ -49,8 +44,6 @@ class CommentsOverviewControl extends BaseControl
         $this->user = $user;
         $this->commentFacade = $commentFacade;
         $this->commentControlFactory = $commentControlFactory;
-
-        $this->orderList = new CommentsOrderList();
     }
 
 
@@ -60,21 +53,7 @@ class CommentsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/commentsOverview.latte');
 
         if (empty($this->comments)) {
-            $query = (new CommentQuery())
-                      ->byPage($this->page->getId())
-                      ->indexedById();
-
-            if ($this->user->isLoggedIn()) {
-                $query->withReactions(false);
-            } else {
-                $query->withReactions();
-                $query->onlyVisible();
-            }
-
-            $this->comments = $this->commentFacade
-                                   ->fetchComments($query)->toArray();
-
-            $this->fillOrderList($this->comments);
+            $this->findComments();
         }
 
         $template->comments = $this->comments;
@@ -87,18 +66,39 @@ class CommentsOverviewControl extends BaseControl
     protected function createComponentComment()
     {
         return new Multiplier(function ($commentId) {
-            if (!isset($this->comments)) {
-                $comment = $this->getComment($commentId);
-                if ($comment !== null) {
-                    $this->comments[$commentId] = $comment;
+            if (empty($this->comments)) {
+                if ($this->presenter->isAjax()) {
+                    $comment = $this->getComment($commentId);
+                    if ($comment !== null) {
+                        $this->comments[$commentId] = $comment;
+                    }
+                } else {
+                    $this->findComments();
                 }
             }
 
             $comp = $this->commentControlFactory
-                         ->create($this->comments[$commentId], $this->orderList);
+                         ->create($this->comments[$commentId]);
 
             return $comp;
         });
+    }
+
+
+    private function findComments()
+    {
+        $query = (new CommentQuery())
+                  ->byPage($this->page->getId())
+                  ->indexedById();
+
+        if ($this->user->isLoggedIn()) {
+            $query->withReactions(false);
+        } else {
+            $query->withReactions();
+        }
+
+        $this->comments = $this->commentFacade
+                               ->fetchComments($query)->toArray();
     }
 
 
@@ -115,15 +115,6 @@ class CommentsOverviewControl extends BaseControl
                         ->byPage($this->page)
                         ->indexedById()
                     );
-    }
-
-
-    private function fillOrderList(array $comments)
-    {
-        /** @var Comment $comment */
-        foreach ($comments as $comment) {
-            $this->orderList->addComment($comment);
-        }
     }
 }
 

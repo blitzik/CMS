@@ -3,8 +3,7 @@
         <h1>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h1>
         <ul class="page-info">
             <li><i class="fa fa-calendar-plus-o fa-fw"></i>
-                {$page->publishedAt|date:"j"}.{*day*}
-                {$month|monthWord} {$page->publishedAt|date:" Y v H:i"}</li>
+                {$page->publishedAt|dateWithMonthWord}</li>
             <li n:if="$commentsCount > 0"><i class="fa fa-comments-o fa-fw"></i>
                 <a href="{plink :Pages:Front:Page:show internal_id => $page->id}#comments" title="Počet čtenářských komentářů k článku">Komentářu k článku: {$commentsCount}</a></li>
         </ul>

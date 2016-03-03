@@ -5,7 +5,7 @@
 
 
 {if !$page->isDraft()}
-    {if $page->allowedComments === true}
+    {if $page->allowedComments === true or $user->isLoggedIn()}
         <h2 id="new-comment-form">Nový komentář</h2>
         <div class="comments-form"> {* container *}
             <div class="comment-text-input">

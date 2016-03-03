@@ -4,6 +4,7 @@ services:
 
 	filterLoader: Pages\Filters\FilterLoader
 
+	commentPersister: Pages\Services\CommentPersister
 	pagePersister: Pages\Services\PagePersister
 	pageRemover: Pages\Services\PageRemover
 
@@ -68,5 +69,5 @@ services:
 
 	commentControlFactory:
 		implement: Comments\Components\Front\ICommentControlFactory
-		parameters: [Comments\Comment comment, Pages\Components\CommentsOrderList orderList]
-		arguments: [%comment%, %orderList%]
+		parameters: [Comments\Comment comment]
+		arguments: [%comment%]

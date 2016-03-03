@@ -38,10 +38,12 @@
 </div>
 
 {block scripts}
+    {if $user->isLoggedIn()}
 	<script src="{$basePath}/assets/js/js.min.js"></script>
 	<!--[if lt IE 9]>
         <script src="{$basePath}/assets/js/shivAndRespond.min.js"></script>
     <![endif]-->
+	{/if}
 {/block}
 </body>
 </html>

@@ -44,16 +44,6 @@ class CommentQuery extends QueryObject
     }
 
 
-    public function onlyVisible()
-    {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('c.isHidden = 0');
-        };
-
-        return $this;
-    }
-
-
     public function withReactions($onlyVisible = true)
     {
         /*$this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {
@@ -70,11 +60,13 @@ class CommentQuery extends QueryObject
         };*/
 
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyVisible) {
-            $qb->addSelect('reaction');
+            $qb->addSelect('reaction, reacted');
             if ($onlyVisible === true) {
-                $qb->leftJoin('c.reactions', 'reaction', Kdyby\Doctrine\Dql\Join::WITH, 'reaction.isHidden = 0', 'reaction.id');
+                $qb->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id');
+                $qb->leftJoin('c.reacted', 'reacted', null, null, 'reacted.id');
             } else {
                 $qb->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id');
+                $qb->leftJoin('c.reacted', 'reacted', null, null, 'reacted.id');
             }
         };
 
@@ -101,7 +93,8 @@ class CommentQuery extends QueryObject
     protected function doCreateQuery(Kdyby\Persistence\Queryable $repository)
     {
         $qb = $this->createBasicQuery($repository->getEntityManager());
-        $qb->select('c');
+        $qb->select('c')
+           ->orderBy('c.id');
 
         foreach ($this->select as $modifier) {
             $modifier($qb);

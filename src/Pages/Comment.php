@@ -24,7 +24,7 @@ use Pages\Page;
  * @ORM\Table(
  *     name="comment",
  *     indexes={
- *         @Index(name="page_is_hidden", columns={"page", "is_hidden"})
+ *         @Index(name="page_order_id", columns={"page", "order", "id"})
  *     }
  * )
  */
@@ -68,13 +68,13 @@ class Comment
     private $isSilenced;
 
     /**
-     * @ORM\Column(name="is_hidden", type="boolean", nullable=false, unique=false, options={"default": false})
-     * @var bool
+     * @ORM\Column(name="`order`", type="smallint", nullable=false, unique=false)
+     * @var int
      */
-    private $isHidden;
+    private $order;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment")
+     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="test")
      * @ORM\JoinTable(
      *     name="comment_reactions",
      *     joinColumns={@JoinColumn(name="reaction", referencedColumnName="id", onDelete="CASCADE")},
@@ -83,22 +83,32 @@ class Comment
      */
     private $reactions;
 
+    /**
+     * Comments that are commented by this comment
+     *
+     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="reactions")
+     */
+    private $reacted;
+
 
     public function __construct(
         $author,
         $text,
-        Page $page
+        Page $page,
+        $order
     ) {
         $this->setAuthor($author);
         $this->setText($text);
         $this->page = $page;
+        $this->setOrder($order);
+
 
         $this->isSilenced = false;
-        $this->isHidden = false;
 
         $this->created = new \DateTime('now');
 
         $this->reactions = new ArrayCollection();
+        $this->reacted = new ArrayCollection();
     }
 
 
@@ -124,6 +134,13 @@ class Comment
     }
 
 
+    public function setOrder($order)
+    {
+        Validators::assert($order, 'numericint:1..');
+        $this->order = $order;
+    }
+
+
     public function silence()
     {
         $this->isSilenced = true;
@@ -133,18 +150,6 @@ class Comment
     public function release()
     {
         $this->isSilenced = false;
-    }
-
-
-    public function hide()
-    {
-        $this->isHidden = true;
-    }
-
-
-    public function show()
-    {
-        $this->isHidden = false;
     }
 
 
@@ -212,11 +217,11 @@ class Comment
 
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isHidden()
+    public function getOrder()
     {
-        return $this->isHidden;
+        return $this->order;
     }
 
 
@@ -227,14 +232,29 @@ class Comment
      */
 
 
+    /**
+     * @return int
+     */
     public function getPageId()
     {
         return $this->page->getId();
     }
 
 
+    /**
+     * @return int
+     */
     public function getPageAuthorId()
     {
         return $this->page->getAuthorId();
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function areCommentsClosed()
+    {
+        return !$this->page->getAllowedComments();
     }
 }

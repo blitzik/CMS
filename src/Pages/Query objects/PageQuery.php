@@ -56,7 +56,7 @@ class PageQuery extends QueryObject
     public function withCommentsCount($includingHiddenComments = false)
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($includingHiddenComments) {
-            $condition = 'c WITH c.page = p AND c.isHidden = 0';
+            $condition = 'c WITH c.page = p';
             if ($includingHiddenComments === true) {
                 $condition = 'c WITH c.page = p';
             }

@@ -15,6 +15,7 @@ use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\ResultSet;
 use Nette\Object;
 use Pages\Page;
+use Pages\Services\CommentPersister;
 
 class CommentFacade extends Object
 {
@@ -24,74 +25,38 @@ class CommentFacade extends Object
     /** @var EntityRepository */
     private $commentsRepository;
 
+    /** @var CommentPersister */
+    private $commentPersister;
 
-    public function __construct(EntityManager $entityManager)
-    {
+
+    public function __construct(
+        EntityManager $entityManager,
+        CommentPersister $commentPersister
+    ) {
         $this->em = $entityManager;
+        $this->commentPersister = $commentPersister;
         $this->commentsRepository = $this->em->getRepository(Comment::class);
     }
 
 
     /**
-     * @param Comment $comment It's a new comment or reaction on given comment ids
-     * @param array $commentIDs
+     * @param array $values
+     * @return Comment
      * @throws \Exception
      */
-    public function saveComment(Comment $comment, array $commentIDs = [])
+    public function saveComment(array $values)
     {
-        $this->em->persist($comment);
-
-        if (!empty($commentIDs)) {
-            $comments = $this->em->createQuery(
-                'SELECT c FROM ' . Comment::class . ' c WHERE c.id IN (:ids)'
-            )->setParameter('ids', $commentIDs)->execute();
-
-            /** @var Comment $c */
-            foreach ($comments as $c) {
-                $c->addReaction($comment);
-                $this->em->persist($c);
-            }
-        }
-
-        $this->em->flush();
+        return $this->commentPersister->save($values);
     }
 
 
     /**
-     * @param int $commentId
-     * @return Comment|void
+     * @param Comment $comment
+     * @throws \Exception
      */
-    public function hide($commentId)
+    public function updateComment(Comment $comment)
     {
-        /** @var Comment $comment */
-        $comment = $this->commentsRepository->find($commentId);
-        if ($comment === null) {
-            return null;
-        }
-
-        $comment->hide();
         $this->em->persist($comment)->flush();
-
-        return $comment;
-    }
-
-
-    /**
-     * @param int $commentId
-     * @return Comment|null
-     */
-    public function show($commentId)
-    {
-        /** @var Comment $comment */
-        $comment = $this->commentsRepository->find($commentId);
-        if ($comment === null) {
-            return null;
-        }
-
-        $comment->show();
-        $this->em->persist($comment)->flush();
-
-        return $comment;
     }
 
 

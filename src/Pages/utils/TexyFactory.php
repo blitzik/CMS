@@ -59,13 +59,6 @@ class TexyFactory
         \TexyConfigurator::safeMode($texy);
         \TexyConfigurator::disableImages($texy);
 
-        $texy->allowedTags = [
-            'a' => ['href'],
-            'b' => \Texy::NONE,
-            'strong' => \Texy::NONE,
-            'em' => \Texy::NONE
-        ];
-
         //$texy->allowed['blockquote'] = false;
         $texy->allowed['emoticon'] = false;
         $texy->allowed['heading/underlined'] = false;
@@ -73,8 +66,8 @@ class TexyFactory
         $texy->allowed['horizline'] = false;
         //$texy->allowed['html/tag'] = false;
         $texy->allowed['html/comment'] = false;
-        $texy->allowed['list'] = false;
-        $texy->allowed['list/definition'] = false;
+        //$texy->allowed['list'] = false;
+        //$texy->allowed['list/definition'] = false;
         $texy->allowed['script'] = false;
         $texy->allowed['table'] = false;
 

@@ -54,26 +54,37 @@ class FilterLoader extends Object
 
 
     /**
-     * @param int $monthNumber
+     * @param \DateTime $datetime
      * @return null|string
      */
-    public function monthWord($monthNumber) // todo better name for method
+    public function dateWithMonthWord(\DateTime $datetime) // todo better name for method
     {
-        switch ($monthNumber) {
-            case 1: return 'Ledna'; break;
-            case 2: return 'Února'; break;
-            case 3: return 'Března'; break;
-            case 4: return 'Dubna'; break;
-            case 5: return 'Května'; break;
-            case 6: return 'Června'; break;
-            case 7: return 'Července'; break;
-            case 8: return 'Srpna'; break;
-            case 9: return 'Září'; break;
-            case 10: return 'Října'; break;
-            case 11: return 'Listopadu'; break;
-            case 12: return 'Prosince'; break;
+        $m = $datetime->format('n');
+
+        $monthName = null;
+        switch ($m) {
+            case 1: $monthName = 'Ledna'; break;
+            case 2: $monthName = 'Února'; break;
+            case 3: $monthName = 'Března'; break;
+            case 4: $monthName = 'Dubna'; break;
+            case 5: $monthName = 'Května'; break;
+            case 6: $monthName = 'Června'; break;
+            case 7: $monthName = 'Července'; break;
+            case 8: $monthName = 'Srpna'; break;
+            case 9: $monthName = 'Září'; break;
+            case 10: $monthName = 'Října'; break;
+            case 11: $monthName = 'Listopadu'; break;
+            case 12: $monthName = 'Prosince'; break;
 
             default: return null;
         }
+
+        return sprintf(
+            '%s. %s %s v %s',
+            $datetime->format('j'),
+            $monthName,
+            $datetime->format('Y'),
+            $datetime->format('G:i')
+        );
     }
 }

@@ -6,15 +6,10 @@
 <div class="comment">
     <h3>
         <a class="link" href="#comment-{$comment->getId()}">
-            {*<i class="fa fa-anchor"></i>*} #{$getOrderNumber($comment)}
+            #{$comment->getOrder()}.
         </a>
         {$comment->author}
     </h3>
-    {snippet admin-meta}
-    <div class="comment-admin-meta" n:if="$comment->isHidden()">
-        <span class="hidden-comment">skrytý komentář</span>
-    </div>
-    {/snippet}
 
     <div class="comment-text" n:snippet="comment-text">
         {if $comment->isSilenced()}
@@ -30,17 +25,14 @@
         <div class="reactions" n:if="!empty($comment->getReactions())">
             reakce od:
             {foreach $comment->getReactions() as $id => $reaction}
-            {continueIf !$user->isLoggedIn() and $reaction->isHidden()}
-                <a href="#comment-{$id}" {if $reaction->isHidden()}title="skrytý komentář"{/if} n:class="$reaction->isHidden() ? hidden-comment">[{$getOrderNumber($reaction)}] {$reaction->author}</a>{sep}, {/sep}
+                <a href="#comment-{$id}">[#{$reaction->getOrder()}] {$reaction->author}</a>{sep}, {/sep}
             {/foreach}
         </div>
 
         <div class="footer">
-            {$comment->created|date:"j.n.Y v H:i"}
-            {if !$comment->isSilenced() or $user->isLoggedIn()}
-                | <input type="checkbox" name="comments[]" id="input-comment-{$comment->getId()}" value="{$comment->getId()}">
-                <label for="input-comment-{$comment->getId()}">odpovědět</label>
-                <i class="fa fa-check"></i>
+            {$comment->created|dateWithMonthWord}
+            {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $user->isLoggedIn()}
+                | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">odpovědět</a>
             {/if}
 
             <span n:if="$user->isLoggedIn()" class="right">
@@ -49,15 +41,6 @@
                         <a href="{link release!}" class="ajax">zobrazit text</a>
                     {else}
                         <a href="{link silence!}" class="ajax">potlačit text</a>
-                    {/if}
-                </span>
-
-                |
-                <span n:snippet="comment-hide">
-                    {if $comment->isHidden()}
-                        <a href="{link show!}" class="ajax comment-show">zobrazit komentář</a>
-                    {else}
-                        <a href="{link hide!}" class="ajax comment-remove">skrýt komentář</a>
                     {/if}
                 </span>
             </span>

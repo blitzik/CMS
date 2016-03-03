@@ -73,7 +73,8 @@ class CommentsControl extends BaseControl
 
         $form->addTextArea('text', 'Text', null, 6)
                 ->setMaxLength(Comment::LENGTH_TEXT)
-                ->setRequired('Vyplňte prosím text komentáře');
+                ->setRequired('Vyplňte prosím text komentáře')
+                ->setHtmlId('comment-textarea');
 
         $form->addSubmit('send', 'Odeslat komentář');
 
@@ -85,11 +86,8 @@ class CommentsControl extends BaseControl
 
     public function processForm(Form $form, $values)
     {
-        $commentsIDs = $form->getHttpData(Form::DATA_TEXT, 'comments[]');
-
-        $comment = new Comment($values->author, $values->text, $this->page);
-
-        $this->commentFacade->saveComment($comment, $commentsIDs);
+        $values['page'] = $this->page;
+        $comment = $this->commentFacade->saveComment((array)$values);
 
         $this->flashMessage('Komentář  byl úspěšně uložen', 'success');
         $this->redirect('this#comment-' . $comment->getId());

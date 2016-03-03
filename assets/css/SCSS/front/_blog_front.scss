@@ -205,40 +205,40 @@ header{
     }
   }
 
+  .comment-order{
+    font-size: .7em;
+  }
+
   .footer{
     border-top: 1px solid #959595;
 
-    label{
-      font-weight: normal;
-      text-decoration: underline;
+    .reaction-button{
       cursor: pointer;
 
       &:hover{ text-decoration: none; }
     }
-
-    input{
-      visibility: hidden;
-      position: absolute;
-    }
-
-    input:checked + label{
-      color: #1ABC9C;
-      font-weight: bold;
-    }
-
-    input + label + i{
-      display: none;
-    }
-
-    input:checked + label + i{
-      display: inline;
-      color: #1ABC9C;
-    }
   }
 
   .comment-text{
-    p:first-letter{
-      margin-left: 20px;
+    ul{
+      margin: 20px 0 20px 25px;
+
+      li {
+        list-style: disc;
+        margin-bottom: 5px;
+
+        li{
+          list-style: circle;
+        }
+      }
+    }
+
+    p{
+      margin-bottom: 25px;
+
+      &:first-letter{
+        margin-left: 25px;
+      }
     }
   }
 }
@@ -247,10 +247,6 @@ header{
   padding: 15px;
   border: 1px solid #ddd;
   background-color: #fff;
-}
-
-.hidden-comment{
-  color: #E74C3C;
 }
 
 .comments-form{
