@@ -19,9 +19,6 @@ use Pages\Page;
 
 class CommentsOverviewControl extends BaseControl
 {
-    /** @var array */
-    public $onMissingComment = [];
-
     /** @var ICommentControlFactory */
     private $commentControlFactory;
 

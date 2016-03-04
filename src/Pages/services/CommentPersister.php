@@ -43,9 +43,10 @@ class CommentPersister extends Object
             // no replies references found
             if (empty($repliesReferences)) {
                 $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
-                $this->em->persist($comment)->flush();
 
+                $this->em->persist($comment)->flush();
                 $this->em->commit();
+
                 return $comment;
             }
 

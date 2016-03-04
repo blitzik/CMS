@@ -20,6 +20,7 @@
     "nette/bootstrap": "^2.3",
     "kdyby/monolog": "^1.1",
     "ramsey/uuid": "^3.0",
-    "kdyby/translation": "^2.2"
+    "kdyby/translation": "^2.2",
+    "kukulich/fshl": "^2.1"
   }
 }

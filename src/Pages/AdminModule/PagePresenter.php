@@ -140,7 +140,7 @@ class PagePresenter extends ProtectedPresenter
                      );
 
         $comp->setTitle('pagesOverview.tableTitle.draft');
-        $comp->setPrependTitleIcon('eye-slash');
+        $comp->setPrependTitleIcon('edit');
 
         //$comp->onToggleVisibility[] = [$this, 'onToggleVisibility'];
 
