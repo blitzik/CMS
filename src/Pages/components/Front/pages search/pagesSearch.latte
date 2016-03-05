@@ -2,6 +2,7 @@
 {control flashMessages}
 <div class="clearfix"></div>
 
+{if !empty($tags)}
 {form form}
 <div class="tags-picking-box">
 <ul class="tags-list">
@@ -21,3 +22,7 @@
 {input search}
 
 {/form}
+
+{else}
+<p>Nebyli nalezeny žádné štítky, podle kterých by se dalo vyhledávat.</p>
+{/if}
