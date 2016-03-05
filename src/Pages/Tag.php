@@ -97,8 +97,8 @@ class Tag
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isSpecial()
     {
-        return $this->name === '' and $this->color === '';
+        return $this->isSpecial;
     }
 }

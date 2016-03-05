@@ -2,6 +2,8 @@
 
 namespace Pages;
 
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Logic\DateTimeFormatException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,8 +12,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
-use Pages\Exceptions\Runtime\PagePublicationTimeException;
-use Pages\Exceptions\Runtime\StringLengthException;
 use Users\User;
 use Tags\Tag;
 use Url\Url;
@@ -201,13 +201,13 @@ class Page
 
     /**
      * @param string $introHtml
-     * @throws StringLengthException
+     * @throws PageIntroHtmlLengthException
      */
     public function setIntroHtml($introHtml)
     {
         Validators::assert($introHtml, 'unicode');
-        if (!Validators::is($introHtml, 'unicode:1...3000')) {
-            throw new StringLengthException;
+        if (!Validators::is($introHtml, 'unicode:1..3000')) {
+            throw new PageIntroHtmlLengthException;
         }
 
         $this->introHtml = $introHtml;
