@@ -24,7 +24,7 @@ class PagesSearchControl extends BaseControl
     private $tags;
 
     /** @var array */
-    private $selectedTags;
+    private $selectedTags = [];
 
 
     public function __construct(
