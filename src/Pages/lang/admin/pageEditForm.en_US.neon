@@ -50,4 +50,5 @@ messages:
 	publishedPageInvalidPublicationTime: "You cannot set the publication time of already published Article into a future."
 	titleExists: "Article with this title already exists. Please change the Article title."
 	urlExists: "This URL address already exists. Please change the URL address."
+	pageIntroHtmlLength: "The HTML result of intro conversion too long. Make Page intro shorter please."
 	savingError: "An Error has occurred. Please try again later."

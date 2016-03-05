@@ -3,6 +3,7 @@
 namespace Pages\Components\Admin;
 
 use blitzik\FlashMessages\FlashMessage;
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
@@ -166,6 +167,10 @@ class PageFormControl extends BaseControl
 
         } catch (PagePublicationTimeException $pt) {
             $form->addError($this->translator->translate('pageEditForm.messages.publishedPageInvalidPublicationTime'));
+            return;
+
+        } catch (PageIntroHtmlLengthException $pi) {
+            $form->addError($this->translator->translate('pageEditForm.messages.pageIntroHtmlLength'));
             return;
 
         } catch (PageTitleAlreadyExistsException $at) {

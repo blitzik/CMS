@@ -19,11 +19,16 @@
     </header>
 
     <div n:tag-if="!$isOnlyIntroShown" class="page-intro">
-        {$page->intro|pageTexy|noescape}
+        {$page->getIntroHtml()|noescape}
     </div>
 
     {if !$isOnlyIntroShown}
-        {$page->text|pageTexy|noescape} {* body of page *}
+        {* body of page *}
+        {if $page->getTextHtml() !== null}
+            {$page->getTextHtml()|noescape}
+        {else}
+            {$page->text|pageTexy|noescape}
+        {/if}
     {/if}
 
     {if $isOnlyIntroShown}

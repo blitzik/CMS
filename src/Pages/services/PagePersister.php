@@ -11,8 +11,10 @@ namespace Pages\Services;
 use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\EntityManager;
+use Pages\Utils\TexyFactory;
 use Url\Facades\UrlFacade;
 use Nette\Utils\Strings;
 use Nette\Object;
@@ -28,13 +30,18 @@ class PagePersister extends Object
     /** @var UrlFacade  */
     private $urlFacade;
 
+    /** @var \Texy */
+    private $texy;
+
 
     public function __construct(
         EntityManager $entityManager,
+        TexyFactory $texyFactory,
         UrlFacade $urlFacade
     ) {
         $this->em = $entityManager;
         $this->urlFacade = $urlFacade;
+        $this->texy = $texyFactory->createTexyForPage();
     }
 
 
@@ -46,6 +53,7 @@ class PagePersister extends Object
      * @throws PagePublicationTimeMissingException
      * @throws UrlAlreadyExistsException
      * @throws PageTitleAlreadyExistsException
+     * @throws PageIntroHtmlLengthException
      * @throws \Exception
      */
     public function save(array $values, Page $page = null)
@@ -91,6 +99,7 @@ class PagePersister extends Object
      * @return Page
      * @throws UrlAlreadyExistsException
      * @throws PageTitleAlreadyExistsException
+     * @throws PageIntroHtmlLengthException
      */
     private function createNewPage(array $values, Page $page = null)
     {
@@ -131,6 +140,7 @@ class PagePersister extends Object
      * @return Page
      * @throws UrlAlreadyExistsException
      * @throws PagePublicationTimeException
+     * @throws PageIntroHtmlLengthException
      */
     private function updatePage(Page $page, array $values)
     {
@@ -156,13 +166,24 @@ class PagePersister extends Object
      * @param array $values
      * @param Page $page
      * @throws PagePublicationTimeException
+     * @throws PageIntroHtmlLengthException
      */
     private function fillPageEntity(array $values, Page $page)
     {
-        $page->setText($values['text']);
         $page->setTitle($values['title']);
+
         $page->setIntro($values['intro']);
+        $page->setIntroHtml($this->texy->process($values['intro']));
+
+        $page->setText($values['text']);
+        if ($values['text'] === null) {
+            $page->setTextHtml(null);
+        } else {
+            $page->setTextHtml($this->texy->process($values['text']));
+        }
+
         $page->setPublishedAt($values['publishedAt']);
+
         $page->setAllowedComments($values['allowedComments']);
 
         if ($page->isDraft() and $values['saveAsDraft'] === false) {

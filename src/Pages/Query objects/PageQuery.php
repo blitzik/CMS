@@ -72,7 +72,7 @@ class PageQuery extends QueryObject
     public function forOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->select('partial p.{id, title, intro, publishedAt}');
+            $qb->select('partial p.{id, title, intro, introHtml, publishedAt}');
         };
 
         return $this;

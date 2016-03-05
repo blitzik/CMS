@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
+use Pages\Exceptions\Runtime\StringLengthException;
 use Users\User;
 use Tags\Tag;
 use Url\Url;
@@ -49,10 +50,22 @@ class Page
     protected $intro;
 
     /**
+     * @ORM\Column(name="intro_html", type="string", length=3000, nullable=false, unique=false)
+     * @var string
+     */
+    private $introHtml;
+
+    /**
      * @ORM\Column(name="text", type="text", nullable=true, unique=false)
      * @var string
      */
     protected $text;
+
+    /**
+     * @ORM\Column(name="text_html", type="text", nullable=true, unique=false)
+     * @var string
+     */
+    private $textHtml;
 
     /**
      * @ORM\ManyToOne(targetEntity="Users\User")
@@ -105,8 +118,7 @@ class Page
         $text,
         Url $url,
         User $author
-    )
-    {
+    ) {
         $this->setTitle($title);
         $this->setIntro($intro);
         $this->setText($text);
@@ -188,12 +200,37 @@ class Page
 
 
     /**
-     * @param string $text
+     * @param string $introHtml
+     * @throws StringLengthException
+     */
+    public function setIntroHtml($introHtml)
+    {
+        Validators::assert($introHtml, 'unicode');
+        if (!Validators::is($introHtml, 'unicode:1...3000')) {
+            throw new StringLengthException;
+        }
+
+        $this->introHtml = $introHtml;
+    }
+
+
+    /**
+     * @param string|null $text
      */
     public function setText($text)
     {
         Validators::assert($text, 'unicode|null');
         $this->text = $text;
+    }
+
+
+    /**
+     * @param string|null $textHtml
+     */
+    public function setTextHtml($textHtml)
+    {
+        Validators::assert($textHtml, 'unicode|null');
+        $this->textHtml = $textHtml;
     }
 
 
@@ -286,6 +323,24 @@ class Page
     public function getAllowedComments()
     {
         return (bool)$this->allowedComments;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntroHtml()
+    {
+        return $this->introHtml;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTextHtml()
+    {
+        return $this->textHtml;
     }
 
 

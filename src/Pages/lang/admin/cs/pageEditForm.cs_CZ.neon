@@ -50,4 +50,5 @@ messages:
 	publishedPageInvalidPublicationTime: "U publikovaného článku lze nastavit čas publikace pouze do současnosti"
 	titleExists: "Článek s tímto titulkem již existuje. Změňte prosím titulek článku."
 	urlExists: "Tato URL adresa již existuje. Změňte prosím URL adresu."
+	pageIntroHtmlLength: "Výsledné HTML úvodu článku je příliš dlouhé. Zkraťte prosím úvod článku."
 	savingError: "Nastala chyba při ukládání. Zkuste to prosím později."

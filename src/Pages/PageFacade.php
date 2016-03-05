@@ -2,6 +2,7 @@
 
 namespace Pages\Facades;
 
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
@@ -66,6 +67,7 @@ class PageFacade extends Object
      * @throws UrlAlreadyExistsException
      * @throws PagePublicationTimeException
      * @throws DateTimeFormatException
+     * @throws PageIntroHtmlLengthException
      * @throws \Exception
      */
     public function save(array $values, Page $page = null)
