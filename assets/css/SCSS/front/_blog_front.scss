@@ -319,6 +319,13 @@ pre{
   padding: 20px;
   background-color: #fff;
   border: 1px solid #ccc;
+
+  a{
+    text-decoration: none;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
 }
 
 

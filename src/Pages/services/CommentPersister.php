@@ -8,21 +8,28 @@
 
 namespace Pages\Services;
 
-use Comments\Comment;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use Doctrine\ORM\NoResultException;
 use Kdyby\Doctrine\EntityManager;
+use Pages\Utils\TexyFactory;
+use Comments\Comment;
 use Nette\Object;
-use Pages\Exceptions\Runtime\ActionFailedException;
 use Pages\Page;
 
 class CommentPersister extends Object
 {
+    /** @var \Texy */
+    private $texy;
+
     /** @var EntityManager */
     private $em;
 
 
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        TexyFactory $texyFactory,
+        EntityManager $entityManager
+    ) {
+        $this->texy = $texyFactory->createTexyForComment();
         $this->em = $entityManager;
     }
 
@@ -42,7 +49,12 @@ class CommentPersister extends Object
 
             // no replies references found
             if (empty($repliesReferences)) {
-                $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
+                $comment = new Comment(
+                    $values['author'],
+                    $this->texy->process($values['text']),
+                    $values['page'],
+                    $numberOfComments + 1
+                );
 
                 $this->em->persist($comment)->flush();
                 $this->em->commit();
@@ -53,7 +65,13 @@ class CommentPersister extends Object
             $commentsToReply = $this->findCommentsToReply($values['page'], $repliesReferences);
             $values['text'] = $this->replaceReplyReferencesByAuthors($values['text'], $commentsToReply);
 
-            $comment = new Comment($values['author'], $values['text'], $values['page'], $numberOfComments + 1);
+            $comment = new Comment(
+                $values['author'],
+                $this->texy->process($values['text']),
+                $values['page'],
+                $numberOfComments + 1
+            );
+
             $this->em->persist($comment);
 
             /** @var Comment $comment */

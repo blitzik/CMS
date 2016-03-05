@@ -101,6 +101,8 @@ class TexyFactory
         $texy->allowed['script'] = false;
         $texy->allowed['table'] = false;
 
+        $texy->linkModule->forceNoFollow = true;
+
         $texy->addHandler('block', [$this, 'blockHandler']);
 
         return $texy;
