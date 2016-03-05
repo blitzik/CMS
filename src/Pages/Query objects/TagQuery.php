@@ -73,7 +73,8 @@ class TagQuery extends QueryObject
     protected function doCreateQuery(Kdyby\Persistence\Queryable $repository)
     {
         $qb = $this->createBasicQuery($repository->getEntityManager());
-        $qb->select('t');
+        $qb->select('t')
+           ->where('t.isSpecial = 0');
 
         foreach ($this->select as $modifier) {
             $modifier($qb);

@@ -5,6 +5,7 @@ namespace Tags\Components\Admin;
 use App\Components\BaseControl;
 use Nette\Application\UI\Multiplier;
 use Tags\Facades\TagFacade;
+use Tags\Query\TagQuery;
 use Tags\Tag;
 
 class TagsOverviewControl extends BaseControl
@@ -70,7 +71,7 @@ class TagsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/tagOverview.latte');
 
         if (empty($this->tags)) {
-            $this->tags = $this->tagFacade->findAllTags(false)->toArray();
+            $this->tags = $this->tagFacade->fetchTags((new TagQuery())->indexedByTagId())->toArray();
         }
 
         $template->tags = $this->tags;

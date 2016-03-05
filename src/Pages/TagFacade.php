@@ -95,9 +95,6 @@ class TagFacade extends Object
     }
 
 
-
-
-
     /**
      * @param int $tagId
      */
@@ -121,32 +118,4 @@ class TagFacade extends Object
         )->execute(['id' => $id, 'color' => $color]);
     }
 
-
-    /**
-     * @return ResultSet
-     */
-    public function findAllTags($ordered = true)
-    {
-        $qb = $this->getBasicDql();
-        $qb->indexBy('t', 't.id');
-
-        if ($ordered === true) {
-            $qb->orderBy('t.name', 'ASC');
-        }
-
-        return new ResultSet($qb->getQuery());
-    }
-
-
-    /**
-     * @return \Kdyby\Doctrine\QueryBuilder
-     */
-    private function getBasicDql()
-    {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('t')
-           ->from(Tag::class, 't');
-
-        return $qb;
-    }
 }

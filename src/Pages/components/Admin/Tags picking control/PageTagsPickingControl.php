@@ -8,6 +8,7 @@ use Tags\Facades\TagFacade;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Arrays;
 use Pages\Page;
+use Tags\Query\TagQuery;
 
 class PageTagsPickingControl extends BaseControl
 {
@@ -36,7 +37,9 @@ class PageTagsPickingControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/pageTagsPicking.latte');
 
-        $template->tags = $this->tagFacade->findAllTags()->toArray();
+        $tags = $this->tagFacade->fetchTags((new TagQuery())->indexedByTagId())->toArray();
+
+        $template->tags = $tags;
         $template->pageTags = isset($this->page) ? $this->page->getTags() : [];
 
         $template->render();

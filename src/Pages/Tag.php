@@ -14,7 +14,10 @@ use Pages\Page;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tag")
+ * @ORM\Table(
+ *     name="tag",
+ *     indexes={@Index(name="is_special", columns={"is_special"})}
+ * )
  *
  */
 class Tag
@@ -36,12 +39,21 @@ class Tag
      */
     protected $color;
 
+    /**
+     * @ORM\Column(name="is_special", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @var bool
+     */
+    protected $isSpecial;
+
+
     public function __construct(
         $name,
         $color
     ) {
         $this->setName($name);
         $this->setColor($color);
+
+        $this->isSpecial = false;
     }
 
 
@@ -70,5 +82,23 @@ class Tag
         }
 
         $this->color = $color;
+    }
+
+
+    /**
+     * @param bool $isSpecial
+     */
+    public function setIsSpecial($isSpecial)
+    {
+        $this->isSpecial = (bool) $isSpecial;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return $this->name === '' and $this->color === '';
     }
 }
