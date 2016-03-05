@@ -4,8 +4,11 @@
 Entire system including frontend is responsive and supports all
 major browsers. Administration supports IE9+.
 
-<h2>Description</h2>
+Based on <a href="https://nette.org/">Nette framework</a> with <a href="https://github.com/Kdyby/Doctrine">Kdyby\Doctrine</a>
 
+Backend is localized into English and Czech language.
+
+<h2>Description</h2>
 
 Classic CMS where Articles have title, date of publication and text. Actually the text
 of the Article is not mandatory. There is an Intro of Article that is mandatory
