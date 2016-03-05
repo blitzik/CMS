@@ -42,7 +42,7 @@ class PageQuery extends QueryObject
             $repository->createQueryBuilder()
                        ->select('PARTIAL page.{id}, tags')
                        ->from(Page::class, 'page')
-                       ->leftJoin('page.tags', 'tags', null, null, 'tags.id')
+                       ->leftJoin('page.tags', 'tags', Kdyby\Doctrine\Dql\Join::WITH, 'tags.isInternal = 0', 'tags.id')
                        ->andWhere('page.id IN (:ids)')
                        ->setParameter('ids', $ids)
                        ->getQuery()

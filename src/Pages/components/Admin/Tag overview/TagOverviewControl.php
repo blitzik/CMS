@@ -71,7 +71,12 @@ class TagsOverviewControl extends BaseControl
         $template->setFile(__DIR__ . '/tagOverview.latte');
 
         if (empty($this->tags)) {
-            $this->tags = $this->tagFacade->fetchTags((new TagQuery())->indexedByTagId())->toArray();
+            $this->tags = $this->tagFacade
+                               ->fetchTags(
+                                   (new TagQuery())
+                                   ->withoutInternals()
+                                   ->indexedByTagId()
+                               )->toArray();
         }
 
         $template->tags = $this->tags;

@@ -57,6 +57,7 @@ class SearchPresenter extends BasePresenter
         $this->tags = $this->tagFacade
                            ->fetchTags(
                                (new TagQuery())
+                                ->withoutInternals()
                                 ->orderByName()
                                 ->indexedByTagId()
                            )->toArray();

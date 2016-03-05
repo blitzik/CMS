@@ -33,6 +33,16 @@ class TagQuery extends QueryObject
     }
 
 
+    public function withoutInternals()
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->andWhere('t.isInternal = 0');
+        };
+
+        return $this;
+    }
+
+
     public function byTagName($tagName)
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($tagName) {
@@ -73,8 +83,7 @@ class TagQuery extends QueryObject
     protected function doCreateQuery(Kdyby\Persistence\Queryable $repository)
     {
         $qb = $this->createBasicQuery($repository->getEntityManager());
-        $qb->select('t')
-           ->where('t.isSpecial = 0');
+        $qb->select('t');
 
         foreach ($this->select as $modifier) {
             $modifier($qb);

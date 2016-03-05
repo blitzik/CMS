@@ -37,7 +37,12 @@ class PageTagsPickingControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/pageTagsPicking.latte');
 
-        $tags = $this->tagFacade->fetchTags((new TagQuery())->indexedByTagId())->toArray();
+        $tags = $this->tagFacade
+                     ->fetchTags(
+                         (new TagQuery())
+                          ->withoutInternals()
+                          ->indexedByTagId()
+                     )->toArray();
 
         $template->tags = $tags;
         $template->pageTags = isset($this->page) ? $this->page->getTags() : [];
