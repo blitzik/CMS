@@ -62,9 +62,15 @@ class SearchPresenter extends BasePresenter
                            )->toArray();
 
         $wantedTags = explode('-', $tags);
+        $existingTags = array_intersect(array_keys($this->tags), $wantedTags);
+
+        if (count($wantedTags) !== count($existingTags)) {
+            $this->redirect('this', ['tags' => implode('-', $existingTags)]);
+        }
+
         $this['pagesSearch']->setSelectedTags($wantedTags);
 
-        $this->pages = $this->pageFacade->searchByTags(array_intersect(array_keys($this->tags), $wantedTags));
+        $this->pages = $this->pageFacade->searchByTags($existingTags);
     }
 
 
