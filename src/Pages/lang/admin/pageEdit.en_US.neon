@@ -7,4 +7,6 @@ section:
 		title: Tags
 		actions:
 			add: "+ add Tag"
-
+		messages:
+			noTags: "No tags found."
+			createNewTag_q: "Do you want to create some?"

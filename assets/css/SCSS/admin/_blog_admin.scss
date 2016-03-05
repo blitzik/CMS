@@ -238,6 +238,7 @@ $main-header-background-color: #d43f3a;
   overflow: auto;
   max-width: 1300px;
   padding-top: 15px;
+  padding-bottom: 50px;
   clear: both;
 }
 
@@ -494,6 +495,10 @@ h1, h2, h3, h4, h5, h6{
 
   a{
     float: right;
+  }
+
+  .box a{
+    float: none;
   }
 }
 

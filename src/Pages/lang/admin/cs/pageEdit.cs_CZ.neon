@@ -7,4 +7,6 @@ section:
 		title: Štítky
 		actions:
 			add: "+ přidat Štítek"
-
+		messages:
+			noTags: "Nebyly nalezeny žádné štítky."
+			createNewTag_q: "Přejete si nějaké vytvořit?"

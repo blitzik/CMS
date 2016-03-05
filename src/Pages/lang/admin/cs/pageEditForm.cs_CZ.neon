@@ -20,7 +20,7 @@ intro:
 		maxLength: "maximální délka úvodu článku je %numChars% znaků"
 
 text:
-	label: "Text článku (*)"
+	label: "Text článku"
 	messages:
 		required: "Vyplňte text článku"
 

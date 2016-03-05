@@ -20,7 +20,7 @@ intro:
 		maxLength: "Maximal allowed length of Article intro is %count% characters"
 
 text:
-	label: "Article text (*)"
+	label: "Article text"
 	messages:
 		required: "Please type the text of your Article"
 

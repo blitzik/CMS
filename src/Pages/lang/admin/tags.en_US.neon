@@ -23,7 +23,7 @@ tagForm:
 		savingError: "An Error has occurred. Please try again later."
 
 overview:
-	noTagsFound: "No tags have been found."
+	noTagsFound: "No tags found."
 	nonExistentTag: "You are trying to modify non-existent Tag"
 
 	actions:
