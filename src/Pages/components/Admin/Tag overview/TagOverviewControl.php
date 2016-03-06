@@ -74,7 +74,6 @@ class TagsOverviewControl extends BaseControl
             $this->tags = $this->tagFacade
                                ->fetchTags(
                                    (new TagQuery())
-                                   ->withoutInternals()
                                    ->indexedByTagId()
                                )->toArray();
         }

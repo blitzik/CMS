@@ -2,6 +2,7 @@
 
 namespace Pages;
 
+use Doctrine\Common\Collections\Criteria;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Logic\DateTimeFormatException;
@@ -106,7 +107,7 @@ class Page
     protected $allowedComments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tags\Tag")
+     * @ORM\ManyToMany(targetEntity="Tags\Tag", indexBy="id")
      * @var ArrayCollection
      */
     private $tags;

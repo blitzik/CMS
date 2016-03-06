@@ -213,12 +213,6 @@ class PagePersister extends Object
      */
     private function addTags2Page(array $tags, Page $page)
     {
-        if (empty($tags)) {
-            $tag = $this->em->getReference(Tag::class, 1); // "no tags" Tag
-            $page->addTag($tag);
-            return;
-        }
-
         foreach ($tags as $tagId) {
             /** @var Tag $tag */
             $tag = $this->em->getReference(Tag::class, $tagId);

@@ -12,7 +12,6 @@ use App\Components\BaseControl;
 use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
-use Tags\Query\TagQuery;
 use Tags\Tag;
 
 class PagesSearchControl extends BaseControl

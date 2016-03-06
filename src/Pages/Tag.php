@@ -14,10 +14,7 @@ use Pages\Page;
 
 /**
  * @ORM\Entity
- * @ORM\Table(
- *     name="tag",
- *     indexes={@Index(name="is_internal", columns={"is_internal"})}
- * )
+ * @ORM\Table(name="tag")
  *
  */
 class Tag
@@ -39,12 +36,6 @@ class Tag
      */
     protected $color;
 
-    /**
-     * @ORM\Column(name="is_internal", type="boolean", nullable=false, unique=false, options={"default": false})
-     * @var bool
-     */
-    protected $isInternal;
-
 
     public function __construct(
         $name,
@@ -52,8 +43,6 @@ class Tag
     ) {
         $this->setName($name);
         $this->setColor($color);
-
-        $this->isInternal = false;
     }
 
 
@@ -82,23 +71,5 @@ class Tag
         }
 
         $this->color = $color;
-    }
-
-
-    /**
-     * @param bool $isInternal
-     */
-    public function setIsInternal($isInternal)
-    {
-        $this->isInternal = (bool) $isInternal;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isInternal()
-    {
-        return $this->isInternal;
     }
 }

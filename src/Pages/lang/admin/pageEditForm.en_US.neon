@@ -29,7 +29,7 @@ url:
 	info: "If you do NOT type Article URL address then it will be created from Article title"
 
 allowedComments:
-	label: "Allows people comment your Article"
+	label: "Allow people comment your Article"
 
 saveAndPublish:
 	caption: "Save and Publish"

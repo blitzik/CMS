@@ -8,9 +8,9 @@
 
 namespace Pages\Utils;
 
-use FSHL\Lexer;
 use FSHL\Output\HtmlManual;
 use FSHL\Highlighter;
+use FSHL\Lexer;
 
 class TexyFactory
 {
@@ -22,20 +22,16 @@ class TexyFactory
 
     /** @var array */
     private $lexers = [
-        'c' => 'Cpp',
-        'cpp' => 'Cpp',
-        'css' => 'Css',
-        'html' => 'Html',
-        'htmlonly' => 'HtmlOnly',
-        'java' => 'Java',
-        'javascript' => 'Javascript',
-        'js' => 'Javascript',
-        'neon' => 'Neon',
-        'php' => 'Php',
-        'python' => 'Python',
-        'py' => 'Python',
-        'sql'=> 'Sql',
-        'texy' => 'Texy'
+        'block/cpp' => Lexer\Cpp::class,
+        'block/css' => Lexer\Css::class,
+        'block/html' => Lexer\Html::class,
+        'block/java' => Lexer\Java::class,
+        'block/js' => Lexer\Javascript::class,
+        'block/neon' => Lexer\Neon::class,
+        'block/php' => Lexer\Php::class,
+        'block/python' => Lexer\Python::class,
+        'block/sql'=> Lexer\Sql::class,
+        'block/texy' => Lexer\Texy::class
     ];
 
     /** @var Highlighter */
@@ -121,20 +117,20 @@ class TexyFactory
      */
     public function blockHandler($invocation, $blocktype, $content, $lang, $modifier)
     {
-        if ($blocktype !== 'block/code') {
-            return $invocation->proceed();
-        }
-
         /** @var \Texy $texy */
         $texy = $invocation->getTexy();
 
         $content = \Texy::outdent($content);
 
-        $lexerName = $this->resolveLexerName($lang);
+        $lexerName = $this->resolveLexerName($blocktype);
         $lexer = $this->getLexerInstance($lexerName);
 
         $highlighter = $this->getHighlighter();
-        $content = $highlighter->highlight($content, $lexer);
+        if ($lexer !== false) {
+            $content = $highlighter->highlight($content, $lexer);
+        } else {
+            $content = htmlspecialchars($content);
+        }
 
         $content = $texy->protect($content, \Texy::CONTENT_BLOCK);
 
@@ -142,7 +138,7 @@ class TexyFactory
 
         if ($modifier) $modifier->decorate($texy, $elPre);
 
-        $elPre->attrs['class'] = strtolower(mb_strtolower($lexerName));
+        $elPre->attrs['class'] = mb_strtolower($this->getLanguage($blocktype));
         $elPre->create('code', $content);
 
         return $elPre;
@@ -150,18 +146,18 @@ class TexyFactory
 
 
     /**
-     * @param string $lang
-     * @return string
+     * @param string $blocktype
+     * @return string returns class name
      */
-    private function resolveLexerName($lang)
+    private function resolveLexerName($blocktype)
     {
-        $lang = mb_strtolower($lang);
+        $lang = mb_strtolower($blocktype);
         $lexer = null;
         if (array_key_exists($lang, $this->lexers)) {
             return $this->lexers[$lang];
         }
 
-        return 'Minimal';
+        return Lexer\Minimal::class;
     }
 
 
@@ -180,16 +176,29 @@ class TexyFactory
 
     /**
      * @param $lexerName
-     * @return Lexer
+     * @return Lexer|false Returns false if there is no lexer class with given name
      */
     private function getLexerInstance($lexerName)
     {
         if (!isset($this->lexersInstances[$lexerName])) {
-            $lexerObjectName = 'FSHL\Lexer\\' . $lexerName;
-            $this->lexersInstances[$lexerName] = new $lexerObjectName;
+            if (class_exists($lexerName)) {
+                $this->lexersInstances[$lexerName] = new $lexerName;
+            } else {
+                return false;
+            }
         }
 
         return $this->lexersInstances[$lexerName];
+    }
+
+
+    /**
+     * @param string $blocktype
+     * @return string
+     */
+    private function getLanguage($blocktype)
+    {
+        return mb_substr($blocktype, mb_strrpos($blocktype, '/') + 1);
     }
 
 }

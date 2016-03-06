@@ -2,6 +2,8 @@
 
 namespace Pages\Facades;
 
+use Comments\Comment;
+use Kdyby\Doctrine\Dql\Join;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
@@ -106,22 +108,6 @@ class PageFacade extends Object
     }
 
 
-    /**
-     * @param $pageID
-     * @return Page|null
-     */
-    public function getPage($pageID)
-    {
-        return $this->getBasePageDql()
-                    ->innerJoin('p.url', 'u')
-                    ->addSelect('u')
-                    ->where('p.id = :id')
-                    ->setParameter('id', $pageID)
-                    ->getQuery()
-                    ->getOneOrNullResult();
-    }
-
-
     public function publishPage($id)
     {
         $this->em->createQuery(
@@ -132,16 +118,28 @@ class PageFacade extends Object
 
 
     /**
-     * @return \Kdyby\Doctrine\QueryBuilder
+     * @param int $pageID
+     * @param bool $withCommentsCount
+     * @return Page|null
      */
-    private function getBasePageDql()
+    public function getPage($pageID, $withCommentsCount = false)
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('p, t')
-           ->from(Page::class, 'p')
-           ->leftJoin('p.tags', 't', null, null, 't.id');
+        $pageQB = $this->em->createQueryBuilder();
+        $pageQB->select('p, u')
+               ->from(Page::class, 'p')
+               ->join('p.url', 'u')
+               ->where('p.id = :pageID')
+               ->setParameter('pageID', $pageID);
 
-        return $qb;
+        if ((bool)$withCommentsCount === true) {
+            $pageQB->addSelect('COUNT(c.page) AS commentsCount');
+            $pageQB->leftJoin(Comment::class, 'c', Join::WITH, 'c.page = p');
+            $pageQB->groupBy('p.id');
+        }
+
+        $page = $pageQB->getQuery()->getOneOrNullResult();
+
+        return $page;
     }
 
 
@@ -158,6 +156,7 @@ class PageFacade extends Object
         $rsm->addFieldResult('p', 'id', 'id');
         $rsm->addFieldResult('p', 'title', 'title');
         $rsm->addFieldResult('p', 'intro', 'intro');
+        $rsm->addFieldResult('p', 'intro_html', 'introHtml');
         //$rsm->addFieldResult('p', 'text', 'text');
 
         $rsm->addMetaResult('p', 'author', 'author');
@@ -173,7 +172,7 @@ class PageFacade extends Object
         $rsm->addIndexByColumn('p', 'id');
 
         $nativeQuery = $this->em->createNativeQuery(
-            'SELECT p.id, p.title, p.intro, p.author, p.url,
+            'SELECT p.id, p.title, p.intro, p.intro_html, p.author, p.url,
                     p.created_at, p.is_draft, p.published_at,
                     p.allowed_comments, COUNT(c.page) AS commentsCount
              FROM (
@@ -192,7 +191,7 @@ class PageFacade extends Object
 
         $this->em->createQuery(
             'SELECT PARTIAL page.{id}, tags FROM ' . Page::class . ' page
-             LEFT JOIN page.tags tags
+             LEFT JOIN page.tags tags INDEX BY tags.id
              WHERE page.id IN (:ids)'
         )->setParameter('ids', array_keys($pages))
          ->execute();

@@ -60,13 +60,11 @@ class CommentQuery extends QueryObject
         };*/
 
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($onlyVisible) {
-            $qb->addSelect('reaction, reacted');
+            $qb->addSelect('reaction');
             if ($onlyVisible === true) {
                 $qb->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id');
-                $qb->leftJoin('c.reacted', 'reacted', null, null, 'reacted.id');
             } else {
                 $qb->leftJoin('c.reactions', 'reaction', null, null, 'reaction.id');
-                $qb->leftJoin('c.reacted', 'reacted', null, null, 'reacted.id');
             }
         };
 

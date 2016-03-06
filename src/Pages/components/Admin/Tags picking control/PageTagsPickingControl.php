@@ -40,7 +40,6 @@ class PageTagsPickingControl extends BaseControl
         $tags = $this->tagFacade
                      ->fetchTags(
                          (new TagQuery())
-                          ->withoutInternals()
                           ->indexedByTagId()
                      )->toArray();
 

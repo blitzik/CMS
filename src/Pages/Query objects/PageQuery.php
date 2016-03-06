@@ -30,7 +30,7 @@ class PageQuery extends QueryObject
     }
 
 
-    public function withTags()
+    public function withTags() // doesn't work with $repository->fetchOne()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
             $qb->indexBy('p', 'p.id');
@@ -42,7 +42,7 @@ class PageQuery extends QueryObject
             $repository->createQueryBuilder()
                        ->select('PARTIAL page.{id}, tags')
                        ->from(Page::class, 'page')
-                       ->leftJoin('page.tags', 'tags', Kdyby\Doctrine\Dql\Join::WITH, 'tags.isInternal = 0', 'tags.id')
+                       ->leftJoin('page.tags', 'tags', null, null, 'tags.id')
                        ->andWhere('page.id IN (:ids)')
                        ->setParameter('ids', $ids)
                        ->getQuery()
@@ -53,15 +53,11 @@ class PageQuery extends QueryObject
     }
 
 
-    public function withCommentsCount($includingHiddenComments = false)
+    public function withCommentsCount()
     {
-        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($includingHiddenComments) {
-            $condition = 'c WITH c.page = p';
-            if ($includingHiddenComments === true) {
-                $condition = 'c WITH c.page = p';
-            }
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
             $qb->addSelect('COUNT(c.page) AS commentsCount')
-               ->leftJoin(Comment::class, $condition)
+               ->leftJoin(Comment::class, 'c', Kdyby\Doctrine\Dql\Join::WITH, 'c.page = p')
                ->groupBy('p.id');
         };
 

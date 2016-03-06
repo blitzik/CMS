@@ -2,7 +2,6 @@
 
 namespace Pages\Components\Front;
 
-use Nette\Utils\ArrayHash;
 use App\Components\BaseControl;
 use Pages\Page;
 
@@ -45,7 +44,7 @@ class PageControl extends BaseControl
         $template->setFile(__DIR__ . '/page.latte');
 
         $template->page = $this->page;
-        $template->month = $this->page->publishedAt->format('n');
+        //$template->month = $this->page->publishedAt->format('n');
 
         $template->isOnlyIntroShown = $this->isOnlyIntroShown;
         $template->commentsCount = $this->commentsCount;

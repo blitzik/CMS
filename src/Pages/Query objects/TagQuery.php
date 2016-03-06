@@ -33,16 +33,6 @@ class TagQuery extends QueryObject
     }
 
 
-    public function withoutInternals()
-    {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->andWhere('t.isInternal = 0');
-        };
-
-        return $this;
-    }
-
-
     public function byTagName($tagName)
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($tagName) {

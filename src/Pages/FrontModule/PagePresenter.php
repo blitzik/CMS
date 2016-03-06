@@ -10,6 +10,7 @@ use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
 use Pages\Query\PageQuery;
 use Pages\Page;
+use Tracy\Debugger;
 
 class PagePresenter extends BasePresenter
 {
@@ -87,13 +88,7 @@ class PagePresenter extends BasePresenter
 
     public function actionShow($internal_id)
     {
-        $result = $this->pageFacade
-                     ->fetchPage(
-                         (new PageQuery())
-                          ->withTags()
-                          ->withCommentsCount()
-                          ->byPageId($internal_id)
-                     );
+        $result = $this->pageFacade->getPage($internal_id, true);
 
         /** @var Page $page */
         $page = $result[0];
@@ -127,12 +122,15 @@ class PagePresenter extends BasePresenter
      */
     protected function createComponentPage()
     {
-        $comp = $this-> pageFactory->create($this->page[0]);
+        $comp = $this->pageFactory->create($this->page[0]);
         $comp->setCommentsCount($this->page['commentsCount']);
         return $comp;
     }
 
 
+    /**
+     * @Actions show
+     */
     protected function createComponentComments()
     {
         $comp = $this->commentsFactory->create($this->page[0]);
