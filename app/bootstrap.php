@@ -13,7 +13,6 @@ $configurator->enableDebugger(__DIR__ . '/../log');
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 
 $configurator->createRobotLoader()
-	->addDirectory(__DIR__ . '/../core')
 	->addDirectory(__DIR__ . '/../src')
 	->addDirectory(__DIR__ . '/../libs')
 	->addDirectory(__DIR__)

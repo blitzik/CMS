@@ -21,6 +21,7 @@
     "kdyby/monolog": "^1.1",
     "ramsey/uuid": "^3.0",
     "kdyby/translation": "^2.2",
-    "kukulich/fshl": "^2.1"
+    "kukulich/fshl": "^2.1",
+    "doctrine/data-fixtures": "^1.1"
   }
 }

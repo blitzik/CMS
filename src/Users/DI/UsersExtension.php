@@ -19,7 +19,7 @@ class UsersExtension extends CompilerExtension implements IEntityProvider, ITran
     public function loadConfiguration()
     {
         $cb = $this->getContainerBuilder();
-        $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/config.neon'), $this->name);
+        $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/services.neon'), $this->name);
     }
 
 

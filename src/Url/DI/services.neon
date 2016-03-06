@@ -1,4 +1,10 @@
 services:
+
+	# commands
+	defaultDataCommand:
+		class: Url\Commands\DefaultDataCommand
+		tags: [kdyby.console.command]
+
 	router: Url\Router
 	requestPanel: Url\RequestPanel
 

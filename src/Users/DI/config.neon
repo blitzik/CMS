@@ -1,3 +1,0 @@
-services:
-
-	userAuthenticator: Users\Authentication\UserAuthenticator

@@ -1,0 +1,12 @@
+services:
+
+	# commands
+	defaultDataCommand:
+		class: Users\Commands\DefaultDataCommand
+		tags: [kdyby.console.command]
+
+	newUserCommand:
+		class: Users\Commands\NewUserCommand
+		tags: [kdyby.console.command]
+
+	userAuthenticator: Users\Authentication\UserAuthenticator
