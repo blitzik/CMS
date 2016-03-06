@@ -250,4 +250,13 @@ class Comment
     {
         return !$this->page->getAllowedComments();
     }
+
+
+    /**
+     * @return bool
+     */
+    public function isPageDraft()
+    {
+        return $this->page->isDraft();
+    }
 }

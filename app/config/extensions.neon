@@ -7,6 +7,9 @@ extensions:
 	translation: Kdyby\Translation\DI\TranslationExtension
 	monolog: Kdyby\Monolog\DI\MonologExtension
 
+	# core extensions
+	log: Log\DI\LogExtension
+
 	# Blog extensions
 	options: Options\DI\OptionsExtension
 	users: Users\DI\UsersExtension
