@@ -13,8 +13,8 @@ use Nette\Application\UI\Multiplier;
 use Comments\Facades\CommentFacade;
 use Comments\Query\CommentQuery;
 use App\Components\BaseControl;
-use Comments\Comment;
 use Nette\Security\User;
+use Comments\Comment;
 use Pages\Page;
 
 class CommentsOverviewControl extends BaseControl
@@ -92,14 +92,9 @@ class CommentsOverviewControl extends BaseControl
     private function findComments()
     {
         $query = (new CommentQuery())
+                  ->withReactions()
                   ->byPage($this->page->getId())
                   ->indexedById();
-
-        if ($this->user->isLoggedIn()) {
-            $query->withReactions(false);
-        } else {
-            $query->withReactions();
-        }
 
         $this->comments = $this->commentFacade
                                ->fetchComments($query)->toArray();

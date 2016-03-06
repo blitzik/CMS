@@ -12,7 +12,7 @@
     </h3>
 
     <div class="comment-text" n:snippet="comment-text">
-        {if $comment->isSilenced()}
+        {if $comment->isSilenced() AND !$user->isLoggedIn()}
             <p class="silenced-comment">
                 <i class="fa fa-eye-slash"></i> Obsah komentáře byl skryt z důvodu jeho nevhodnosti
             </p>
@@ -38,7 +38,7 @@
             <span n:if="$user->isLoggedIn()" class="right">
                 <span n:snippet="comment-suppress">
                     {if $comment->isSilenced()}
-                        <a href="{link release!}" class="ajax">zobrazit text</a>
+                       [POTLAČENÝ KOMENTÁŘ] <a href="{link release!}" class="ajax">zobrazit text</a>
                     {else}
                         <a href="{link silence!}" class="ajax">potlačit text</a>
                     {/if}

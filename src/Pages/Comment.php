@@ -74,7 +74,7 @@ class Comment
     private $order;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="test")
+     * @ORM\ManyToMany(targetEntity="Comment")
      * @ORM\JoinTable(
      *     name="comment_reactions",
      *     joinColumns={@JoinColumn(name="reaction", referencedColumnName="id", onDelete="CASCADE")},
@@ -82,13 +82,6 @@ class Comment
      * )
      */
     private $reactions;
-
-    /**
-     * Comments that are commented by this comment
-     *
-     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="reactions")
-     */
-    private $reacted;
 
 
     public function __construct(

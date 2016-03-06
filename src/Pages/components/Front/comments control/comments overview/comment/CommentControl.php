@@ -8,12 +8,12 @@
 
 namespace Comments\Components\Front;
 
-use App\Components\BaseControl;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use blitzik\FlashMessages\FlashMessage;
 use Comments\Facades\CommentFacade;
+use App\Components\BaseControl;
 use Nette\Security\User;
 use Comments\Comment;
-use Pages\Exceptions\Runtime\ActionFailedException;
 
 class CommentControl extends BaseControl
 {
