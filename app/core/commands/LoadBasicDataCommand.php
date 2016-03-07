@@ -77,6 +77,11 @@ class LoadBasicDataCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if (empty($this->fixtures)) {
+            $output->writeln('No fixtures found.');
+            return -1;
+        }
+
         $loader = new Loader();
         foreach ($this->fixtures as $fixture) {
             $loader->addFixture($fixture);
@@ -105,7 +110,7 @@ class LoadBasicDataCommand extends Command
             return 0;
         } catch (\Exception $e) {
             $output->writeLn("That's bad. An Error occurred: <error>{$e->getMessage()}</error>");
-            return 1;
+            return -1;
         }
     }
 
