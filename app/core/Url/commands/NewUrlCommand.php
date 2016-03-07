@@ -176,8 +176,8 @@ class NewUrlCommand extends Command
                 throw new \RuntimeException('The Presenter must be non-empty string');
             }
 
-            if (!preg_match('~^((?:(?:[A-Z][a-z]*(?![A-Z]$)):)*(?:[A-Z][a-z]*(?![A-Z]$))):([a-z]+)$~', $answer)) {
-                throw new \RuntimeException('Wrong format of Presenter. Format is (Module:)*(Presenter):(action)');
+            if (!preg_match('~^((?:(?:[A-Z][a-z]*):)*(?:[A-Z][a-z]*)):([a-z]+)$~', $answer)) {
+                throw new \RuntimeException('Wrong format of Presenter. Format is (Module:)*(Presenter):(action). Check your first letters at all parts of Presenter');
             }
 
             return $answer;
