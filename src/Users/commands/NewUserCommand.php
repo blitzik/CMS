@@ -11,13 +11,10 @@ namespace Users\Commands;
 use Kdyby\Doctrine\EntityRepository;
 use Nette\Utils\Validators;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\Console\Command\Command;
-use Doctrine\Common\DataFixtures\Loader;
 use Kdyby\Doctrine\EntityManager;
 use Symfony\Component\Console\Question\Question;
 use Users\User;
@@ -72,44 +69,76 @@ class NewUserCommand extends Command
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
 
-        $username = $this->askUsername($helper, $input, $output);
-        $password = $this->askPassword($helper, $input, $output);
-        $email = $this->askEmail($helper, $input, $output);
+        do {
+            if (!isset($username)) {
+                $username = $this->askUsername($helper, $input, $output);
+            }
 
-        $output->writeln(
-            sprintf(
-                'Summary:
-                username: %s
-                password: %s
-                E-mail: %s',
-                $username,
-                $password,
-                $email
-            )
-        );
+            if (!isset($password)) {
+                $password = $this->askPassword($helper, $input, $output);
+            }
 
-        // CONFIRMATION
-        $question = new ConfirmationQuestion('Do you want to create this new User? ', false);
+            if (!isset($email)) {
+                $email = $this->askEmail($helper, $input, $output);
+            }
 
-        if (!$helper->ask($input, $output, $question)) {
-            $output->writeln('New user insertion has been CANCELED!');
-            return;
-        }
+            $output->writeln(
+                sprintf(
+                    'Summary:
+                    username: %s
+                    password: %s
+                    E-mail: %s',
+                    $username,
+                    $password,
+                    $email
+                )
+            );
 
-        $user = new User($username, $email, $password);
+            // CONFIRMATION
+            $question = new ConfirmationQuestion('Do you want to create this new User? ', true);
+            if (!$helper->ask($input, $output, $question)) {
+                $output->writeln('New user insertion has been CANCELED!');
+                return;
+            }
 
-        try{
-            // should we check for unique constraint violation?
-            $this->em->persist($user);
-            $this->em->flush();
+            try {
+                $user = new User($username, $email, $password);
+                $new_user = $this->em->safePersist($user);
+                if ($new_user === false) {
+                    $uname = $this->userRepository->findOneBy(['username' => $username]);
+                    if ($uname !== null) {
+                        $output->writeln(sprintf('User with username "%s" already exists', $username));
+                        $username = null;
+                    }
 
-            $output->writeln('Your new User has been SUCCESSFULLY created!');
-            return 0;
+                    $umail = $this->userRepository->findOneBy(['email' => $email]);
+                    if ($umail !== null) {
+                        $output->writeln(sprintf('User with email "%s" already exists', $email));
+                        $email = null;
+                    }
 
-        } catch (\Exception $e) {
-            $output->writeLn("That's bad. An Error occurred: <error>{$e->getMessage()}</error>");
-            return 1;
-        }
+                    unset($user);
+                    continue;
+                }
+
+                $output->writeln('Your new User has been SUCCESSFULLY created!');
+
+                $continue = new ConfirmationQuestion('Would you like to create another one?', true);
+                if ($helper->ask($input, $output, $continue)) {
+                    $username = null;
+                    $password = null;
+                    $email = null;
+                    continue;
+                }
+
+                return 0;
+
+            } catch (\Exception $e) {
+                $output->writeLn("That's bad. An Error occurred: <error>{$e->getMessage()}</error>");
+
+                return 1;
+            }
+        } while (true);
     }
 
 
@@ -145,7 +174,7 @@ class NewUserCommand extends Command
     {
         $question = new Question('New user email: ');
         $question->setValidator(function ($answer) {
-            if (!Validators::is($answer, 'unicode:1..')) {
+            if (!Validators::is($answer, 'email')) {
                 throw new \RuntimeException('The E-mail address must have valid format');
             }
 
