@@ -92,18 +92,23 @@ class Url
 
         $matches = $this->resolveDestination($destination);
 
-        $this->presenter = $matches[1]; // contains [Module:]Presenter
-        // $matches[2] contains Module: if there is a Module
-        // $matches[3] contains Presenter
-        $this->action = $matches[4]; // action
+        $this->presenter = $matches['modulePresenter'];
+        $this->action = $matches['action'];
     }
 
 
+    /**
+     * @param $destination
+     * @return mixed
+     */
     private function resolveDestination($destination)
     {
         // ((Module:)*(Presenter)):(action)
-        if (!preg_match('~^(([a-zA-z]+:)*([a-zA-z]+)):([a-z]+)$~', $destination, $matches)) {
-            throw new InvalidArgumentException('Wrong format of argument $destination. Check if action have lower-case characters.');
+        if (!preg_match('~^(?P<modulePresenter>(?:(?:[A-Z][a-z]*(?![A-Z]$)):)*(?:[A-Z][a-z]*(?![A-Z]$))):(?P<action>[a-z]+)$~', $destination, $matches)) {
+            throw new InvalidArgumentException(
+                'Wrong format of argument $presenter or $action.
+                 Argument $action must have only lower-case characters
+                 and $presenter argument must have first letter upper-case and must not end with upper-case character in each part.');
         }
 
         return $matches;

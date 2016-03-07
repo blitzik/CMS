@@ -1,8 +1,8 @@
 services:
 
 	# commands
-	defaultDataCommand:
-		class: Url\Commands\DefaultDataCommand
+	newUrlCommand:
+		class: Url\Commands\NewUrlCommand
 		tags: [kdyby.console.command]
 
 	router: Url\Router

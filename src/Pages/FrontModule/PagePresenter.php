@@ -2,6 +2,7 @@
 
 namespace Pages\FrontModule\Presenters;
 
+use Nette\Utils\Validators;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
@@ -11,6 +12,7 @@ use Pages\Facades\PageFacade;
 use Pages\Query\PageQuery;
 use Pages\Page;
 use Tracy\Debugger;
+use Url\Url;
 
 class PagePresenter extends BasePresenter
 {

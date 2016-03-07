@@ -117,7 +117,7 @@ class NewUserCommand extends Command
     {
         $question = new Question('New user username: ');
         $question->setValidator(function ($answer) {
-            if (!Validators::is($answer, 'unicode:1..')) {
+            if (!Validators::is(trim($answer), 'unicode:1..')) {
                 throw new \RuntimeException('The username must be non-empty string');
             }
 
@@ -173,7 +173,7 @@ class NewUserCommand extends Command
     {
         $question = new Question('New user password: ');
         $question->setValidator(function ($answer) {
-            if (!Validators::is($answer, 'unicode:1..')) {
+            if (!Validators::is(trim($answer), 'unicode:1..')) {
                 throw new \RuntimeException('The password must be non-empty string');
             }
             return $answer;
