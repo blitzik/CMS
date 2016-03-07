@@ -8,8 +8,8 @@
 
 namespace Log\DI;
 
-use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
+use App\Extensions\CompilerExtension;
 
 class LogExtension extends CompilerExtension implements IEntityProvider
 {

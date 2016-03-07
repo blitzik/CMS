@@ -3,9 +3,11 @@
 namespace Dashboard\DI;
 
 use App\Extensions\CompilerExtension;
+use App\Fixtures\IFixtureProvider;
+use Dashboard\Fixtures\DashboardFixture;
 use Kdyby\Translation\DI\ITranslationProvider;
 
-class DashboardExtension extends CompilerExtension implements ITranslationProvider
+class DashboardExtension extends CompilerExtension implements ITranslationProvider, IFixtureProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -42,4 +44,15 @@ class DashboardExtension extends CompilerExtension implements ITranslationProvid
     }
 
 
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                DashboardFixture::class
+            ]
+        ];
+    }
 }

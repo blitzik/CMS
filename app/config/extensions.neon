@@ -8,14 +8,14 @@ extensions:
 	monolog: Kdyby\Monolog\DI\MonologExtension
 
 	# core extensions
+	core: App\DI\CoreExtension
 	log: Log\DI\LogExtension
 
 	# Blog extensions
 	options: Options\DI\OptionsExtension
 	users: Users\DI\UsersExtension
 	url: Url\DI\UrlExtension
-	navigation: Navigations\DI\NavigationExtension
+	#navigation: Navigations\DI\NavigationExtension
 	dashboard: Dashboard\DI\DashboardExtension
 	pages: Pages\DI\PagesExtension
-	#comments: Comments\DI\CommentsExtension # still thinking about implementation
 	images: Images\DI\ImagesExtension

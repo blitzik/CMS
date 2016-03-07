@@ -3,11 +3,13 @@
 namespace Images\DI;
 
 use App\Extensions\CompilerExtension;
+use App\Fixtures\IFixtureProvider;
+use Images\Fixtures\ImagesFixture;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use Kdyby\Translation\DI\ITranslationProvider;
 use Nette\DI\Statement;
 
-class ImagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
+class ImagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
 {
     /** @var array */
     private $defaults = [
@@ -66,6 +68,19 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider, ITra
     {
         return [
             __DIR__ . '/../lang'
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                ImagesFixture::class
+            ]
         ];
     }
 

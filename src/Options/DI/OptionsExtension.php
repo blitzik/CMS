@@ -3,10 +3,12 @@
 namespace Options\DI;
 
 use App\Extensions\CompilerExtension;
+use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use Kdyby\Translation\DI\ITranslationProvider;
+use Options\Fixtures\OptionsFixture;
 
-class OptionsExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
+class OptionsExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -52,5 +54,17 @@ class OptionsExtension extends CompilerExtension implements IEntityProvider, ITr
         ];
     }
 
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                OptionsFixture::class
+            ]
+        ];
+    }
 
 }

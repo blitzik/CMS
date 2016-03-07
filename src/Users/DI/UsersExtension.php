@@ -2,6 +2,7 @@
 
 namespace  Users\DI;
 
+use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
 use Kdyby\Translation\DI\ITranslationProvider;
@@ -9,8 +10,9 @@ use Users\Authentication\UserStorage;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IUserStorage;
 use Nette\Http\Session;
+use Users\Fixtures\UsersFixture;
 
-class UsersExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
+class UsersExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
 {
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -61,6 +63,19 @@ class UsersExtension extends CompilerExtension implements IEntityProvider, ITran
     {
         return [
             __DIR__ . '/../lang'
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                UsersFixture::class
+            ]
         ];
     }
 

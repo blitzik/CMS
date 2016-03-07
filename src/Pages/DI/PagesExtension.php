@@ -3,10 +3,12 @@
 namespace Pages\DI;
 
 use App\Extensions\CompilerExtension;
+use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use Kdyby\Translation\DI\ITranslationProvider;
+use Pages\Fixtures\PagesFixture;
 
-class PagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider
+class PagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
 {
     private $defaults = [
         'pagesPerPage' => 10,
@@ -89,6 +91,19 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
     {
         return [
             __DIR__ . '/../lang'
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                PagesFixture::class
+            ]
         ];
     }
 
