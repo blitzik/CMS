@@ -30,7 +30,7 @@ class DashboardFixture extends AbstractFixture
     private function loadDefaultUrls(ObjectManager $manager)
     {
         // ADMINISTRATION
-        $dashboardDefault = UrlGenerator::create('administration/dashboard', 'Dashboard:Dashboard', 'default');
+        $dashboardDefault = UrlGenerator::create('administration', 'Dashboard:Dashboard', 'default');
         $manager->persist($dashboardDefault);
     }
 
