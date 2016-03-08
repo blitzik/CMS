@@ -2,6 +2,10 @@
 
 namespace Pages\FrontModule\Presenters;
 
+use Kdyby\Doctrine\EntityManager;
+use Log\EventLog;
+use Log\Log;
+use Log\LogType;
 use Nette\Utils\Validators;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
@@ -51,6 +55,12 @@ class PagePresenter extends BasePresenter
      * ----- ARTICLES OVERVIEW BY CATEGORY -----
      * -----------------------------------------
      */
+
+    /**
+     * @var EntityManager
+     * @inject
+     */
+    public $em;
 
 
     public function actionDefault()

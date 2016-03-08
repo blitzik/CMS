@@ -1,1 +1,3 @@
 services:
+
+	appEventLogger: Log\Services\AppEventLogger

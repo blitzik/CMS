@@ -51,7 +51,7 @@ translation:
 
 
 monolog:
-	name: blitzik-blog
+	name: blitzik-cms
 	#registerFallback: %debugMode%
 
 

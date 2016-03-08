@@ -5,6 +5,11 @@ services:
 		class: Url\Commands\NewUrlCommand
 		tags: [kdyby.console.command]
 
+	# subscribers
+	urlSubscriber:
+		class: Url\Subscribers\UrlSubscriber
+		tags: [kdyby.subscribers]
+
 	router: Url\Router
 	requestPanel: Url\RequestPanel
 

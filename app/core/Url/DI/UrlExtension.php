@@ -2,14 +2,14 @@
 
 namespace Url\DI;
 
-use App\Extensions\CompilerExtension;
 use Kdyby\Doctrine\DI\IEntityProvider;
-use Tracy\Bar;
-use Tracy\Debugger;
+use App\Extensions\CompilerExtension;
+use App\Fixtures\IFixtureProvider;
+use Url\Fixtures\UrlsFixture;
 use Url\RequestPanel;
-use Url\RouterPanel;
+use Tracy\Bar;
 
-class UrlExtension extends CompilerExtension implements IEntityProvider
+class UrlExtension extends CompilerExtension implements IEntityProvider, IFixtureProvider
 {
     private $defaults = [
         'localization' => [
@@ -20,6 +20,7 @@ class UrlExtension extends CompilerExtension implements IEntityProvider
             ]
         ]
     ];
+
 
     /**
      * Processes configuration data. Intended to be overridden by descendant.
@@ -52,6 +53,7 @@ class UrlExtension extends CompilerExtension implements IEntityProvider
         $bar->addSetup('addPanel', ['@'.$cb->getByType(RequestPanel::class)]);
     }
 
+
     /**
      * Returns associative array of Namespace => mapping definition
      *
@@ -60,6 +62,19 @@ class UrlExtension extends CompilerExtension implements IEntityProvider
     public function getEntityMappings()
     {
         return ['Url' => __DIR__ . '/..'];
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                UrlsFixture::class
+            ]
+        ];
     }
 
 }

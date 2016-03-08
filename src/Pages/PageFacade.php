@@ -2,10 +2,8 @@
 
 namespace Pages\Facades;
 
-use Comments\Comment;
-use Kdyby\Doctrine\Dql\Join;
-use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
@@ -15,10 +13,12 @@ use Pages\Services\PagePersister;
 use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
 use Pages\Services\PageRemover;
+use Kdyby\Doctrine\Dql\Join;
 use Nette\Caching\IStorage;
 use Pages\Query\PageQuery;
 use Kdyby\Monolog\Logger;
 use Nette\Caching\Cache;
+use Comments\Comment;
 use Nette\Object;
 use Pages\Page;
 

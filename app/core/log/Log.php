@@ -26,11 +26,24 @@ class Log
     use MagicAccessors;
 
     /**
+     * @ORM\Column(name="`date`", type="datetime", nullable=false, unique=false)
+     * @var \DateTime
+     */
+    private $date;
+
+    /**
      * @ORM\ManyToOne(targetEntity="LogType")
      * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=false)
      * @var LogType
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EventLog")
+     * @ORM\JoinColumn(name="event", referencedColumnName="id", nullable=false)
+     * @var EventLog
+     */
+    private $event;
 
     /**
      * @ORM\Column(name="message", type="string", length=1000, nullable=false, unique=false)
@@ -41,10 +54,14 @@ class Log
 
     public function __construct(
         LogType $type,
+        EventLog $event,
         $message
     ) {
         $this->type = $type;
+        $this->event = $event;
         $this->setMessage($message);
+
+        $this->date = new \DateTime('now');
     }
 
 
@@ -72,9 +89,21 @@ class Log
      */
 
 
+    /**
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return clone $this->date;
     }
 
 

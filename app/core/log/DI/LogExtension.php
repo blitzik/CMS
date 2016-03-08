@@ -8,10 +8,12 @@
 
 namespace Log\DI;
 
+use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
+use Log\Fixtures\LogFixture;
 
-class LogExtension extends CompilerExtension implements IEntityProvider
+class LogExtension extends CompilerExtension implements IEntityProvider, IFixtureProvider
 {
     public function loadConfiguration()
     {
@@ -30,5 +32,19 @@ class LogExtension extends CompilerExtension implements IEntityProvider
     {
         return ['Log' => __DIR__ . '/..'];
     }
+
+
+    /**
+     * @return array
+     */
+    public function getDataFixtures()
+    {
+        return [
+            __DIR__ . '/../fixtures/basic' => [
+                LogFixture::class
+            ]
+        ];
+    }
+
 
 }

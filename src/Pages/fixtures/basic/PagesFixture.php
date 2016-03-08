@@ -10,6 +10,7 @@ namespace Pages\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Log\LogType;
 use Url\Generators\UrlGenerator;
 
 class PagesFixture extends AbstractFixture
@@ -22,6 +23,7 @@ class PagesFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
+        $this->loadDefaultLoggingTypes($manager);
 
         $manager->flush();
     }
@@ -53,6 +55,19 @@ class PagesFixture extends AbstractFixture
 
         $tags = UrlGenerator::create('administration/tags', 'Tags:Tag', 'default');
         $manager->persist($tags);
+    }
+
+
+    private function loadDefaultLoggingTypes(ObjectManager $manager)
+    {
+        $pageType = new LogType('page');
+        $manager->persist($pageType);
+
+        $commentType = new LogType('page_comment');
+        $manager->persist($commentType);
+
+        $tagType = new LogType('page_tag');
+        $manager->persist($tagType);
     }
 
 

@@ -10,6 +10,8 @@ use Nette;
 
 class Router extends RouteList
 {
+    public $onUrlNotFound;
+
     const ROUTE_NAMESPACE = 'appRoute';
 
     /** @var EntityManager  */
@@ -26,9 +28,6 @@ class Router extends RouteList
 
     /** @var array */
     private $locales;
-
-    /** @var array */
-    private $localization; // check config.local.neon
 
 
     public function __construct(
@@ -60,10 +59,10 @@ class Router extends RouteList
         $urlPath = new Services\UrlPath($httpRequest);
         $urlPath->setPredefinedLocales($this->locales);
 
-
         /** @var Url $urlEntity */
         $urlEntity = $this->loadUrlEntity($urlPath->getPath(true));
         if ($urlEntity === null) { // no route found
+            $this->onUrlNotFound($urlPath);
             return null;
         }
 

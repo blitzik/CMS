@@ -11,6 +11,7 @@ namespace Images\Fixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Url\Generators\UrlGenerator;
+use Log\LogType;
 
 class ImagesFixture extends AbstractFixture
 {
@@ -22,6 +23,7 @@ class ImagesFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
+        $this->loadDefaultLoggingTypes($manager);
 
         $manager->flush();
     }
@@ -32,6 +34,13 @@ class ImagesFixture extends AbstractFixture
         // ADMINISTRATION
         $images = UrlGenerator::create('administration/images', 'Images:Image', 'default');
         $manager->persist($images);
+    }
+
+
+    private function loadDefaultLoggingTypes(ObjectManager $manager)
+    {
+        $imageType = new LogType('image');
+        $manager->persist($imageType);
     }
 
 
