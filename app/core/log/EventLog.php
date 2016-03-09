@@ -32,10 +32,20 @@ class EventLog
      */
     protected $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="LogType")
+     * @ORM\JoinColumn(name="log_type", referencedColumnName="id", nullable=false)
+     * @var LogType
+     */
+    private $logType;
 
-    public function __construct($name)
-    {
+
+    public function __construct(
+        $name,
+        LogType $logType
+    ) {
         $this->setName($name);
+        $this->logType = $logType;
     }
 
 
@@ -67,5 +77,31 @@ class EventLog
     {
         return $this->name;
     }
+
+
+    /*
+     * ---------------------------
+     * ----- LogType GETTERS -----
+     * ---------------------------
+     */
+
+
+    /**
+     * @return int
+     */
+    public function getLogTypeId()
+    {
+        return $this->logType->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLogTypeName()
+    {
+        return $this->logType->getName();
+    }
+
 
 }

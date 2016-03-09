@@ -8,7 +8,6 @@
 
 namespace Users\Fixtures;
 
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Log\EventLog;
@@ -16,7 +15,7 @@ use Log\LogType;
 use Url\Generators\UrlGenerator;
 use Users\User;
 
-class UsersFixture extends AbstractFixture implements OrderedFixtureInterface
+class UsersFixture extends AbstractFixture
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -42,25 +41,14 @@ class UsersFixture extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($userLogType);
 
         // Log events
-        $userLoginEvent = new EventLog('user_login');
+        $userLoginEvent = new EventLog('user_login', $userLogType);
         $manager->persist($userLoginEvent);
 
-        $userLogoutEvent = new EventLog('user_logout');
+        $userLogoutEvent = new EventLog('user_logout', $userLogType);
         $manager->persist($userLogoutEvent);
 
 
         $manager->flush();
-    }
-
-
-    /**
-     * Get the order of this fixture
-     *
-     * @return integer
-     */
-    public function getOrder()
-    {
-        return 2;
     }
 
 

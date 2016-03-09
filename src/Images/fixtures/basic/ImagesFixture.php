@@ -24,7 +24,6 @@ class ImagesFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
-        $this->loadDefaultLoggingTypes($manager);
         $this->loadDefaultLoggingEvents($manager);
 
         $manager->flush();
@@ -39,19 +38,15 @@ class ImagesFixture extends AbstractFixture
     }
 
 
-    private function loadDefaultLoggingTypes(ObjectManager $manager)
+    private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
         $imageType = new LogType('image');
         $manager->persist($imageType);
-    }
 
-
-    private function loadDefaultLoggingEvents(ObjectManager $manager)
-    {
-        $imageUpload = new EventLog('image_upload');
+        $imageUpload = new EventLog('image_upload', $imageType);
         $manager->persist($imageUpload);
 
-        $imageRemoval = new EventLog('image_removal');
+        $imageRemoval = new EventLog('image_removal', $imageType);
         $manager->persist($imageRemoval);
     }
 

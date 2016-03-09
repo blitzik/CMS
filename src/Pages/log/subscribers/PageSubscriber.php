@@ -56,8 +56,7 @@ class PageSubscriber extends Object implements Subscriber
                      $page->getId(),
                      $page->title
                  ),
-                 'page',
-                 ($page->isDraft() ? 'page_draft_creation' : 'page_creation'),
+                 $page->isDraft() ? 'page_draft_creation' : 'page_creation',
                  $page->getAuthorId()
              );
     }
@@ -75,8 +74,7 @@ class PageSubscriber extends Object implements Subscriber
                      $page->getId(),
                      $page->title
                  ),
-                 'page',
-                 ($page->isDraft() ? 'page_draft_editing' : 'page_editing'),
+                 $page->isDraft() ? 'page_draft_editing' : 'page_editing',
                  $page->getAuthorId()
              );
     }
@@ -94,8 +92,7 @@ class PageSubscriber extends Object implements Subscriber
                      $pageID,
                      $page->title
                  ),
-                 'page',
-                 ($page->isDraft() ? 'page_draft_creation' : 'page_creation'),
+                 $page->isDraft() ? 'page_draft_creation' : 'page_creation',
                  $page->getAuthorId()
              );
     }

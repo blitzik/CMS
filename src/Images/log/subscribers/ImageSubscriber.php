@@ -57,7 +57,6 @@ class ImageSubscriber extends Object implements Subscriber
                      $image->getId(),
                      $image->getOriginalName()
                  ),
-                 'image',
                  'image_upload',
                  $this->user->getId()
              );
@@ -79,7 +78,6 @@ class ImageSubscriber extends Object implements Subscriber
                      $imageID,
                      $imageOriginalName
                  ),
-                 'image',
                  'image_removal',
                  $this->user->getId()
              );

@@ -1,1 +1,7 @@
 services:
+
+	# component factories
+	logOverviewControlFactory:
+		implement: Dashboard\Components\ILogOverviewControlFactory
+		parameters: [Log\Query\LogQuery logQuery]
+		arguments: [%logQuery%]

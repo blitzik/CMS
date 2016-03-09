@@ -24,7 +24,6 @@ class PagesFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
-        $this->loadDefaultLoggingTypes($manager);
         $this->loadDefaultLoggingEvents($manager);
 
         $manager->flush();
@@ -60,70 +59,65 @@ class PagesFixture extends AbstractFixture
     }
 
 
-    private function loadDefaultLoggingTypes(ObjectManager $manager)
+    private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
         $pageType = new LogType('page');
         $manager->persist($pageType);
 
-
         $commentType = new LogType('page_comment');
         $manager->persist($commentType);
 
-
         $tagType = new LogType('page_tag');
         $manager->persist($tagType);
-    }
 
 
-    private function loadDefaultLoggingEvents(ObjectManager $manager)
-    {
         // save & publish
-        $pageCreation = new EventLog('page_creation');
+        $pageCreation = new EventLog('page_creation', $pageType);
         $manager->persist($pageCreation);
 
-        $pageEditing = new EventLog('page_editing');
+        $pageEditing = new EventLog('page_editing', $pageType);
         $manager->persist($pageEditing);
 
-        $pageRemoval = new EventLog('page_removal');
+        $pageRemoval = new EventLog('page_removal', $pageType);
         $manager->persist($pageRemoval);
 
 
         // drafts
-        $draftCreation = new EventLog('page_draft_creation');
+        $draftCreation = new EventLog('page_draft_creation', $pageType);
         $manager->persist($draftCreation);
 
-        $draftEditing = new EventLog('page_draft_editing');
+        $draftEditing = new EventLog('page_draft_editing', $pageType);
         $manager->persist($draftEditing);
 
-        $draftRemoval = new EventLog('page_draft_removal');
+        $draftRemoval = new EventLog('page_draft_removal', $pageType);
         $manager->persist($draftRemoval);
 
 
         // comments
-        $commentCreation = new EventLog('page_comment_creation');
+        $commentCreation = new EventLog('page_comment_creation', $commentType);
         $manager->persist($commentCreation);
 
-        $commentEditing = new EventLog('page_comment_editing');
+        $commentEditing = new EventLog('page_comment_editing', $commentType);
         $manager->persist($commentEditing);
 
-        $commentRemoval = new EventLog('page_comment_removal');
+        $commentRemoval = new EventLog('page_comment_removal', $commentType);
         $manager->persist($commentRemoval);
 
-        $commentSuppression = new EventLog('page_comment_suppression');
+        $commentSuppression = new EventLog('page_comment_suppression', $commentType);
         $manager->persist($commentSuppression);
 
-        $commentRelease = new EventLog('page_comment_release');
+        $commentRelease = new EventLog('page_comment_release', $commentType);
         $manager->persist($commentRelease);
 
 
         // tags
-        $tagCreation = new EventLog('page_tag_creation');
+        $tagCreation = new EventLog('page_tag_creation', $tagType);
         $manager->persist($tagCreation);
 
-        $tagEditing = new EventLog('page_tag_editing');
+        $tagEditing = new EventLog('page_tag_editing', $tagType);
         $manager->persist($tagEditing);
 
-        $tagRemoval = new EventLog('page_tag_removal');
+        $tagRemoval = new EventLog('page_tag_removal', $tagType);
         $manager->persist($tagRemoval);
     }
 

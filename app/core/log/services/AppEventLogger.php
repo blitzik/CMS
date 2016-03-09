@@ -48,18 +48,12 @@ class AppEventLogger extends Object
 
     /**
      * @param string $message
-     * @param string $type
      * @param string $event
      * @param int|null $userID
      * @throws \Exception
      */
-    public function saveLog($message, $type, $event, $userID = null)
+    public function saveLog($message, $event, $userID = null)
     {
-        $logType = $this->getLogType($type);
-        if ($logType === null) { // TypeLog with given name not found
-            return; // do nothing todo monolog log
-        }
-
         $eventLog = $this->getEventLog($event);
         if ($eventLog === null) {
             return; // todo monolog log
@@ -71,41 +65,13 @@ class AppEventLogger extends Object
                 $user = $this->em->getReference(User::class, $userID);
             }
 
-            $newLog = new Log($logType, $eventLog, $message, $user);
+            $newLog = new Log($message, $eventLog, $user);
             $this->em->persist($newLog)->flush();
 
         } catch (ForeignKeyConstraintViolationException $e) {
             // todo if user doesn't exist
-            $this->cache->remove(self::getLogTypeCacheKey($type));
             $this->cache->remove(self::getEventLogCacheKey($event));
         }
-    }
-
-
-    /**
-     * @param $type
-     * @return LogType Returns null if there is no TypeLog with given name
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Exception
-     */
-    private function getLogType($type)
-    {
-        $logTypeCacheKey = self::getLogTypeCacheKey($type);
-
-        $logTypeID = $this->cache->load($logTypeCacheKey);
-        if ($logTypeID !== null) {
-            return $this->em->getReference(LogType::class, $logTypeID);
-        }
-
-        /** @var LogType $logType */
-        $logType = $this->eventTypeRepository->findOneBy(['name' => $type]);
-        if ($logType === null) {
-            return null;
-        }
-
-        $this->cache->save($logTypeCacheKey, $logType->getId());
-
-        return $logType;
     }
 
 
@@ -145,13 +111,4 @@ class AppEventLogger extends Object
         return sprintf('eventLog_%s', $event);
     }
 
-
-    /**
-     * @param string $type
-     * @return string
-     */
-    public static function getLogTypeCacheKey($type)
-    {
-        return sprintf('logType_%s', $type);
-    }
 }

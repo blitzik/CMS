@@ -20,7 +20,7 @@ use Users\User;
  * @ORM\Entity
  * @ORM\Table(
  *     name="log",
- *     indexes={@Index(name="type_event_user", columns={"type", "event", "user"})}
+ *     indexes={@Index(name="event_user", columns={"event", "user"})}
  * )
  */
 class Log
@@ -33,13 +33,6 @@ class Log
      * @var \DateTime
      */
     private $date;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="LogType")
-     * @ORM\JoinColumn(name="type", referencedColumnName="id", nullable=false)
-     * @var LogType
-     */
-    private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="EventLog")
@@ -63,14 +56,12 @@ class Log
 
 
     public function __construct(
-        LogType $type,
-        EventLog $event,
         $message,
+        EventLog $eventLog,
         User $user = null
     ) {
-        $this->type = $type;
-        $this->event = $event;
         $this->setMessage($message);
+        $this->event = $eventLog;
         $this->user = $user;
 
         $this->date = new \DateTime('now');
@@ -120,10 +111,28 @@ class Log
 
 
     /*
-     * ------------------------
-     * ----- TYPE GETTERS -----
-     * ------------------------
+     * -------------------------
+     * ----- EVENT GETTERS -----
+     * -------------------------
      */
+
+
+    /**
+     * @return int
+     */
+    public function getEventId()
+    {
+        return $this->event->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getEventName()
+    {
+        return $this->event->getName();
+    }
 
 
     /**
@@ -131,7 +140,7 @@ class Log
      */
     public function getTypeId()
     {
-        return $this->type->getId();
+        return $this->event->getLogTypeId();
     }
 
 
@@ -140,7 +149,7 @@ class Log
      */
     public function getTypeName()
     {
-        return $this->type->getName();
+        return $this->event->getLogTypeName();
     }
 
 }

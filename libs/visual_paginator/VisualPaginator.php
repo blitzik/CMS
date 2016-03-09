@@ -24,6 +24,18 @@ class VisualPaginator extends Control
 
     private $ajaxified = true;
 
+    /** @var array */
+    private $buttons = [
+        'next' => 'next »',
+        'previous' => '« previous'
+    ];
+
+
+    public function setButtonText($button, $text)
+    {
+        $this->buttons[$button] = $text;
+    }
+
 
     public function hideCounter()
     {
@@ -79,7 +91,10 @@ class VisualPaginator extends Control
 
         $this->template->ajaxified = $this->ajaxified;
 
+        $this->template->buttons = $this->buttons;
+
         $this->template->setFile(dirname(__FILE__) . '/template.latte');
+
         $this->template->render();
     }
 

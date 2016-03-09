@@ -1,3 +1,6 @@
 services:
 
 	appEventLogger: Log\Services\AppEventLogger
+
+	# facades
+	logFacade: Log\Facades\LogFacade

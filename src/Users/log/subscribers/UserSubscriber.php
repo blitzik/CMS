@@ -47,7 +47,6 @@ class UserSubscriber extends Object implements Subscriber
                      $user->username,
                      $ip
                  ),
-                'user',
                 'user_login',
                  $user->getId()
              );
@@ -64,7 +63,6 @@ class UserSubscriber extends Object implements Subscriber
                      $user->username,
                      $ip
                  ),
-                'user',
                 'user_logout',
                  $user->getId()
              );

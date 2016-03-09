@@ -1,0 +1,18 @@
+
+<div class="box box-river">
+{snippet overview}
+    {control vp}
+    <table class="table table-bordered">
+        <tr>
+            <th>Date</th>
+            <th>Message</th>
+        </tr>
+            {foreach $logs as $log}
+                <tr>
+                    <td>{$log->getDate()|date:'n.j.Y G:i:s'}</td>
+                    <td>{$log->getMessage()}</td>
+                </tr>
+            {/foreach}
+    </table>
+{/snippet}
+</div>

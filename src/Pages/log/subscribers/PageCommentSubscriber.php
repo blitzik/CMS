@@ -56,7 +56,6 @@ class PageCommentSubscriber extends Object implements Subscriber
                      $comment->getPageTitle(),
                      $comment->getId()
                  ),
-                 'page_comment',
                  'page_comment_creation',
                  ($this->user->isLoggedIn() and $comment->getPageAuthorId() === $user->getId()) ? $user->getId() : null
              );
@@ -78,7 +77,6 @@ class PageCommentSubscriber extends Object implements Subscriber
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
-                 'page_comment',
                  'page_comment_suppression',
                  $user->getId()
              );
@@ -100,7 +98,6 @@ class PageCommentSubscriber extends Object implements Subscriber
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
-                 'page_comment',
                  'page_comment_release',
                  $user->getId()
              );
@@ -122,7 +119,6 @@ class PageCommentSubscriber extends Object implements Subscriber
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
-                 'page_comment',
                  'page_comment_release',
                  $user->getId()
              );

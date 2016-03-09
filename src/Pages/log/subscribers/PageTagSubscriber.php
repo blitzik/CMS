@@ -55,7 +55,6 @@ class PageTagSubscriber extends Object implements Subscriber
                     $tag->getId(),
                     $tag->name
                 ),
-                'page_tag',
                 'page_tag_creation',
                 $this->user->getId()
             );
@@ -73,7 +72,6 @@ class PageTagSubscriber extends Object implements Subscriber
                     $tag->getId(),
                     $tag->name
                 ),
-                'page_tag',
                 'page_tag_editing',
                 $this->user->getId()
             );
@@ -91,7 +89,6 @@ class PageTagSubscriber extends Object implements Subscriber
                     $id,
                     $tag->name
                 ),
-                'page_tag',
                 'page_tag_removal',
                 $this->user->getId()
             );

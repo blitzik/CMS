@@ -18,11 +18,17 @@
   -webkit-border-radius: 6px;
 }
 
-.blitzik__btn{ &:hover{
+.blitzik__btn{
+  &:link{
+    color: #FFF;
+  }
+
+  &:hover{
   color: #FFF;
   background-color: #3071A9;
   border-color:#285E8E;
-}}
+}
+}
 
 $counter-color: #D0D0D0;
 .blitzik__counter{

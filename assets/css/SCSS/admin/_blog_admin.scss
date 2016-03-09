@@ -629,6 +629,12 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
+// LOG
+
+.log-overview{
+  @extend %col-12;
+}
+
 ////////// common
 
 
@@ -981,4 +987,7 @@ h1, h2, h3, h4, h5, h6{
     @include column(9);
   }
 
+  .log-overview{
+    @include column(9);
+  }
 }
