@@ -3,6 +3,11 @@ services:
 	imagesUploader: Images\Services\ImagesUploader
 	imagesRemover: Images\Services\ImagesRemover
 
+	# LOG subscribers
+	log_imageSubscriber:
+		class: Images\Log\Subscribers\ImageSubscriber
+		tags: [kdyby.subscriber]
+
 	# Facades
 	imageFacade: Images\Facades\ImageFacade
 

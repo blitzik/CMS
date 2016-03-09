@@ -24,6 +24,8 @@ use Pages\Page;
 
 class PageFacade extends Object
 {
+    public $onSuccessPageRemoval;
+
     /** @var  EntityRepository */
     private $pageRepository;
 
@@ -84,7 +86,9 @@ class PageFacade extends Object
      */
     public function removePage(Page $page)
     {
+        $pageID = $page->getId();
         $this->pageRemover->remove($page);
+        $this->onSuccessPageRemoval($page, $pageID);
     }
 
 

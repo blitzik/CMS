@@ -93,10 +93,10 @@ class TagControl extends BaseControl
     }
 
 
-    public function handleRemoveTag($id)
+    public function handleRemoveTag()
     {
         try {
-            $this->tagFacade->removeTag($id);
+            $this->tagFacade->removeTag($this->tag);
 
             if ($this->presenter->isAjax()) {
                 $this->redrawControl('tag');

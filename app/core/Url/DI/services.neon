@@ -7,7 +7,7 @@ services:
 
 	# subscribers
 	urlSubscriber:
-		class: Url\Subscribers\UrlSubscriber
+		class: Url\Log\Subscribers\UrlSubscriber
 		tags: [kdyby.subscriber]
 
 	router: Url\Router

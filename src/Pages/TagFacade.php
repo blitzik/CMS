@@ -15,6 +15,10 @@ use Tags\Tag;
 
 class TagFacade extends Object
 {
+    public $onSuccessTagCreation;
+    public $onSuccessTagEditing;
+    public $onSuccessTagRemoval;
+
     /** @var EntityManager  */
     private $em;
 
@@ -48,8 +52,10 @@ class TagFacade extends Object
                 if ($tag === false) {
                     throw new TagNameAlreadyExistsException;
                 }
+                $this->onSuccessTagCreation($tag);
             } else {
                 $this->em->persist($tag)->flush();
+                $this->onSuccessTagEditing($tag);
             }
 
         } catch (DBALException $e) {
@@ -96,26 +102,15 @@ class TagFacade extends Object
 
 
     /**
-     * @param int $tagId
+     * @param Tag $tag
+     * @throws \Exception
      */
-    public function removeTag($tagId)
+    public function removeTag(Tag $tag)
     {
-        $this->em->createQuery(
-            'DELETE ' . Tag::class . ' t WHERE t.id = :id'
-        )->execute(['id' => $tagId]);
-    }
+        $id = $tag->getId();
+        $this->em->remove($tag)->flush();
 
-
-    /**
-     * @param int $id
-     * @param string $color Color in HEX format (including #)
-     * @return int Number of affected rows
-     */
-    public function changeColor($id, $color)
-    {
-        return $this->em->createQuery(
-            'UPDATE ' . Tag::class . ' t SET t.color = :color WHERE t.id = :id'
-        )->execute(['id' => $id, 'color' => $color]);
+        $this->onSuccessTagRemoval($tag, $id);
     }
 
 }

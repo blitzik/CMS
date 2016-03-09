@@ -11,6 +11,7 @@ namespace Images\Fixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Url\Generators\UrlGenerator;
+use Log\EventLog;
 use Log\LogType;
 
 class ImagesFixture extends AbstractFixture
@@ -24,6 +25,7 @@ class ImagesFixture extends AbstractFixture
     {
         $this->loadDefaultUrls($manager);
         $this->loadDefaultLoggingTypes($manager);
+        $this->loadDefaultLoggingEvents($manager);
 
         $manager->flush();
     }
@@ -43,5 +45,14 @@ class ImagesFixture extends AbstractFixture
         $manager->persist($imageType);
     }
 
+
+    private function loadDefaultLoggingEvents(ObjectManager $manager)
+    {
+        $imageUpload = new EventLog('image_upload');
+        $manager->persist($imageUpload);
+
+        $imageRemoval = new EventLog('image_removal');
+        $manager->persist($imageRemoval);
+    }
 
 }

@@ -11,6 +11,19 @@ services:
 
 	tagFormFactory: Pages\Factories\TagFormFactory
 
+	# LOG subscribers
+	log_pageSubscriber:
+		class: Pages\Log\Subscribers\PageSubscriber
+		tags: [kdyby.subscriber]
+
+	log_pageCommentSubscriber:
+		class: Pages\Log\Subscribers\PageCommentSubscriber
+		tags: [kdyby.subscriber]
+
+	log_pageTagSubscriber:
+		class: Pages\Log\Subscribers\PageTagSubscriber
+		tags: [kdyby.subscriber]
+
 	# Facades
 	pageFacade: Pages\Facades\PageFacade
 	tagFacade: Tags\Facades\TagFacade

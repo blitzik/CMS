@@ -8,19 +8,23 @@
 
 namespace Comments\Facades;
 
-use Comments\Comment;
-use Comments\Query\CommentQuery;
-use Kdyby\Doctrine\EntityManager;
-use Kdyby\Doctrine\EntityRepository;
-use Kdyby\Doctrine\ResultSet;
-use Nette\Object;
 use Pages\Exceptions\Runtime\ActionFailedException;
-use Pages\Page;
+use Kdyby\Doctrine\EntityRepository;
 use Pages\Services\CommentPersister;
 use Pages\Services\CommentRemover;
+use Kdyby\Doctrine\EntityManager;
+use Comments\Query\CommentQuery;
+use Kdyby\Doctrine\ResultSet;
+use Comments\Comment;
+use Nette\Object;
 
 class CommentFacade extends Object
 {
+    public $onSuccessCommentCreation;
+    public $onSuccessCommentRemoval;
+    public $onSuccessCommentSuppression;
+    public $onSuccessCommentRelease;
+
     /** @var EntityManager */
     private $em;
 
@@ -53,21 +57,29 @@ class CommentFacade extends Object
      */
     public function save(array $values)
     {
-        return $this->commentPersister->save($values);
+        $comment = $this->commentPersister->save($values);
+
+        $this->onSuccessCommentCreation($comment);
+
+        return $comment;
     }
 
 
-    /**
-     * @param Comment $comment
-     * @throws \Exception
-     */
-    public function update(Comment $comment)
+    public function silenceComment(Comment $comment)
     {
-        try {
-            $this->em->persist($comment)->flush();
-        } catch (\Exception $e) {
-            throw new ActionFailedException;
-        }
+        $comment->silence();
+        $this->em->persist($comment)->flush();
+
+        $this->onSuccessCommentSuppression($comment);
+    }
+
+
+    public function releaseComment(Comment $comment)
+    {
+        $comment->release();
+        $this->em->persist($comment)->flush();
+
+        $this->onSuccessCommentRelease($comment);
     }
 
 
@@ -77,7 +89,10 @@ class CommentFacade extends Object
      */
     public function remove(Comment $comment)
     {
+        $id = $comment->getId();
         $this->commentRemover->remove($comment);
+
+        $this->onSuccessCommentRemoval($comment, $id);
     }
 
 

@@ -57,8 +57,7 @@ class CommentControl extends BaseControl
     {
         $this->userPermissionCheck();
 
-        $this->comment->silence();
-        $this->commentFacade->update($this->comment);
+        $this->commentFacade->silenceComment($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně potlačen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
@@ -68,8 +67,7 @@ class CommentControl extends BaseControl
     {
         $this->userPermissionCheck();
 
-        $this->comment->release();
-        $this->commentFacade->update($this->comment);
+        $this->commentFacade->releaseComment($this->comment);
 
         $this->refresh('Text komentáře byl úspěšně zobrazen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }

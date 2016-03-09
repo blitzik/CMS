@@ -24,6 +24,9 @@ use Url\Url;
 
 class PagePersister extends Object
 {
+    public $onSuccessPageCreation;
+    public $onSuccessPageEditing;
+
     /** @var EntityManager */
     private $em;
 
@@ -65,16 +68,11 @@ class PagePersister extends Object
         }
 
         try {
-            $this->em->beginTransaction();
-
             if ($page !== null and $page->getId() !== null) {
                 $this->updatePage($page, $values);
             } else {
                 $page = $this->createNewPage($values, $page);
             }
-
-            $this->em->flush();
-            $this->em->commit();
 
         } catch (UrlAlreadyExistsException $u) {
             $this->closeEntityManager();
@@ -103,6 +101,8 @@ class PagePersister extends Object
      */
     private function createNewPage(array $values, Page $page = null)
     {
+        $this->em->beginTransaction();
+
         $url = $this->establishPageUrl($values['title'], $values['url']);
         $url = $this->urlFacade->saveUrl($url); // still needs to set internalID! (next in code)
 
@@ -130,6 +130,11 @@ class PagePersister extends Object
         $this->addTags2Page($values['tags'], $page);
         $this->em->persist($page);
 
+        $this->em->flush();
+        $this->em->commit();
+
+        $this->onSuccessPageCreation($page);
+
         return $page;
     }
 
@@ -144,6 +149,8 @@ class PagePersister extends Object
      */
     private function updatePage(Page $page, array $values)
     {
+        $this->em->beginTransaction();
+
         $this->fillPageEntity($values, $page);
 
         if ($page->getUrlPath() !== Strings::webalize($values['url'])) {
@@ -157,6 +164,11 @@ class PagePersister extends Object
         $page->clearTags();
         $this->addTags2Page($values['tags'], $page);
         $this->em->persist($page);
+
+        $this->em->flush();
+        $this->em->commit();
+
+        $this->onSuccessPageEditing($page);
 
         return $page;
     }

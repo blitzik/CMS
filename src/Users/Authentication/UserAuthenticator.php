@@ -2,9 +2,9 @@
 
 namespace Users\Authentication;
 
-use Kdyby\Doctrine\EntityManager;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
+use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
 use Nette\Http\IRequest;
@@ -13,8 +13,7 @@ use Users\User;
 
 class UserAuthenticator extends Object implements IAuthenticator
 {
-    /** @var array */
-    //public $onLoggedIn = [];
+    public $onLoggedIn;
 
     /** @var IRequest */
     private $httpRequest;
@@ -52,11 +51,10 @@ class UserAuthenticator extends Object implements IAuthenticator
             throw new AuthenticationException('Špatné heslo');
 
         } elseif (Passwords::needsRehash($user->password)) {
-
             $user->password = Passwords::hash($password);
         }
 
-        //$this->onLoggedIn($user);
+        $this->onLoggedIn($user, $this->httpRequest->getRemoteAddress());
 
         return new FakeIdentity($user->getId(), get_class($user));
     }

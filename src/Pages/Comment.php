@@ -95,13 +95,11 @@ class Comment
         $this->page = $page;
         $this->setOrder($order);
 
-
         $this->isSilenced = false;
 
         $this->created = new \DateTime('now');
 
         $this->reactions = new ArrayCollection();
-        $this->reacted = new ArrayCollection();
     }
 
 
@@ -231,6 +229,15 @@ class Comment
     public function getPageId()
     {
         return $this->page->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPageTitle()
+    {
+        return $this->page->title;
     }
 
 

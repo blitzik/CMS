@@ -14,11 +14,14 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Users\User;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="log")
- *
+ * @ORM\Table(
+ *     name="log",
+ *     indexes={@Index(name="type_event_user", columns={"type", "event", "user"})}
+ * )
  */
 class Log
 {
@@ -46,6 +49,13 @@ class Log
     private $event;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Users\User")
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=true)
+     * @var User
+     */
+    private $user;
+
+    /**
      * @ORM\Column(name="message", type="string", length=1000, nullable=false, unique=false)
      * @var string
      */
@@ -55,11 +65,13 @@ class Log
     public function __construct(
         LogType $type,
         EventLog $event,
-        $message
+        $message,
+        User $user = null
     ) {
         $this->type = $type;
         $this->event = $event;
         $this->setMessage($message);
+        $this->user = $user;
 
         $this->date = new \DateTime('now');
     }

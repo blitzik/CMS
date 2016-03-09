@@ -25,12 +25,9 @@ class EventLog
     use Identifier;
     use MagicAccessors;
 
-    const CREATION = 'creation';
-    const REMOVAL = 'removal';
-    const EDITING = 'editing';
 
     /**
-     * @ORM\Column(name="name", type="string", length=50, nullable=false, unique=true)
+     * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      * @var string
      */
     protected $name;
@@ -54,7 +51,7 @@ class EventLog
      */
     private function setName($name)
     {
-        Validators::assert($name, 'unicode:1..50');
+        Validators::assert($name, 'unicode:1..100');
         $this->name = $name;
     }
 

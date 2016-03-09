@@ -377,9 +377,21 @@ class Page
      */
 
 
+    /**
+     * @return int
+     */
     public function getAuthorId()
     {
         return $this->author->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getAuthorName()
+    {
+        return $this->author->getName();
     }
 
 }

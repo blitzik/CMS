@@ -10,8 +10,9 @@ namespace Pages\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Log\LogType;
 use Url\Generators\UrlGenerator;
+use Log\EventLog;
+use Log\LogType;
 
 class PagesFixture extends AbstractFixture
 {
@@ -24,6 +25,7 @@ class PagesFixture extends AbstractFixture
     {
         $this->loadDefaultUrls($manager);
         $this->loadDefaultLoggingTypes($manager);
+        $this->loadDefaultLoggingEvents($manager);
 
         $manager->flush();
     }
@@ -63,11 +65,66 @@ class PagesFixture extends AbstractFixture
         $pageType = new LogType('page');
         $manager->persist($pageType);
 
+
         $commentType = new LogType('page_comment');
         $manager->persist($commentType);
 
+
         $tagType = new LogType('page_tag');
         $manager->persist($tagType);
+    }
+
+
+    private function loadDefaultLoggingEvents(ObjectManager $manager)
+    {
+        // save & publish
+        $pageCreation = new EventLog('page_creation');
+        $manager->persist($pageCreation);
+
+        $pageEditing = new EventLog('page_editing');
+        $manager->persist($pageEditing);
+
+        $pageRemoval = new EventLog('page_removal');
+        $manager->persist($pageRemoval);
+
+
+        // drafts
+        $draftCreation = new EventLog('page_draft_creation');
+        $manager->persist($draftCreation);
+
+        $draftEditing = new EventLog('page_draft_editing');
+        $manager->persist($draftEditing);
+
+        $draftRemoval = new EventLog('page_draft_removal');
+        $manager->persist($draftRemoval);
+
+
+        // comments
+        $commentCreation = new EventLog('page_comment_creation');
+        $manager->persist($commentCreation);
+
+        $commentEditing = new EventLog('page_comment_editing');
+        $manager->persist($commentEditing);
+
+        $commentRemoval = new EventLog('page_comment_removal');
+        $manager->persist($commentRemoval);
+
+        $commentSuppression = new EventLog('page_comment_suppression');
+        $manager->persist($commentSuppression);
+
+        $commentRelease = new EventLog('page_comment_release');
+        $manager->persist($commentRelease);
+
+
+        // tags
+        $tagCreation = new EventLog('page_tag_creation');
+        $manager->persist($tagCreation);
+
+        $tagEditing = new EventLog('page_tag_editing');
+        $manager->persist($tagEditing);
+
+        $tagRemoval = new EventLog('page_tag_removal');
+        $manager->persist($tagRemoval);
     }
 
 

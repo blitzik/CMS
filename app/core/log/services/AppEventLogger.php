@@ -17,6 +17,7 @@ use Nette\Caching\Cache;
 use Nette\Object;
 use Log\EventLog;
 use Log\LogType;
+use Users\User;
 
 class AppEventLogger extends Object
 {
@@ -49,9 +50,10 @@ class AppEventLogger extends Object
      * @param string $message
      * @param string $type
      * @param string $event
+     * @param int|null $userID
      * @throws \Exception
      */
-    public function saveLog($message, $type, $event)
+    public function saveLog($message, $type, $event, $userID = null)
     {
         $logType = $this->getLogType($type);
         if ($logType === null) { // TypeLog with given name not found
@@ -64,10 +66,16 @@ class AppEventLogger extends Object
         }
 
         try {
-            $newLog = new Log($logType, $eventLog, $message);
+            $user = null;
+            if (isset($userID)) {
+                $user = $this->em->getReference(User::class, $userID);
+            }
+
+            $newLog = new Log($logType, $eventLog, $message, $user);
             $this->em->persist($newLog)->flush();
 
         } catch (ForeignKeyConstraintViolationException $e) {
+            // todo if user doesn't exist
             $this->cache->remove(self::getLogTypeCacheKey($type));
             $this->cache->remove(self::getEventLogCacheKey($event));
         }

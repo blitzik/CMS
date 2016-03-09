@@ -74,6 +74,7 @@ class User
         $this->setPassword($plainPassword);
     }
 
+
     /**
      * @param string $username
      */
@@ -82,6 +83,7 @@ class User
         Validators::assert($username, 'unicode:1..40');
         $this->username = $username;
     }
+
 
     /**
      * @param string $email
@@ -92,6 +94,7 @@ class User
         $this->email = $email;
     }
 
+
     /**
      * @param string $plainPassword
      */
@@ -100,11 +103,13 @@ class User
         $this->password = Passwords::hash($plainPassword);
     }
 
+
     public function createToken(\DateTime $validity)
     {
         $this->token = Random::generate(32);
         $this->tokenValidity = $validity;
     }
+
 
     /**
      * @return string
@@ -114,6 +119,7 @@ class User
         return $this->token;
     }
 
+
     /**
      * @return \DateTime
      */
@@ -121,6 +127,7 @@ class User
     {
         return $this->tokenValidity;
     }
+
 
     /**
      * @return string

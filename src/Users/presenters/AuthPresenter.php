@@ -9,6 +9,8 @@ use Nette\Security\AuthenticationException;
 
 class AuthPresenter extends AppPresenter
 {
+    public $onLoggedOut;
+
     /** @persistent */
     public $locale;
 
@@ -49,7 +51,6 @@ class AuthPresenter extends AppPresenter
 
     public function renderLogin()
     {
-        
     }
 
 
@@ -103,13 +104,15 @@ class AuthPresenter extends AppPresenter
     public function actionLogout()
     {
         $this->user->logout();
+
+        $this->onLoggedOut($this->user->getIdentity(), $this->getHttpRequest()->getRemoteAddress());
+
         $this->redirect('Auth:login');
     }
 
 
     public function renderLogout()
     {
-
     }
 
 }

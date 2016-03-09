@@ -11,6 +11,8 @@ namespace Users\Fixtures;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Log\EventLog;
+use Log\LogType;
 use Url\Generators\UrlGenerator;
 use Users\User;
 
@@ -34,6 +36,18 @@ class UsersFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $logout = UrlGenerator::create('administration/logout', 'Users:Auth', 'logout');
         $manager->persist($logout);
+
+        // Log types
+        $userLogType = new LogType('user');
+        $manager->persist($userLogType);
+
+        // Log events
+        $userLoginEvent = new EventLog('user_login');
+        $manager->persist($userLoginEvent);
+
+        $userLogoutEvent = new EventLog('user_logout');
+        $manager->persist($userLogoutEvent);
+
 
         $manager->flush();
     }

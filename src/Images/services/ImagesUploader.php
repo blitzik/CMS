@@ -44,6 +44,7 @@ class ImagesUploader extends Object
 
     /**
      * @param FileUpload $file
+     * @return Image
      * @throws NotImageUploadedException
      * @throws FileSizeException
      * @throws DBALException
@@ -67,6 +68,7 @@ class ImagesUploader extends Object
             $file->move($this->composeImageLocation($image));
 
             $this->em->commit();
+
         } catch (InvalidStateException $is) {
             $this->em->rollback();
             $this->em->close();
@@ -82,6 +84,8 @@ class ImagesUploader extends Object
 
             throw $e;
         }
+
+        return $image;
     }
 
 

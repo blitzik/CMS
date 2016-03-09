@@ -1,5 +1,11 @@
 services:
 
+	authPresenter: Users\Presenters\AuthPresenter
+
+	log_userSubscriber:
+		class: Users\Log\Subscribers\UserSubscriber
+		tags: [kdyby.subscriber]
+
 	# commands
 	defaultDataCommand:
 		class: Users\Commands\DefaultDataCommand

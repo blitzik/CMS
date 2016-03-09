@@ -9,11 +9,11 @@
 namespace Images\Services;
 
 use Images\Exceptions\Runtime\FileRemovalException;
-use Doctrine\DBAL\DBALException;
-use Images\Image;
 use Kdyby\Doctrine\EntityManager;
-use Nette\Object;
+use Doctrine\DBAL\DBALException;
 use Nette\Utils\FileSystem;
+use Nette\Object;
+use Images\Image;
 
 class ImagesRemover extends Object
 {

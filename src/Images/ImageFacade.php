@@ -18,6 +18,9 @@ use Images\Image;
 
 class ImageFacade extends Object
 {
+    public $onSuccessImageUpload;
+    public $onSuccessImageRemoval;
+
     /** @var ImagesUploader */
     private $imagesUploader;
 
@@ -51,6 +54,7 @@ class ImageFacade extends Object
 
     /**
      * @param FileUpload $file
+     * @return Image
      * @throws NotImageUploadedException
      * @throws FileSizeException
      * @throws DBALException
@@ -58,7 +62,11 @@ class ImageFacade extends Object
      */
     public function saveImage(FileUpload $file)
     {
-        $this->imagesUploader->processImage($file);
+        $image = $this->imagesUploader->processImage($file);
+
+        $this->onSuccessImageUpload($image);
+
+        return $image;
     }
 
 
@@ -76,5 +84,7 @@ class ImageFacade extends Object
     public function removeImage($imageName)
     {
         $this->imagesRemover->removeImage($imageName);
+
+        $this->onSuccessImageRemoval($imageName);
     }
 }
