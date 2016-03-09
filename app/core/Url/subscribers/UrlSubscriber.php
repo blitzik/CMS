@@ -36,7 +36,7 @@ class UrlSubscriber extends Object implements Subscriber
 
     public function onUrlNotFound(UrlPath $urlPath)
     {
-        $this->appEventLogger->saveLog(sprintf('[404] Url %s not found', $urlPath->getPath()), 'url', '404');
+        $this->appEventLogger->saveLog(sprintf('[404] Url "%s" not found', $urlPath->getPath()), 'url', '404');
     }
 
 }
