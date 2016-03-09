@@ -36,8 +36,18 @@ class LogQuery extends QueryObject
     public function withLogType()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->join('l.type', 't')
+            $qb->join('l.logType', 't')
                ->addSelect('t');
+        };
+
+        return $this;
+    }
+
+
+    public function byLogEvent($logEventID)
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($logEventID) {
+            $qb->andWhere('l.event = :logEvent')->setParameter('logEvent', $logEventID);
         };
 
         return $this;

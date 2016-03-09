@@ -28,6 +28,8 @@ class Log
     use Identifier;
     use MagicAccessors;
 
+    const CACHE_NAMESPACE = 'eventLogging';
+
     /**
      * @ORM\Column(name="`date`", type="datetime", nullable=false, unique=false)
      * @var \DateTime

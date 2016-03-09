@@ -28,13 +28,9 @@ class DashboardPresenter extends ProtectedPresenter
     }
 
 
-    protected function createComponentLogOverview()
+    protected function createComponentLog()
     {
-        $comp = $this->logOverviewFactory
-                     ->create(
-                         (new LogQuery())
-                          ->descendingOrder()
-                     );
+        $comp = $this->logOverviewFactory->create();
 
         return $comp;
     }

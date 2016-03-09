@@ -39,7 +39,7 @@ class AppEventLogger extends Object
         IStorage $storage
     ) {
         $this->em = $entityManager;
-        $this->cache = new Cache($storage, 'eventLogging');
+        $this->cache = new Cache($storage, Log::CACHE_NAMESPACE);
 
         $this->eventLogRepository = $entityManager->getRepository(EventLog::class);
         $this->eventTypeRepository = $entityManager->getRepository(LogType::class);
