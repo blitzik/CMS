@@ -53,6 +53,12 @@ class FilterLoader extends Object
     }
 
 
+    public function timeAgoInWords($time)
+    {
+        return \Helpers::timeAgoInWords($time);
+    }
+
+
     /**
      * @param \DateTime $datetime
      * @return null|string

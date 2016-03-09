@@ -30,7 +30,7 @@
         </div>
 
         <div class="footer">
-            {$comment->created|dateWithMonthWord}
+            <span title="{$comment->created|dateWithMonthWord}">{$comment->created|timeAgoInWords}</span>
             {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $user->isLoggedIn()}
                 | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">odpovědět</a>
             {/if}
