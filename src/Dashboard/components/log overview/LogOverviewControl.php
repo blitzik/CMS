@@ -14,6 +14,7 @@ use Nette\Application\UI\Form;
 use blitzik\IPaginatorFactory;
 use Log\Facades\LogFacade;
 use Log\Query\LogQuery;
+use Tracy\Debugger;
 
 class LogOverviewControl extends BaseControl
 {
@@ -55,7 +56,7 @@ class LogOverviewControl extends BaseControl
                           ->fetchLogs($this->logQuery->descendingOrder());
 
         $paginator = $this['vp']->getPaginator();
-        $resultSet->applyPaginator($paginator, 15);
+        $resultSet->applyPaginator($paginator, 2);
 
         $template->logs = $resultSet->toArray();
 
@@ -73,21 +74,29 @@ class LogOverviewControl extends BaseControl
     {
         parent::attached($presenter);
 
-        if ($presenter instanceof IPresenter and !$presenter->isAjax()) {
-            $logTypesNames = $this->logFacade->findTypesNames();
-            $this['filter-type']->setItems($logTypesNames);
-
-            if ($this->type !== null) {
-                $this['filter-type']->setDefaultValue($this->type);
-
-                $logEvents = $this->logFacade->findEventsByType($this->type);
-                $this['filter-event']->setItems($logEvents);
-
-                if ($this->event !== null) {
-                    $this['filter-event']->setDefaultValue($this->event);
-                    $this->logQuery->byLogEvent($this->event);
-                } else {
+        if ($presenter instanceof IPresenter) {
+            if ($presenter->isAjax()) {
+                if ($this->type !== null) {
+                    $logEvents = $this->logFacade->findEventsByType($this->type);
                     $this->logQuery->byLogEvent(array_keys($logEvents));
+                }
+
+            } else {
+                $logTypesNames = $this->logFacade->findTypesNames();
+                $this['filter-type']->setItems($logTypesNames);
+
+                if ($this->type !== null) {
+                    $this['filter-type']->setDefaultValue($this->type);
+
+                    $logEvents = $this->logFacade->findEventsByType($this->type);
+                    $this['filter-event']->setItems($logEvents);
+
+                    if ($this->event !== null) {
+                        $this['filter-event']->setDefaultValue($this->event);
+                        $this->logQuery->byLogEvent($this->event);
+                    } else {
+                        $this->logQuery->byLogEvent(array_keys($logEvents));
+                    }
                 }
             }
         }
@@ -98,7 +107,7 @@ class LogOverviewControl extends BaseControl
     {
         $comp = $this->paginatorFactory->create();
         $comp->onPaginate[] = function () {
-            $this->redrawControl();
+            $this->redrawControl('overview');
         };
 
         return $comp;
@@ -129,9 +138,6 @@ class LogOverviewControl extends BaseControl
             if ($value !== null) {
                 $events = $this->logFacade->findEventsByType($value);
                 $this['filter-event']->setItems($events);
-                if (!empty($events)) {
-                    $this->logQuery->byLogEvent(array_keys($events));
-                }
 
             } else {
                 $this['filter-event']->setItems([]);
