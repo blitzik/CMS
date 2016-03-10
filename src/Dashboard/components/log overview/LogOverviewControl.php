@@ -56,7 +56,7 @@ class LogOverviewControl extends BaseControl
                           ->fetchLogs($this->logQuery->descendingOrder());
 
         $paginator = $this['vp']->getPaginator();
-        $resultSet->applyPaginator($paginator, 2);
+        $resultSet->applyPaginator($paginator, 20);
 
         $template->logs = $resultSet->toArray();
 
