@@ -147,12 +147,14 @@ header{
 
 pre{
   position: relative;
-  code:before{
-    font-family: FontAwesome;
-    content: '\f121';
-    position: absolute;
-    top: 0;
-    right: 15px;
+  code{
+    &:before{
+      font-family: FontAwesome;
+      content: '\f121';
+      position: absolute;
+      top: 0;
+      right: 15px;
+    }
   }
 }
 

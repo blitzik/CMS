@@ -83,6 +83,18 @@ class Page
     private $url;
 
     /**
+     * @ORM\Column(name="meta_description", type="text", length=65535, nullable=true, unique=false)
+     * @var string
+     */
+    protected $metaDescription;
+
+    /**
+     * @ORM\Column(name="meta_keywords", type="text", length=65535, nullable=true, unique=false)
+     * @var string
+     */
+    protected $metaKeywords;
+
+    /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false, unique=false)
      * @var \DateTime
      */
@@ -245,6 +257,26 @@ class Page
 
 
     /**
+     * @param string $description
+     */
+    public function setMetaDescription($description)
+    {
+        Validators::assert($description, 'unicode|null');
+        $this->metaDescription = $description;
+    }
+
+
+    /**
+     * @param string $keywords
+     */
+    public function setMetaKeywords($keywords)
+    {
+        Validators::assert($keywords, 'unicode|null');
+        $this->metaKeywords = $keywords;
+    }
+
+
+    /**
      * @param \DateTime $publishTime
      * @throws DateTimeFormatException
      * @throws PagePublicationTimeException
@@ -342,6 +374,24 @@ class Page
     public function getTextHtml()
     {
         return $this->textHtml;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMetaKeywords()
+    {
+        return $this->metaKeywords;
     }
 
 

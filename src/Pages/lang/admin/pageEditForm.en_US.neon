@@ -28,6 +28,14 @@ url:
 	label: "Url address"
 	info: "If you do NOT type Article URL address then it will be created from Article title"
 
+keywords:
+	label: "Keywords"
+	info: "meta keywords"
+
+description:
+	label: "Description"
+	info: "meta description"
+
 allowedComments:
 	label: "Allow people comment your Article"
 

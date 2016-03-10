@@ -117,6 +117,9 @@ class PageFormControl extends BaseControl
         $form->addCheckbox('allowedComments', 'allowedComments.label')
                 ->setDefaultValue(true);
 
+        $form->addText('keywords', 'keywords.label');
+        $form->addText('description', 'description.label');
+
         $form->addSubmit('saveAndPublish', 'saveAndPublish.caption')
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAndPublish.title'))
                 ->onClick[] = [$this, 'processPageSavingAndPublishing'];
@@ -202,6 +205,9 @@ class PageFormControl extends BaseControl
         $this['pageForm']['intro']->setDefaultValue($page->intro);
         $this['pageForm']['text']->setDefaultValue($page->text);
         $this['pageForm']['allowedComments']->setDefaultValue($page->getAllowedComments());
+
+        $this['pageForm']['description']->setDefaultValue($page->getMetaDescription());
+        $this['pageForm']['keywords']->setDefaultValue($page->getMetaKeywords());
     }
 }
 

@@ -47,6 +47,7 @@ doctrine:
 translation:
 	default: cs
 	fallback: [en_US, en]
+	whitelist: [en, cs]
 
 
 

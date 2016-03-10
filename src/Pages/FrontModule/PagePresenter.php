@@ -116,8 +116,9 @@ class PagePresenter extends BasePresenter
             throw new BadRequestException;
         }
 
-        $this['pageTitle']->setPageTitle($page->title/*$this->options->blog_title*/);
-                          //->joinTitleText(' - ' . $page->title);
+        $this['pageTitle']->setPageTitle($page->title);
+        $this['metas']->addMeta('description', $page->getMetaDescription());
+        $this['metas']->addMeta('keywords', $page->getMetaKeywords());
 
         $this->page = $result;
     }

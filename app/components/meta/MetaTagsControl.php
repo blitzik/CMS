@@ -10,11 +10,11 @@ namespace App\Components;
 
 class MetaTagsControl extends BaseControl
 {
+    /** @var array */
     private $robots = [];
-    
-    private $metas = [
-        'author' => 'Aleš Tichava',
-    ];
+
+    /** @var array */
+    private $metas = [];
 
 
     public function render()

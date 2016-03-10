@@ -184,6 +184,9 @@ class PagePersister extends Object
     {
         $page->setTitle($values['title']);
 
+        $page->setMetaDescription($values['description']);
+        $page->setMetaKeywords($values['keywords']);
+
         $page->setIntro($values['intro']);
         $page->setIntroHtml($this->texy->process($values['intro']));
 

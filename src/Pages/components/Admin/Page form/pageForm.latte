@@ -123,6 +123,26 @@ Nadpis1   Nadpis2   Podnadpis
         </div>
 
         <div class="row">
+            <div class="article-description">
+                <div class="form-group">
+                    {label description /}
+                    | <small>{_description.info}</small>
+                    {input description class => 'form-control'}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="article-keywords">
+                <div class="form-group">
+                    {label keywords /}
+                    | <small>{_keywords.info}</small>
+                    {input keywords class => 'form-control'}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="article-comments">
                 <div class="checkbox">
                     {input allowedComments}
@@ -146,6 +166,7 @@ Nadpis1   Nadpis2   Podnadpis
                 <a href="#top" class="right">{_returnAtTop} <i class="fa fa-level-up"></i></a>
             </div>
         </div>
+
     </div>
 {/translator}
 </div> {* end article-form col *}

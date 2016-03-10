@@ -28,6 +28,14 @@ url:
 	label: "Url adresa"
 	info: "Pokud nevyplníte URL adresu, bude vytvořena z titulku článku"
 
+keywords:
+	label: "Klíčová slova"
+	info: "informace pro meta tag"
+
+description:
+	label: "Popis stránky"
+	info: "informace pro meta tag"
+
 allowedComments:
 	label: "Povolit komentáře k článku"
 
