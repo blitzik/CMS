@@ -44,10 +44,17 @@ class LogQuery extends QueryObject
     }
 
 
-    public function byLogEvent($logEventID)
+    public function byLogEvent($logEventIDs)
     {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($logEventID) {
-            $qb->andWhere('l.event = :logEvent')->setParameter('logEvent', $logEventID);
+        if ($logEventIDs === null) return;
+
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($logEventIDs) {
+            if (is_array($logEventIDs) and !empty($logEventIDs)) {
+                $qb->andWhere('l.event IN (:eventIDs)')->setParameter('eventIDs', $logEventIDs);
+                return;
+            }
+
+            $qb->andWhere('l.event = :logEvent')->setParameter('logEvent', $logEventIDs);
         };
 
         return $this;

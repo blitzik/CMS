@@ -20,7 +20,7 @@ use Users\User;
  * @ORM\Entity
  * @ORM\Table(
  *     name="log",
- *     indexes={@Index(name="event_user", columns={"event", "user"})}
+ *     indexes={@Index(name="event_id", columns={"event", "id"})}
  * )
  */
 class Log

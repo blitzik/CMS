@@ -8,12 +8,12 @@
 
 namespace Dashboard\Components;
 
+use Nette\Application\IPresenter;
 use App\Components\BaseControl;
+use Nette\Application\UI\Form;
 use blitzik\IPaginatorFactory;
 use Log\Facades\LogFacade;
 use Log\Query\LogQuery;
-use Nette\Application\IPresenter;
-use Nette\Application\UI\Form;
 
 class LogOverviewControl extends BaseControl
 {
@@ -29,11 +29,8 @@ class LogOverviewControl extends BaseControl
     /** @var LogFacade */
     private $logFacade;
 
-    /** @var array */
-    private $logTypesNames = [];
-
-    /** @var array */
-    private $logEvents = [];
+    /** @var LogQuery */
+    private $logQuery;
 
 
     public function __construct(
@@ -42,6 +39,8 @@ class LogOverviewControl extends BaseControl
     ) {
         $this->logFacade = $logFacade;
         $this->paginatorFactory = $paginatorFactory;
+
+        $this->logQuery = new LogQuery();
     }
 
 
@@ -50,19 +49,15 @@ class LogOverviewControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/logOverview.latte');
 
+        $template->_form = $this['filter'];
+
         $resultSet = $this->logFacade
-                          ->fetchLogs(
-                              (new LogQuery())
-                              ->byLogEvent($this->event)
-                              ->descendingOrder()
-                          );
+                          ->fetchLogs($this->logQuery->descendingOrder());
 
         $paginator = $this['vp']->getPaginator();
         $resultSet->applyPaginator($paginator, 15);
 
         $template->logs = $resultSet->toArray();
-
-        //$this->logFacade->findEventsByType(3);
 
         $template->render();
     }
@@ -78,18 +73,21 @@ class LogOverviewControl extends BaseControl
     {
         parent::attached($presenter);
 
-        if ($presenter instanceof IPresenter) {
-            $this->logTypesNames = $this->logFacade->findTypesNames();
-            $this['filter-type']->setItems($this->logTypesNames);
+        if ($presenter instanceof IPresenter and !$presenter->isAjax()) {
+            $logTypesNames = $this->logFacade->findTypesNames();
+            $this['filter-type']->setItems($logTypesNames);
 
             if ($this->type !== null) {
                 $this['filter-type']->setDefaultValue($this->type);
 
-                $this->logEvents = $this->logFacade->findEventsByType($this->type);
-                $this['filter-event']->setItems($this->logEvents);
+                $logEvents = $this->logFacade->findEventsByType($this->type);
+                $this['filter-event']->setItems($logEvents);
 
                 if ($this->event !== null) {
                     $this['filter-event']->setDefaultValue($this->event);
+                    $this->logQuery->byLogEvent($this->event);
+                } else {
+                    $this->logQuery->byLogEvent(array_keys($logEvents));
                 }
             }
         }
@@ -125,10 +123,37 @@ class LogOverviewControl extends BaseControl
     }
 
 
-    public function processFiltering(Form $form, $values)
+    public function handleLoadEvents($value)
     {
-        $this->type = $values->type;
-        $this->event = $values->event;
+        if ($this->presenter->isAjax()) {
+            if ($value !== null) {
+                $events = $this->logFacade->findEventsByType($value);
+                $this['filter-event']->setItems($events);
+                if (!empty($events)) {
+                    $this->logQuery->byLogEvent(array_keys($events));
+                }
+
+            } else {
+                $this['filter-event']->setItems([]);
+            }
+
+            $this->redrawControl();
+        }
+
+    }
+
+
+    public function processFiltering(Form $form)
+    {
+        $values = $form->getHttpData();
+
+        if ($this->type === null or $this->type == $values['type']) {
+            $this->event = $values['event'] === '' ? null : $values['event'];
+        } else {
+            $this->event = null;
+        }
+
+        $this->type = $values['type'];
 
         $this->redirect('this');
     }

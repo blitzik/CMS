@@ -5,10 +5,11 @@
 
 <div class="form-group">
     {label type /}
-    {input type class => 'form-control'}
+    <select n:name="type" id="independent-select" class="form-control" data-component-name="{$control->getName()}" data-url="{link loadEvents!}"></select>
+    {*{input type class => 'form-control'}*}
 </div>
 
-<div class="form-group">
+<div class="form-group" n:snippet="event">
     {label event /}
     {input event class => 'form-control'}
 </div>
