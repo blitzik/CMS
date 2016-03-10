@@ -8,6 +8,7 @@
 
 namespace Pages\Log\Subscribers;
 
+use Nette\Application\LinkGenerator;
 use Pages\Services\PagePersister;
 use Log\Services\AppEventLogger;
 use Pages\Facades\PageFacade;
@@ -21,15 +22,20 @@ class PageSubscriber extends Object implements Subscriber
     /** @var AppEventLogger */
     private $appEventLogger;
 
+    /** @var LinkGenerator */
+    private $linkGenerator;
+
     /** @var \Users\User */
     private $user;
 
 
     public function __construct(
         AppEventLogger $appEventLogger,
+        LinkGenerator $linkGenerator,
         User $user
     ) {
         $this->appEventLogger = $appEventLogger;
+        $this->linkGenerator = $linkGenerator;
         $this->user = $user->getIdentity();
     }
 
@@ -49,9 +55,10 @@ class PageSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has CREATED Page%s [%s#%s]',
+                     'User [%s#%s] <b>has CREATED</b> <a href="%s">Page%s [%s#%s]</a>',
                      $page->getAuthorId(),
                      $page->getAuthorName(),
+                     $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
                      ($page->isDraft() ? ' draft' : ''),
                      $page->getId(),
                      $page->title
@@ -67,9 +74,10 @@ class PageSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has UPDATED Page%s [%s#%s]',
+                     'User [%s#%s] <b>has UPDATED</b> <a href="%s">Page%s [%s#%s]</a>',
                      $page->getAuthorId(),
                      $page->getAuthorName(),
+                     $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
                      ($page->isDraft() ? ' draft' : ''),
                      $page->getId(),
                      $page->title
@@ -85,7 +93,7 @@ class PageSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has REMOVED Page%s [%s#%s]',
+                     'User [%s#%s] <b>has REMOVED</b> Page%s [%s#%s]',
                      $page->getAuthorId(),
                      $page->getAuthorName(),
                      ($page->isDraft() ? ' draft' : ''),

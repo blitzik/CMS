@@ -29,7 +29,7 @@
             {foreach $logs as $log}
                 <tr>
                     <td><span title="{$log->getDate()|date:'n.j.Y G:i:s'}">{$log->getDate()|timeAgoInWords}</span></td>
-                    <td>{$log->getMessage()}</td>
+                    <td>{$log->getMessage()|noescape}</td>
                 </tr>
             {/foreach}
         {else}

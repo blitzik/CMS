@@ -42,7 +42,7 @@ class UserSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has LOGGED INTO system with IP %s',
+                     'User [%s#%s] <b>has LOGGED INTO</b> system with IP %s',
                      $user->getId(),
                      $user->username,
                      $ip
@@ -58,7 +58,7 @@ class UserSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has LOGGED OUT of the system with IP %s',
+                     'User [%s#%s] <b>has LOGGED OUT</b> of the system with IP %s',
                      $user->getId(),
                      $user->username,
                      $ip

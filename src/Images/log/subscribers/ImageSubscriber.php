@@ -51,7 +51,7 @@ class ImageSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has UPLOADED the Image [%s#%s]',
+                     'User [%s#%s] <b>has UPLOADED</b> the Image [%s#%s]',
                      $this->user->getId(),
                      $this->user->username,
                      $image->getId(),
@@ -72,7 +72,7 @@ class ImageSubscriber extends Object implements Subscriber
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has REMOVED the Image [%s#%s]',
+                     'User [%s#%s] <b>has REMOVED</b> the Image [%s#%s]',
                      $this->user->getId(),
                      $this->user->username,
                      $imageID,

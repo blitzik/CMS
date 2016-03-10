@@ -653,17 +653,15 @@ h1, h2, h3, h4, h5, h6{
     background-color: #fff;
   }
 
-  tr:hover{
-    background-color: #aaa;
-    color: #fff;
+  tr:hover td{
+    border-left: 1px solid #454545;
+    border-right: 1px solid #454545;
+  }
 
-    &:nth-child(odd){
-      background-color: #aaa;
-      color: #fff;
-    }
-
-    th{
-      color: #333;
+  td a{
+    text-decoration: underline;
+    &:hover{
+      text-decoration: none;
     }
   }
 }

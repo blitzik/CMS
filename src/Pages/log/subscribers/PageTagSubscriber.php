@@ -49,7 +49,7 @@ class PageTagSubscriber extends Object implements Subscriber
         $this->appEventLogger
             ->saveLog(
                 sprintf(
-                    'User [%s#%s] has CREATED new Tag [%s#%s]',
+                    'User [%s#%s] <b>has CREATED</b> new Tag [%s#%s]',
                     $this->user->getId(),
                     $this->user->username,
                     $tag->getId(),
@@ -66,7 +66,7 @@ class PageTagSubscriber extends Object implements Subscriber
         $this->appEventLogger
             ->saveLog(
                 sprintf(
-                    'User [%s#%s] has UPDATED Tag [%s#%s]',
+                    'User [%s#%s] <b>has UPDATED</b> Tag [%s#%s]',
                     $this->user->getId(),
                     $this->user->username,
                     $tag->getId(),
@@ -83,7 +83,7 @@ class PageTagSubscriber extends Object implements Subscriber
         $this->appEventLogger
             ->saveLog(
                 sprintf(
-                    'User [%s#%s] has REMOVED Tag [%s#%s]',
+                    'User [%s#%s] <b>has REMOVED</b> Tag [%s#%s]',
                     $this->user->getId(),
                     $this->user->username,
                     $id,

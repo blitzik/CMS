@@ -11,6 +11,7 @@ namespace Pages\Log\Subscribers;
 use Comments\Facades\CommentFacade;
 use Log\Services\AppEventLogger;
 use Kdyby\Events\Subscriber;
+use Nette\Application\LinkGenerator;
 use Nette\Security\User;
 use Comments\Comment;
 use Nette\Object;
@@ -20,16 +21,21 @@ class PageCommentSubscriber extends Object implements Subscriber
     /** @var AppEventLogger */
     private $appEventLogger;
 
+    /** @var LinkGenerator */
+    private $linkGenerator;
+
     /** @var User */
     private $user;
 
 
     public function __construct(
         AppEventLogger $appEventLogger,
+        LinkGenerator $linkGenerator,
         User $user
     ) {
         $this->appEventLogger = $appEventLogger;
         $this->user = $user;
+        $this->linkGenerator = $linkGenerator;
     }
 
 
@@ -47,13 +53,18 @@ class PageCommentSubscriber extends Object implements Subscriber
     public function onSuccessCommentCreation(Comment $comment)
     {
         $user = $this->user->getIdentity();
+        $pageLink = $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $comment->getPageId()]);
+
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     '%s of page [%s#%s] has ADDED Comment [%s#]',
+                     '%s of <a href="%s">Page [%s#%s]</a> <b>has ADDED</b> the <a href="%s#comment-%s">Comment [%s#]</a>',
                      ($this->user->isLoggedIn() and $comment->getPageAuthorId() === $user->getId()) ?'Author' : 'Visitor',
+                     $pageLink,
                      $comment->getPageId(),
                      $comment->getPageTitle(),
+                     $pageLink,
+                     $comment->getId(),
                      $comment->getId()
                  ),
                  'page_comment_creation',
@@ -66,14 +77,19 @@ class PageCommentSubscriber extends Object implements Subscriber
     {
         /** @var \Users\User $user */
         $user = $this->user->getIdentity();
+        $pageLink = $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $comment->getPageId()]);
+
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has SUPPRESSED the Comment [%s#] of Author [%s#] on the Page [%s#%s]',
+                     'User [%s#%s] <b>has SUPPRESSED</b> the <a href="%s#comment-%s">Comment [%s#]</a> of Author [%s#] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
                      $user->username,
+                     $pageLink,
+                     $comment->getId(),
                      $comment->getId(),
                      $comment->getAuthor(),
+                     $pageLink,
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
@@ -87,14 +103,19 @@ class PageCommentSubscriber extends Object implements Subscriber
     {
         /** @var \Users\User $user */
         $user = $this->user->getIdentity();
+        $pageLink = $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $comment->getPageId()]);
+
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has RELEASED the Comment [%s#] of Author [%s#] on the Page [%s#%s]',
+                     'User [%s#%s] <b>has RELEASED</b> the <a href="%s#comment-%s">Comment [%s#]</a> of Author [%s#] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
                      $user->username,
+                     $pageLink,
+                     $comment->getId(),
                      $comment->getId(),
                      $comment->getAuthor(),
+                     $pageLink,
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
@@ -108,14 +129,17 @@ class PageCommentSubscriber extends Object implements Subscriber
     {
         /** @var \Users\User $user */
         $user = $this->user->getIdentity();
+        $pageLink = $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $comment->getPageId()]);
+
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] has REMOVED the Comment [%s#] of Author [%s] on the Page [%s#%s]',
+                     'User [%s#%s] <b>has REMOVED</b> the Comment [%s#] of Author [%s] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
                      $user->username,
                      $id,
                      $comment->getAuthor(),
+                     $pageLink,
                      $comment->getPageId(),
                      $comment->getPageTitle()
                  ),
