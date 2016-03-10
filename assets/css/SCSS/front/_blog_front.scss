@@ -145,6 +145,17 @@ header{
 }
 
 
+pre{
+  position: relative;
+  code:before{
+    font-family: FontAwesome;
+    content: '\f121';
+    position: absolute;
+    top: 0;
+    right: 15px;
+  }
+}
+
 // comments
 
 .comments{
@@ -193,10 +204,9 @@ header{
   }
 
   .reactions{
-    text-align: right;
 
     a{
-      margin-left: 10px;
+
       text-decoration: none;
 
       &:hover{

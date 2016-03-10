@@ -4,7 +4,6 @@ namespace Dashboard\Presenters;
 
 use Dashboard\Components\ILogOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
-use Log\Query\LogQuery;
 
 class DashboardPresenter extends ProtectedPresenter
 {

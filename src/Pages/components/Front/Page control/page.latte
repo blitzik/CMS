@@ -5,7 +5,7 @@
             <li><i class="fa fa-calendar-plus-o fa-fw"></i>
                 {$page->publishedAt|dateWithMonthWord}</li>
             <li n:if="$commentsCount > 0"><i class="fa fa-comments-o fa-fw"></i>
-                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}#comments" title="Počet čtenářských komentářů k článku">Komentářu k článku: {$commentsCount}</a></li>
+                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}#comments">Komentářů k článku: {$commentsCount}</a></li>
         </ul>
 
         {if count($page->tags) > 0}
