@@ -30,7 +30,7 @@ class OptionsFixture extends AbstractFixture
         $blog_subtitle = new Option('blog_subtitle', 'Lorem ipsum dolor sit Amet');
         $manager->persist($blog_subtitle);
 
-        $articles_per_page = new Option('articles_per_page', '10');
+        $articles_per_page = new Option('articles_per_page', '20');
         $manager->persist($articles_per_page);
 
         $copyright = new Option('copyright', 'blitzik CMS');

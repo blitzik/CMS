@@ -2,21 +2,13 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use Kdyby\Doctrine\EntityManager;
-use Log\EventLog;
-use Log\Log;
-use Log\LogType;
-use Nette\Utils\Validators;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
-use Pages\Query\PageQuery;
 use Pages\Page;
-use Tracy\Debugger;
-use Url\Url;
 
 class PagePresenter extends BasePresenter
 {
@@ -56,12 +48,6 @@ class PagePresenter extends BasePresenter
      * -----------------------------------------
      */
 
-    /**
-     * @var EntityManager
-     * @inject
-     */
-    public $em;
-
 
     public function actionDefault()
     {
@@ -82,10 +68,6 @@ class PagePresenter extends BasePresenter
         if (isset($this->options['articles_per_page'])) {
             $comp->setPagesPerPage($this->options['articles_per_page']);
         }
-
-        /*$comp->onPaginate[] = function (Paginator $paginator) {
-            $paginator->setPage($this->getParameter('p'));
-        };*/
 
         return $comp;
     }

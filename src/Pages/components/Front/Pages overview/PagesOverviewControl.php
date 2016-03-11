@@ -56,6 +56,9 @@ class PagesOverviewControl extends BaseControl
         $comp->hideCounter();
         $comp->notAjaxified();
 
+        $comp->setButtonText('previous', '« novější');
+        $comp->setButtonText('next', 'starší »');
+
         return $comp;
     }
 
