@@ -84,7 +84,7 @@ class PagePresenter extends ProtectedPresenter
         $comp = $this->pagesOverviewFactory
                      ->create(
                          (new PageQuery())
-                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->forAdminOverview()
                           ->onlyPublished()
                           ->withTags()
                           ->withCommentsCount()
@@ -109,7 +109,7 @@ class PagePresenter extends ProtectedPresenter
         $comp = $this->pagesOverviewFactory
                      ->create(
                          (new PageQuery())
-                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->forAdminOverview()
                           ->waitingForBeingPublished()
                           ->withTags()
                           ->withCommentsCount()
@@ -132,7 +132,7 @@ class PagePresenter extends ProtectedPresenter
         $comp = $this->pagesOverviewFactory
                      ->create(
                          (new PageQuery())
-                          ->onlyWith(['title, createdAt, publishedAt, isDraft'])
+                          ->forAdminOverview()
                           ->onlyDrafts()
                           ->withTags()
                           ->withCommentsCount()

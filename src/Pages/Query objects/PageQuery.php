@@ -65,6 +65,16 @@ class PageQuery extends QueryObject
     }
 
 
+    public function forAdminOverview()
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
+            $qb->select('partial p.{id, title, createdAt, publishedAt, isDraft, allowedComments}');
+        };
+
+        return $this;
+    }
+
+
     public function forOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {

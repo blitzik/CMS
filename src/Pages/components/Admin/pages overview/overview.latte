@@ -40,7 +40,7 @@
                                 <span style="background-color: {$tag->color|noescape}">{$tag->name}</span>
                             {/foreach}
                         </div>
-                        <div n:if="$commentsCount > 0"><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}#comments">{_pagesOverview.hasComments, $commentsCount}</a></div>
+                        <div n:if="$commentsCount > 0">{if $page->getAllowedComments() === false}<i class="fa fa-lock"></i> {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}#comments">{_pagesOverview.hasComments, $commentsCount}</a></div>
                     </td>
                     <td>
                         <div class="articles-overview-actions">
