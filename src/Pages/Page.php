@@ -355,7 +355,7 @@ class Page
 
     public function getAllowedComments()
     {
-        return (bool)$this->allowedComments;
+        return $this->allowedComments;
     }
 
 

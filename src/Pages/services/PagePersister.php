@@ -26,6 +26,9 @@ class PagePersister extends Object
 {
     public $onSuccessPageCreation;
     public $onSuccessPageEditing;
+    public $onPageRelease;
+    public $onPageCommentsClosure;
+    public $onPageCommentsOpening;
 
     /** @var EntityManager */
     private $em;
@@ -69,9 +72,27 @@ class PagePersister extends Object
 
         try {
             if ($page !== null and $page->getId() !== null) {
+                $wasDraft = $page->isDraft();
+                $hadOpenedComments = $page->getAllowedComments();
+
                 $this->updatePage($page, $values);
             } else {
+                $wasDraft = true;
+                $hadOpenedComments = true;
+
                 $page = $this->createNewPage($values, $page);
+            }
+
+            if ($wasDraft !== $page->isDraft() and $wasDraft === true) {
+                $this->onPageRelease($page);
+            }
+
+            if ($hadOpenedComments !== $page->getAllowedComments()) {
+                if ($hadOpenedComments === true) {
+                    $this->onPageCommentsClosure($page);
+                } else {
+                    $this->onPageCommentsOpening($page);
+                }
             }
 
         } catch (UrlAlreadyExistsException $u) {

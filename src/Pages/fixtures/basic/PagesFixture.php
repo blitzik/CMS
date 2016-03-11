@@ -81,6 +81,15 @@ class PagesFixture extends AbstractFixture
         $pageRemoval = new EventLog('page_removal', $pageType);
         $manager->persist($pageRemoval);
 
+        $pageRelease = new EventLog('page_release', $pageType);
+        $manager->persist($pageRelease);
+
+        $pageCommentsClosure = new EventLog('page_comments_closure', $pageType);
+        $manager->persist($pageCommentsClosure);
+
+        $pageCommentsOpening = new EventLog('page_comments_opening', $pageType);
+        $manager->persist($pageCommentsOpening);
+
 
         // drafts
         $draftCreation = new EventLog('page_draft_creation', $pageType);
@@ -97,8 +106,8 @@ class PagesFixture extends AbstractFixture
         $commentCreation = new EventLog('page_comment_creation', $commentType);
         $manager->persist($commentCreation);
 
-        $commentEditing = new EventLog('page_comment_editing', $commentType);
-        $manager->persist($commentEditing);
+        /*$commentEditing = new EventLog('page_comment_editing', $commentType);
+        $manager->persist($commentEditing);*/
 
         $commentRemoval = new EventLog('page_comment_removal', $commentType);
         $manager->persist($commentRemoval);

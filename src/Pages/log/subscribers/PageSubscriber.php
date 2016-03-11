@@ -45,7 +45,10 @@ class PageSubscriber extends Object implements Subscriber
         return [
             PagePersister::class . '::onSuccessPageCreation',
             PagePersister::class . '::onSuccessPageEditing',
-            PageFacade::class . '::onSuccessPageRemoval'
+            PagePersister::class . '::onPageCommentsOpening',
+            PagePersister::class . '::onPageCommentsClosure',
+            PagePersister::class . '::onPageRelease',
+            PageFacade::class . '::onSuccessPageRemoval',
         ];
     }
 
@@ -54,14 +57,9 @@ class PageSubscriber extends Object implements Subscriber
     {
         $this->appEventLogger
              ->saveLog(
-                 sprintf(
+                 $this->createLogMessage(
                      'User [%s#%s] <b>has CREATED</b> <a href="%s">Page%s [%s#%s]</a>',
-                     $page->getAuthorId(),
-                     $page->getAuthorName(),
-                     $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
-                     ($page->isDraft() ? ' draft' : ''),
-                     $page->getId(),
-                     $page->title
+                     $page
                  ),
                  $page->isDraft() ? 'page_draft_creation' : 'page_creation',
                  $page->getAuthorId()
@@ -73,16 +71,25 @@ class PageSubscriber extends Object implements Subscriber
     {
         $this->appEventLogger
              ->saveLog(
-                 sprintf(
+                 $this->createLogMessage(
                      'User [%s#%s] <b>has UPDATED</b> <a href="%s">Page%s [%s#%s]</a>',
-                     $page->getAuthorId(),
-                     $page->getAuthorName(),
-                     $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
-                     ($page->isDraft() ? ' draft' : ''),
-                     $page->getId(),
-                     $page->title
+                     $page
                  ),
                  $page->isDraft() ? 'page_draft_editing' : 'page_editing',
+                 $page->getAuthorId()
+             );
+    }
+
+
+    public function onPageRelease(Page $page)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 $this->createLogMessage(
+                     'User [%s#%s] <b>has RELEASED</b> <a href="%s">Page%s [%s#%s]</a>',
+                     $page
+                 ),
+                 'page_release',
                  $page->getAuthorId()
              );
     }
@@ -104,4 +111,56 @@ class PageSubscriber extends Object implements Subscriber
                  $page->getAuthorId()
              );
     }
+
+
+    // comments
+
+
+    public function onPageCommentsOpening(Page $page)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 $this->createLogMessage(
+                     'User [%s#%s] <b>has OPENED</b> comments on <a href="%s">Page%s [%s#%s]</a>',
+                     $page
+                 ),
+                 'page_comments_opening',
+                 $page->getAuthorId()
+             );
+    }
+
+
+    public function onPageCommentsClosure(Page $page)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 $this->createLogMessage(
+                     'User [%s#%s] <b>has CLOSED</b> comments on <a href="%s">Page%s [%s#%s]</a>',
+                     $page
+                 ),
+                 'page_comments_closure',
+                 $page->getAuthorId()
+             );
+    }
+
+
+    /**
+     * @param string $formatString
+     * @param Page $page
+     * @return string
+     * @throws \Nette\Application\UI\InvalidLinkException
+     */
+    private function createLogMessage($formatString, Page $page)
+    {
+        return sprintf(
+            $formatString,
+            $page->getAuthorId(),
+            $page->getAuthorName(),
+            $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
+            ($page->isDraft() ? ' draft' : ''),
+            $page->getId(),
+            $page->title
+        );
+    }
+
 }
