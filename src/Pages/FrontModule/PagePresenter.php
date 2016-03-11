@@ -9,6 +9,7 @@ use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
 use Pages\Page;
+use Pages\Query\PageQuery;
 
 class PagePresenter extends BasePresenter
 {
@@ -134,6 +135,28 @@ class PagePresenter extends BasePresenter
         $comp->setCommentsCount($this->page['commentsCount']);
 
         return $comp;
+    }
+    
+    
+    /*
+     * --------------------
+     * ----- SITE MAP ------
+     * --------------------
+     */
+     
+    
+    public function actionSitemap()
+    {
+    }
+
+
+    public function renderSitemap()
+    {
+        $this->template->sitemap = $this->pageFacade
+                                        ->fetchPages(
+                                            (new PageQuery())
+                                            ->onlyWith(['id'])
+                                        );
     }
 
 }

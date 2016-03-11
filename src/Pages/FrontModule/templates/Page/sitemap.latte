@@ -1,0 +1,15 @@
+{contentType application/xml}
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{plink //:Pages:Front:Page:default}</loc>
+        <priority>1.0</priority>
+    </url>
+    {foreach $sitemap as $s}
+        <url>
+            <loc>{plink //:Pages:Front:Page:show internal_id => $s->getId()}</loc>
+            <priority>0.9</priority>
+        </url>
+    {/foreach}
+</urlset>

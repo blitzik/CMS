@@ -171,7 +171,7 @@ class Router extends RouteList
             $locale .= '/';
         }
 
-        $resultUrl = $baseUrl . $locale . Nette\Utils\Strings::webalize($path, '/');
+        $resultUrl = $baseUrl . $locale . Nette\Utils\Strings::webalize($path, '/.');
 
         $q = http_build_query($params, null, '&');
         if ($q != '') {
