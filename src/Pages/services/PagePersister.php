@@ -76,11 +76,13 @@ class PagePersister extends Object
                 $hadOpenedComments = $page->getAllowedComments();
 
                 $this->updatePage($page, $values);
+                $this->onSuccessPageEditing($page);
             } else {
                 $wasDraft = true;
                 $hadOpenedComments = true;
 
                 $page = $this->createNewPage($values, $page);
+                $this->onSuccessPageCreation($page);
             }
 
             if ($wasDraft !== $page->isDraft() and $wasDraft === true) {
@@ -154,8 +156,6 @@ class PagePersister extends Object
         $this->em->flush();
         $this->em->commit();
 
-        $this->onSuccessPageCreation($page);
-
         return $page;
     }
 
@@ -188,8 +188,6 @@ class PagePersister extends Object
 
         $this->em->flush();
         $this->em->commit();
-
-        $this->onSuccessPageEditing($page);
 
         return $page;
     }
@@ -289,7 +287,7 @@ class PagePersister extends Object
             $newUrl = $this->urlFacade->saveUrl($newUrlEntity);
         }
 
-        $oldUrl = $this->urlFacade->find($page->getUrlId());
+        $oldUrl = $this->urlFacade->getById($page->getUrlId());
 
         $this->urlFacade->linkUrls($oldUrl, $newUrl);
 

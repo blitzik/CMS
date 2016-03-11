@@ -29,6 +29,7 @@ class Url
 
     const URLPATH_LENGTH = 255;
 
+
     /**
      * @ORM\Column(name="url_path", type="string", length=255, nullable=true, unique=true)
      * @var string

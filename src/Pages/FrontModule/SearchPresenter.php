@@ -8,23 +8,15 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use Nette\Application\UI\Multiplier;
+use blitzik\FlashMessages\FlashMessage;
 use Pages\Components\Front\IPageControlFactory;
-use Pages\Components\Front\IPagesSearchControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
+use Nette\Application\UI\Multiplier;
 use Pages\Facades\PageFacade;
 use Tags\Facades\TagFacade;
-use Tags\Query\TagQuery;
-use Tags\Tag;
 
 class SearchPresenter extends BasePresenter
 {
-    /**
-     * @var IPagesSearchControlFactory
-     * @inject
-     */
-    public $tagsOverviewFactory;
-
     /**
      * @var IPageControlFactory
      * @inject
@@ -43,52 +35,21 @@ class SearchPresenter extends BasePresenter
      */
     public $tagFacade;
 
-    /** @var Tag[] */
-    public $tags;
-
     /** @var array */
     public $pages;
 
 
-    public function actionTag($tags)
+    public function actionTag($internal_id)
     {
         $this['pageTitle']->setPageTitle('Vyhledávání podle štítku');
 
-        $this->tags = $this->tagFacade
-                           ->fetchTags(
-                               (new TagQuery())
-                                ->orderByName()
-                                ->indexedByTagId()
-                           )->toArray();
-
-        if (!empty($tags)) {
-            $wantedTags = explode('-', $tags);
-            $existingTags = array_intersect(array_keys($this->tags), $wantedTags);
-
-            if (count($wantedTags) !== count($existingTags)) {
-                $this->redirect('this', ['tags' => implode('-', $existingTags)]);
-            }
-
-            $this['pagesSearch']->setSelectedTags($wantedTags);
-            $this->pages = $this->pageFacade->searchByTags($existingTags);
-        }
+        $this->pages = $this->pageFacade->searchByTag($internal_id);
     }
 
 
-    public function renderTag($tags)
+    public function renderTag($internal_id)
     {
         $this->template->pages = $this->pages;
-        $this->template->wantedTags = $tags;
-    }
-
-
-    /**
-     * @Actions tag
-     */
-    protected function createComponentPagesSearch()
-    {
-        $comp = $this->tagsOverviewFactory->create($this->tags);
-        return $comp;
     }
 
 

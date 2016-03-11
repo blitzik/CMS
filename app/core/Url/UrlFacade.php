@@ -108,9 +108,29 @@ class UrlFacade extends Object
      * @param int $urlId
      * @return Url|null
      */
-    public function find($urlId)
+    public function getById($urlId)
     {
         return $this->urlRepository->find($urlId);
+    }
+
+
+    /**
+     * @param string $presenter
+     * @param string $action
+     * @param int $internal_id
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getUrl($presenter, $action, $internal_id)
+    {
+        return $this->em->createQuery(
+            'SELECT u FROM ' . Url::class . ' u
+             WHERE u.presenter = :presenter AND u.action = :action AND u.internalId = :internalID'
+        )->setParameters([
+            'presenter' => $presenter,
+            'action' => $action,
+            'internalID' => $internal_id
+        ])->getOneOrNullResult();
     }
 
 }

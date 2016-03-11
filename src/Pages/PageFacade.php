@@ -150,10 +150,10 @@ class PageFacade extends Object
     /**
      * Method used for search functionality
      *
-     * @param array $tagsIDs
+     * @param int $tagID
      * @return array
      */
-    public function searchByTags(array $tagsIDs)
+    public function searchByTag($tagID)
     {
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addEntityResult(Page::class, 'p');
@@ -182,14 +182,14 @@ class PageFacade extends Object
              FROM (
                 SELECT pts.page_id, pts.tag_id
                 FROM page_tag pts
-                WHERE pts.tag_id IN (:ids)
+                WHERE pts.tag_id = :id
                 GROUP BY pts.page_id
              ) AS pt
              JOIN page p ON (p.id = pt.page_id AND p.is_draft = 0 AND p.published_at <= NOW())
              LEFT JOIN comment c ON (c.page = pt.page_id)
              GROUP BY pt.page_id',
             $rsm
-        )->setParameter('ids', array_unique($tagsIDs));
+        )->setParameter('id', $tagID);
 
         $pages = $nativeQuery->getResult();
 

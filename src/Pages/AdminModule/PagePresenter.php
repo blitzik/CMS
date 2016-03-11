@@ -148,17 +148,6 @@ class PagePresenter extends ProtectedPresenter
     }
 
 
-    /*public function onToggleVisibility(PagesOverviewControl $control)
-    {
-        if ($this->isAjax()) {
-            $control->redrawControl('table');
-            $this->redrawControl('pagesTables');
-        } else {
-            $this->redirect('this#'.$control->getUniqueId());
-        }
-    }*/
-
-
     /*
      * ----------------------------
      * ----- ARTICLE CREATION -----

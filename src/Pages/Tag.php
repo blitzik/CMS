@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
-use Pages\Page;
+use Url\Url;
 
 /**
  * @ORM\Entity
@@ -24,11 +24,12 @@ class Tag
 
     const LENGTH_NAME = 30;
 
+
     /**
      * @ORM\Column(name="name", type="string", length=30, nullable=false, unique=true)
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(name="color", type="string", length=7, nullable=false, unique=false)
@@ -39,10 +40,12 @@ class Tag
 
     public function __construct(
         $name,
-        $color
+        $color,
+        Url $url
     ) {
         $this->setName($name);
         $this->setColor($color);
+        $this->urlSearch = $url;
     }
 
 
@@ -55,7 +58,7 @@ class Tag
     /**
      * @param string $name
      */
-    public function setName($name)
+    private function setName($name)
     {
         Validators::assert($name, 'unicode:1..'.self::LENGTH_NAME);
         $this->name = $name;
@@ -72,4 +75,27 @@ class Tag
 
         $this->color = $color;
     }
+
+
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
 }

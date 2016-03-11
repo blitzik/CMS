@@ -7,9 +7,6 @@
 
 <section class="search">
     <h1>Vyhledávání podle štítku</h1>
-    {control pagesSearch}
-
-    <hr class="clearfix">
 
     {if !empty($pages)}
     {var $pagesCount = count($pages)}
@@ -19,7 +16,7 @@
             {control page-$id}
         {/foreach}
     {else}
-        <p n:if="$wantedTags !== null">Nebyl nalezen žádný článek</p>
+        <p>Nebyl nalezen žádný článek</p>
     {/if}
 
 </section>

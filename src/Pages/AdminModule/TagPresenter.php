@@ -12,6 +12,7 @@ use Doctrine\DBAL\DBALException;
 use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
+use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 
 class TagPresenter extends ProtectedPresenter
 {
@@ -84,13 +85,17 @@ class TagPresenter extends ProtectedPresenter
         $tag = new Tag($values->name, $values->color);
 
         try {
-            $this->tagFacade->saveTag($tag);
+            $this->tagFacade->saveTag((array)$values, $tag);
 
-            $this->flashMessage('tags.tagForm.messages.success', FlashMessage::SUCCESS, ['name' => $tag->name]);
+            $this->flashMessage('tags.tagForm.messages.success', FlashMessage::SUCCESS, ['name' => $tag->getName()]);
             $this->redirect('this');
 
         } catch (TagNameAlreadyExistsException $t) {
-            $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', ['name' => $tag->name]));
+            $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', ['name' => $tag->getName()]));
+
+        } catch (UrlAlreadyExistsException $url) {
+            $form->addError($this->translator->translate('tags.tagForm.messages.tagUrlExists'));
+
         } catch (DBALException $e) {
             $form->addError($this->translator->translate('tags.tagForm.messages.savingError'));
         }

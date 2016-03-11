@@ -2,23 +2,21 @@
 
 namespace Tags\Facades;
 
-use Kdyby\Doctrine\EntityRepository;
-use Kdyby\Doctrine\ResultSet;
 use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
-use Doctrine\DBAL\DBALException;
+use Url\Exceptions\Runtime\UrlAlreadyExistsException;
+use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
+use Doctrine\DBAL\DBALException;
+use Page\Services\TagPersister;
+use Page\Services\TagRemover;
+use Kdyby\Doctrine\ResultSet;
 use Kdyby\Monolog\Logger;
-use Nette\Object;
-use Pages\Page;
 use Tags\Query\TagQuery;
+use Nette\Object;
 use Tags\Tag;
 
 class TagFacade extends Object
 {
-    public $onSuccessTagCreation;
-    public $onSuccessTagEditing;
-    public $onSuccessTagRemoval;
-
     /** @var EntityManager  */
     private $em;
 
@@ -28,46 +26,39 @@ class TagFacade extends Object
     /** @var EntityRepository */
     private $tagRepository;
 
+    /** @var TagPersister */
+    private $tagPersister;
+
+    /** @var TagRemover */
+    private $tagRemover;
+
+
     public function __construct(
         EntityManager $entityManager,
+        TagPersister $tagPersister,
+        TagRemover $tagRemover,
         Logger $logger
     ) {
         $this->em = $entityManager;
+        $this->tagPersister = $tagPersister;
         $this->logger = $logger->channel('Tags');
 
         $this->tagRepository = $this->em->getRepository(Tag::class);
+        $this->tagRemover = $tagRemover;
     }
 
+
     /**
+     * @param array $values
      * @param Tag $tag
      * @return bool|object|Tag
      * @throws TagNameAlreadyExistsException
+     * @throws UrlAlreadyExistsException
      * @throws DBALException
      */
-    public function saveTag(Tag $tag)
+    public function saveTag(array $values, Tag $tag = null)
     {
-        try {
-            if ($tag->getId() === null) {
-                $tag = $this->em->safePersist($tag);
-                if ($tag === false) {
-                    throw new TagNameAlreadyExistsException;
-                }
-                $this->onSuccessTagCreation($tag);
-            } else {
-                $this->em->persist($tag)->flush();
-                $this->onSuccessTagEditing($tag);
-            }
-
-        } catch (DBALException $e) {
-            $this->em->rollback();
-            $this->em->close();
-
-            $this->logger->addError('tag error'); // todo
-
-            throw $e;
-        }
-
-        return $tag;
+        return $this->tagPersister->save($values, $tag);
     }
 
 
@@ -102,15 +93,12 @@ class TagFacade extends Object
 
 
     /**
-     * @param Tag $tag
+     * @param int $tagID
      * @throws \Exception
      */
-    public function removeTag(Tag $tag)
+    public function removeTag($tagID)
     {
-        $id = $tag->getId();
-        $this->em->remove($tag)->flush();
-
-        $this->onSuccessTagRemoval($tag, $id);
+        $this->tagRemover->remove($tagID);
     }
 
 }

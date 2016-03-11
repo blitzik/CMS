@@ -72,9 +72,8 @@ class TagControl extends BaseControl
 
     public function processTag(Form $form, $values)
     {
-        $this->tag->setColor($values->color);
         try {
-            $this->tagFacade->saveTag($this->tag);
+            $this->tagFacade->saveTag((array)$values, $this->tag);
 
             if ($this->presenter->isAjax()) {
                 $this->redrawControl();
@@ -96,7 +95,7 @@ class TagControl extends BaseControl
     public function handleRemoveTag()
     {
         try {
-            $this->tagFacade->removeTag($this->tag);
+            $this->tagFacade->removeTag($this->tag->getId());
 
             if ($this->presenter->isAjax()) {
                 $this->redrawControl('tag');

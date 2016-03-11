@@ -153,6 +153,7 @@ class Page
      * -----------------------
      */
 
+
     /**
      * @param Tag $tag
      */
@@ -416,7 +417,7 @@ class Page
      */
     public function getUrlPath()
     {
-        return $this->url->urlPath;
+        return $this->url->getCurrentUrlPath();
     }
 
 

@@ -11,7 +11,7 @@
         {if count($page->tags) > 0}
             <ul class="tags">
             {foreach $page->tags as $tag}
-                <li><a href="{plink :Pages:Front:Search:tag tags => $tag->getId()}" style="background-color: {$tag->color|noescape};">
+                <li><a href="{plink :Pages:Front:Search:tag internal_id => $tag->getId()}" style="background-color: {$tag->color|noescape};">
                 {*<i class="fa fa-tag fa-fw"></i>*}{$tag->name}</a></li>
             {/foreach}
             </ul>

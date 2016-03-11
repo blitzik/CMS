@@ -20,6 +20,7 @@ tagForm:
 	messages:
 		success: "Tag %name% has been successfully saved"
 		nameExists: "Tag with name %name% already exists"
+		tagUrlExists: "Creation of Url address for searching by Tag has failed. Change the name of the Tag."
 		savingError: "An Error has occurred. Please try again later."
 
 overview:

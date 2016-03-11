@@ -9,8 +9,9 @@
 namespace Pages\Log\Subscribers;
 
 use Log\Services\AppEventLogger;
+use Page\Services\TagPersister;
+use Page\Services\TagRemover;
 use Kdyby\Events\Subscriber;
-use Tags\Facades\TagFacade;
 use Nette\Security\User;
 use Nette\Object;
 use Tags\Tag;
@@ -27,8 +28,7 @@ class PageTagSubscriber extends Object implements Subscriber
     public function __construct(
         AppEventLogger $appEventLogger,
         User $user
-    )
-    {
+    ) {
         $this->appEventLogger = $appEventLogger;
         $this->user = $user->getIdentity();
     }
@@ -37,9 +37,9 @@ class PageTagSubscriber extends Object implements Subscriber
     function getSubscribedEvents()
     {
         return [
-            TagFacade::class . '::onSuccessTagCreation',
-            TagFacade::class . '::onSuccessTagEditing',
-            TagFacade::class . '::onSuccessTagRemoval'
+            TagPersister::class . '::onSuccessTagCreation',
+            TagPersister::class . '::onSuccessTagEditing',
+            TagRemover::class . '::onSuccessTagRemoval'
         ];
     }
 
@@ -53,7 +53,7 @@ class PageTagSubscriber extends Object implements Subscriber
                     $this->user->getId(),
                     $this->user->username,
                     $tag->getId(),
-                    $tag->name
+                    $tag->getName()
                 ),
                 'page_tag_creation',
                 $this->user->getId()
@@ -70,7 +70,7 @@ class PageTagSubscriber extends Object implements Subscriber
                     $this->user->getId(),
                     $this->user->username,
                     $tag->getId(),
-                    $tag->name
+                    $tag->getName()
                 ),
                 'page_tag_editing',
                 $this->user->getId()
@@ -81,17 +81,17 @@ class PageTagSubscriber extends Object implements Subscriber
     public function onSuccessTagRemoval(Tag $tag, $id)
     {
         $this->appEventLogger
-            ->saveLog(
-                sprintf(
-                    'User [%s#%s] <b>has REMOVED</b> Tag [%s#%s]',
-                    $this->user->getId(),
-                    $this->user->username,
-                    $id,
-                    $tag->name
-                ),
-                'page_tag_removal',
-                $this->user->getId()
-            );
+             ->saveLog(
+                 sprintf(
+                     'User [%s#%s] <b>has REMOVED</b> Tag [%s#%s]',
+                     $this->user->getId(),
+                     $this->user->username,
+                     $id,
+                     $tag->getName()
+                 ),
+                 'page_tag_removal',
+                 $this->user->getId()
+             );
     }
 
 }
