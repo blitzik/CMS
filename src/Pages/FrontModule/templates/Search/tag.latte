@@ -6,11 +6,13 @@
 {block content}
 
 <section class="search">
-    <h1>Vyhledávání podle štítku</h1>
+    <h2>Vyhledávání podle štítku</h2>
 
     {if !empty($pages)}
-    {var $pagesCount = count($pages)}
-    <p>Počet nalezených článků: {$pagesCount}</p>
+        {var $pagesCount = count($pages)}
+
+        <h3>{$tag->getName()}</h3>
+        <p>Počet nalezených článků: {$pagesCount}</p>
 
         {foreach $pages as $id => $page}
             {control page-$id}

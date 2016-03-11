@@ -41,6 +41,11 @@ class SearchPresenter extends BasePresenter
 
     public function actionTag($internal_id)
     {
+        if ($internal_id === null) {
+            //$this->flashMessage('', FlashMessage::WARNING);
+            $this->redirect(':Pages:Front:Page:default');
+        }
+
         $this['pageTitle']->setPageTitle('Vyhledávání podle štítku');
 
         $this->pages = $this->pageFacade->searchByTag($internal_id);
@@ -50,6 +55,13 @@ class SearchPresenter extends BasePresenter
     public function renderTag($internal_id)
     {
         $this->template->pages = $this->pages;
+
+        $tag = null;
+        if ($internal_id !== null) {
+            $tag = $this->tagFacade->getById($internal_id);
+        }
+
+        $this->template->tag = $tag;
     }
 
 

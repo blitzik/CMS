@@ -52,7 +52,7 @@ class TagsOverviewControl extends BaseControl
         if (empty($this->tags)) {
             // if processing "handle" method, $this->tags is always empty array
             // because this factory is invoked before render method
-            $tag = $this->tagFacade->find($tagId);
+            $tag = $this->tagFacade->getById($tagId);
             if ($tag === null) { // trying to request non-existing tag
                 $this->onMissingTag($this); // there is happening redirect
             }

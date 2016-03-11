@@ -86,7 +86,7 @@ class TagFacade extends Object
      * @param int $id
      * @return Tag|null
      */
-    public function find($id)
+    public function getById($id)
     {
         return $this->tagRepository->find($id);
     }
