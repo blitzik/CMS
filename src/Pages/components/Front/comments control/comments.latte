@@ -1,8 +1,17 @@
 
 {control commentsOverview}
 
-{if !$page->isDraft()}
-    {if $page->allowedComments === true or $user->isLoggedIn()}
+{if $page->isDraft()}
+    <p>Toto je pracovní verze článku. Nelze přidávat komentáře.</p>
+{else}
+    {if $page->allowedComments === false and !$user->isLoggedIn()}
+        {if $commentsCount > 0}
+            <p><i class="fa fa-lock"></i> K tomuto článku již nelze přidávat komentáře.</p>
+        {else}
+            {* just nothing :-) *}
+        {/if}
+    {else}
+
         {control flashMessages}
 
         <h2 id="new-comment-form">Nový komentář</h2>
@@ -64,10 +73,5 @@ python, cpp, sql, neon a texy
 </pre>
             </div>
         </div>
-
-    {else}
-        <p>K tomuto článku nelze přidávat komentáře.</p>
     {/if}
-{else}
-    <p>Toto je pracovní verze článku. Nelze přidávat komentáře.</p>
 {/if}

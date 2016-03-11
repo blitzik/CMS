@@ -10,7 +10,7 @@
 </div>
 
 <div class="comments">
-    <h2 id="comments"><i class="fa fa-comments-o"></i> Komentáře <span n:if="$page->allowedComments === true and $page->isDraft() === false" class="comment-form-link">| <a href="#new-comment-form">přidat komentář</a></span></h2>
+    <h2 id="comments" n:if="$page->getAllowedComments() === true and $commentsCount > 0 or $user->isLoggedIn()"><i class="fa fa-comments-o"></i> Komentáře <span n:if="$page->getAllowedComments() === true and $page->isDraft() === false" class="comment-form-link">| <a href="#new-comment-form">přidat komentář</a></span></h2>
     {control comments}
 </div>
 

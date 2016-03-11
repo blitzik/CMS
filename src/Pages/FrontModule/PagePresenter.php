@@ -127,6 +127,7 @@ class PagePresenter extends BasePresenter
     public function renderShow($internal_id)
     {
         $this->template->page = $this->page[0];
+        $this->template->commentsCount = $this->page['commentsCount'];
     }
 
 
@@ -137,6 +138,7 @@ class PagePresenter extends BasePresenter
     {
         $comp = $this->pageFactory->create($this->page[0]);
         $comp->setCommentsCount($this->page['commentsCount']);
+
         return $comp;
     }
 
@@ -147,6 +149,7 @@ class PagePresenter extends BasePresenter
     protected function createComponentComments()
     {
         $comp = $this->commentsFactory->create($this->page[0]);
+        $comp->setCommentsCount($this->page['commentsCount']);
 
         return $comp;
     }

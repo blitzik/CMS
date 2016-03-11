@@ -32,6 +32,9 @@ class CommentsControl extends BaseControl
     /** @var Page */
     private $page;
 
+    /** @var int */
+    private $commentsCount = 0;
+
 
     public function __construct(
         Page $page,
@@ -52,8 +55,18 @@ class CommentsControl extends BaseControl
         $template->setFile(__DIR__ . '/comments.latte');
 
         $template->page = $this->page;
+        $template->commentsCount = $this->commentsCount;
 
         $template->render();
+    }
+
+
+    /**
+     * @param int $commentsCount
+     */
+    public function setCommentsCount($commentsCount)
+    {
+        $this->commentsCount = $commentsCount;
     }
 
 
