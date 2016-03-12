@@ -2,6 +2,7 @@ pageTitle: "Articles overview"
 
 noArticlesFound: "No Articles found"
 hasComments: "has one comment|has %count% comments"
+noCommentsClosedComments: "comments are closed"
 
 tableTitle:
 	draft: "Draft articles"
