@@ -1,0 +1,50 @@
+header:
+	textBeforePublishingTime: "Posted"
+	comments: "{1}one comment|[2,+Inf[%count% comments"
+
+content:
+	readMore: "Read more"
+
+comments:
+	topSectionHeader: "Comments"
+
+	actions:
+		reply:
+			label: "reply"
+
+		silence:
+			label: "silence comment"
+
+		remove:
+			label: "remove"
+			info: "Removes comment permanently"
+
+	messages:
+		noComments: "No one has responded to this Article. Be first!"
+		pageDraft: "This is just preview. You cannot add any comment now."
+		closedComments: "Comments are closed."
+
+
+	form:
+		heading: "New comment"
+
+		inputs:
+			author:
+				label: "Author"
+				messages:
+					required: "Please type your name"
+
+			text:
+				label: "Text"
+				messages:
+					required: "Please type the text of your comment"
+
+			submit:
+				caption: "Send comment"
+
+		messages:
+			success: "Your comment has been successfully saved"
+			error: "An error occurred while saving your comment"
+
+texyHelp:
+	heading: Texy syntax help

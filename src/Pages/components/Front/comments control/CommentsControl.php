@@ -8,14 +8,13 @@
 
 namespace Comments\Components;
 
-use blitzik\FlashMessages\FlashMessage;
-use Comments\Components\Front\CommentsOverviewControl;
 use Comments\Components\Front\ICommentsOverviewControlFactory;
+use Pages\Exceptions\Runtime\ActionFailedException;
 use Comments\Facades\CommentFacade;
+use Kdyby\Translation\Translator;
 use App\Components\BaseControl;
 use Nette\Application\UI\Form;
 use Comments\Comment;
-use Pages\Exceptions\Runtime\ActionFailedException;
 use Pages\Page;
 
 class CommentsControl extends BaseControl
@@ -29,6 +28,9 @@ class CommentsControl extends BaseControl
     /** @var CommentFacade */
     private $commentFacade;
 
+    /** @var Translator */
+    private $translator;
+
     /** @var Page */
     private $page;
 
@@ -38,11 +40,13 @@ class CommentsControl extends BaseControl
 
     public function __construct(
         Page $page,
+        Translator $translator,
         CommentFacade $commentFacade,
         ICommentsControlFactory $commentsControlFactory,
         ICommentsOverviewControlFactory $overviewControlFactory
     ) {
         $this->page = $page;
+        $this->translator = $translator;
         $this->commentFacade = $commentFacade;
         $this->commentsControlFactory = $commentsControlFactory;
         $this->overviewControlFactory = $overviewControlFactory;
@@ -83,16 +87,17 @@ class CommentsControl extends BaseControl
     protected function createComponentForm()
     {
         $form = new Form();
+        $form->setTranslator($this->translator->domain('page.comments.form.inputs'));
 
-        $form->addText('author', 'Autor', null, Comment::LENGTH_AUTHOR)
-                ->setRequired('Podepište se pod komentář prosím :-) (pole autor)');
+        $form->addText('author', 'author.label', null, Comment::LENGTH_AUTHOR)
+                ->setRequired('author.messages.required');
 
-        $form->addTextArea('text', 'Text', null, 6)
+        $form->addTextArea('text', 'text.label', null, 6)
                 ->setMaxLength(Comment::LENGTH_TEXT)
-                ->setRequired('Vyplňte prosím text komentáře')
+                ->setRequired('text.messages.required')
                 ->setHtmlId('comment-textarea');
 
-        $form->addSubmit('send', 'Odeslat komentář');
+        $form->addSubmit('send', 'submit.caption');
 
         $form->onSuccess[] = [$this, 'processForm'];
 
@@ -106,11 +111,11 @@ class CommentsControl extends BaseControl
         try {
             $comment = $this->commentFacade->save((array)$values);
 
-            $this->flashMessage('Komentář  byl úspěšně uložen', 'success');
+            $this->flashMessage('page.comments.form.messages.success', 'success');
             $this->redirect('this#comment-' . $comment->getId());
 
         } catch (ActionFailedException $e) {
-            $form->addError('Při ukládání komentáře došlo k chybě');
+            $form->addError($this->translator->translate('page.comments.form.messages.error'));
         }
     }
 }

@@ -8,8 +8,8 @@ use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
-use Pages\Page;
 use Pages\Query\PageQuery;
+use Pages\Page;
 
 class PagePresenter extends BasePresenter
 {

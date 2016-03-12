@@ -1,0 +1,49 @@
+header:
+	textBeforePublishingTime: "Publikováno"
+	comments: "{1}jeden komentář|[2,4]%count% komentáře|[5,+Inf[%count% komentářů"
+
+content:
+	readMore: "Přejít na celý článek"
+
+comments:
+	topSectionHeader: "Komentáře"
+
+	actions:
+		reply:
+			label: "odpovědět"
+
+		silence:
+			label: "potlačit text"
+
+		remove:
+			label: "odstranit"
+			info: "Nenávratně odstraní komentář"
+
+	messages:
+		noComments: "Článek neobsahuje žádné komentáře."
+		pageDraft: "Toto je pracovní verze článku. Nelze přidávat komentáře."
+		closedComments: "K tomuto článku již nelze přidávat komentáře."
+
+	form:
+		heading: "Nový komentář"
+
+		inputs:
+			author:
+				label: "Autor"
+				messages:
+					required: "Vyplňte prosím jméno autora"
+
+			text:
+				label: "Text"
+				messages:
+					required: "Vyplňte prosím text komentáře"
+
+			submit:
+				caption: "Odeslat komentář"
+
+		messages:
+			success: "Komentář byl úspěšně odeslán"
+			error: "Při ukládání komentáře nastala chyba"
+
+texyHelp:
+	heading: "Texy nápověda"

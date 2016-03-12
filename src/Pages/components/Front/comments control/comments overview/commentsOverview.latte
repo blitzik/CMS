@@ -7,5 +7,5 @@
         {/foreach}
     </ol>
 {else}
-    <p n:if="$page->allowedComments === true and $page->isDraft() === false">Článek neobsahuje žádné komentáře.</p>
+    <p n:if="$page->allowedComments === true and $page->isDraft() === false">{_page.comments.messages.noComments}</p>
 {/if}

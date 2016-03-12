@@ -32,7 +32,7 @@
         <div class="footer">
             <span title="{$comment->created|dateWithMonthWord}">{$comment->created|timeAgoInWords}</span>
             {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $user->isLoggedIn()}
-                | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">odpovědět</a>
+                | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">{_page.comments.actions.reply.label}</a>
             {/if}
 
             <span n:if="$user->isLoggedIn()" class="right">
@@ -40,10 +40,10 @@
                     {if $comment->isSilenced()}
                        [POTLAČENÝ KOMENTÁŘ] <a href="{link release!}" class="ajax">zobrazit text</a>
                     {else}
-                        <a href="{link silence!}" class="ajax">potlačit text</a>
+                        <a href="{link silence!}" class="ajax">{_page.comments.actions.silence.label}</a>
                     {/if}
                 </span>
-                | <a href="{link remove!}" class="comment-remove" title="Nenávratně odstraní komentář"><i class="fa fa-trash"></i><span>odstranit</span></a>
+                | <a href="{link remove!}" class="comment-remove" title="{_page.comments.actions.remove.info}"><i class="fa fa-trash"></i><span>{_page.comments.actions.remove.label}</span></a>
             </span>
         </div>
     </div>
