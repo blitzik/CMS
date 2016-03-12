@@ -12,16 +12,19 @@ use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
-use Url\Exceptions\Runtime\UrlNotPersistedException;
 use Url\Services\UrlLinker;
 use Kdyby\Monolog\Logger;
 use Nette\Object;
+use Url\Services\UrlPersister;
 use Url\Url;
 
 class UrlFacade extends Object
 {
     /** @var EntityRepository */
     private $urlRepository;
+
+    /** @var UrlPersister */
+    private $urlPersister;
 
     /** @var UrlLinker */
     private $urlLinker;
@@ -35,10 +38,12 @@ class UrlFacade extends Object
 
     public function __construct(
         EntityManager $entityManager,
+        UrlPersister $urlPersister,
         UrlLinker $urlLinker,
         Logger $logger
     ) {
         $this->em = $entityManager;
+        $this->urlPersister = $urlPersister;
         $this->logger = $logger->channel('urlsEntities');
         $this->urlLinker = $urlLinker;
 
@@ -50,30 +55,11 @@ class UrlFacade extends Object
      * @param Url $url
      * @return Url
      * @throws UrlAlreadyExistsException
-     * @throws DBALException
+     * @throws \Exception
      */
     public function saveUrl(Url $url)
     {
-        try {
-            $this->em->beginTransaction();
-
-            $u = $this->em->safePersist($url);
-            if ($u === false) { // already exists
-                throw new UrlAlreadyExistsException;
-            }
-
-            $this->em->commit();
-
-        } catch (DBALException $e) {
-            $this->em->rollback();
-            $this->em->close();
-
-            $this->logger->addError(sprintf('Url Entity saving failure: %s', $e));
-
-            throw $e;
-        }
-
-        return $u;
+        return $this->urlPersister->save($url);
     }
 
 

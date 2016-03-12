@@ -89,19 +89,19 @@ class TagPersister extends Object
     {
         $this->em->beginTransaction();
 
-        $url = $this->createUrl($tag);
-        $url = $this->urlFacade->saveUrl($url);
-
         if ($tag === null) {
-            $tag = new Tag($values['name'], $values['color'], $url);
+            $tag = new Tag($values['name'], $values['color']);
         }
 
         $this->fillTag($values, $tag);
 
+        /** @var Tag $tag */
         $tag = $this->em->safePersist($tag);
         if ($tag === false) {
             throw new TagNameAlreadyExistsException;
         }
+
+        $this->createUrl($tag);
 
         $this->em->commit();
 
@@ -140,16 +140,17 @@ class TagPersister extends Object
 
     /**
      * @param Tag $tag
-     * @return \Url\Url
      */
     private function createUrl(Tag $tag)
     {
-        return UrlGenerator::create(
+        $url = UrlGenerator::create(
             sprintf('search/%s', $tag->getName()),
             'Pages:Front:Search',
             'tag',
             $tag->getId()
         );
+
+        $this->urlFacade->saveUrl($url);
     }
 
 

@@ -40,12 +40,10 @@ class Tag
 
     public function __construct(
         $name,
-        $color,
-        Url $url
+        $color
     ) {
         $this->setName($name);
         $this->setColor($color);
-        $this->urlSearch = $url;
     }
 
 
