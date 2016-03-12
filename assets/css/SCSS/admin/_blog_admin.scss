@@ -87,7 +87,7 @@ body{
 }
 
 
-$main-sidebar-width: 250px;
+$main-sidebar-width: 200px;
 .main-sidebar{
   width: 55px; //$main-sidebar-width;
   height: 100%;
@@ -170,7 +170,7 @@ $main-header-background-color: #d43f3a;
   transition: left .5s;
 
   .main-header{
-    width: 250px;
+    width: $main-sidebar-width; // 250px
     transition: width .5s;
   }
 
@@ -981,21 +981,21 @@ h1, h2, h3, h4, h5, h6{
   }
 
   .article-form{
-    @include column(8);
+    @include column(10);
   }
 
   .tags-picking-box{
-    @include column(4);
+    @include column(10);
   }
 
-  .tags-list li{
+  /*.tags-list li{
     float: none;
     margin-bottom: 15px;
 
     &:last-child{
       margin-bottom: 0;
     }
-  }
+  }*/
 
   .blog-options{
     @include column(5);
