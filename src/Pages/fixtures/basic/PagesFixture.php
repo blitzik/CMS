@@ -32,6 +32,9 @@ class PagesFixture extends AbstractFixture
 
     private function loadDefaultUrls(ObjectManager $manager)
     {
+        $siteMap = UrlGenerator::create('sitemap.xml', 'Pages:Front:Page', 'sitemap');
+        $manager->persist($siteMap);
+
         // FRONTEND
         $mainPage = UrlGenerator::create(' ', 'Pages:Front:Page', 'default'); // empty string in urlPath
         $manager->persist($mainPage);
