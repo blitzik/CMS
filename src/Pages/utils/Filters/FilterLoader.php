@@ -2,6 +2,7 @@
 
 namespace Pages\Filters;
 
+use Kdyby\Translation\Translator;
 use Pages\Utils\TexyFactory;
 use Nette\Object;
 
@@ -10,6 +11,11 @@ class FilterLoader extends Object
     /** @var TexyFactory  */
     private $texyFactory;
 
+    /** @var Translator */
+    private $translator;
+
+
+
     /** @var \Texy */
     private $pageTexy;
 
@@ -17,9 +23,12 @@ class FilterLoader extends Object
     private $commentTexy;
 
 
-    public function __construct(TexyFactory $texyFactory)
-    {
+    public function __construct(
+        TexyFactory $texyFactory,
+        Translator $translator
+    ) {
         $this->texyFactory = $texyFactory;
+        $this->translator = $translator;
     }
 
 
@@ -53,9 +62,18 @@ class FilterLoader extends Object
     }
 
 
-    public function timeAgoInWords($time)
+    public function timeAgoInWords($time, $locale = null)
     {
-        return \Helpers::timeAgoInWords($time);
+        $t = \Helpers::timeAgoInWords($time);
+
+        return $this->translator
+                    ->translate(
+                        'timeAgoInWords.' . $t[0],
+                        (isset($t['time']) ? $t['time'] : null),
+                        [],
+                        null,
+                        $locale
+                    );
     }
 
 

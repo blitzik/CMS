@@ -21,6 +21,9 @@ class BasePresenter extends AppPresenter
      */
     public $pageTitleFactory;
 
+    /** @persistent */
+    public $locale;
+
 
     public function findLayoutTemplateFile()
     {

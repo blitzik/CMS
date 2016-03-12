@@ -87,7 +87,7 @@ body{
 }
 
 
-$main-sidebar-width: 200px;
+$main-sidebar-width: 250px;
 .main-sidebar{
   width: 55px; //$main-sidebar-width;
   height: 100%;
@@ -982,11 +982,13 @@ h1, h2, h3, h4, h5, h6{
   }
 
   .article-form{
-    @include column(10);
+    max-width: 950px;
+    //@include column(10);
   }
 
   .tags-picking-box{
-    @include column(10);
+    max-width: 950px;
+    //@include column(10);
   }
 
   /*.tags-list li{

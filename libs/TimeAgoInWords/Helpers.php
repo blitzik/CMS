@@ -13,8 +13,6 @@
  * @package    Nette Extras
  */
 
-
-
 /**
  * My helpers collection.
  *
@@ -45,31 +43,31 @@ class Helpers
 
         if ($delta < 0) {
             $delta = round(abs($delta) / 60);
-            if ($delta == 0) return 'za okamžik';
-            if ($delta == 1) return 'za minutu';
-            if ($delta < 45) return 'za ' . $delta . ' ' . self::plural($delta, 'minuta', 'minuty', 'minut');
-            if ($delta < 90) return 'za hodinu';
-            if ($delta < 1440) return 'za ' . round($delta / 60) . ' ' . self::plural(round($delta / 60), 'hodina', 'hodiny', 'hodin');
-            if ($delta < 2880) return 'zítra';
-            if ($delta < 43200) return 'za ' . round($delta / 1440) . ' ' . self::plural(round($delta / 1440), 'den', 'dny', 'dní');
-            if ($delta < 86400) return 'za měsíc';
-            if ($delta < 525960) return 'za ' . round($delta / 43200) . ' ' . self::plural(round($delta / 43200), 'měsíc', 'měsíce', 'měsíců');
-            if ($delta < 1051920) return 'za rok';
-            return 'za ' . round($delta / 525960) . ' ' . self::plural(round($delta / 525960), 'rok', 'roky', 'let');
+            if ($delta == 0) return ['inAMinute']; //'za okamžik';
+            if ($delta == 1) return ['inMinutes']; //'za minutu';
+            if ($delta < 45) return ['inMinutes', 'time' => $delta]; //'za ' . $delta . ' ' . self::plural($delta, 'minuta', 'minuty', 'minut');
+            if ($delta < 90) return ['inHours', 'time' => 1]; //'za hodinu';
+            if ($delta < 1440) return ['inHours', 'time' => round($delta / 60)]; //'za ' . round($delta / 60) . ' ' . self::plural(round($delta / 60), 'hodina', 'hodiny', 'hodin');
+            if ($delta < 2880) return ['tomorrow']; //'zítra';
+            if ($delta < 43200) return ['inDays', 'time' => round($delta / 1440)]; //'za ' . round($delta / 1440) . ' ' . self::plural(round($delta / 1440), 'den', 'dny', 'dní');
+            if ($delta < 86400) return ['inMonths', 'time' => 1]; //'za měsíc';
+            if ($delta < 525960) return ['inMonths', 'time' => round($delta / 43200)]; //'za ' . round($delta / 43200) . ' ' . self::plural(round($delta / 43200), 'měsíc', 'měsíce', 'měsíců');
+            if ($delta < 1051920) return ['inYears', 'time' => 1]; //'za rok';
+            return ['inYears', 'time' => round($delta / 525960)]; //'za ' . round($delta / 525960) . ' ' . self::plural(round($delta / 525960), 'rok', 'roky', 'let');
         }
 
         $delta = round($delta / 60);
-        if ($delta == 0) return 'před okamžikem';
-        if ($delta == 1) return 'před minutou';
-        if ($delta < 45) return "před $delta minutami";
-        if ($delta < 90) return 'před hodinou';
-        if ($delta < 1440) return 'před ' . round($delta / 60) . ' hodinami';
-        if ($delta < 2880) return 'včera';
-        if ($delta < 43200) return 'před ' . round($delta / 1440) . ' dny';
-        if ($delta < 86400) return 'před měsícem';
-        if ($delta < 525960) return 'před ' . round($delta / 43200) . ' měsíci';
-        if ($delta < 1051920) return 'před rokem';
-        return 'před ' . round($delta / 525960) . ' lety';
+        if ($delta == 0) return ['aMinuteAgo']; //'před okamžikem';
+        if ($delta == 1) return ['minutesAgo', 'time' => 1]; //'před minutou';
+        if ($delta < 45) return ['minutesAgo', 'time' => $delta]; //"před $delta minutami";
+        if ($delta < 90) return ['hoursAgo', 'time' => 1]; //'před hodinou';
+        if ($delta < 1440) return ['hoursAgo', 'time' => round($delta / 60)]; //'před ' . round($delta / 60) . ' hodinami';
+        if ($delta < 2880) return ['yesterday']; //'včera';
+        if ($delta < 43200) return ['daysAgo', 'time' => round($delta / 1440)]; //'před ' . round($delta / 1440) . ' dny';
+        if ($delta < 86400) return ['monthsAgo', 'time' => 1]; //'před měsícem';
+        if ($delta < 525960) return ['monthsAgo', 'time' => round($delta / 43200)]; //'před ' . round($delta / 43200) . ' měsíci';
+        if ($delta < 1051920) return ['oneYearAgo', 'time' => 1]; //'před rokem';
+        return ['yearsAgo', 'time' => round($delta / 525960)]; //'před ' . round($delta / 525960) . ' lety';
     }
 
 
