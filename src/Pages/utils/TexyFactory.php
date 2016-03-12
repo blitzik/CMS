@@ -55,7 +55,7 @@ class TexyFactory
     {
         $texy = new \Texy();
 
-        $texy->headingModule->top = 2;
+        $texy->headingModule->top = 3;
         $texy->setOutputMode(\Texy::HTML5);
 
         // Images

@@ -1,6 +1,6 @@
 <article class="page">
     <header>
-        <h1>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h1>
+        <h2>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h2>
         <ul class="page-info">
             <li><span title="{$page->publishedAt|dateWithMonthWord}"><i class="fa fa-calendar-plus-o fa-fw"></i>
                 {$page->publishedAt|timeAgoInWords}</span></li>

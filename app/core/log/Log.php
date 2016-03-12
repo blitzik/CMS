@@ -82,7 +82,7 @@ class Log
      */
     private function setMessage($message)
     {
-        Validators::assert($message, 'unicode:1..255');
+        Validators::assert($message, 'unicode:1..1000');
         $this->message = $message;
     }
 

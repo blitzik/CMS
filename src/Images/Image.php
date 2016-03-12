@@ -20,7 +20,6 @@ use Ramsey\Uuid\Uuid;
  *          @Index(name="uploaded_at", columns={"uploaded_at"})
  *      }
  * )
- *
  */
 class Image
 {

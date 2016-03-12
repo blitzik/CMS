@@ -34,6 +34,9 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider, ITra
 
         $imagesRemover = $cb->getDefinition($this->prefix('imagesRemover'));
         $imagesRemover->setArguments(['imageFileRoot' => $config['fileRoot']]);
+
+        $log_imageSubscriber = $cb->getDefinition($this->prefix('log_imageSubscriber'));
+        $log_imageSubscriber->addSetup('setImageFileRoot', ['fileRoot' => $config['fileRoot']]);
     }
 
 

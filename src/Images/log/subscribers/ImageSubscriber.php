@@ -8,12 +8,12 @@
 
 namespace Images\Log\Subscribers;
 
-use Images\Facades\ImageFacade;
-use Images\Image;
-use Kdyby\Events\Subscriber;
 use Log\Services\AppEventLogger;
-use Nette\Object;
+use Images\Facades\ImageFacade;
+use Kdyby\Events\Subscriber;
 use Nette\Security\User;
+use Nette\Object;
+use Images\Image;
 
 class ImageSubscriber extends Object implements Subscriber
 {
@@ -23,6 +23,8 @@ class ImageSubscriber extends Object implements Subscriber
     /** @var \Users\User */
     private $user;
 
+    /** @var string */
+    private $fileRoot;
 
     public function __construct(
         AppEventLogger $appEventLogger,
@@ -31,6 +33,13 @@ class ImageSubscriber extends Object implements Subscriber
         $this->appEventLogger = $appEventLogger;
         $this->user = $user->getIdentity();
     }
+
+
+    public function setImageFileRoot($fileRoot)
+    {
+        $this->fileRoot = $fileRoot;
+    }
+
 
     /**
      * Returns an array of events this subscriber wants to listen to.
@@ -46,16 +55,18 @@ class ImageSubscriber extends Object implements Subscriber
     }
 
 
-    public function onSuccessImageUpload(Image $image)
+    public function onSuccessImageUpload(Image $image) // todo zkouknout zda-li se odkaz tvori spravne
     {
         $this->appEventLogger
              ->saveLog(
                  sprintf(
-                     'User [%s#%s] <b>has UPLOADED</b> the Image [%s#%s]',
+                     'User [%s#%s] <b>has UPLOADED</b> the %sImage [%s#%s]%s',
                      $this->user->getId(),
                      $this->user->username,
+                     (isset($this->fileRoot) ? sprintf('<a href="%s/%s">', $this->fileRoot, $image->getComposedFilePath()) : ''),
                      $image->getId(),
-                     $image->getOriginalName()
+                     $image->getOriginalName(),
+                     (isset($this->fileRoot) ? '</a>' : '')
                  ),
                  'image_upload',
                  $this->user->getId()

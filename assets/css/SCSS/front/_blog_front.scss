@@ -70,7 +70,7 @@ header{
     margin-top: 50px;
   }
 
-  h1{
+  h2{
     font-size: 175%;
 
     a{
@@ -383,6 +383,10 @@ pre{
 
 .search{
   margin-top: 50px;
+
+  .page h2{
+    margin-bottom: 0;
+  }
 
   h2{
     font-size: 1.5em;
