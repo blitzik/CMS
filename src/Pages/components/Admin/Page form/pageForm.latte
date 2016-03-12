@@ -82,7 +82,7 @@ Nadpis1   Nadpis2   Podnadpis
                 {label url /} | <span>{_url.info}</span>
                 <div class="input-group">
                     <div class="input-group-addon">{$baseUrl} / </div>
-                    {input url class => 'form-control'}
+                    {input url class => 'form-control input-lg'}
                 </div>
             </div>
         </div>
@@ -90,14 +90,14 @@ Nadpis1   Nadpis2   Podnadpis
         <div class="row">
             <div class="form-group article-publish-time">
                 {label publishedAt /}
-                {input publishedAt class => 'form-control'}
+                {input publishedAt class => 'form-control input-lg'}
             </div>
 
             <div class="form-group article-title">
                 {label title /}
                     <small>{_title.info, Pages\Page::LENGTH_TITLE}</small>
                     <span id="page-title-counter" class="right"></span>
-                {input title id => 'form-page-title', class => 'form-control'}
+                {input title id => 'form-page-title', class => 'form-control input-lg'}
             </div>
         </div>
 
@@ -107,7 +107,7 @@ Nadpis1   Nadpis2   Podnadpis
                     {label intro /}
                         <small>{_intro.info, Pages\Page::LENGTH_INTRO}</small>
                         <span id="page-intro-counter" class="right"></span>
-                    {input intro id => 'form-page-intro', class => 'form-control page-textArea'}
+                    {input intro id => 'form-page-intro', class => 'form-control input-lg page-textArea'}
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@ Nadpis1   Nadpis2   Podnadpis
                 <div class="form-group">
                     {label text /}
                     <span id="page-text-counter" class="right"></span>
-                    {input text id => 'form-page-text', class => 'form-control page-textArea'}
+                    {input text id => 'form-page-text', class => 'form-control input-lg page-textArea'}
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@ Nadpis1   Nadpis2   Podnadpis
                 <div class="form-group">
                     {label description /}
                     | <small>{_description.info}</small>
-                    {input description class => 'form-control'}
+                    {input description class => 'form-control input-lg'}
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@ Nadpis1   Nadpis2   Podnadpis
                 <div class="form-group">
                     {label keywords /}
                     | <small>{_keywords.info}</small>
-                    {input keywords class => 'form-control'}
+                    {input keywords class => 'form-control input-lg'}
                 </div>
             </div>
         </div>
