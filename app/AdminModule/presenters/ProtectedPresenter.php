@@ -72,26 +72,21 @@ abstract class ProtectedPresenter extends AppPresenter
         if ($presenterReflection->hasMethod($method)) {
             $methodReflection = $presenterReflection->getMethod($method);
             $this->checkRequirements($methodReflection);
+
             if ($methodReflection->hasAnnotation('Actions')) {
                 $actions = explode(',', $methodReflection->getAnnotation('Actions'));
+
                 foreach ($actions as $key => $action) {
                     $actions[$key] = trim($action);
                 }
+
                 if (!empty($actions) and !in_array($this->getAction(), $actions)) {
                     throw new ForbiddenRequestException("Creation of component '$name' is forbidden for action '$this->action'.");
                 }
             }
         }
+
         return parent::createComponent($name);
-    }
-
-
-    protected function createComponentPageTitle()
-    {
-        $comp = $this->pageTitleFactory
-                     ->create('Blog - Administrace');
-
-        return $comp;
     }
 
 
