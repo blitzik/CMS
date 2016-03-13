@@ -47,6 +47,7 @@ class SearchPresenter extends BasePresenter
         }
 
         $this['pageTitle']->setPageTitle('Vyhledávání podle štítku');
+        $this['metas']->addMeta('robots', 'noindex, nofollow');
 
         $this->pages = $this->pageFacade->searchByTag($internal_id);
     }

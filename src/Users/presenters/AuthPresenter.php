@@ -2,10 +2,10 @@
 
 namespace Users\Presenters;
 
+use Nette\Security\AuthenticationException;
+use Nette\Localization\ITranslator;
 use App\Presenters\AppPresenter;
 use Nette\Application\UI\Form;
-use Nette\Localization\ITranslator;
-use Nette\Security\AuthenticationException;
 
 class AuthPresenter extends AppPresenter
 {
@@ -43,6 +43,8 @@ class AuthPresenter extends AppPresenter
 
     public function actionLogin()
     {
+        $this['metas']->addMeta('robot', 'noindex, nofollow');
+
         if ($this->user->isLoggedIn()) {
             $this->redirect(':Dashboard:Dashboard:default');
         }

@@ -2,25 +2,11 @@
 
 namespace App\FrontModule\Presenters;
 
-use App\Components\IMetaTagsControlFactory;
-use App\Components\IPageTitleControlFactory;
 use App\Presenters\AppPresenter;
 use Nette;
 
 class BasePresenter extends AppPresenter
 {
-    /**
-     * @var IMetaTagsControlFactory
-     * @inject
-     */
-    public $metaTagsControlFactory;
-
-    /**
-     * @var IPageTitleControlFactory
-     * @inject
-     */
-    public $pageTitleFactory;
-
     /** @persistent */
     public $locale;
 
@@ -44,19 +30,4 @@ class BasePresenter extends AppPresenter
         $this->template->copyright = $this->options->copyright;
     }
 
-
-    protected function createComponentMetas()
-    {
-        $comp = $this->metaTagsControlFactory->create();
-
-        return $comp;
-    }
-
-
-    protected function createComponentPageTitle()
-    {
-        $comp = $this->pageTitleFactory->create($this->options->blog_title);
-
-        return $comp;
-    }
 }

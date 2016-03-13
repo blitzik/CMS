@@ -11,9 +11,6 @@ namespace App\Components;
 class MetaTagsControl extends BaseControl
 {
     /** @var array */
-    private $robots = [];
-
-    /** @var array */
     private $metas = [];
 
 
@@ -25,18 +22,6 @@ class MetaTagsControl extends BaseControl
         $template->metas = $this->metas;
 
         $template->render();
-    }
-
-
-    public function setRobots($robots)
-    {
-        if (is_array($robots)) {
-            foreach ($robots as $robot) {
-                $this->robots[$robot] = $robots;
-            }
-        } else {
-            $this->robots[$robots] = $robots;
-        }
     }
 
 

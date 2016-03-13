@@ -3,6 +3,8 @@
 namespace App\Presenters;
 
 use App\Components\IFlashMessagesControlFactory;
+use App\Components\IMetaTagsControlFactory;
+use App\Components\IPageTitleControlFactory;
 use Nette\Application\UI\Presenter;
 use Options\Facades\OptionFacade;
 use Users\User;
@@ -14,6 +16,18 @@ abstract class AppPresenter extends Presenter
      * @inject
      */
     public $flashMessagesFactory;
+
+    /**
+     * @var IMetaTagsControlFactory
+     * @inject
+     */
+    public $metaTagsControlFactory;
+
+    /**
+     * @var IPageTitleControlFactory
+     * @inject
+     */
+    public $pageTitleFactory;
 
     /**
      * @var OptionFacade
@@ -40,6 +54,22 @@ abstract class AppPresenter extends Presenter
     protected function createComponentFlashMessages()
     {
         $comp = $this->flashMessagesFactory->create();
+
+        return $comp;
+    }
+
+
+    protected function createComponentMetas()
+    {
+        $comp = $this->metaTagsControlFactory->create();
+
+        return $comp;
+    }
+
+
+    protected function createComponentPageTitle()
+    {
+        $comp = $this->pageTitleFactory->create($this->options->blog_title);
 
         return $comp;
     }
