@@ -86,12 +86,20 @@ class LogOverviewControl extends BaseControl
                 $this['filter-type']->setItems($logTypesNames);
 
                 if ($this->type !== null) {
+                    if (!array_key_exists($this->type, $logTypesNames)) {
+                        $this->redirect('this', ['type' => null]);
+                    }
+
                     $this['filter-type']->setDefaultValue($this->type);
 
                     $logEvents = $this->logFacade->findEventsByType($this->type);
                     $this['filter-event']->setItems($logEvents);
 
                     if ($this->event !== null) {
+                        if (!array_key_exists($this->event, $logEvents)) {
+                            $this->redirect('this', ['type' => $this->type, 'event' => null]);
+                        }
+
                         $this['filter-event']->setDefaultValue($this->event);
                         $this->logQuery->byLogEvent($this->event);
                     } else {
