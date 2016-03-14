@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="new-tag-form"> {* col *}
+        <b>{_tags.newTagFormTitle}</b>
+        <div class="box box-turquoise"> {* just div *}
+            {form tagForm}
+                {customFormErrors}
+
+                <div class="row">
+                    <div class="form-tag-name"> {* col *}
+                        <div class="form-group">
+                            {label name /}
+                            {input name class => 'form-control input-lg medium-input'}
+                        </div>
+                    </div>
+
+                    <div class="form-tag-color"> {* col *}
+                        <div class="form-group">
+                            {label color /}
+                            {input color class => 'form-control input-lg left medium-input tag-color'}
+                        </div>
+                    </div>
+
+                    <div class="form-tag-preview"> {* col *}
+                        <div id="tag-color-box"><i class="fa fa-tag"></i> Tag</div>
+                    </div>
+                </div> {* end row *}
+
+                <div class="row">
+                    <div class="form-tag-submit">
+                        {input save id => 'new-tag-submit', class => 'btn btn-turquoise'}
+                    </div>
+                </div>
+
+            {/form}
+        </div>
+    </div>
+</div>

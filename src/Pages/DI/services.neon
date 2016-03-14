@@ -39,6 +39,9 @@ services:
 		implement: Tags\Components\Admin\ITagControlFactory
 		arguments: [Tags\Tag tag]
 
+	tagFormControlFactory:
+		implement: Pages\Components\ITagFormControlFactory
+
 	pageControlFactory:
 		implement: Pages\Components\Front\IPageControlFactory
 		parameters: [Pages\Page page]

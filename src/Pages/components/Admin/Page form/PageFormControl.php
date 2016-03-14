@@ -6,6 +6,7 @@ use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
+use Pages\Factories\TagFormFactory;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use blitzik\FlashMessages\FlashMessage;
 use Localization\Facades\LocaleFacade;
@@ -28,6 +29,9 @@ class PageFormControl extends BaseControl
 
     /** @var IPageTagsPickingControlFactory */
     private $pageTagsPickingControlFactory;
+
+    /** @var TagFormFactory */
+    private $tagFormFactory;
 
     /** @var LocaleFacade */
     private $localeFacade;
@@ -56,12 +60,14 @@ class PageFormControl extends BaseControl
         PageFacade $pageFacade,
         ITranslator $translator,
         LocaleFacade $localeFacade,
+        TagFormFactory $tagFormFactory,
         IPageTagsPickingControlFactory $articleTagsPickingControlFactory
     ) {
         $this->user = $user;
         $this->pageFacade = $pageFacade;
         $this->translator = $translator;
         $this->localeFacade = $localeFacade;
+        $this->tagFormFactory = $tagFormFactory;
         $this->pageTagsPickingControlFactory = $articleTagsPickingControlFactory;
 
         $this->prepareLocales($this->localeFacade->findAllLocales());
@@ -244,6 +250,17 @@ class PageFormControl extends BaseControl
                 $this->defaultLocale = $locale['name'];
             }
         }
+    }
+
+
+    // tags
+
+
+    protected function createComponentTagForm()
+    {
+        $comp = $this->tagFormFactory->create();
+
+        return $comp;
     }
 }
 
