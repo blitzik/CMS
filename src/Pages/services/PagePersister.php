@@ -65,6 +65,7 @@ class PagePersister extends Object
      * @throws PagePublicationTimeException
      * @throws PagePublicationTimeMissingException
      * @throws UrlAlreadyExistsException
+     * @throws LocaleNotFoundException
      * @throws PageTitleAlreadyExistsException
      * @throws PageIntroHtmlLengthException
      * @throws \Exception
@@ -139,7 +140,7 @@ class PagePersister extends Object
 
         $locale = $this->localeFacade->getByName($values['lang']);
         if ($locale === null) {
-            throw new LocaleNotFoundException; // this should not happen
+            throw new LocaleNotFoundException;
         }
 
         if ($page === null) {

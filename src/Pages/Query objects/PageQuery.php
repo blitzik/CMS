@@ -68,7 +68,8 @@ class PageQuery extends QueryObject
     public function forAdminOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->select('partial p.{id, title, createdAt, publishedAt, isDraft, allowedComments}');
+            $qb->select('partial p.{id, title, createdAt, publishedAt, isDraft, allowedComments}, locale');
+            $qb->join('p.locale', 'locale');
         };
 
         return $this;
@@ -78,7 +79,7 @@ class PageQuery extends QueryObject
     public function forOverview()
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->select('partial p.{id, title, intro, introHtml, publishedAt, locale}');
+            $qb->select('partial p.{id, title, intro, introHtml, publishedAt}, locale');
             $qb->join('p.locale', 'locale');
         };
 

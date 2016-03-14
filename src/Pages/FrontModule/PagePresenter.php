@@ -2,7 +2,6 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use Localization\Facades\LocaleFacade;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
@@ -52,7 +51,6 @@ class PagePresenter extends BasePresenter
 
     public function actionDefault()
     {
-        // todo pořešit načítání entit lokalizací, tedka to generuje dotazy navic
     }
 
 
