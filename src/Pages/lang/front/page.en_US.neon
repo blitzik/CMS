@@ -28,7 +28,7 @@ comments:
 		noComments: "No one has responded to this Article."
 		pageDraft: "This is just preview. You cannot add any comment now."
 		closedComments: "Comments are closed."
-		silencedComment: "This comment has been silenced due its inappropriate content."
+		silencedComment: "This comment has been silenced due to its inappropriate content."
 
 
 	form:

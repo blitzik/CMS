@@ -44,7 +44,7 @@ class Locale
     private $lang;
 
     /**
-     * @ORM\Column(name="default", type="boolean", nullable=false, unique=false, options={"default": false})
+     * @ORM\Column(name="`default`", type="boolean", nullable=false, unique=false, options={"default": false})
      * @var boolean
      */
     private $default;
