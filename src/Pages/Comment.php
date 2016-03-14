@@ -74,6 +74,12 @@ class Comment
     private $order;
 
     /**
+     * @ORM\Column(name="ip_address", type="string", length=39, nullable=true, unique=false)
+     * @var string
+     */
+    private $ipAddress;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Comment")
      * @ORM\JoinTable(
      *     name="comment_reactions",
@@ -88,12 +94,14 @@ class Comment
         $author,
         $text,
         Page $page,
-        $order
+        $order,
+        $ipAddress = null
     ) {
         $this->setAuthor($author);
         $this->setText($text);
         $this->page = $page;
         $this->setOrder($order);
+        $this->setIpAddress($ipAddress);
 
         $this->isSilenced = false;
 
@@ -129,6 +137,16 @@ class Comment
     {
         Validators::assert($order, 'numericint:1..');
         $this->order = $order;
+    }
+
+
+    /**
+     * @param string $ipAddress
+     */
+    private function setIpAddress($ipAddress)
+    {
+        Validators::assert($ipAddress, 'unicode|null');
+        $this->ipAddress = $ipAddress;
     }
 
 
@@ -213,6 +231,15 @@ class Comment
     public function getOrder()
     {
         return $this->order;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIpAddress()
+    {
+        return $this->ipAddress;
     }
 
 

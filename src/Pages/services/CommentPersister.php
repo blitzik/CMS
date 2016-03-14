@@ -12,6 +12,7 @@ use Pages\Exceptions\Runtime\ActionFailedException;
 use Doctrine\ORM\NoResultException;
 use Kdyby\Doctrine\EntityManager;
 use Pages\Utils\TexyFactory;
+use Nette\Http\Request;
 use Comments\Comment;
 use Nette\Object;
 use Pages\Page;
@@ -24,13 +25,18 @@ class CommentPersister extends Object
     /** @var EntityManager */
     private $em;
 
+    /** @var Request */
+    private $request;
+
 
     public function __construct(
         TexyFactory $texyFactory,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        Request $request
     ) {
         $this->texy = $texyFactory->createTexyForComment();
         $this->em = $entityManager;
+        $this->request = $request;
     }
 
 
@@ -53,7 +59,8 @@ class CommentPersister extends Object
                     $values['author'],
                     $this->texy->process($values['text']),
                     $values['page'],
-                    $numberOfComments + 1
+                    $numberOfComments + 1,
+                    $this->request->getRemoteAddress()
                 );
 
                 $this->em->persist($comment)->flush();
