@@ -251,17 +251,6 @@ class PageFormControl extends BaseControl
             }
         }
     }
-
-
-    // tags
-
-
-    protected function createComponentTagForm()
-    {
-        $comp = $this->tagFormFactory->create();
-
-        return $comp;
-    }
 }
 
 

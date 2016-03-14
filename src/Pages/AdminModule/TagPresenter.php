@@ -2,16 +2,14 @@
 
 namespace Tags\Presenters;
 
-use Pages\Exceptions\Runtime\TagNameAlreadyExistsException;
+use Pages\Components\TagFormControl;
 use Tags\Components\Admin\ITagsOverviewControlFactory;
-use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Tags\Components\Admin\TagsOverviewControl;
 use Pages\Components\ITagFormControlFactory;
 use blitzik\FlashMessages\FlashMessage;
-use Doctrine\DBAL\DBALException;
-use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
+use Tags\Tag;
 
 class TagPresenter extends ProtectedPresenter
 {
@@ -70,7 +68,15 @@ class TagPresenter extends ProtectedPresenter
     protected function createComponentTagCreationForm()
     {
         $comp = $this->tagFormControlFactory->create();
+        $comp->onSuccessTagSaving[] = [$this, 'onSuccessTagSaving'];
 
         return $comp;
+    }
+
+
+    public function onSuccessTagSaving(Tag $tag, TagFormControl $control)
+    {
+        $control->flashMessage('tags.tagForm.messages.success', FlashMessage::SUCCESS, ['name' => $tag->getName()]);
+        $control->redirect('this');
     }
 }

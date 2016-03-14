@@ -8,10 +8,10 @@
 <section class="search">
     <h2>Vyhledávání podle štítku</h2>
 
+    <h3>„{$tag->getName()}“</h3>
     {if !empty($pages)}
         {var $pagesCount = count($pages)}
 
-        <h3>„{$tag->getName()}“</h3>
         <p>Počet nalezených článků: {$pagesCount}</p>
 
         {foreach $pages as $id => $page}

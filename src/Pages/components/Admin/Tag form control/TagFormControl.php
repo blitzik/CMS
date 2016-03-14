@@ -20,6 +20,8 @@ use Tags\Facades\TagFacade;
 
 class TagFormControl extends BaseControl
 {
+    public $onSuccessTagSaving;
+
     /** @var TagFormFactory */
     private $tagFormFactory;
 
@@ -28,6 +30,9 @@ class TagFormControl extends BaseControl
 
     /** @var TagFacade */
     private $tagFacade;
+
+    /** @var bool */
+    private $isAjaxified = false;
 
 
     public function __construct(
@@ -46,17 +51,26 @@ class TagFormControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/tagForm.latte');
 
-
-
         $template->render();
+    }
+
+
+    public function setAsAjaxified()
+    {
+        $this->isAjaxified = true;
     }
 
 
     protected function createComponentTagForm()
     {
         $form = $this->tagFormFactory->create();
+        $form->getElementPrototype()->id = '#new-tag-form';
 
         $form['color']->setHtmlId('creation-form-color');
+
+        if ($this->isAjaxified) {
+            $form->getElementPrototype()->class = 'ajax';
+        }
 
         $form->onSuccess[] = [$this, 'processNewTag'];
 
@@ -69,8 +83,7 @@ class TagFormControl extends BaseControl
         try {
             $tag = $this->tagFacade->saveTag((array)$values);
 
-            $this->flashMessage('tags.tagForm.messages.success', FlashMessage::SUCCESS, ['name' => $tag->getName()]);
-            $this->redirect('this');
+            $this->onSuccessTagSaving($tag, $this);
 
         } catch (TagNameAlreadyExistsException $t) {
             $form->addError($this->translator->translate('tags.tagForm.messages.nameExists', ['name' => $values['name']]));
