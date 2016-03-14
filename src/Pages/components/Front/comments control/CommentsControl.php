@@ -8,6 +8,7 @@
 
 namespace Comments\Components;
 
+use blitzik\FlashMessages\FlashMessage;
 use Comments\Components\Front\ICommentsOverviewControlFactory;
 use Pages\Exceptions\Runtime\ActionFailedException;
 use Comments\Facades\CommentFacade;
@@ -107,11 +108,16 @@ class CommentsControl extends BaseControl
 
     public function processForm(Form $form, $values)
     {
+        if ($this->page->getAllowedComments() === false) {
+            $this->flashMessage('page.comments.form.messages.closedComments', FlashMessage::WARNING);
+            $this->redirect('this#comments');
+        }
+
         $values['page'] = $this->page;
         try {
             $comment = $this->commentFacade->save((array)$values);
 
-            $this->flashMessage('page.comments.form.messages.success', 'success');
+            $this->flashMessage('page.comments.form.messages.success', FlashMessage::SUCCESS);
             $this->redirect('this#comment-' . $comment->getId());
 
         } catch (ActionFailedException $e) {

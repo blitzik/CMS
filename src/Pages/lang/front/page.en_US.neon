@@ -51,6 +51,7 @@ comments:
 		messages:
 			success: "Your comment has been successfully saved"
 			error: "An error occurred while saving your comment"
+			closedComments: "Discussion is closed"
 
 texyHelp:
 	heading: Texy syntax help

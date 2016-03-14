@@ -50,6 +50,7 @@ comments:
 		messages:
 			success: "Komentář byl úspěšně odeslán"
 			error: "Při ukládání komentáře nastala chyba"
+			closedComments: "Komentáře již není možné přidávat"
 
 texyHelp:
 	heading: "Texy nápověda"
