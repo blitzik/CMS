@@ -41,38 +41,38 @@
         {/form}
 
         <div class="comments-help">
-            <label for="texy-help-expand"><i class="fa fa-info"></i>Texy nápověda</label>
+            <label for="texy-help-expand"><i class="fa fa-info"></i>{_page.texyHelp.heading}</label>
             <input type="checkbox" id="texy-help-expand">
             <div class="texy-help">
+{translator page.texyHelp}
 <pre>
-<b>tučné písmo</b> - **tučné písmo**
-<i>kurzíva</i>     - *kurzíva*
-<a href="http://www.ab.cd">odkaz</a>       - "text odkazu":www.ab.cd
+{_bold|noescape}
+{_italic|noescape}
+{_link|noescape}
 
-<b>Citace</b>
+<b>{_quotation}</b>
+> {_quotationExample}
 
-> text, který chcete citovat
-> může být i na více řádků
+<b>{_lists}</b>
+({_listAddition})
 
-<b>Seznamy</b>
-(pomlčka na začátku řádku)
+- {_item}
+- {_item}
 
-- první položka
-- druhá položka
+<b>{_replies}</b>
+{_reply|noescape}
+{_replyExample|noescape}
 
-Reakci na jiný příspěvek vytvoříte zavináčem a pořadovým
-číslem komentáře, na který reagujete.
-např. <strong>@5</strong> text komentáře
-
-Kód zapíšete:
-/--jazyk
-    ... váš kód ...
+<b>{_code}</b>
+/--{_codeLang}
+    ... {_codeContent} ...
 \--
 
-kde jazyk může nabývat hodnot:
+{_languages}
 html, css, js, php, java,
-python, cpp, sql, neon a texy
+python, cpp, sql, neon, texy
 </pre>
+{/translator}
             </div>
         </div>
     {/if}

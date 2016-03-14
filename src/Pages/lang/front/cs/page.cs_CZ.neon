@@ -63,3 +63,23 @@ comments:
 
 texyHelp:
 	heading: "Texy nápověda"
+
+	bold: "<b>tučný text</b> - **tučný text**"
+	italic: "<i>kurzíva</i>    - *kurzíva*"
+	link: "<a href=\"http://www.ab.cd\">odkaz</a>      - \"odkaz\":www.ab.cd"
+
+	quotation: "Citace"
+	quotationExample: "Text, který chcete citovat"
+
+	lists: "Seznamy"
+	listAddition: "pomlčka na začátku řádku"
+	item: "položka seznamu"
+
+	replies: "Reakce"
+	reply: "Reakci na jiný příspěvek vytvoříte zavináčem a pořadovým \r\nčíslem komentáře, na který reagujete"
+	replyExample: "např. <strong>@5</strong> text komentáře"
+
+	code: "Kód"
+	codeLang: "jazyk"
+	codeContent: "váš kód"
+	languages: "podporované jazyky:"

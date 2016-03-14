@@ -63,4 +63,24 @@ comments:
 			closedComments: "Discussion is closed"
 
 texyHelp:
-	heading: Texy syntax help
+	heading: "Texy syntax help"
+
+	bold: "<b>bold type</b>   - **bold type**"
+	italic: "<i>italic type</i> - *italic type*"
+	link: "<a href=\"http://www.ab.cd\">link</a>        - \"link\":www.ab.cd"
+
+	quotation: "quotation"
+	quotationExample: "The text you want to cite"
+
+	lists: "Lists"
+	listAddition: "dash at the begining of each line"
+	item: "list item"
+
+	replies: "Replies"
+	reply: "Type <b>@</b> (at sign) and order number of comment \r\nto which you are replying at te beginning of line"
+	replyExample: "example: @5 your comment text"
+
+	code: "Code syntax"
+	codeLang: "language"
+	codeContent: "your code"
+	languages: "supported languages:"
