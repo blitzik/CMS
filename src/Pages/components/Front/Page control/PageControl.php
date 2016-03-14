@@ -3,6 +3,7 @@
 namespace Pages\Components\Front;
 
 use App\Components\BaseControl;
+use Kdyby\Translation\Translator;
 use Pages\Page;
 
 class PageControl extends BaseControl
@@ -16,10 +17,14 @@ class PageControl extends BaseControl
     /** @var int */
     private $commentsCount = 0;
 
+    /** @var Translator */
+    private $translator;
 
-    public function __construct(Page $page)
+
+    public function __construct(Page $page, Translator $translator)
     {
         $this->page = $page;
+        $this->translator = $translator;
     }
 
 
@@ -44,10 +49,13 @@ class PageControl extends BaseControl
         $template->setFile(__DIR__ . '/page.latte');
 
         $template->page = $this->page;
-        //$template->month = $this->page->publishedAt->format('n');
 
         $template->isOnlyIntroShown = $this->isOnlyIntroShown;
         $template->commentsCount = $this->commentsCount;
+
+        $template->translate = function ($string, $count = null) {
+            return $this->translator->translate($string, $count, [], null, $this->page->getLocaleName());
+        };
 
         $template->render();
     }

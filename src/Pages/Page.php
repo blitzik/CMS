@@ -2,7 +2,6 @@
 
 namespace Pages;
 
-use Doctrine\Common\Collections\Criteria;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Logic\DateTimeFormatException;
@@ -13,6 +12,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\Utils\Validators;
+use Localization\Locale;
 use Users\User;
 use Tags\Tag;
 use Url\Url;
@@ -119,6 +119,13 @@ class Page
     protected $allowedComments;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Localization\Locale")
+     * @ORM\JoinColumn(name="locale", referencedColumnName="id", nullable=false)
+     * @var Locale
+     */
+    private $locale;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Tags\Tag", indexBy="id")
      * @var ArrayCollection
      */
@@ -130,13 +137,16 @@ class Page
         $intro,
         $text,
         Url $url,
-        User $author
+        User $author,
+        Locale $locale
     ) {
         $this->setTitle($title);
         $this->setIntro($intro);
         $this->setText($text);
         $this->setUrl($url);
         $this->author = $author;
+
+        $this->locale = $locale;
 
         $this->isDraft = true;
         $this->allowedComments = true;
@@ -393,6 +403,28 @@ class Page
     public function getMetaKeywords()
     {
         return $this->metaKeywords;
+    }
+
+
+    /*
+     * --------------------------
+     * ----- LOCALE GETTERS -----
+     * --------------------------
+     */
+
+
+    public function getLocaleCode()
+    {
+        return $this->locale->getCode();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLocaleName()
+    {
+        return $this->locale->getName();
     }
 
 

@@ -8,6 +8,7 @@
 
 namespace App\Components;
 
+use Localization\Facades\LocaleFacade;
 use Nette\Application\UI\Form;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
@@ -15,9 +16,6 @@ use Nette\Localization\ITranslator;
 
 class LocaleSwitcherControl extends BaseControl
 {
-    /** @var array */
-    private $localization; // check config.neon
-
     /** @var ITranslator */
     private $translator;
 
@@ -27,15 +25,19 @@ class LocaleSwitcherControl extends BaseControl
     /** @var string */
     private $locale;
 
+    /** @var array */
+    private $locales;
+
 
     public function __construct(
-        array $localization,
+        LocaleFacade $localeFacade,
         ITranslator $translator,
         Session $session
     ) {
-        $this->localization = $localization;
         $this->translator = $translator;
         $this->session = $session->getSection('cms_localization');
+
+        $this->prepareLocales($localeFacade->findAllLocales());
     }
 
 
@@ -63,11 +65,11 @@ class LocaleSwitcherControl extends BaseControl
         $form->setTranslator($this->translator->domain('admin.localization'));
 
         $form->addSelect('locale', null)
-                ->setItems($this->localization['locales'])
-                ->setDefaultValue($this->localization['defaultLocale'])
+                ->setItems($this->locales)
+                ->setDefaultValue($this->locale)
                 ->setTranslator(null);
 
-        if (isset($this->locale) and array_key_exists($this->locale, $this->localization['locales'])) {
+        if (isset($this->locale) and array_key_exists($this->locale, $this->locales)) {
             $form['locale']->setValue($this->locale);
         }
 
@@ -83,6 +85,14 @@ class LocaleSwitcherControl extends BaseControl
     {
         $this->session->locale = $values->locale;
         $this->presenter->redirect('this', ['locale' => $values->locale]);
+    }
+
+
+    private function prepareLocales(array $locales)
+    {
+        foreach ($locales as $locale) {
+            $this->locales[$locale['code']] = $locale['code'];
+        }
     }
 }
 

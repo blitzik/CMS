@@ -7,6 +7,8 @@ content:
 
 comments:
 	topSectionHeader: "Komentáře"
+	silencedComment: "potlačený komentář"
+	addComment: "přidat komentář"
 
 	actions:
 		reply:
@@ -14,6 +16,9 @@ comments:
 
 		silence:
 			label: "potlačit text"
+
+		release:
+			label: "zobrazit text"
 
 		remove:
 			label: "odstranit"
@@ -23,6 +28,7 @@ comments:
 		noComments: "Článek neobsahuje žádné komentáře."
 		pageDraft: "Toto je pracovní verze článku. Nelze přidávat komentáře."
 		closedComments: "K tomuto článku již nelze přidávat komentáře."
+		silencedComment: "Obsah komentáře byl skryt z důvodu jeho nevhodnosti"
 
 	form:
 		heading: "Nový komentář"

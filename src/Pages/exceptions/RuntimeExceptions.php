@@ -23,3 +23,5 @@ class RuntimeException extends \RuntimeException {}
     class TagNameAlreadyExistsException extends RuntimeException {}
 
     class ActionFailedException extends RuntimeException {}
+
+    class LocaleNotFoundException extends RuntimeException {}

@@ -14,7 +14,7 @@
 
         {*{control vs}*}
         {*{if count($pages) > 0}*}
-        <table class="table table-bordered">
+        <table class="table table-hover">
             <tr>
                 {translator pagesOverview.rowTitle}
                 {*<th class="w25">#</th>*}
@@ -34,7 +34,7 @@
                     <td>{$page->createdAt|date:'j.n.Y'} <br>v {$page->createdAt|date:'H:i'}</td>
                     <td>{$page->publishedAt|date:'j.n.Y'} <br>v {$page->publishedAt|date:'H:i'}</td>
                     <td>
-                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id}" class="article-name">{$page->title}</a>
+                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}" class="article-name">{$page->title}</a>
                         <div class="article-mini-tags" n:if="!empty($page->getTags())">
                             {foreach $page->getTags() as $tag}
                                 <span style="background-color: {$tag->color|noescape}">{$tag->name}</span>
@@ -48,7 +48,7 @@
                             {if $commentsCount == 0 and $page->getAllowedComments() === false}
                                 {_pagesOverview.noCommentsClosedComments}
                             {elseif $commentsCount > 0}
-                                <a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}#comments">{_pagesOverview.hasComments, $commentsCount}</a>
+                                <a href="{plink :Pages:Front:Page:show internal_id => $page->getId(), locale => $page->getLocaleCode()}#comments">{_pagesOverview.hasComments, $commentsCount}</a>
                             {/if}
                         </div>
                     </td>

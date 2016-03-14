@@ -3,8 +3,10 @@
 namespace Url;
 
 use Nette\Application\Routers\RouteList;
+use Localization\Facades\LocaleFacade;
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
+use Nette\Caching\IStorage;
 use Kdyby\Monolog\Logger;
 use Nette;
 
@@ -31,9 +33,9 @@ class Router extends RouteList
 
 
     public function __construct(
-        array $localization,
         EntityManager $em,
-        Nette\Caching\IStorage $storage,
+        LocaleFacade $localeFacade,
+        IStorage $storage,
         Logger $logger
     ) {
         $this->em = $em;
@@ -42,8 +44,10 @@ class Router extends RouteList
         $this->urlRepository = $em->getRepository(Url::class);
         $this->logger = $logger->channel('router');
 
-        foreach ($localization['locales'] as $key => $locale) {
-            $this->locales[$key] = $localization['defaultLocale'] === $locale ? true : null;
+        $localization = $localeFacade->findAllLocales();
+
+        foreach ($localization as $name => $locale) {
+            $this->locales[$locale['code']] = $locale['default'];
         }
     }
 

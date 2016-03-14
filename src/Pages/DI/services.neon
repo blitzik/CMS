@@ -47,7 +47,7 @@ services:
 	pagesOverviewControlFactory:
 		implement: Pages\Components\Front\IPagesOverviewControlFactory
 
-	pageFormControl:
+	pageFormControlFactory:
 		implement: Pages\Components\Admin\IPageFormControlFactory
 		arguments: [Users\User user]
 

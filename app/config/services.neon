@@ -15,4 +15,3 @@ services:
 
 	localeSwitcherControlFactory:
 		implement: App\Components\ILocaleSwitcherControlFactory
-		arguments: [%localization%]

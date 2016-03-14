@@ -39,6 +39,10 @@ description:
 allowedComments:
 	label: "Allow people comment your Article"
 
+lang:
+	label: "Language"
+	info: "Cannot be changed later"
+
 saveAndPublish:
 	caption: "Save and Publish"
 	title: "Saves the Article and displays it publicly"
@@ -48,6 +52,11 @@ saveAsDraft:
 	title: "Saves the Article for later editing. Article is NOT displayed publicly"
 
 returnAtTop: "Return at the start of the form"
+
+# languages
+
+en: "written in english"
+cs: "written in czech"
 
 # flash messages
 

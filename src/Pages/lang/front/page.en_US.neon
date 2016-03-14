@@ -7,6 +7,8 @@ content:
 
 comments:
 	topSectionHeader: "Comments"
+	silencedComment: "silenced comment"
+	addComment: "add a comment"
 
 	actions:
 		reply:
@@ -15,14 +17,18 @@ comments:
 		silence:
 			label: "silence comment"
 
+		release:
+			label: "release comment"
+
 		remove:
 			label: "remove"
 			info: "Removes comment permanently"
 
 	messages:
-		noComments: "No one has responded to this Article. Be first!"
+		noComments: "No one has responded to this Article."
 		pageDraft: "This is just preview. You cannot add any comment now."
 		closedComments: "Comments are closed."
+		silencedComment: "This comment has been silenced due its inappropriate content."
 
 
 	form:

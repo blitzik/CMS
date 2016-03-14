@@ -11,15 +11,7 @@ use Tracy\Bar;
 
 class UrlExtension extends CompilerExtension implements IEntityProvider, IFixtureProvider
 {
-    private $defaults = [
-        'localization' => [
-            'defaultLocale' => 'en',
-            'locales' => [
-                'en' => 'en',
-                'cs' => 'cs'
-            ]
-        ]
-    ];
+    private $defaults = [];
 
 
     /**
@@ -35,9 +27,6 @@ class UrlExtension extends CompilerExtension implements IEntityProvider, IFixtur
 
         $cb->removeDefinition('routing.router');
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/services.neon'), $this->name);
-
-        $router = $cb->getDefinition($this->prefix('router'));
-        $router->setArguments(['localization' => $config['localization']]);
     }
 
 

@@ -9,6 +9,7 @@ extensions:
 
 	# core extensions
 	core: App\DI\CoreExtension
+	localization: Localization\DI\LocalizationExtension
 	log: Log\DI\LogExtension
 
 	# Blog extensions

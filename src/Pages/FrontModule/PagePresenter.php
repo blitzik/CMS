@@ -2,13 +2,13 @@
 
 namespace Pages\FrontModule\Presenters;
 
+use Localization\Facades\LocaleFacade;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
-use Pages\Query\PageQuery;
 use Pages\Page;
 
 class PagePresenter extends BasePresenter
@@ -44,14 +44,15 @@ class PagePresenter extends BasePresenter
 
 
     /*
-     * -----------------------------------------
-     * ----- ARTICLES OVERVIEW BY CATEGORY -----
-     * -----------------------------------------
+     * -----------------------------
+     * ----- ARTICLES OVERVIEW -----
+     * -----------------------------
      */
 
 
     public function actionDefault()
     {
+        // todo pořešit načítání entit lokalizací, tedka to generuje dotazy navic
     }
 
 
@@ -89,6 +90,10 @@ class PagePresenter extends BasePresenter
         $page = $result[0];
 
         if ($page === null) { // nothing found
+            throw new BadRequestException;
+        }
+
+        if ($page->getLocaleCode() !== $this->locale) {
             throw new BadRequestException;
         }
 
@@ -152,11 +157,7 @@ class PagePresenter extends BasePresenter
 
     public function renderSitemap()
     {
-        $this->template->sitemap = $this->pageFacade
-                                        ->fetchPages(
-                                            (new PageQuery())
-                                            ->onlyWith(['id'])
-                                        );
+        $this->template->sitemap = $this->pageFacade->findForSitemap();
     }
 
 }

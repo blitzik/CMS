@@ -14,7 +14,7 @@
     <div class="comment-text" n:snippet="comment-text">
         {if $comment->isSilenced() AND !$user->isLoggedIn()}
             <p class="silenced-comment">
-                <i class="fa fa-eye-slash"></i> Obsah komentáře byl skryt z důvodu jeho nevhodnosti
+                <i class="fa fa-eye-slash"></i> {_page.comments.messages.silencedComment}
             </p>
         {else}
             {$comment->text|noescape}
@@ -38,7 +38,7 @@
             <span n:if="$user->isLoggedIn()" class="right">
                 <span n:snippet="comment-suppress">
                     {if $comment->isSilenced()}
-                       [POTLAČENÝ KOMENTÁŘ] <a href="{link release!}" class="ajax">zobrazit text</a>
+                        [ {_page.comments.silencedComment|upper} ] <a href="{link release!}" class="ajax">{_page.comments.actions.release.label}</a>
                     {else}
                         <a href="{link silence!}" class="ajax">{_page.comments.actions.silence.label}</a>
                     {/if}

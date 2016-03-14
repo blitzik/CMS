@@ -2,12 +2,13 @@
 
 namespace Pages\Components\Admin;
 
-use blitzik\FlashMessages\FlashMessage;
-use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
-use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
+use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
+use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
+use blitzik\FlashMessages\FlashMessage;
+use Localization\Facades\LocaleFacade;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Localization\ITranslator;
 use Kdyby\Translation\Translator;
@@ -28,8 +29,14 @@ class PageFormControl extends BaseControl
     /** @var IPageTagsPickingControlFactory */
     private $pageTagsPickingControlFactory;
 
+    /** @var LocaleFacade */
+    private $localeFacade;
+
     /** @var PageFacade */
     private $pageFacade;
+
+    /** @var Translator */
+    private $translator;
 
     /** @var User */
     private $user;
@@ -37,20 +44,27 @@ class PageFormControl extends BaseControl
     /** @var  Page */
     private $page;
 
-    /** @var Translator */
-    private $translator;
+    /** @var array */
+    private $availableLocales;
+
+    /** @var string */
+    private $defaultLocale;
 
 
     public function __construct(
         User $user,
         PageFacade $pageFacade,
         ITranslator $translator,
+        LocaleFacade $localeFacade,
         IPageTagsPickingControlFactory $articleTagsPickingControlFactory
     ) {
         $this->user = $user;
         $this->pageFacade = $pageFacade;
         $this->translator = $translator;
+        $this->localeFacade = $localeFacade;
         $this->pageTagsPickingControlFactory = $articleTagsPickingControlFactory;
+
+        $this->prepareLocales($this->localeFacade->findAllLocales());
     }
 
 
@@ -113,6 +127,15 @@ class PageFormControl extends BaseControl
                 //->setRequired('text.messages.required');
 
         $form->addText('url', 'url.label', null, 255);
+
+        $form->addSelect('lang', 'lang.label')
+                ->setItems($this->availableLocales)
+                ->setDefaultValue($this->defaultLocale);
+
+        if (isset($this->page) and !$this->page->isDraft()) {
+            $form['lang']->setDisabled();
+            //$form['lang']->setOmitted();
+        }
 
         $form->addCheckbox('allowedComments', 'allowedComments.label')
                 ->setDefaultValue(true);
@@ -208,6 +231,19 @@ class PageFormControl extends BaseControl
 
         $this['pageForm']['description']->setDefaultValue($page->getMetaDescription());
         $this['pageForm']['keywords']->setDefaultValue($page->getMetaKeywords());
+        $this['pageForm']['lang']->setDefaultValue($page->getLocaleName());
+    }
+
+
+    private function prepareLocales(array $locales)
+    {
+        foreach ($locales as $name => $locale) {
+            $this->availableLocales[$locale['name']] = $locale['code'];
+
+            if ($locale['default'] === true) {
+                $this->defaultLocale = $locale['name'];
+            }
+        }
     }
 }
 

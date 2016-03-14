@@ -1,25 +1,25 @@
 <article class="page">
 
-    {translator page.header}
+    {*{translator page.header}*}
     <header>
-        <h2>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id}">{$page->title}</a></h2>
+        <h2>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}">{$page->title}</a></h2>
         <ul class="page-info">
             <li><span title="{$page->publishedAt|dateWithMonthWord}"><i class="fa fa-calendar-plus-o fa-fw"></i>
-                {_textBeforePublishingTime} {$page->publishedAt|timeAgoInWords}</span></li>
+                {$translate('page.header.textBeforePublishingTime')} {$page->publishedAt|timeAgoInWords:$page->getLocaleName()}</span></li>
             <li n:if="$commentsCount > 0"><i class="fa fa-comments-o fa-fw"></i>
-                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}#comments">{_comments, $commentsCount}</a></li>
+                <a href="{plink :Pages:Front:Page:show internal_id => $page->id}#comments">{$translate('page.header.comments', $commentsCount)}</a></li>
         </ul>
 
         {if count($page->tags) > 0}
             <ul class="tags">
             {foreach $page->tags as $tag}
-                <li><a href="{plink :Pages:Front:Search:tag internal_id => $tag->getId()}" style="background-color: {$tag->color|noescape};">
+                <li><a href="{plink :Pages:Front:Search:tag internal_id => $tag->getId(), locale => null}" style="background-color: {$tag->color|noescape};">
                 {*<i class="fa fa-tag fa-fw"></i>*}{$tag->name}</a></li>
             {/foreach}
             </ul>
         {/if}
     </header>
-    {/translator}
+    {*{/translator}*}
 
     <div n:tag-if="!$isOnlyIntroShown" class="page-intro">
         {$page->getIntroHtml()|noescape}
@@ -35,7 +35,7 @@
     {/if}
 
     {if $isOnlyIntroShown}
-        <a href="{plink :Pages:Front:Page:show internal_id => $page->id}" class="read-more">{_page.content.readMore} <i class="fa fa-angle-double-right"></i></a>
+        <a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}" class="read-more">{$translate('page.content.readMore')} <i class="fa fa-angle-double-right"></i></a>
     {/if}
 
 </article>

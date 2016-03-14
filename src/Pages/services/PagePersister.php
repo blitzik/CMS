@@ -8,11 +8,13 @@
 
 namespace Pages\Services;
 
+use Pages\Exceptions\Runtime\LocaleNotFoundException;
 use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
+use Localization\Facades\LocaleFacade;
 use Kdyby\Doctrine\EntityManager;
 use Pages\Utils\TexyFactory;
 use Url\Facades\UrlFacade;
@@ -30,8 +32,8 @@ class PagePersister extends Object
     public $onPageCommentsClosure;
     public $onPageCommentsOpening;
 
-    /** @var EntityManager */
-    private $em;
+    /** @var LocaleFacade */
+    private $localeFacade;
 
     /** @var UrlFacade  */
     private $urlFacade;
@@ -39,14 +41,19 @@ class PagePersister extends Object
     /** @var \Texy */
     private $texy;
 
+    /** @var EntityManager */
+    private $em;
+
 
     public function __construct(
         EntityManager $entityManager,
+        LocaleFacade $localeFacade,
         TexyFactory $texyFactory,
         UrlFacade $urlFacade
     ) {
         $this->em = $entityManager;
         $this->urlFacade = $urlFacade;
+        $this->localeFacade = $localeFacade;
         $this->texy = $texyFactory->createTexyForPage();
     }
 
@@ -119,6 +126,7 @@ class PagePersister extends Object
      * @param Page|null $page
      * @return Page
      * @throws UrlAlreadyExistsException
+     * @throws LocaleNotFoundException
      * @throws PageTitleAlreadyExistsException
      * @throws PageIntroHtmlLengthException
      */
@@ -127,7 +135,12 @@ class PagePersister extends Object
         $this->em->beginTransaction();
 
         $url = $this->establishPageUrl($values['title'], $values['url']);
-        $url = $this->urlFacade->saveUrl($url); // still needs to set internalID! (next in code)
+        $url = $this->urlFacade->saveUrl($url); // still needs internalID to be set! (next in code)
+
+        $locale = $this->localeFacade->getByName($values['lang']);
+        if ($locale === null) {
+            throw new LocaleNotFoundException; // this should not happen
+        }
 
         if ($page === null) {
             $page = new Page(
@@ -135,7 +148,8 @@ class PagePersister extends Object
                 $values['intro'],
                 $values['text'],
                 $url,
-                $values['author']
+                $values['author'],
+                $locale
             );
         }
 

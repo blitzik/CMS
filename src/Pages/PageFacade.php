@@ -2,6 +2,8 @@
 
 namespace Pages\Facades;
 
+use Doctrine\ORM\AbstractQuery;
+use Localization\Locale;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
@@ -57,7 +59,7 @@ class PageFacade extends Object
         $this->pagePersister = $pagePersister;
         $this->pageRemover = $pageRemover;
         $this->logger = $logger->channel('pages');
-        $this->cache = new Cache($storage, 'articles');
+        $this->cache = new Cache($storage, 'pages');
 
         $this->pageRepository = $this->em->getRepository(Page::class);
     }
@@ -109,6 +111,17 @@ class PageFacade extends Object
     public function fetchPages(PageQuery $query)
     {
         return $this->pageRepository->fetch($query);
+    }
+
+
+    /**
+     * @return mixed|NULL
+     */
+    public function findForSitemap()
+    {
+        return $this->cache->load('sitemap', function () {
+            return $this->fetchPages((new PageQuery())->onlyWith(['id']))->toArray(AbstractQuery::HYDRATE_ARRAY);
+        });
     }
 
 
@@ -172,13 +185,22 @@ class PageFacade extends Object
         $rsm->addFieldResult('p', 'allowed_comments', 'allowedComments');
 
         $rsm->addScalarResult('commentsCount', 'commentsCount', 'integer');
-
         $rsm->addIndexByColumn('p', 'id');
+
+        $rsm->addJoinedEntityResult(Locale::class, 'l', 'p', 'locale');
+        $rsm->addFieldResult('l', 'locale_id', 'id');
+        $rsm->addFieldResult('l', 'locale_name', 'name');
+        $rsm->addFieldResult('l', 'locale_code', 'code');
+        $rsm->addFieldResult('l', 'locale_lang', 'lang');
+        $rsm->addFieldResult('l', 'locale_default', 'default');
+
 
         $nativeQuery = $this->em->createNativeQuery(
             'SELECT p.id, p.title, p.intro, p.intro_html, p.author, p.url,
                     p.created_at, p.is_draft, p.published_at,
-                    p.allowed_comments, COUNT(c.page) AS commentsCount
+                    p.allowed_comments, COUNT(c.page) AS commentsCount,
+                    l.id AS locale_id, l.name AS locale_name, l.code AS locale_code,
+                    l.lang AS locale_lang, l.default AS locale_default
              FROM (
                 SELECT pts.page_id, pts.tag_id
                 FROM page_tag pts
@@ -186,6 +208,7 @@ class PageFacade extends Object
                 GROUP BY pts.page_id
              ) AS pt
              JOIN page p ON (p.id = pt.page_id AND p.is_draft = 0 AND p.published_at <= NOW())
+             JOIN locale l ON (l.id = p.locale)
              LEFT JOIN comment c ON (c.page = pt.page_id)
              GROUP BY pt.page_id',
             $rsm

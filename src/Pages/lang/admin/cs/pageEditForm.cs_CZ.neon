@@ -39,6 +39,10 @@ description:
 allowedComments:
 	label: "Povolit komentáře k článku"
 
+lang:
+	label: "Jazyk"
+	info: "Nelze změnit později"
+
 saveAndPublish:
 	caption: "Uložit a publikovat"
 	title: "Uloží článek a zobrazí ho veřejně"
@@ -48,6 +52,11 @@ saveAsDraft:
 	title: "Uloží článek jako pracovní verzi. Článek se nezobrazí veřejně"
 
 returnAtTop: "Vrátit se na začátek formuláře"
+
+# languages
+
+en: "napsán anglicky"
+cs: "napsán česky"
 
 # flash messages
 

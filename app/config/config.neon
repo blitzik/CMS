@@ -45,7 +45,7 @@ doctrine:
 
 
 translation:
-	default: %localization.defaultLocale%
+	default: cs
 	fallback: [en]
 	whitelist: [cs, en]
 
