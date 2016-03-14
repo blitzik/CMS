@@ -47,9 +47,15 @@ class LocaleFacade extends Object
     public function findAllLocales()
     {
         return $this->cache->load('locales', function () {
-            return $this->em->createQuery(
+            $locales = $this->em->createQuery(
                 'SELECT l FROM ' . Locale::class . ' l INDEX BY l.name'
             )->getArrayResult();
+
+            if (empty($locales)) {
+                return null;
+            }
+
+            return $locales;
         });
     }
 }
