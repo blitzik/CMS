@@ -26,7 +26,6 @@ class CommentControl extends BaseControl
     /** @var User */
     private $user;
 
-
     /** @var Comment */
     private $comment;
 
@@ -59,7 +58,7 @@ class CommentControl extends BaseControl
 
         $this->commentFacade->silenceComment($this->comment);
 
-        $this->refresh('Text komentáře byl úspěšně potlačen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
+        $this->refresh('page.comments.actions.silence.messages.success', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
 
 
@@ -69,7 +68,7 @@ class CommentControl extends BaseControl
 
         $this->commentFacade->releaseComment($this->comment);
 
-        $this->refresh('Text komentáře byl úspěšně zobrazen', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
+        $this->refresh('page.comments.actions.release.messages.success', FlashMessage::SUCCESS, ['comment-text', 'comment-suppress']);
     }
 
 
@@ -80,7 +79,7 @@ class CommentControl extends BaseControl
         try {
             $this->commentFacade->remove($this->comment);
         } catch (ActionFailedException $e) {
-            $this->refresh('Při odstraňování komentáře došlo k chybě', FlashMessage::ERROR);
+            $this->refresh('page.comments.actions.remove.messages.error', FlashMessage::ERROR);
         }
 
         $this->onSuccessCommentRemoval($this->comment);
@@ -91,7 +90,7 @@ class CommentControl extends BaseControl
     private function userPermissionCheck()
     {
         if (!$this->user->isLoggedIn()) {
-            $this->flashMessage('K provedení akce nemáte dostatečná oprávnění', FlashMessage::WARNING);
+            $this->flashMessage('page.comments.actions.messages.permission', FlashMessage::WARNING);
             $this->redirect('this#' . $this->comment->getId());
         }
     }

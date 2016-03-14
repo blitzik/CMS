@@ -16,13 +16,22 @@ comments:
 
 		silence:
 			label: "potlačit text"
+			messages:
+				success: "Obsah komentáře byl úspěšně potlačen"
 
 		release:
 			label: "zobrazit text"
+			messages:
+				success: "Obsah komentáře byl úspěšně zobrazen"
 
 		remove:
 			label: "odstranit"
 			info: "Nenávratně odstraní komentář"
+			messages:
+				error: "Při odstraňování komentáře došlo k chybě"
+
+		messages:
+			permission: "Upps, tak s tímhle ti nepomůžu"
 
 	messages:
 		noComments: "Článek neobsahuje žádné komentáře."

@@ -16,13 +16,22 @@ comments:
 
 		silence:
 			label: "silence comment"
+			messages:
+				success: "Content of comment has been successfully silenced"
 
 		release:
 			label: "release comment"
+			messages:
+				success: "Content of comment has been successfully released"
 
 		remove:
 			label: "remove"
 			info: "Removes comment permanently"
+			messages:
+				error: "An error occurred while removing comment"
+
+		messages:
+			permission: "Ooops, can't help you to do that"
 
 	messages:
 		noComments: "No one has responded to this Article."

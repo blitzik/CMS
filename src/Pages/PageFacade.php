@@ -142,9 +142,10 @@ class PageFacade extends Object
     public function getPage($pageID, $withCommentsCount = false)
     {
         $pageQB = $this->em->createQueryBuilder();
-        $pageQB->select('p, u')
+        $pageQB->select('p, u, l')
                ->from(Page::class, 'p')
                ->join('p.url', 'u')
+               ->join('p.locale', 'l')
                ->where('p.id = :pageID')
                ->setParameter('pageID', $pageID);
 
