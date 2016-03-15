@@ -8,7 +8,6 @@
 
 namespace Pages\FrontModule\Presenters;
 
-use blitzik\FlashMessages\FlashMessage;
 use Pages\Components\Front\IPageControlFactory;
 use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\UI\Multiplier;

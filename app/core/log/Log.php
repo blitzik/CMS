@@ -51,6 +51,12 @@ class Log
     private $user;
 
     /**
+     * @ORM\Column(name="ip_address", type="string", length=39, nullable=false, unique=false)
+     * @var string
+     */
+    private $ipAddress;
+
+    /**
      * @ORM\Column(name="message", type="string", length=1000, nullable=false, unique=false)
      * @var string
      */
@@ -60,10 +66,12 @@ class Log
     public function __construct(
         $message,
         EventLog $eventLog,
+        $ipAddress,
         User $user = null
     ) {
         $this->setMessage($message);
         $this->event = $eventLog;
+        $this->setIpAddress($ipAddress);
         $this->user = $user;
 
         $this->date = new \DateTime('now');
@@ -84,6 +92,13 @@ class Log
     {
         Validators::assert($message, 'unicode:1..1000');
         $this->message = $message;
+    }
+
+
+    private function setIpAddress($ipAddress)
+    {
+        Validators::assert($ipAddress, 'unicode:..39');
+        $this->ipAddress = $ipAddress;
     }
 
 
@@ -109,6 +124,15 @@ class Log
     public function getDate()
     {
         return clone $this->date;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIpAddress()
+    {
+        return $this->ipAddress;
     }
 
 

@@ -14,6 +14,7 @@ use Kdyby\Doctrine\EntityManager;
 use Log\Log;
 use Nette\Caching\IStorage;
 use Nette\Caching\Cache;
+use Nette\Http\Request;
 use Nette\Object;
 use Log\EventLog;
 use Log\LogType;
@@ -21,24 +22,29 @@ use Users\User;
 
 class AppEventLogger extends Object
 {
-    /** @var EntityManager */
-    private $em;
-
-    /** @var Cache */
-    private $cache;
+    /** @var EntityRepository */
+    private $eventTypeRepository;
 
     /** @var EntityRepository */
     private $eventLogRepository;
 
-    /** @var EntityRepository */
-    private $eventTypeRepository;
+    /** @var Request */
+    private $request;
+
+    /** @var Cache */
+    private $cache;
+
+    /** @var EntityManager */
+    private $em;
 
 
     public function __construct(
         EntityManager $entityManager,
-        IStorage $storage
+        IStorage $storage,
+        Request $request
     ) {
         $this->em = $entityManager;
+        $this->request = $request;
         $this->cache = new Cache($storage, Log::CACHE_NAMESPACE);
 
         $this->eventLogRepository = $entityManager->getRepository(EventLog::class);
@@ -65,7 +71,7 @@ class AppEventLogger extends Object
                 $user = $this->em->getReference(User::class, $userID);
             }
 
-            $newLog = new Log($message, $eventLog, $user);
+            $newLog = new Log($message, $eventLog, $this->request->getRemoteAddress(), $user);
             $this->em->persist($newLog)->flush();
 
         } catch (ForeignKeyConstraintViolationException $e) {
