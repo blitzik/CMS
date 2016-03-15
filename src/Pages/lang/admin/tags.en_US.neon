@@ -23,6 +23,18 @@ tagForm:
 		tagUrlExists: "Creation of Url address for searching by Tag has failed. Change the name of the Tag."
 		savingError: "An Error has occurred. Please try again later."
 
+filter:
+	heading: "Filter"
+	form:
+		name:
+			label: "Name"
+
+		filter:
+			label: "filter"
+
+		reset:
+			label: "reset"
+
 overview:
 	noTagsFound: "No tags found."
 	nonExistentTag: "You are trying to modify non-existent Tag"

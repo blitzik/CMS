@@ -529,12 +529,11 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .new-tag-form{
-  @extend %col-10;
-
-  max-width: 700px;
+  @extend %col-12;
 }
 
-.tags-overview{
+.tags-overview,
+.tags-not-found{
   @extend %col-12;
 }
 
@@ -564,7 +563,7 @@ h1, h2, h3, h4, h5, h6{
 .tag-box{
   @extend %col-12;
 
-  max-width: 700px;
+  //max-width: 700px;
 
   .box{
     margin-bottom: 15px;
@@ -620,6 +619,23 @@ h1, h2, h3, h4, h5, h6{
 
 .undo-color{
   display: none;
+}
+
+
+.tag-filter{
+  @extend %col-12;
+}
+
+.tag-filter-name{
+  @extend %col-6;
+}
+
+.tag-filter-submit{
+  @extend %col-4;
+}
+
+.tag-filter-submit{
+  padding-top: 5px;
 }
 
 
@@ -1017,11 +1033,15 @@ h1, h2, h3, h4, h5, h6{
     @include column(5);
   }
 
-  .images-upload{
-    @include column(9);
-  }
-
-  .image-overview{
+  .images-upload,
+  .image-overview,
+  .images-filter,
+  .article-removal,
+  .log-overview,
+  .new-tag-form,
+  .tags-not-found,
+  .tag-filter,
+  .tag-box{
     @include column(9);
   }
 
@@ -1032,15 +1052,5 @@ h1, h2, h3, h4, h5, h6{
     }
   }
 
-  .images-filter{
-    @include column(9);
-  }
 
-  .article-removal{
-    @include column(9);
-  }
-
-  .log-overview{
-    @include column(9);
-  }
 }

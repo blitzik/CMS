@@ -23,6 +23,18 @@ tagForm:
 		tagUrlExists: "Url adresa pro vyhledávání dle Tagu nemohla být vytvořena. Změňte název Tagu."
 		savingError: "Při ukládání štítku došlo k chybě. Zkuste akci opakovat později."
 
+filter:
+	heading: "Vyhledávání"
+	form:
+		name:
+			label: "Název tagu"
+
+		filter:
+			label: "filtrovat"
+
+		reset:
+			label: "reset"
+
 overview:
 	noTagsFound: "Nebyli nalezeny žádné štítky"
 	nonExistentTag: "Štítek, který se pokoušíte upravit, neexistuje"

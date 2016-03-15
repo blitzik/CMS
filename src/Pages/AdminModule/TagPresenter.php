@@ -2,12 +2,12 @@
 
 namespace Tags\Presenters;
 
-use Pages\Components\TagFormControl;
 use Tags\Components\Admin\ITagsOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Tags\Components\Admin\TagsOverviewControl;
 use Pages\Components\ITagFormControlFactory;
 use blitzik\FlashMessages\FlashMessage;
+use Pages\Components\TagFormControl;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
 

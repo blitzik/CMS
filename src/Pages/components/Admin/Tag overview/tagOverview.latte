@@ -1,10 +1,42 @@
 
+<div class="row">
+    <div class="tag-filter">
 
-{control flashMessages}
-{if count($tags)}
-    {foreach $tags as $id => $tag}
-        {control tag-$id}
-    {/foreach}
-{else}
-    <p>{_tags.overview.noTagsFound}</p>
-{/if}
+        <b>{_tags.filter.heading}</b>
+        <div class="box box-amethyst">
+        {form filter}
+            <div class="row">
+                <div class="tag-filter-name">
+                <div class="form-group">
+                    {label name /}
+                    {input name class => 'form-control'}
+                </div>
+                </div>
+
+                <div class="tag-filter-submit">
+                    <div>&nbsp;</div>
+                    {input filter class => 'btn btn-amethyst'}
+                    {input reset class => 'btn btn-turquoise'}
+                </div>
+            </div>
+        {/form}
+        </div>
+    </div>
+</div>
+
+{snippet tagsList}
+    {control flashMessages}
+    {if count($tags)}
+        {foreach $tags as $id => $tag}
+            {control tag-$id}
+        {/foreach}
+    {else}
+        <div class="row">
+            <div class="tags-not-found">
+                <div class="box box-alizarin">
+                    {_tags.overview.noTagsFound}
+                </div>
+            </div>
+        </div>
+    {/if}
+{/snippet}

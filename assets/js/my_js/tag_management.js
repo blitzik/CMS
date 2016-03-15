@@ -53,9 +53,11 @@
             if (!checkColorFormat(input.value)) {
                 markInputAsWrong(input);
                 submitButton.attr('disabled', true);
+                submitButton.css('cursor', 'not-allowed');
             } else {
                 markInputAsOk(input);
                 submitButton.attr('disabled', false);
+                submitButton.css('cursor', 'pointer');
             }
         }
 

@@ -33,6 +33,20 @@
   left: percentage($columns / $grid-columns);
 }
 
+#ajax-spinner{
+  display: block;
+  padding: 13px;
+  background: white url('../images/spinner.gif') no-repeat 50% 50%;
+  background-color: black;
+  opacity: .5;
+  font-size: 0;
+  z-index: 123456;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+
 .clearfix{
   clear: both;
   width: 0;

@@ -74,6 +74,17 @@ class TagQuery extends QueryObject
     }
 
 
+    public function likeTagName($tagName)
+    {
+        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($tagName) {
+            $qb->andWhere('t.name LIKE :name')
+                ->setParameter('name', $tagName . '%');
+        };
+
+        return $this;
+    }
+
+
     protected function doCreateCountQuery(Queryable $repository)
     {
         // todo
