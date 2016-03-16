@@ -17,11 +17,11 @@ module.exports = function (grunt) {
                     'bower_components/nette.ajax.js/nette.ajax.js',
                     'bower_components/nette.ajax.js/extensions/spinner.ajax.js',
                     //'bower_components/bootstrap-sass/assets/javascripts/bootstrap.js',
-                    //'assets/js/my_js/image_management.js',
-                    //'assets/js/my_js/webfont.js',
-                    'assets/js/my_js/main.js'
+                    //'www/assets/js/my_js/image_management.js',
+                    //'www/assets/js/my_js/webfont.js',
+                    'www/assets/js/my_js/main.js'
                 ],
-                dest: 'assets/js/original/js.js'
+                dest: 'www/assets/js/original/js.js'
             },
 
             edit_page: {
@@ -30,13 +30,13 @@ module.exports = function (grunt) {
                 },
 
                 src: [
-                    'assets/js/original/jquery.datetimepicker.js',
-                    'assets/js/my_js/editPageDatetimepicker.js',
-                    'assets/js/my_js/editPage.js',
-                    'assets/js/my_js/tagsPicking.js',
-                    'assets/js/original/autosize.js'
+                    'www/assets/js/original/jquery.datetimepicker.js',
+                    'www/assets/js/my_js/editPageDatetimepicker.js',
+                    'www/assets/js/my_js/editPage.js',
+                    'www/assets/js/my_js/tagsPicking.js',
+                    'www/assets/js/original/autosize.js'
                 ],
-                dest: 'assets/js/original/editPage.js'
+                dest: 'www/assets/js/original/editPage.js'
             },
 
             comments: {
@@ -45,35 +45,35 @@ module.exports = function (grunt) {
                 },
 
                 src: [
-                    'assets/js/original/autosize.js',
-                    'assets/js/my_js/comments.js'
+                    'www/assets/js/original/autosize.js',
+                    'www/assets/js/my_js/comments.js'
                 ],
-                dest: 'assets/js/original/comments.js'
+                dest: 'www/assets/js/original/comments.js'
             }
         },
 
         uglify: {
             mutual: {
                 files: {
-                    'assets/js/js.min.js': 'assets/js/original/js.js'
+                    'www/assets/js/js.min.js': 'www/assets/js/original/js.js'
                 }
             },
 
             edit_page: {
                 files: {
-                    'assets/js/editPage.min.js': 'assets/js/original/editPage.js'
+                    'www/assets/js/editPage.min.js': 'www/assets/js/original/editPage.js'
                 }
             },
 
             comments: {
                 files: {
-                    'assets/js/comments.js': 'assets/js/original/comments.js'
+                    'www/assets/js/comments.js': 'www/assets/js/original/comments.js'
                 }
             },
 
             tags_picking: {
                 files: {
-                    'assets/js/tagsPicking.min.js': 'assets/js/my_js/tagsPicking.js'
+                    'www/assets/js/tagsPicking.min.js': 'www/assets/js/my_js/tagsPicking.js'
                 }
             }
         },
@@ -81,19 +81,19 @@ module.exports = function (grunt) {
         cssmin: {
             front: {
                 files: {
-                    'assets/css/front.min.css': 'assets/css/original/front.css'
+                    'www/assets/css/front.min.css': 'www/assets/css/original/front.css'
                 }
             },
 
             admin: {
                 files: {
-                    'assets/css/admin.min.css': 'assets/css/original/admin.css'
+                    'www/assets/css/admin.min.css': 'www/assets/css/original/admin.css'
                 }
             },
 
             datetime_picker: {
                 files: {
-                    'assets/css/jquery.datetimepicker.min.css': 'assets/css/original/jquery.datetimepicker.css'
+                    'www/assets/css/jquery.datetimepicker.min.css': 'www/assets/css/original/jquery.datetimepicker.css'
                 }
             }
         },
@@ -101,14 +101,14 @@ module.exports = function (grunt) {
         sass: {
             front: {
                 files: {
-                    'assets/css/original/front.css': [
-                        'assets/css/SCSS/front/front.scss'
+                    'www/assets/css/original/front.css': [
+                        'www/assets/css/SCSS/front/front.scss'
                     ]
                 }
             },
             admin: {
                 files: {
-                    'assets/css/original/admin.css': 'assets/css/SCSS/admin/admin.scss'
+                    'www/assets/css/original/admin.css': 'www/assets/css/SCSS/admin/admin.scss'
                 }
             }
         },
@@ -116,22 +116,22 @@ module.exports = function (grunt) {
         watch: {
             front: {
                 files: [
-                    'assets/css/SCSS/_grid.scss',
-                    'assets/css/SCSS/_common.scss',
-                    'assets/css/SCSS/_paginator.scss',
-                    'assets/css/SCSS/front/_blog_front.scss',
-                    'assets/css/SCSS/front/front.scss'
+                    'www/assets/css/SCSS/_grid.scss',
+                    'www/assets/css/SCSS/_common.scss',
+                    'www/assets/css/SCSS/_paginator.scss',
+                    'www/assets/css/SCSS/front/_blog_front.scss',
+                    'www/assets/css/SCSS/front/front.scss'
                 ],
                 tasks: ['sass:front', 'cssmin:front']
             },
 
             admin: {
                 files: [
-                    'assets/css/SCSS/_grid.scss',
-                    'assets/css/SCSS/_common.scss',
-                    'assets/css/SCSS/admin/_my-variables.scss',
-                    'assets/css/SCSS/admin/_blog_admin.scss',
-                    'assets/css/SCSS/admin/admin.scss'
+                    'www/assets/css/SCSS/_grid.scss',
+                    'www/assets/css/SCSS/_common.scss',
+                    'www/assets/css/SCSS/admin/_my-variables.scss',
+                    'www/assets/css/SCSS/admin/_blog_admin.scss',
+                    'www/assets/css/SCSS/admin/admin.scss'
                 ],
                 tasks: ['sass:admin', 'cssmin:admin']
             }
@@ -144,7 +144,7 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: ['libs/visual_paginator/_paginator.scss'],
-                        dest: 'assets/css/SCSS/'
+                        dest: 'www/assets/css/SCSS/'
                     }
                 ]
             },
@@ -155,7 +155,7 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: ['bower_components/font-awesome-sass/assets/fonts/font-awesome/*'],
-                        dest: 'assets/fonts/font-awesome/'
+                        dest: 'www/assets/fonts/font-awesome/'
                     }
                 ]
             },
@@ -166,13 +166,13 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: ['bower_components/datetimepicker/jquery.datetimepicker.css'],
-                        dest: 'assets/css/original/'
+                        dest: 'www/assets/css/original/'
                     },
                     {
                         expand:true,
                         flatten: true,
                         src: ['bower_components/datetimepicker/jquery.datetimepicker.js'],
-                        dest: 'assets/js/original/'
+                        dest: 'www/assets/js/original/'
                     }
                 ]
             },
@@ -183,7 +183,7 @@ module.exports = function (grunt) {
                         expand: true,
                         flatten: true,
                         src: ['bower_components/autosize/dist/autosize.js'],
-                        dest: 'assets/js/original/'
+                        dest: 'www/assets/js/original/'
                     }
                 ]
             }

@@ -4,6 +4,7 @@ namespace blitzik;
 
 use Nette\Application\UI\Control;
 use Nette\Utils\Paginator;
+use Nette\Utils\Validators;
 
 class VisualPaginator extends Control
 {
@@ -113,8 +114,13 @@ class VisualPaginator extends Control
 
     public function loadState(array $params)
     {
+        if (isset($params['page']) and !Validators::is($params['page'], 'numericint')) {
+            $params['page'] = 1;
+        }
+
         parent::loadState($params);
-        $this->getPaginator()->page = $this->page;
+        $this->getPaginator()->setPage($this->page);
+        $this->page = $this->getPaginator()->getPage();
     }
 
 }

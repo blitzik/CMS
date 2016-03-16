@@ -11,9 +11,13 @@ namespace Pages\Utils;
 use FSHL\Output\HtmlManual;
 use FSHL\Highlighter;
 use FSHL\Lexer;
+use Nette\Http\Request;
 
 class TexyFactory
 {
+    /** @var Request */
+    private $request;
+
     /** @var string */
     private $imagesRoot;
 
@@ -41,10 +45,14 @@ class TexyFactory
     private $lexersInstances = [];
 
 
-    public function __construct($imagesRoot, $imagesFileRoot)
-    {
+    public function __construct(
+        $imagesRoot,
+        $imagesFileRoot,
+        Request $request
+    ) {
         $this->imagesRoot = $imagesRoot;
         $this->imagesFileRoot = $imagesFileRoot;
+        $this->request = $request;
     }
 
 
@@ -59,7 +67,7 @@ class TexyFactory
         $texy->setOutputMode(\Texy::HTML5);
 
         // Images
-        $texy->imageModule->root = '.' . $this->imagesRoot;
+        $texy->imageModule->root = $this->request->getUrl()->getBaseUrl() . $this->imagesRoot;
         $texy->imageModule->fileRoot = $this->imagesFileRoot;
 
         $texy->addHandler('block', [$this, 'blockHandler']);
@@ -75,7 +83,7 @@ class TexyFactory
     {
         $texy = new \Texy();
 
-        $texy->headingModule->top = 2;
+        $texy->headingModule->top = 3;
         $texy->setOutputMode(\Texy::HTML5);
 
         // Images

@@ -1,6 +1,6 @@
 {*{block|strip}*}
 <!DOCTYPE html>
-<html>
+<html{ifset #lang} lang="{include #lang}"{/ifset}>
 <head>
 	{control metas}
 
@@ -24,7 +24,7 @@
 <div class="container">
     <header>
         <h1><a href="{plink :Pages:Front:Page:default locale => null}">{$blogTitle}</a></h1>
-        <p>{$blogSubtitle}</p>
+        <p n:ifset="$blogSubtitle">{$blogSubtitle}</p>
     </header>
 
     {control flashMessages}

@@ -8,16 +8,15 @@
 
 namespace Images\Services;
 
-use Images\Exceptions\Runtime\FileSizeException;
 use Images\Exceptions\Runtime\NotImageUploadedException;
-use Doctrine\DBAL\DBALException;
-use Images\Image;
+use Images\Exceptions\Runtime\FileSizeException;
 use Kdyby\Doctrine\EntityManager;
-use Kdyby\Monolog\Logger;
-use Nette\Http\FileUpload;
 use Nette\InvalidStateException;
+use Doctrine\DBAL\DBALException;
+use Nette\Http\FileUpload;
+use Kdyby\Monolog\Logger;
 use Nette\Object;
-use Nette\Utils\Strings;
+use Images\Image;
 
 class ImagesUploader extends Object
 {

@@ -11,6 +11,7 @@ namespace Images\Log\Subscribers;
 use Log\Services\AppEventLogger;
 use Images\Facades\ImageFacade;
 use Kdyby\Events\Subscriber;
+use Nette\Http\Request;
 use Nette\Security\User;
 use Nette\Object;
 use Images\Image;
@@ -20,24 +21,30 @@ class ImageSubscriber extends Object implements Subscriber
     /** @var AppEventLogger */
     private $appEventLogger;
 
+    /** @var Request */
+    private $request;
+
     /** @var \Users\User */
     private $user;
 
     /** @var string */
     private $fileRoot;
 
+
     public function __construct(
         AppEventLogger $appEventLogger,
+        Request $request,
         User $user
     ) {
         $this->appEventLogger = $appEventLogger;
         $this->user = $user->getIdentity();
+        $this->request = $request;
     }
 
 
-    public function setImageFileRoot($fileRoot)
+    public function setImageFileRoot($imageRoot)
     {
-        $this->fileRoot = $fileRoot;
+        $this->fileRoot = $this->request->getUrl()->getBaseUrl() . $imageRoot;
     }
 
 

@@ -1,4 +1,3 @@
-/emmet.html
 /vendor
 app/config/config.local.neon
 
@@ -8,19 +7,18 @@ node_modules
 tests/temp/cache
 .sass-cache
 
-/assets/css/*.css
-/assets/css/*/*.css
-/assets/css/*/*.map
+www/assets/css/*.css
+www/assets/css/*/*.css
+www/assets/css/*/*.map
 
-/assets/js/original/*
-/assets/js/*.min.js
+www/assets/js/original/*
+www/assets/js/*.min.js
 
-/assets/fonts/*
+www/assets/fonts/*
+www/uploads/images/*
 
 /temp/cache/*
 /temp/sessions/*
-
-/uploads/images/*
 
 !git.folder.keep
 /nbproject

@@ -14,7 +14,7 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider, ITra
     /** @var array */
     private $defaults = [
         'fileRoot' => '%wwwDir%/uploads/images',
-        'root' => '/uploads/images'
+        'root' => 'uploads/images'
     ];
 
     /**
@@ -36,7 +36,7 @@ class ImagesExtension extends CompilerExtension implements IEntityProvider, ITra
         $imagesRemover->setArguments(['imageFileRoot' => $config['fileRoot']]);
 
         $log_imageSubscriber = $cb->getDefinition($this->prefix('log_imageSubscriber'));
-        $log_imageSubscriber->addSetup('setImageFileRoot', ['fileRoot' => $config['fileRoot']]);
+        $log_imageSubscriber->addSetup('setImageFileRoot', ['imageRoot' => $config['root']]);
     }
 
 

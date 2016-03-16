@@ -2,9 +2,11 @@
 
 namespace Pages\Components\Front;
 
+use Nette\Application\IPresenter;
 use Nette\Application\UI\Multiplier;
 use App\Components\BaseControl;
 use blitzik\IPaginatorFactory;
+use Kdyby\Doctrine\ResultSet;
 use Pages\Facades\PageFacade;
 use Nette\Utils\Validators;
 use Nette\Utils\Paginator;
@@ -12,9 +14,6 @@ use Pages\Query\PageQuery;
 
 class PagesOverviewControl extends BaseControl
 {
-    /** @var array */
-    public $onPaginate = [];
-
     /** @var PageFacade */
     private $pageFacade;
 
@@ -31,6 +30,10 @@ class PagesOverviewControl extends BaseControl
     private $pagesPerPage;
 
 
+    /** @var ResultSet */
+    private $resultSet;
+
+
     public function __construct(
         PageFacade $pageFacade,
         IPageControlFactory $pageControlFactory,
@@ -39,6 +42,17 @@ class PagesOverviewControl extends BaseControl
         $this->pageFacade = $pageFacade;
         $this->pageControlFactory = $pageControlFactory;
         $this->paginatorFactory = $paginatorFactory;
+
+        $this->resultSet = $this->pageFacade
+                                ->fetchPages(
+                                    (new PageQuery())
+                                    ->forOverview()
+                                    ->withTags()
+                                    ->onlyPublished()
+                                    ->orderByPublishedAt('DESC')
+                                    ->withCommentsCount()
+                                    ->indexedByPageId()
+                                );
     }
 
 
@@ -58,6 +72,8 @@ class PagesOverviewControl extends BaseControl
 
         $comp->setButtonText('previous', '« novější');
         $comp->setButtonText('next', 'starší »');
+
+        $this->resultSet->applyPaginator($comp->getPaginator(), $this->pagesPerPage);
 
         return $comp;
     }
@@ -80,31 +96,16 @@ class PagesOverviewControl extends BaseControl
         $template = $this->getTemplate();
         $template->setFile(__DIR__ . '/overview.latte');
 
-        /** @var Paginator $paginator */
-        $paginator = $this['vs']->getPaginator();
-
-        $this->onPaginate($paginator);
-
-        $resultSet = $this->pageFacade
-                          ->fetchPages(
-                              (new PageQuery())
-                               ->forOverview()
-                               ->withTags()
-                               ->onlyPublished()
-                               ->orderByPublishedAt('DESC')
-                               ->withCommentsCount()
-                               ->indexedByPageId()
-                          );
-
-        $resultSet->applyPaginator($paginator, $this->pagesPerPage);
-
-        $this->pages = $resultSet->toArray();
+        $this->resultSet->applyPaginator($this['vs']->getPaginator(), $this->pagesPerPage);
+        $this->pages = $this->resultSet->toArray();
 
         $template->pages = $this->pages;
         $template->pagesCount = count($this->pages);
 
         $template->render();
     }
+
+
 }
 
 
