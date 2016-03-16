@@ -2,6 +2,7 @@
 
 namespace Url;
 
+use Url\Services\UrlParametersConverter;
 use Nette\Application\Routers\RouteList;
 use Localization\Facades\LocaleFacade;
 use Kdyby\Doctrine\EntityRepository;
@@ -9,7 +10,6 @@ use Kdyby\Doctrine\EntityManager;
 use Nette\Caching\IStorage;
 use Kdyby\Monolog\Logger;
 use Nette;
-use Url\Services\UrlParametersConverter;
 
 class Router extends RouteList
 {
@@ -37,6 +37,8 @@ class Router extends RouteList
     /** @var array */
     private $locales;
 
+    /** @var LocaleFacade */
+    private $localeFacade;
 
     public function __construct(
         UrlParametersConverter $urlParametersConverter,
@@ -45,18 +47,13 @@ class Router extends RouteList
         EntityManager $em,
         Logger $logger
     ) {
+        $this->localeFacade = $localeFacade;
         $this->urlParametersConverter = $urlParametersConverter;
         $this->em = $em;
         $this->cache = new Nette\Caching\Cache($storage, self::ROUTE_NAMESPACE);
 
         $this->urlRepository = $em->getRepository(Url::class);
         $this->logger = $logger->channel('router');
-
-        $localization = $localeFacade->findAllLocales();
-
-        foreach ($localization as $name => $locale) {
-            $this->locales[$locale['code']] = $locale['default'];
-        }
     }
 
 
@@ -68,6 +65,8 @@ class Router extends RouteList
      */
     public function match(Nette\Http\IRequest $httpRequest)
     {
+        $this->loadLocales();
+
         $urlPath = new Services\UrlPath($httpRequest);
         $urlPath->setPredefinedLocales($this->locales);
 
@@ -114,6 +113,8 @@ class Router extends RouteList
      */
     public function constructUrl(Nette\Application\Request $appRequest, Nette\Http\Url $refUrl)
     {
+        $this->loadLocales();
+
         $appPath = $appRequest->getPresenterName().':'.$appRequest->getParameter('action').':'.$appRequest->getParameter('internal_id');
 
         /** @var Url $urlEntity */
@@ -254,6 +255,20 @@ class Router extends RouteList
         }
 
         return $url[0];
+    }
+
+    
+    private function loadLocales()
+    {
+        if ($this->locales !== null) {
+            return;
+        }
+
+        $localization = $this->localeFacade->findAllLocales();
+
+        foreach ($localization as $name => $locale) {
+            $this->locales[$locale['code']] = $locale['default'];
+        }
     }
 
 }

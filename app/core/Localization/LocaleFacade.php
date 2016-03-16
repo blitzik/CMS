@@ -52,7 +52,7 @@ class LocaleFacade extends Object
             )->getArrayResult();
 
             if (empty($locales)) {
-                return null;
+                return [];
             }
 
             return $locales;
