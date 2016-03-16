@@ -9,6 +9,7 @@ use Kdyby\Doctrine\EntityManager;
 use Nette\Caching\IStorage;
 use Kdyby\Monolog\Logger;
 use Nette;
+use Url\Services\UrlParametersConverter;
 
 class Router extends RouteList
 {
@@ -16,28 +17,35 @@ class Router extends RouteList
 
     const ROUTE_NAMESPACE = 'appRoute';
 
-    /** @var EntityManager  */
-    private $em;
+    /**
+     * @var UrlParametersConverter
+     */
+    private $urlParametersConverter;
 
-    /** @var  Nette\Caching\Cache */
-    private $cache;
+    /** @var  EntityRepository */
+    private $urlRepository;
 
     /** @var Logger  */
     private $logger;
 
-    /** @var  EntityRepository */
-    private $urlRepository;
+    /** @var  Nette\Caching\Cache */
+    private $cache;
+
+    /** @var EntityManager  */
+    private $em;
 
     /** @var array */
     private $locales;
 
 
     public function __construct(
-        EntityManager $em,
+        UrlParametersConverter $urlParametersConverter,
         LocaleFacade $localeFacade,
         IStorage $storage,
+        EntityManager $em,
         Logger $logger
     ) {
+        $this->urlParametersConverter = $urlParametersConverter;
         $this->em = $em;
         $this->cache = new Nette\Caching\Cache($storage, self::ROUTE_NAMESPACE);
 
@@ -83,6 +91,8 @@ class Router extends RouteList
         $params = $httpRequest->getQuery();
         $params['action'] = $action;
         $params['locale'] = $urlPath->getLocale();
+
+        $this->urlParametersConverter->in($urlEntity, $params); // todo
 
         if ($internal_id !== null) {
             $params['internal_id'] = $internal_id;
@@ -176,6 +186,8 @@ class Router extends RouteList
         }
 
         $resultUrl = $baseUrl . $locale . Nette\Utils\Strings::webalize($path, '/.');
+
+        $this->urlParametersConverter->out($urlEntity, $params); // todo
 
         $q = http_build_query($params, null, '&');
         if ($q != '') {

@@ -73,6 +73,9 @@ class PagesOverviewControl extends BaseControl
         $comp->setButtonText('previous', '« novější');
         $comp->setButtonText('next', 'starší »');
 
+        // because presenter canonicalizaion
+        // we need paginator to be set to know the range of pages in case
+        // someone would try to insert some meaningless value into pagination parameter in URL
         $this->resultSet->applyPaginator($comp->getPaginator(), $this->pagesPerPage);
 
         return $comp;

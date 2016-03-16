@@ -12,6 +12,8 @@ services:
 
 	urlPersister: Url\Services\UrlPersister
 
+	urlParametersConverter: Url\Services\UrlParametersConverter
+
 	router: Url\Router
 	requestPanel: Url\RequestPanel
 

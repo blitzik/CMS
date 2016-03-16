@@ -2,13 +2,17 @@
 
 namespace Pages\DI;
 
+use Kdyby\Translation\DI\ITranslationProvider;
+use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
 use App\Fixtures\IFixtureProvider;
-use Kdyby\Doctrine\DI\IEntityProvider;
-use Kdyby\Translation\DI\ITranslationProvider;
 use Pages\Fixtures\PagesFixture;
+use Nette;
 
-class PagesExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
+class PagesExtension extends CompilerExtension
+    implements IEntityProvider,
+               ITranslationProvider,
+               IFixtureProvider
 {
     private $defaults = [
         'pagesPerPage' => 10,
@@ -64,6 +68,14 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
 
         $latteFactory = $cb->getDefinition('latte.latteFactory');
         $latteFactory->addSetup('addFilter', [null, ['@Pages\\Filters\\FilterLoader', 'loader']]);
+
+
+        // URL parameters mapping
+        $parametersConverter = $cb->getDefinition('url.urlParametersConverter');
+        $mappings = Nette\Neon\Neon::decode(file_get_contents(__DIR__ . '/../url/parametersMapping.neon'));
+        foreach ($mappings as $presenter => $mapping) {
+            $parametersConverter->addSetup('addMapping', [$presenter, $mapping]);
+        }
     }
 
 
@@ -106,6 +118,5 @@ class PagesExtension extends CompilerExtension implements IEntityProvider, ITran
             ]
         ];
     }
-
 
 }
