@@ -6,6 +6,7 @@ bower_components
 node_modules
 tests/temp/cache
 .sass-cache
+/.htaccess
 
 www/assets/css/*.css
 www/assets/css/*/*.css
