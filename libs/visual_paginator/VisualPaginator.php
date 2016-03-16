@@ -3,8 +3,8 @@
 namespace blitzik;
 
 use Nette\Application\UI\Control;
-use Nette\Utils\Paginator;
 use Nette\Utils\Validators;
+use Nette\Utils\Paginator;
 
 class VisualPaginator extends Control
 {
@@ -25,11 +25,19 @@ class VisualPaginator extends Control
 
     private $ajaxified = true;
 
+    private $template;
+
     /** @var array */
     private $buttons = [
         'next' => 'next »',
         'previous' => '« previous'
     ];
+
+
+    public function __construct()
+    {
+        $this->template = __DIR__ . '/ajax.latte';
+    }
 
 
     public function setButtonText($button, $text)
@@ -59,7 +67,7 @@ class VisualPaginator extends Control
 
     public function notAjaxified()
     {
-        $this->ajaxified = false;
+        $this->template = __DIR__ . '/common.latte';
     }
 
 
@@ -83,20 +91,19 @@ class VisualPaginator extends Control
      */
     public function render()
     {
+        $template = $this->getTemplate();
+        $template->setFile($this->template);
+
         $paginator = $this->getPaginator();
 
-        $this->template->paginator = $paginator;
+        $template->paginator = $paginator;
 
-	    $this->template->counter = $this->counter;
-	    $this->template->borderPages = $this->borderPages;
+	    $template->counter = $this->counter;
+	    $template->borderPages = $this->borderPages;
 
-        $this->template->ajaxified = $this->ajaxified;
+        $template->buttons = $this->buttons;
 
-        $this->template->buttons = $this->buttons;
-
-        $this->template->setFile(dirname(__FILE__) . '/template.latte');
-
-        $this->template->render();
+        $template->render();
     }
 
 

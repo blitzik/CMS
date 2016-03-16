@@ -2,7 +2,7 @@
 {if $paginator->pageCount > 1}
 	<div class="blitzik__paginator">
 	{if !$paginator->isFirst()}
-		<a href="{link paginate!, 'page' => $paginator->page - 1}" n:class="$ajaxified ? ajax, blitzik__btn">{$buttons['previous']}</a>
+		<a href="{link paginate!, 'page' => $paginator->page - 1}" class="ajax blitzik__btn">{$buttons['previous']}</a>
 	{/if}
 
 	{if $counter}
@@ -10,7 +10,7 @@
 	{/if}
 
 	{if !$paginator->isLast()}
-		<a href="{link paginate!, 'page' => $paginator->page + 1}" n:class="$ajaxified ? ajax, 'blitzik__btn older'">{$buttons['next']}</a>
+		<a href="{link paginate!, 'page' => $paginator->page + 1}" class="ajax blitzik__btn older">{$buttons['next']}</a>
 	{/if}
 	</div>
 

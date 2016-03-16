@@ -1,0 +1,17 @@
+
+{if $paginator->pageCount > 1}
+    <div class="blitzik__paginator">
+        {if !$paginator->isFirst()}
+            <a href="{link this, 'page' => $paginator->page - 1}" class="blitzik__btn">{$buttons['previous']}</a>
+        {/if}
+
+        {if $counter}
+            <span class="blitzik__counter">[{$paginator->getPage()|number:0:',':' '} / {$paginator->getPageCount()|number:0:',':' '}]</span>
+        {/if}
+
+        {if !$paginator->isLast()}
+            <a href="{link this, 'page' => $paginator->page + 1}" class="blitzik__btn older">{$buttons['next']}</a>
+        {/if}
+    </div>
+
+{/if}
