@@ -8,8 +8,10 @@
         function processCounter(input, span) {
             var charCount = input.value.length;
             var totalCount = parseInt(input.dataset.textLength);
+            var text = span.data('text');
             if (charCount > 0) {
-                span.html('<small>Zbývá <b>' + (totalCount - charCount) + '</b> znaků</small>');
+                text = text.replace('#', '<b>' + (totalCount - charCount) + '</b>');
+                span.html('<small>' + text + '</small>');
             } else {
                 span.html(null);
             }
@@ -31,7 +33,10 @@
 
         articleForm.on('input', '#form-page-text', {span: textSpan}, function (event) {
             var charCount = this.value.length;
-            event.data.span.html('<small>Napsáno <b>' + charCount + '</b> znaků</small>');
+            var text = event.data.span.data('text');
+            console.log(text);
+            text = text.replace('#', '<b>' + charCount + '</b>');
+            event.data.span.html('<small>' + text + '</small>');
         });
 
         var textAreas = $('.page-textArea');

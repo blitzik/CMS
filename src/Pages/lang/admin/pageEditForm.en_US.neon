@@ -1,6 +1,7 @@
 title:
 	label: "Article title (*)"
 	info: "[max. %count% characters]"
+	charCounterText: "# characters left"
 	messages:
 		required: "Please type the title of your Article"
 		maxLength: "Maximal allowed length of Article title is %count% characters"
@@ -15,12 +16,14 @@ publishedAt:
 intro:
 	label: "Article intro (*)"
 	info: "[max. %count% characters] (It will be visible in articles overview)"
+	charCounterText: "# characters left"
 	messages:
 		required: "Type the intro of your Article"
 		maxLength: "Maximal allowed length of Article intro is %count% characters"
 
 text:
 	label: "Article text"
+	charCounterText: "# characters written"
 	messages:
 		required: "Please type the text of your Article"
 

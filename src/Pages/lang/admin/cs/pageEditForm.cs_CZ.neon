@@ -1,6 +1,7 @@
 title:
 	label: "Titulek článku (*)"
 	info: "[max. %count% znaků]"
+	charCounterText: "zbývá # znaků"
 	messages:
 		required: "Vyplňte prosím titulek článku"
 		maxLength: "Titulek může mít maximálně %numChars% znaků"
@@ -15,12 +16,14 @@ publishedAt:
 intro:
 	label: "Úvod článku (*)"
 	info: "[max. %count% znaků] (Bude zobrazen ve výpisu článků)"
+	charCounterText: "zbývá # znaků"
 	messages:
 		required: "Vyplňte úvod článku"
 		maxLength: "maximální délka úvodu článku je %numChars% znaků"
 
 text:
 	label: "Text článku"
+	charCounterText: "napsáno # znaků"
 	messages:
 		required: "Vyplňte text článku"
 
