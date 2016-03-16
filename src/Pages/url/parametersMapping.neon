@@ -1,0 +1,6 @@
+"Pages:Front:Page":
+	"default":
+		"in":
+			"page": "pagesOverview-vs-page"
+		"out":
+			"pagesOverview-vs-page": "page"
