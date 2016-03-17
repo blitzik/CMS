@@ -19,7 +19,7 @@ application:
 		*: App\*Module\Presenters\*Presenter
 
 	debugger:
-		#email: %adminEmail%
+		email: %adminEmail%
 		bar:
 			- Nette\Bridges\HttpTracy\SessionPanel
 
@@ -46,8 +46,8 @@ doctrine:
 
 translation:
 	default: cs
-	fallback: [en]
-	whitelist: [cs, en]
+	fallback: [en_US, en]
+	whitelist: [en, cs]
 
 
 

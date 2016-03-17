@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2857da4ff283cc9fcbad9df51bdfe482",
-    "content-hash": "7b9519e7f9ab206cdc05ef5d5755ce2c",
+    "hash": "0c24d0e52e7b43923113736d00bf0295",
+    "content-hash": "5758e895cb1dec75624f4ff4f6a73b2f",
     "packages": [
         {
             "name": "dg/adminer-custom",
@@ -957,7 +957,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/53c47c905f41f349df9e5b4638c506c1d06e33e4",
+                "url": "https://api.github.com/repos/Kdyby/Doctrine/zipball/cc4a3e8599996b5e788614db57b8f9589294fda6",
                 "reference": "2fbfa9fe0c7aebda9d3e72d89ee8eaaa9ce254a9",
                 "shasum": ""
             },
@@ -1287,16 +1287,16 @@
         },
         {
             "name": "kdyby/translation",
-            "version": "dev-master",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kdyby/Translation.git",
-                "reference": "68bbe1d2a6ddb481f016584b84265a6fa5f8dd9a"
+                "reference": "d61f9d899616cb02c57b234eb4174618dcdfbf76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kdyby/Translation/zipball/68bbe1d2a6ddb481f016584b84265a6fa5f8dd9a",
-                "reference": "68bbe1d2a6ddb481f016584b84265a6fa5f8dd9a",
+                "url": "https://api.github.com/repos/Kdyby/Translation/zipball/d61f9d899616cb02c57b234eb4174618dcdfbf76",
+                "reference": "d61f9d899616cb02c57b234eb4174618dcdfbf76",
                 "shasum": ""
             },
             "require": {
@@ -1309,14 +1309,11 @@
                 "nette/php-generator": "~2.3@dev",
                 "nette/reflection": "~2.3@dev",
                 "nette/utils": "~2.3@dev",
-                "psr/log": "^1.0",
-                "symfony/config": "~2.5",
-                "symfony/translation": "~2.5"
+                "symfony/config": "~2.6",
+                "symfony/translation": "~2.6"
             },
             "require-dev": {
-                "kdyby/monolog": "^1.2@dev",
                 "latte/latte": "~2.3@dev",
-                "mockery/mockery": "~0.9",
                 "nette/application": "~2.3@dev",
                 "nette/bootstrap": "~2.3@dev",
                 "nette/caching": "~2.3@dev",
@@ -1334,15 +1331,14 @@
                 "nette/robot-loader": "~2.3@dev",
                 "nette/safe-stream": "~2.3@dev",
                 "nette/security": "~2.3@dev",
-                "nette/tester": "~1.4",
+                "nette/tester": "~1.3@rc",
                 "nette/tokenizer": "~2.2@dev",
                 "nette/utils": "~2.3@dev",
-                "symfony/console": "~2.3",
+                "symfony/console": "~2.5",
                 "tracy/tracy": "~2.3@dev"
             },
             "suggest": {
                 "kdyby/console": "If you wanna use extract command and much others, install also console.",
-                "kdyby/monolog": "Integration of Monolog into Nette Framework.",
                 "symfony/locale": "Locale component provides fallback code to handle cases when the intl extension is missing.",
                 "symfony/yaml": "If you wanna store translations in YAML format - supports multiline strings.",
                 "tracy/tracy": "Diagnostics tool from Nette"
@@ -1381,7 +1377,7 @@
                 "nette",
                 "translation"
             ],
-            "time": "2016-03-09 10:51:06"
+            "time": "2015-05-09 17:33:00"
         },
         {
             "name": "kukulich/fshl",
@@ -2646,7 +2642,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/41ee6c70758f40fa1dbf90d019ae0a66c4a09e74",
+                "url": "https://api.github.com/repos/symfony/config/zipball/ee4cdda66aff834c8125e8f2c15932461667c521",
                 "reference": "41ee6c70758f40fa1dbf90d019ae0a66c4a09e74",
                 "shasum": ""
             },
@@ -2978,8 +2974,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kdyby/doctrine": 20,
-        "kdyby/translation": 20
+        "kdyby/doctrine": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

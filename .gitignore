@@ -2,6 +2,7 @@
 app/config/config.local.neon
 
 /.idea
+/.htdeployment
 bower_components
 node_modules
 tests/temp/cache

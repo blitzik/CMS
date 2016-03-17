@@ -1,6 +1,6 @@
 inAMinute: "za okamžik"
-inMminutes: "{1}za minutu|[2,4]za %count% minut|[5,+inf[za %count% minut"
-inHhours: "{1}za minutu|[2,4]za %count% hodiny|[5,+inf[za %count% hodin"
+inMinutes: "{1}za minutu|[2,4]za %count% minut|[5,+inf[za %count% minut"
+inHours: "{1}za minutu|[2,4]za %count% hodiny|[5,+inf[za %count% hodin"
 tomorrow: "zítra"
 inDays: "{1}za den|[2,4]za %count% dny|[5,+inf[za %count% dní"
 inMonths: "{1}za měsíc|[2,4]za %count% měsíce|[5,+inf[za %count% měsíců"

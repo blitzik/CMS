@@ -54,7 +54,7 @@ class PageControl extends BaseControl
         $template->commentsCount = $this->commentsCount;
 
         $template->translate = function ($string, $count = null) {
-            return $this->translator->translate($string, $count, [], null, $this->page->getLocaleName());
+            return $this->translator->translate($string, $count, [], null, $this->page->getLocaleCode());
         };
 
         $template->render();

@@ -5,7 +5,7 @@
         <h2>{if $page->isDraft()}[DRAFT] {/if}<a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}">{$page->title}</a></h2>
         <ul class="page-info">
             <li><span title="{$page->publishedAt|dateWithMonthWord}"><i class="fa fa-calendar-plus-o fa-fw"></i>
-                {$translate('page.header.textBeforePublishingTime')} {$page->publishedAt|timeAgoInWords:$page->getLocaleName()}</span></li>
+                {$translate('page.header.textBeforePublishingTime')} {$page->publishedAt|timeAgoInWords:$page->getLocaleCode()}</span></li>
             <li n:if="$commentsCount > 0"><i class="fa fa-comments-o fa-fw"></i>
                 <a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}#comments">{$translate('page.header.comments', $commentsCount)}</a></li>
         </ul>

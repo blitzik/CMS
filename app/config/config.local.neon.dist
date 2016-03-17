@@ -10,7 +10,7 @@ parameters:
 	uploads:
 		images:
 			fileRoot: %wwwDir%/uploads/images # physical location of images on server
-			root: /uploads/images # root of relative images
+			root: uploads/images # root of relative images
 
 	localization:
 		defaultLocale: %localization.locales.en%
@@ -36,6 +36,3 @@ pages:
 		images:
 			root: %uploads.images.root%
 			fileRoot: %uploads.images.fileRoot%
-
-url:
-	localization: %localization%
