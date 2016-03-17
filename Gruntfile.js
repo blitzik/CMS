@@ -91,6 +91,12 @@ module.exports = function (grunt) {
                 }
             },
 
+            print: {
+                files: {
+                    'www/assets/css/print.min.css': 'www/assets/css/original/print.css'
+                }
+            },
+
             datetime_picker: {
                 files: {
                     'www/assets/css/jquery.datetimepicker.min.css': 'www/assets/css/original/jquery.datetimepicker.css'
@@ -106,9 +112,16 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+
             admin: {
                 files: {
                     'www/assets/css/original/admin.css': 'www/assets/css/SCSS/admin/admin.scss'
+                }
+            },
+
+            print: {
+                files: {
+                    'www/assets/css/original/print.css': 'www/assets/css/SCSS/front/print.scss'
                 }
             }
         },
@@ -195,6 +208,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build_front_css', ['sass:front', 'cssmin:front']);
     grunt.registerTask('build_admin_css', ['sass:admin', 'cssmin:admin']);
+
+    grunt.registerTask('build_front_print', ['sass:print', 'cssmin:print']);
 
     grunt.registerTask('build_js', ['concat:mutual_js', 'uglify:mutual']);
 
