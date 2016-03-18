@@ -6,15 +6,6 @@
 
 	{control pageTitle}
 
-    <script>
-      WebFontConfig = {
-        google: { families: [ 'Poppins' ] },
-        active: function() {
-            document.cookie = 'wfont=1; expires=' + (new Date(new Date().getTime() + 86400000)).toGMTString() + ';path=/'
-        }
-      };
-    </script>
-    <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" async defer></script>
     <link rel='prefetch' href='https://fonts.googleapis.com/css?family=Poppins'>
 	<link rel="stylesheet" href="{$basePath}/assets/css/front.min.css">
     <link rel="stylesheet" media="print" href="{$basePath}/assets/css/print.min.css">
@@ -45,6 +36,15 @@
         <script src="{$basePath}/assets/js/shivAndRespond.min.js"></script>
     <![endif]-->
 	{/if}
+    <script>
+        WebFontConfig = {
+            google: { families: [ 'Poppins' ] },
+            active: function() {
+                document.cookie = 'wfont=1; expires=' + (new Date(new Date().getTime() + 86400000)).toGMTString() + ';path=/'
+            }
+        };
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" async defer></script>
 {/block}
 </body>
 </html>
