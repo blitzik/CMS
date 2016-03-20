@@ -44,7 +44,7 @@ class Helpers
         if ($delta < 0) {
             $delta = round(abs($delta) / 60);
             if ($delta == 0) return ['inAMinute']; //'za okamžik';
-            if ($delta == 1) return ['inMinutes']; //'za minutu';
+            if ($delta == 1) return ['inMinutes', 'time' => 1]; //'za minutu';
             if ($delta < 45) return ['inMinutes', 'time' => $delta]; //'za ' . $delta . ' ' . self::plural($delta, 'minuta', 'minuty', 'minut');
             if ($delta < 90) return ['inHours', 'time' => 1]; //'za hodinu';
             if ($delta < 1440) return ['inHours', 'time' => round($delta / 60)]; //'za ' . round($delta / 60) . ' ' . self::plural(round($delta / 60), 'hodina', 'hodiny', 'hodin');
