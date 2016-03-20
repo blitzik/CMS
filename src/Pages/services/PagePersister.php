@@ -8,12 +8,12 @@
 
 namespace Pages\Services;
 
-use Pages\Exceptions\Runtime\LocaleNotFoundException;
 use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
+use Pages\Exceptions\Runtime\LocaleNotFoundException;
 use Localization\Facades\LocaleFacade;
 use Kdyby\Doctrine\EntityManager;
 use Pages\Utils\TexyFactory;

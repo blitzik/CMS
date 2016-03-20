@@ -138,7 +138,7 @@ class PageFormControl extends BaseControl
                 ->setItems($this->availableLocales)
                 ->setDefaultValue($this->defaultLocale);
 
-        if (isset($this->page) and !$this->page->isDraft()) {
+        if (isset($this->page)) {
             $form['lang']->setDisabled();
             //$form['lang']->setOmitted();
         }
