@@ -6,6 +6,25 @@ body{
   display: none;
 }
 
+.page{
+  header{
+    display: block;
+  }
+
+  .page-info{
+    display: none;
+  }
+
+  h2{ font-size: 2em; }
+  h3{ font-size: 1.70em; }
+  h4{ font-size: 1.40em; }
+  h5{ font-size: 1.1em; }
+}
+
+pre{
+  border: 1px solid #ccc;
+}
+
 .comments{
   display: none;
 }
