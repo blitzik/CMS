@@ -58,6 +58,8 @@ class OptionsPresenter extends ProtectedPresenter
                     return false;
                 }, 'articlesPerPage.messages.wrongInput');
 
+        $form->addText('google_analytics_measure_code', 'gaMeasureCode.label');
+
         $form->addSubmit('save', 'save.caption');
 
         $form->onSuccess[] = [$this, 'processForm'];
@@ -70,7 +72,7 @@ class OptionsPresenter extends ProtectedPresenter
     {
         $options = $this->prepareOptions($this->optionFacade->findOptions());
         foreach ((array)$values as $key => $value) {
-            $options[$key]->value = $value;
+            $options[$key]->value = $value == '' ? null : $value;
         }
 
         try {

@@ -28,6 +28,7 @@ class BasePresenter extends AppPresenter
         $this->template->blogTitle = $this->options->blog_title;
         $this->template->blogSubtitle = $this->options->blog_subtitle;
         $this->template->copyright = $this->options->copyright;
+        $this->template->googleAnalyticsMeasureCode = $this->options->google_analytics_measure_code;
     }
 
 }

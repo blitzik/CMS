@@ -36,6 +36,9 @@ class OptionsFixture extends AbstractFixture
         $copyright = new Option('copyright', 'blitzik CMS');
         $manager->persist($copyright);
 
+        $gaMeasureCode = new Option('google_analytics_measure_code', null);
+        $manager->persist($gaMeasureCode);
+
         $manager->flush();
     }
 

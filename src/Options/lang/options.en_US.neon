@@ -22,6 +22,9 @@ form:
 			required: "Please type how many Articles should be displayed on one page"
 			wrongInput: "Articles per page input can only contain integer number bigger than 0"
 
+	gaMeasureCode:
+		label: "Google Analytics measure code"
+
 	save:
 		caption: "Save"
 
