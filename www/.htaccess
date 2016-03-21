@@ -33,6 +33,7 @@
     ExpiresByType image/png A5184000
     ExpiresByType image/gif A5184000
     ExpiresByType image/jpeg A5184000
+    ExpiresByType image/x-icon A5184000
     ExpiresByType image/svg+xml A5184000
 
     ExpiresByType text/css A5184000
