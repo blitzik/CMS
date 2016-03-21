@@ -64,6 +64,8 @@ class OptionsPresenter extends ProtectedPresenter
 
         $form->onSuccess[] = [$this, 'processForm'];
 
+        $form->addProtection();
+
         return $form;
     }
 

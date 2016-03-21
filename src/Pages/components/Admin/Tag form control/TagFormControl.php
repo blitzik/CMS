@@ -74,6 +74,8 @@ class TagFormControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processNewTag'];
 
+        $form->addProtection();
+        
         return $form;
     }
 

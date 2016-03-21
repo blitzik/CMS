@@ -58,6 +58,8 @@ class ImageUploadControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processImageUpload'];
 
+        $form->addProtection();
+        
         return $form;
     }
 
