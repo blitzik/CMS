@@ -38,10 +38,10 @@ class TexyFactory
         'block/texy' => Lexer\Texy::class
     ];
 
-    /** @var Highlighter */
-    private $highlighter;
+    /** @var Highlighter[] */
+    private $highlighters = [];
 
-    /** @var Lexer */
+    /** @var Lexer[] */
     private $lexersInstances = [];
 
 
@@ -130,10 +130,10 @@ class TexyFactory
 
         $content = \Texy::outdent($content);
 
-        $lexerName = $this->resolveLexerName($blocktype);
-        $lexer = $this->getLexerInstance($lexerName);
+        $lexerData = $this->resolveLexer($blocktype);
+        $lexer = $this->getLexerInstance($lexerData['name']);
 
-        $highlighter = $this->getHighlighter();
+        $highlighter = $this->getHighlighter($lexerData['countLines']);
         if ($lexer !== false) {
             $content = $highlighter->highlight($content, $lexer);
         } else {
@@ -155,30 +155,41 @@ class TexyFactory
 
     /**
      * @param string $blocktype
-     * @return string returns class name
+     * @return array Returns array [className, countLines]
      */
-    private function resolveLexerName($blocktype)
+    private function resolveLexer($blocktype)
     {
         $lang = mb_strtolower($blocktype);
-        $lexer = null;
-        if (array_key_exists($lang, $this->lexers)) {
-            return $this->lexers[$lang];
+        $clRegexp = '~_cl$~';
+        $countLines = (bool)preg_match($clRegexp, $lang);
+        if ($countLines === true) {
+            $lang = preg_replace($clRegexp, '', $lang);
         }
 
-        return Lexer\Minimal::class;
+        if (array_key_exists($lang, $this->lexers)) {
+            return ['name' => $this->lexers[$lang], 'countLines' => $countLines];
+        }
+
+        return ['name' => Lexer\Minimal::class, 'countLines' => false];
     }
 
 
     /**
+     * @param bool $countLines
      * @return Highlighter
      */
-    private function getHighlighter()
+    private function getHighlighter($countLines = false)
     {
-        if (!isset($this->highlighter)) {
-            $this->highlighter = new Highlighter(new HtmlManual(), Highlighter::OPTION_TAB_INDENT);
+        $countLines = (bool) $countLines;
+        if (!isset($this->highlighters[$countLines])) {
+            if ($countLines === true) {
+                $this->highlighters[$countLines] = new Highlighter(new HtmlManual(), Highlighter::OPTION_TAB_INDENT | Highlighter::OPTION_LINE_COUNTER);
+            } else {
+                $this->highlighters[$countLines] = new Highlighter(new HtmlManual(), Highlighter::OPTION_TAB_INDENT);
+            }
         }
 
-        return $this->highlighter;
+        return $this->highlighters[$countLines];
     }
 
 

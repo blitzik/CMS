@@ -83,3 +83,5 @@ texyHelp:
 	codeLang: "jazyk"
 	codeContent: "váš kód"
 	languages: "podporované jazyky:"
+
+	lineNumbers: "V kódu zobrazíte čísla řádků přidáním \"_cl\" za název jazyka\r\nNapř:"

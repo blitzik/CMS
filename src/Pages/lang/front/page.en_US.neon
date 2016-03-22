@@ -84,3 +84,5 @@ texyHelp:
 	codeLang: "language"
 	codeContent: "your code"
 	languages: "supported languages:"
+
+	lineNumbers: "You can display line numbers by adding \"_cl\" after your chosen language\r\neg:"
