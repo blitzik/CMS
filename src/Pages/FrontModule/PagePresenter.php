@@ -51,16 +51,10 @@ class PagePresenter extends BasePresenter
      * ----- ARTICLES OVERVIEW -----
      * -----------------------------
      */
-
-    /**
-     * @var Authorizator
-     * @inject
-     */
-    public $a;
+    
 
     public function actionDefault()
     {
-        dump($this->a->isAllowed('user', 'test', 'hoho'));
     }
 
 

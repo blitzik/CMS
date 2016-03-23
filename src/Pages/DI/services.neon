@@ -1,8 +1,5 @@
 services:
 
-	# Authorization
-	authorizationDefinition: Pages\Authorization\AuthorizationDefinition
-
 	texyFactory: Pages\Utils\TexyFactory
 
 	filterLoader: Pages\Filters\FilterLoader
