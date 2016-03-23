@@ -9,6 +9,7 @@ use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Nette\Security\IResource;
 use Nette\Utils\Validators;
 use Url\Url;
 
@@ -17,7 +18,7 @@ use Url\Url;
  * @ORM\Table(name="tag")
  *
  */
-class Tag
+class Tag implements IResource
 {
     use Identifier;
     use MagicAccessors;
@@ -94,6 +95,19 @@ class Tag
     public function getColor()
     {
         return $this->color;
+    }
+
+
+    /*
+     * ---------------------
+     * ----- I_RESOURCE -----
+     * ---------------------
+     */
+
+
+    function getResourceId()
+    {
+        return 'page_tag';
     }
 
 }

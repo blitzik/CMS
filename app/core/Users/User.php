@@ -3,13 +3,15 @@
 namespace Users;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Users\Authorization\Role;
 use Nette\Security\Passwords;
-use Nette\Utils\Random;
 use Nette\Utils\Validators;
+use Nette\Utils\Random;
 
 /**
  * @ORM\Entity
@@ -63,6 +65,17 @@ class User
      */
     private $tokenValidity;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Users\Authorization\Role")
+     * @ORM\JoinTable(
+     *     name="user_roles",
+     *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")}
+     * )
+     * @var Role[]
+     */
+    private $roles;
+
 
     public function __construct(
         $username,
@@ -72,7 +85,16 @@ class User
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($plainPassword);
+
+        $this->roles = new ArrayCollection();
     }
+
+
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
 
 
     /**
@@ -111,6 +133,13 @@ class User
     }
 
 
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+
+
     /**
      * @return string
      */
@@ -139,5 +168,39 @@ class User
         }
 
         return trim($this->firstName . ' ' . $this->lastName);
+    }
+
+
+    /*
+     * --------------------
+     * ----- ROLES --------
+     * --------------------
+     */
+
+
+    /**
+     * @param Role $role
+     */
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
+    }
+
+
+    /**
+     * @param Role $role
+     */
+    public function removeRole(Role $role)
+    {
+        $this->roles->removeElement($role);
+    }
+
+
+    /**
+     * @return Role[]
+     */
+    public function getRoles()
+    {
+        return $this->roles->toArray();
     }
 }

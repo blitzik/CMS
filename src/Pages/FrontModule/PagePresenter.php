@@ -2,6 +2,7 @@
 
 namespace Pages\FrontModule\Presenters;
 
+use Kdyby\Doctrine\EntityManager;
 use Pages\Components\Front\IPagesOverviewControlFactory;
 use Comments\Components\ICommentsControlFactory;
 use Pages\Components\Front\IPageControlFactory;
@@ -9,6 +10,9 @@ use App\FrontModule\Presenters\BasePresenter;
 use Nette\Application\BadRequestException;
 use Pages\Facades\PageFacade;
 use Pages\Page;
+use Users\Authorization\Authorizator;
+use Users\Authorization\Permission;
+use Users\Authorization\Role;
 
 class PagePresenter extends BasePresenter
 {
@@ -48,9 +52,15 @@ class PagePresenter extends BasePresenter
      * -----------------------------
      */
 
+    /**
+     * @var Authorizator
+     * @inject
+     */
+    public $a;
 
     public function actionDefault()
     {
+        dump($this->a->isAllowed('user', 'test', 'hoho'));
     }
 
 

@@ -11,6 +11,7 @@ use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Nette\Security\IResource;
 use Nette\Utils\Validators;
 use Localization\Locale;
 use Users\User;
@@ -27,7 +28,7 @@ use Url\Url;
  * )
  *
  */
-class Page
+class Page implements IResource
 {
     use Identifier;
     use MagicAccessors;
@@ -476,5 +477,19 @@ class Page
     {
         return $this->author->getName();
     }
+
+
+    /*
+     * ---------------------
+     * ----- I_RESOURCE -----
+     * ---------------------
+     */
+
+
+    function getResourceId()
+    {
+        return 'page';
+    }
+
 
 }

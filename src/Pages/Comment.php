@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Nette\Security\IResource;
 use Nette\Utils\Validators;
 use Pages\Page;
 
@@ -28,7 +29,7 @@ use Pages\Page;
  *     }
  * )
  */
-class Comment
+class Comment implements IResource
 {
     use Identifier;
     use MagicAccessors;
@@ -292,5 +293,18 @@ class Comment
     public function isPageDraft()
     {
         return $this->page->isDraft();
+    }
+
+
+    /*
+     * ---------------------
+     * ----- I_RESOURCE -----
+     * ---------------------
+     */
+
+
+    function getResourceId()
+    {
+        return 'page_comment';
     }
 }

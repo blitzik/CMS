@@ -2,6 +2,8 @@ services:
 
 	authPresenter: Users\Presenters\AuthPresenter
 
+	authorizator: Users\Authorization\Authorizator
+
 	log_userSubscriber:
 		class: Users\Log\Subscribers\UserSubscriber
 		tags: [kdyby.subscriber]

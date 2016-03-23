@@ -10,6 +10,7 @@ use Users\Authentication\UserStorage;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IUserStorage;
 use Nette\Http\Session;
+use Users\Authorization\IAuthorizationDefinition;
 use Users\Fixtures\UsersFixture;
 
 class UsersExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
@@ -40,6 +41,11 @@ class UsersExtension extends CompilerExtension implements IEntityProvider, ITran
             UserStorage::class,
             ['@'.$cb->getByType(Session::class), '@'.$cb->getByType(EntityManager::class)]
         );
+
+        $authorizator = $cb->getDefinition($this->prefix('authorizator'));
+        foreach ($cb->findByType(IAuthorizationDefinition::class) as $rulesDefinition) {
+            $authorizator->addSetup('addDefinition', ['authorizationDefinition' => $rulesDefinition]);
+        }
     }
 
 
