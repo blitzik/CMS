@@ -158,8 +158,8 @@ class PageFormControl extends BaseControl
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAsDraft.title'))
                 ->onClick[] = [$this, 'processPageSavingAsDraft'];
 
-        if (!$this->authorizator->isAllowed($this->user, 'page', Permission::ACL_CREATE) or
-            !$this->authorizator->isAllowed($this->user, 'page', Permission::ACL_EDIT)) {
+        if (!$this->user->isAllowed('page', Permission::ACL_CREATE) or
+            !$this->user->isAllowed('page', Permission::ACL_EDIT)) {
             $form['saveAndPublish']->setDisabled();
             $form['saveAsDraft']->setDisabled();
         }
