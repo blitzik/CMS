@@ -1,5 +1,8 @@
 services:
 
+	# Presenters
+	admin_dashboardPresenter: Dashboard\Presenters\DashboardPresenter
+
 	# component factories
 	logOverviewControlFactory:
 		implement: Dashboard\Components\ILogOverviewControlFactory

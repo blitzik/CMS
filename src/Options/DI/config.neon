@@ -1,3 +1,6 @@
 services:
 
 	optionFacade: Options\Facades\OptionFacade
+
+	# Presenters
+	admin_optionsPresenter: Options\Presenters\OptionsPresenter

@@ -3,6 +3,9 @@ services:
 	imagesUploader: Images\Services\ImagesUploader
 	imagesRemover: Images\Services\ImagesRemover
 
+	# Presenters
+	admin_imagePresenter: Images\Presenters\ImagePresenter
+
 	# LOG subscribers
 	log_imageSubscriber:
 		class: Images\Log\Subscribers\ImageSubscriber

@@ -13,6 +13,12 @@ services:
 
 	tagFormFactory: Pages\Factories\TagFormFactory
 
+	# Presenters
+	admin_pagePresenter: Pages\AdminModule\Presenters\PagePresenter
+	admin_TagPresenter: Tags\Presenters\TagPresenter
+	front_pagePresenter: Pages\FrontModule\Presenters\PagePresenter
+	front_searchPresenter: Pages\FrontModule\Presenters\SearchPresenter
+
 	# LOG subscribers
 	log_pageSubscriber:
 		class: Pages\Log\Subscribers\PageSubscriber

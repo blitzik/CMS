@@ -9,13 +9,13 @@ extensions:
 
 	# core extensions
 	core: App\DI\CoreExtension
+	url: Url\DI\UrlExtension
+	users: Users\DI\UsersExtension
 	localization: Localization\DI\LocalizationExtension
 	log: Log\DI\LogExtension
 
 	# Blog extensions
 	options: Options\DI\OptionsExtension
-	users: Users\DI\UsersExtension
-	url: Url\DI\UrlExtension
 	#navigation: Navigations\DI\NavigationExtension
 	dashboard: Dashboard\DI\DashboardExtension
 	pages: Pages\DI\PagesExtension
