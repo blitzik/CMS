@@ -4,6 +4,7 @@ namespace App\Components;
 
 use blitzik\FlashMessages\TFlashMessages;
 use Nette\Application\UI\Control;
+use Nette\Security\IAuthorizator;
 
 abstract class BaseControl extends Control
 {
@@ -12,6 +13,15 @@ abstract class BaseControl extends Control
     /** @var  IFlashMessagesControlFactory */
     protected $flashMessagesFactory;
 
+    /** @var IAuthorizator */
+    protected $authorizator;
+
+
+    public function setAuthorizator(IAuthorizator $authorizator)
+    {
+        $this->authorizator = $authorizator;
+    }
+    
 
     /**
      * @param IFlashMessagesControlFactory $factory

@@ -3,9 +3,10 @@
 namespace App\Presenters;
 
 use App\Components\IFlashMessagesControlFactory;
-use App\Components\IMetaTagsControlFactory;
 use App\Components\IPageTitleControlFactory;
+use App\Components\IMetaTagsControlFactory;
 use Nette\Application\UI\Presenter;
+use Nette\Security\IAuthorizator;
 use Options\Facades\OptionFacade;
 use Users\User;
 
@@ -35,6 +36,9 @@ abstract class AppPresenter extends Presenter
      */
     public $optionFacade;
 
+    /** @var IAuthorizator */
+    protected $authorizator;
+
     /** @var  User */
     protected $userEntity;
 
@@ -48,6 +52,12 @@ abstract class AppPresenter extends Presenter
 
         $this->userEntity = $this->user->getIdentity();
         $this->options = $this->optionFacade->loadOptions();
+    }
+
+
+    public function setAuthorizator(IAuthorizator $authorizator)
+    {
+        $this->authorizator = $authorizator;
     }
 
 

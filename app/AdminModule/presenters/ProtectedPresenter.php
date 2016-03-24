@@ -3,11 +3,11 @@
 namespace App\AdminModule\Presenters;
 
 use App\Components\ILocaleSwitcherControlFactory;
-use App\Components\IPageTitleControlFactory;
-use App\Presenters\AppPresenter;
-use blitzik\FlashMessages\TFlashMessages;
 use Nette\Application\ForbiddenRequestException;
+use App\Components\IPageTitleControlFactory;
+use blitzik\FlashMessages\TFlashMessages;
 use Nette\Localization\ITranslator;
+use App\Presenters\AppPresenter;
 
 abstract class ProtectedPresenter extends AppPresenter
 {

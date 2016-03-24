@@ -45,9 +45,9 @@ doctrine:
 
 
 translation:
-	default: cs
-	fallback: [en_US, en]
-	whitelist: [en, cs]
+	default: cs_CZ
+	fallback: [en_US, en_US]
+	whitelist: [en_US, cs_CZ]
 
 
 
@@ -62,3 +62,8 @@ decorator:
 		setup:
 			- injectFlashMessagesFactory(@App\Components\IFlashMessagesControlFactory)
 			- injectFlashMessagesTranslator(@Kdyby\Translation\Translator)
+			- setAuthorizator(@users.authorizator)
+
+	App\Presenters\AppPresenter:
+		setup:
+			- setAuthorizator(@users.authorizator)
