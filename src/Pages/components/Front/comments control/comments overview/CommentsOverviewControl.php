@@ -29,7 +29,7 @@ class CommentsOverviewControl extends BaseControl
     private $comments;
 
     /** @var User */
-    private $user;
+    private $userEntity;
 
     /** @var Page */
     private $page;
@@ -42,7 +42,7 @@ class CommentsOverviewControl extends BaseControl
         ICommentControlFactory $commentControlFactory
     ) {
         $this->page = $page;
-        $this->user = $user;
+        $this->userEntity = $user;
         $this->commentFacade = $commentFacade;
         $this->commentControlFactory = $commentControlFactory;
     }

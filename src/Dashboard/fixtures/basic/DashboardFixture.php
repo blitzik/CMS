@@ -8,11 +8,15 @@
 
 namespace Dashboard\Fixtures;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\Permission;
+use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
+use Users\Fixtures\UsersFixture;
 
-class DashboardFixture extends AbstractFixture
+class DashboardFixture extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -22,6 +26,7 @@ class DashboardFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
+        $this->loadDefaultAuthorizatorRules($manager);
 
         $manager->flush();
     }
@@ -35,4 +40,20 @@ class DashboardFixture extends AbstractFixture
     }
 
 
+    private function loadDefaultAuthorizatorRules(ObjectManager $manager)
+    {
+        $logResource = new Resource('dashboard_systemLog');
+        $manager->persist($logResource);
+
+        $logPermissionView = new Permission($this->getReference('role_user'), $logResource, Permission::ACL_VIEW);
+        $manager->persist($logPermissionView);
+    }
+
+
+    function getDependencies()
+    {
+        return [
+            UsersFixture::class
+        ];
+    }
 }

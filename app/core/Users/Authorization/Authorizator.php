@@ -64,6 +64,10 @@ class Authorizator extends Object implements IAuthorizator
             foreach ($role->getRoles() as $userRole) {
                 $roles[] = $userRole->getName();
             }
+
+        } elseif ($role instanceof Role) {
+            $roles[] = $role->getName();
+
         } elseif (Validators::is($role, 'unicode:1..')) {
             $roles[] = $role;
         } else {

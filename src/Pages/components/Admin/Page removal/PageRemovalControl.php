@@ -11,6 +11,7 @@ use Nette\Forms\Controls\SubmitButton;
 use Nette\Localization\ITranslator;
 use Pages\Page;
 use Pages\Facades\PageFacade;
+use Users\Authorization\Permission;
 
 class PageRemovalControl extends BaseControl
 {
@@ -66,12 +67,23 @@ class PageRemovalControl extends BaseControl
                 ->setValidationScope([])
                 ->onClick[] = [$this, 'cancelClick'];
 
+        if (!$this->user->isAllowed('page', Permission::ACL_REMOVE)) {
+            $form['remove']->setDisabled();
+        }
+
+        $form->addProtection();
+        
         return $form;
     }
 
 
     public function removePage(SubmitButton $button)
     {
+        if (!$this->user->isAllowed('page', Permission::ACL_REMOVE)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            return;
+        }
+
         try {
             $this->pageFacade->removePage($this->page);
         } catch (DBALException $e) {

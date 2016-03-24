@@ -17,7 +17,6 @@ use Nette\Security\IRole;
 /**
  * @ORM\Entity
  * @ORM\Table(name="role")
- *
  */
 class Role implements IRole
 {
@@ -36,7 +35,7 @@ class Role implements IRole
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Role")
+     * @ORM\OneToOne(targetEntity="Role", cascade={"persist"})
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, unique=false, onDelete="SET NULL")
      */
     private $parent;
@@ -44,7 +43,7 @@ class Role implements IRole
 
     public function __construct(
         $name,
-        Role $parent
+        Role $parent = null
     ) {
         $this->setName($name);
         $this->parent = $parent;

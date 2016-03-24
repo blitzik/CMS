@@ -11,6 +11,7 @@ use Nette\Utils\ArrayHash;
 use Pages\Factories\TagFormFactory;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
+use Users\Authorization\Permission;
 
 class TagControl extends BaseControl
 {
@@ -66,12 +67,23 @@ class TagControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processTag'];
 
+        $form->addProtection();
+
+        if (!$this->user->isAllowed('page_tag', Permission::ACL_EDIT)) {
+            $form['save']->setDisabled();
+        }
+
         return $form;
     }
 
 
     public function processTag(Form $form, $values)
     {
+        if (!$this->user->isAllowed('page_tag', Permission::ACL_EDIT)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            return;
+        }
+
         try {
             $this->tagFacade->saveTag((array)$values, $this->tag);
 
@@ -94,6 +106,17 @@ class TagControl extends BaseControl
 
     public function handleRemoveTag()
     {
+        if (!$this->user->isAllowed('page_tag', Permission::ACL_REMOVE)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            if ($this->presenter->isAjax()) {
+                $this->presenter->payload->errorEl = 'no permission';
+                $this->redrawControl('tag');
+                return;
+            } else {
+                $this->redirect('this');
+            }
+        }
+
         try {
             $this->tagFacade->removeTag($this->tag->getId());
 

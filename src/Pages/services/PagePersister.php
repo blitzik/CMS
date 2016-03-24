@@ -23,6 +23,7 @@ use Nette\Object;
 use Pages\Page;
 use Tags\Tag;
 use Url\Url;
+use Users\User;
 
 class PagePersister extends Object
 {
@@ -77,6 +78,8 @@ class PagePersister extends Object
         if ($values['publishedAt'] === null and $values['saveAsDraft'] === false) {
             throw new PagePublicationTimeMissingException;
         }
+
+        $values['author'] = $this->em->find(User::class, $values['author']->getId());
 
         try {
             if ($page !== null and $page->getId() !== null) {

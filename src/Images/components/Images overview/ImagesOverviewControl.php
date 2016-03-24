@@ -12,6 +12,7 @@ use Images\Facades\ImageFacade;
 use blitzik\IPaginatorFactory;
 use Images\Query\ImageQuery;
 use Nette\Utils\Paginator;
+use Users\Authorization\Permission;
 
 class ImagesOverviewControl extends BaseControl
 {
@@ -88,6 +89,11 @@ class ImagesOverviewControl extends BaseControl
 
     public function handleImageRemove($imageName)
     {
+        if (!$this->user->isAllowed('image', Permission::ACL_REMOVE)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            $this->redirect('this');
+        }
+
         try {
             $this->imageFacade->removeImage($imageName);
             $this->flashMessage('images.overview.actions.remove.messages.success', FlashMessage::SUCCESS);

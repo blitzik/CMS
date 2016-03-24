@@ -20,6 +20,7 @@ use Kdyby\Translation\Phrase;
 use Pages\Facades\PageFacade;
 use Nette\Utils\Strings;
 use Pages\Page;
+use Users\Authorization\Permission;
 use Users\User;
 
 class PageFormControl extends BaseControl
@@ -43,7 +44,7 @@ class PageFormControl extends BaseControl
     private $translator;
 
     /** @var User */
-    private $user;
+    private $userEntity;
 
     /** @var  Page */
     private $page;
@@ -63,7 +64,7 @@ class PageFormControl extends BaseControl
         TagFormFactory $tagFormFactory,
         IPageTagsPickingControlFactory $articleTagsPickingControlFactory
     ) {
-        $this->user = $user;
+        $this->userEntity = $user;
         $this->pageFacade = $pageFacade;
         $this->translator = $translator;
         $this->localeFacade = $localeFacade;
@@ -157,6 +158,12 @@ class PageFormControl extends BaseControl
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAsDraft.title'))
                 ->onClick[] = [$this, 'processPageSavingAsDraft'];
 
+        if (!$this->authorizator->isAllowed($this->user, 'page', Permission::ACL_CREATE) or
+            !$this->authorizator->isAllowed($this->user, 'page', Permission::ACL_EDIT)) {
+            $form['saveAndPublish']->setDisabled();
+            $form['saveAsDraft']->setDisabled();
+        }
+
         $form->addProtection();
 
         return $form;
@@ -177,6 +184,12 @@ class PageFormControl extends BaseControl
 
     private function pageSaving(\Nette\Forms\Form $form, $isDraft)
     {
+        if (!$this->user->isAllowed('page', Permission::ACL_CREATE) or
+            !$this->user->isAllowed('page', Permission::ACL_EDIT)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            return;
+        }
+        
         $values = $form->getValues(true);
         $values['saveAsDraft'] = (bool)$isDraft;
         $values['author'] = $this->user;

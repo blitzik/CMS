@@ -38,7 +38,8 @@
             </div>
 
             <div class="tag-row-remove"> {* col *}
-                <a href="{link removeTag!}" class="btn btn-red remove" data-tagname="{$tag->name}" title="{_tags.overview.actions.remove.title}"><i class="fa fa-trash fa-fw"></i> <span>{_tags.overview.actions.remove.label}</span></a>
+                {var $canRemove = $user->isAllowed('page_tag', 'remove')}
+                <a {if $canRemove}href="{link removeTag!}"{else}disabled{/if} n:class="'btn btn-red', $canRemove ? remove" data-tagname="{$tag->name}" title="{_tags.overview.actions.remove.title}"><i class="fa fa-trash fa-fw"></i> <span>{_tags.overview.actions.remove.label}</span></a>
             </div>
         </div>
         {/form}

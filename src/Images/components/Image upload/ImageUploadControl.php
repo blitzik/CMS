@@ -2,18 +2,19 @@
 
 namespace Images\Components;
 
-use App\Components\BaseControl;
-use blitzik\FlashMessages\FlashMessage;
-use Images\Exceptions\Runtime\FileSizeException;
 use Images\Exceptions\Runtime\NotImageUploadedException;
+use Images\Exceptions\Runtime\FileSizeException;
+use blitzik\FlashMessages\FlashMessage;
+use Nette\Localization\ITranslator;
 use Doctrine\DBAL\DBALException;
+use Nette\InvalidStateException;
+use App\Components\BaseControl;
 use Images\Facades\ImageFacade;
-use Kdyby\Translation\Phrase;
 use Nette\Application\UI\Form;
+use Kdyby\Translation\Phrase;
 use Nette\Http\FileUpload;
 use Images\Image;
-use Nette\InvalidStateException;
-use Nette\Localization\ITranslator;
+use Users\Authorization\Permission;
 
 class ImageUploadControl extends BaseControl
 {
@@ -58,6 +59,10 @@ class ImageUploadControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processImageUpload'];
 
+        if (!$this->user->isAllowed('image', Permission::ACL_CREATE)) {
+            $form['upload']->setDisabled();
+        }
+
         $form->addProtection();
         
         return $form;
@@ -66,6 +71,11 @@ class ImageUploadControl extends BaseControl
 
     public function processImageUpload(Form $form, $values)
     {
+        if (!$this->user->isAllowed('image', Permission::ACL_CREATE)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            return;
+        }
+
         /** @var FileUpload $image */
         $image = $values->image;
 

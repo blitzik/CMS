@@ -9,6 +9,7 @@ use Nette\Localization\ITranslator;
 use Options\Facades\OptionFacade;
 use Nette\Application\UI\Form;
 use Nette\Utils\Validators;
+use Users\Authorization\Permission;
 
 class OptionsPresenter extends ProtectedPresenter
 {
@@ -66,12 +67,21 @@ class OptionsPresenter extends ProtectedPresenter
 
         $form->addProtection();
 
+        if (!$this->user->isAllowed('options', Permission::ACL_EDIT)) {
+            $form['save']->setDisabled();
+        }
+        
         return $form;
     }
 
 
     public function processForm(Form $form, $values)
     {
+        if (!$this->user->isAllowed('options', Permission::ACL_EDIT)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            $this->redirect('this');
+        }
+
         $options = $this->prepareOptions($this->optionFacade->findOptions());
         foreach ((array)$values as $key => $value) {
             $options[$key]->value = $value == '' ? null : $value;

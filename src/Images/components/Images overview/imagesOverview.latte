@@ -51,7 +51,8 @@
                     </div>
                 </div>
 
-                <a href="{link imageRemove imageName => $imageName}" data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" class="btn btn-red remove-image">
+                {var $canRemove = $user->isAllowed('image', 'remove')}
+                <a {if $canRemove}href="{link imageRemove imageName => $imageName}"{else}disabled{/if} data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" n:class="'btn btn-red', $canRemove ? remove-image : remove-image-disabled">
                     <i class="fa fa-trash"></i> {_actions.remove.label}
                 </a>
             </div>

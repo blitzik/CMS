@@ -63,6 +63,7 @@ decorator:
 			- injectFlashMessagesFactory(@App\Components\IFlashMessagesControlFactory)
 			- injectFlashMessagesTranslator(@Kdyby\Translation\Translator)
 			- setAuthorizator(@users.authorizator)
+			- setUser(@security.user)
 
 	App\Presenters\AppPresenter:
 		setup:

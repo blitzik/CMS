@@ -24,15 +24,20 @@ class Permission
     use Identifier;
     use MagicAccessors;
 
+    const ACL_CREATE = 'create';
+    const ACL_EDIT = 'edit';
+    const ACL_REMOVE = 'remove';
+    const ACL_VIEW = 'view';
+
     /**
-     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="Role", cascade={"persist"})
      * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)
      * @var Role
      */
     private $role;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Resource")
+     * @ORM\ManyToOne(targetEntity="Resource", cascade={"persist"})
      * @ORM\JoinColumn(name="resource", referencedColumnName="id", nullable=false)
      * @var Resource
      */
@@ -53,7 +58,7 @@ class Permission
 
     public function __construct(
         Role $role,
-        Resource $resource,
+        \Users\Authorization\Resource $resource,
         $action,
         $isAllowed = true
     ) {

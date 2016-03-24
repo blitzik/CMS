@@ -24,7 +24,7 @@ class CommentControl extends BaseControl
     private $commentFacade;
 
     /** @var User */
-    private $user;
+    private $userEntity;
 
     /** @var Comment */
     private $comment;
@@ -37,7 +37,7 @@ class CommentControl extends BaseControl
     ) {
         $this->comment = $comment;
         $this->commentFacade = $commentFacade;
-        $this->user = $user;
+        $this->userEntity = $user;
     }
 
 
@@ -89,7 +89,7 @@ class CommentControl extends BaseControl
 
     private function userPermissionCheck()
     {
-        if (!$this->user->isLoggedIn()) {
+        if (!$this->userEntity->isLoggedIn()) {
             $this->flashMessage('page.comments.actions.messages.permission', FlashMessage::WARNING);
             $this->redirect('this#' . $this->comment->getId());
         }

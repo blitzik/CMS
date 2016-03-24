@@ -3,6 +3,8 @@
 namespace Users\Authentication;
 
 use Kdyby\Doctrine\EntityManager;
+use Nette\Caching\Cache;
+use Nette\Caching\IStorage;
 use Nette\Security\IIdentity;
 use Nette\Http\Session;
 
@@ -11,13 +13,19 @@ class UserStorage extends \Nette\Http\UserStorage
     /** @var EntityManager */
     private $entityManager;
 
+    /** @var Cache */
+    private $cache;
+
+
     public function  __construct(
         Session $sessionHandler,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        IStorage $storage
     ) {
         parent::__construct($sessionHandler);
 
         $this->entityManager = $entityManager;
+        $this->cache = new Cache($storage, 'users.authentication');
     }
 
     /**
@@ -50,9 +58,17 @@ class UserStorage extends \Nette\Http\UserStorage
         $identity = parent::getIdentity();
         // if we have our fake identity, we now want to
         // convert it back into the real entity
-        // returning reference provides potentially lazy behavior
         if ($identity instanceof FakeIdentity) {
-            return $this->entityManager->getReference($identity->getClass(), $identity->getId());
+            return $this->cache->load(sprintf('user-%s', $identity->getId()), function () use ($identity) {
+                return $this->entityManager->createQuery(
+                    'SELECT u, roles FROM ' . $identity->getClass() . ' u
+                     LEFT JOIN u.roles roles
+                     WHERE u.id = :id'
+                )->setParameter('id', $identity->getId())
+                 ->getOneOrNullResult();
+            });
+
+            //return $this->entityManager->getReference($identity->getClass(), $identity->getId());
         }
         return $identity;
     }

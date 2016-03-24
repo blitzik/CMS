@@ -8,13 +8,17 @@
 
 namespace Pages\Fixtures;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\Permission;
+use Users\Authorization\Resource;
+use Users\Fixtures\UsersFixture;
 use Url\Generators\UrlGenerator;
 use Log\EventLog;
 use Log\LogType;
 
-class PagesFixture extends AbstractFixture
+class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -25,6 +29,7 @@ class PagesFixture extends AbstractFixture
     {
         $this->loadDefaultUrls($manager);
         $this->loadDefaultLoggingEvents($manager);
+        $this->loadDefaultAuthorizatorRules($manager);
 
         $manager->flush();
     }
@@ -133,5 +138,55 @@ class PagesFixture extends AbstractFixture
         $manager->persist($tagRemoval);
     }
 
+
+    private function loadDefaultAuthorizatorRules(ObjectManager $manager)
+    {
+        // Page
+        $pageResource = new Resource('page');
+        $manager->persist($pageResource);
+
+        $pageCreate = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_CREATE);
+        $manager->persist($pageCreate);
+
+        $pageEdit = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_EDIT);
+        $manager->persist($pageEdit);
+
+        $pageRemove = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_REMOVE);
+        $manager->persist($pageRemove);
+
+
+        // comments
+        $commentResource = new Resource('page_comment');
+
+        $commentSilence = new Permission($this->getReference('role_user'), $commentResource, 'silence');
+        $manager->persist($commentSilence);
+
+        $commentRelease = new Permission($this->getReference('role_user'), $commentResource, 'release');
+        $manager->persist($commentRelease);
+
+        $commentRemove = new Permission($this->getReference('role_user'), $commentResource, Permission::ACL_REMOVE);
+        $manager->persist($commentRemove);
+
+
+        // tags
+        $tagResource = new Resource('page_tag');
+
+        $tagCreate = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_CREATE);
+        $manager->persist($tagCreate);
+
+        $tagEdit = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_EDIT);
+        $manager->persist($tagEdit);
+
+        $tagRemove = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_REMOVE);
+        $manager->persist($tagRemove);
+    }
+
+
+    function getDependencies()
+    {
+        return [
+            UsersFixture::class
+        ];
+    }
 
 }

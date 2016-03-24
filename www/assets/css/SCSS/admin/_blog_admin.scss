@@ -785,7 +785,8 @@ h1, h2, h3, h4, h5, h6{
     margin-bottom: 20px;
   }
 
-  .remove-image{
+  .remove-image,
+  .remove-image-disabled{
     position: absolute;
     right: 15px;
     bottom: 15px;

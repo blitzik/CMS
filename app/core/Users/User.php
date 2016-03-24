@@ -66,7 +66,7 @@ class User
     private $tokenValidity;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Users\Authorization\Role")
+     * @ORM\ManyToMany(targetEntity="Users\Authorization\Role", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="user_roles",
      *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},

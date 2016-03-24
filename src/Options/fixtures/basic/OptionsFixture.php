@@ -8,12 +8,16 @@
 
 namespace Options\Fixtures;
 
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Options\Option;
+use Users\Authorization\Permission;
+use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
+use Users\Fixtures\UsersFixture;
+use Options\Option;
 
-class OptionsFixture extends AbstractFixture
+class OptionsFixture extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -23,7 +27,15 @@ class OptionsFixture extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         $this->loadDefaultUrls($manager);
+        $this->loadDefaultOptions($manager);
+        $this->loadDefaultAuthorizatorRules($manager);
 
+        $manager->flush();
+    }
+
+
+    private function loadDefaultOptions(ObjectManager $manager)
+    {
         $blog_title = new Option('blog_title', 'Blog title');
         $manager->persist($blog_title);
 
@@ -38,8 +50,6 @@ class OptionsFixture extends AbstractFixture
 
         $gaMeasureCode = new Option('google_analytics_measure_code', null);
         $manager->persist($gaMeasureCode);
-
-        $manager->flush();
     }
 
 
@@ -50,5 +60,22 @@ class OptionsFixture extends AbstractFixture
         $manager->persist($options);
     }
 
+
+    private function loadDefaultAuthorizatorRules(ObjectManager $manager)
+    {
+        $optionsResource = new Resource('options');
+        $manager->persist($optionsResource);
+
+        $optionsEdit = new Permission($this->getReference('role_user'), $optionsResource, Permission::ACL_EDIT);
+        $manager->persist($optionsEdit);
+    }
+
+
+    function getDependencies()
+    {
+        return [
+            UsersFixture::class
+        ];
+    }
 
 }
