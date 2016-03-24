@@ -52,10 +52,10 @@ Well that's all for now but more is coming.
 Below you can see some pictures from administration:
 
 
-<img src="http://alestichava.cz/github-images/cms-blitzik/pages_overview.jpg" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/page_editing.jpg" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/page_removal.png" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/images.jpg" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/tags.jpg" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/options.jpg" width="600">
-<img src="http://alestichava.cz/github-images/cms-blitzik/log.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/pages_overview.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/page_editing.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/page_removal.png" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/images.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/tags.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/options.jpg" width="600">
+<img src="http://others.alestichava.cz/cms-blitzik/log.jpg" width="600">
