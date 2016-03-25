@@ -61,10 +61,10 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultUrls(ObjectManager $manager)
     {
-        $login = UrlGenerator::create('administration/login', 'Users:Auth', 'login');
+        $login = UrlGenerator::create('administration/login', 'Users:Front:Auth', 'login');
         $manager->persist($login);
 
-        $logout = UrlGenerator::create('administration/logout', 'Users:Auth', 'logout');
+        $logout = UrlGenerator::create('administration/logout', 'Users:Front:Auth', 'logout');
         $manager->persist($logout);
     }
 

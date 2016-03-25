@@ -1,6 +1,6 @@
 <?php
 
-namespace Users\Presenters;
+namespace Users\FrontModule\Presenters;
 
 use Nette\Security\AuthenticationException;
 use Nette\Localization\ITranslator;

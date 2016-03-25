@@ -1,6 +1,6 @@
 services:
 
-	authPresenter: Users\Presenters\AuthPresenter
+	authPresenter: Users\FrontModule\Presenters\AuthPresenter
 
 	authorizator: Users\Authorization\Authorizator
 
