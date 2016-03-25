@@ -8,8 +8,8 @@
 
     <link rel="icon" href="{$basePath}/favicon.ico?v=1" type="image/x-icon">
 
-	<link rel="stylesheet" href="{$basePath}/assets/css/front.min.css?v=3">
-    <link rel="stylesheet" media="print" href="{$basePath}/assets/css/print.min.css?v=3">
+	<link rel="stylesheet" href="{$basePath}/assets/css/front.min.css?v=4">
+    <link rel="stylesheet" media="print" href="{$basePath}/assets/css/print.min.css?v=4">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 	{/if}
 {/block}
 
-<script n:if="!empty($googleAnalyticsMeasureCode)">
+<script n:if="!empty($googleAnalyticsMeasureCode) and !$user->isLoggedIn()">
     (function(i,s,o,g,r,a,m){l}i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

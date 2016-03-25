@@ -10,6 +10,7 @@ use Options\Facades\OptionFacade;
 use Nette\Application\UI\Form;
 use Nette\Utils\Validators;
 use Users\Authorization\Permission;
+use Users\Authorization\Role;
 
 class OptionsPresenter extends ProtectedPresenter
 {
@@ -30,7 +31,6 @@ class OptionsPresenter extends ProtectedPresenter
 
     public function renderDefault()
     {
-        
     }
 
 

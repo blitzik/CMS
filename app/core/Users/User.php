@@ -199,8 +199,23 @@ class User
     /**
      * @return Role[]
      */
-    public function getRoles()
+    public function getRolesEntities()
     {
         return $this->roles->toArray();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getRoles()
+    {
+        $rolesEntities = $this->roles->toArray();
+        $roles = [];
+        foreach ($rolesEntities as $role) {
+            $roles[] = $role->getName();
+        }
+
+        return $roles;
     }
 }

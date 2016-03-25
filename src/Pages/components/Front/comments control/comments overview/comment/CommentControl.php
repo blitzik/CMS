@@ -54,7 +54,7 @@ class CommentControl extends BaseControl
 
     public function handleSilence()
     {
-        $this->userPermissionCheck();
+        $this->userPermissionCheck('silence');
 
         $this->commentFacade->silenceComment($this->comment);
 
@@ -64,7 +64,7 @@ class CommentControl extends BaseControl
 
     public function handleRelease()
     {
-        $this->userPermissionCheck();
+        $this->userPermissionCheck('release');
 
         $this->commentFacade->releaseComment($this->comment);
 
@@ -74,7 +74,7 @@ class CommentControl extends BaseControl
 
     public function handleRemove()
     {
-        $this->userPermissionCheck();
+        $this->userPermissionCheck('remove');
 
         try {
             $this->commentFacade->remove($this->comment);
@@ -87,11 +87,11 @@ class CommentControl extends BaseControl
     }
 
 
-    private function userPermissionCheck()
+    private function userPermissionCheck($action)
     {
-        if (!$this->userEntity->isLoggedIn()) {
-            $this->flashMessage('page.comments.actions.messages.permission', FlashMessage::WARNING);
-            $this->redirect('this#' . $this->comment->getId());
+        if (!$this->user->isAllowed('page_comment', $action)) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+            $this->redirect('this#comment-' . $this->comment->getId());
         }
     }
 

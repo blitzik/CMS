@@ -167,6 +167,17 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $commentRemove = new Permission($this->getReference('role_user'), $commentResource, Permission::ACL_REMOVE);
         $manager->persist($commentRemove);
 
+        $silencedComment = new Permission($this->getReference('role_user'), $commentResource, 'view_silenced');
+        $manager->persist($silencedComment);
+
+        $respondOnSilenced = new Permission($this->getReference('role_user'), $commentResource, 'respond_on_silenced');
+
+
+        $commentForm = new Resource('page_comment_form');
+
+        $commentOnClosed = new Permission($this->getReference('role_user'), $commentForm, 'comment_on_closed');
+        $manager->persist($commentOnClosed);
+
 
         // tags
         $tagResource = new Resource('page_tag');

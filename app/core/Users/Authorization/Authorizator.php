@@ -61,9 +61,7 @@ class Authorizator extends Object implements IAuthorizator
     {
         $roles = [];
         if ($role instanceof User) {
-            foreach ($role->getRoles() as $userRole) {
-                $roles[] = $userRole->getName();
-            }
+            $roles[] = $role->getRoles();
 
         } elseif ($role instanceof Role) {
             $roles[] = $role->getName();
