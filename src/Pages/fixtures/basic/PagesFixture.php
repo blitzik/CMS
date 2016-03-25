@@ -157,6 +157,7 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 
         // comments
         $commentResource = new Resource('page_comment');
+        $manager->persist($commentResource);
 
         $commentSilence = new Permission($this->getReference('role_user'), $commentResource, 'silence');
         $manager->persist($commentSilence);
@@ -171,9 +172,11 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $manager->persist($silencedComment);
 
         $respondOnSilenced = new Permission($this->getReference('role_user'), $commentResource, 'respond_on_silenced');
+        $manager->persist($respondOnSilenced);
 
 
         $commentForm = new Resource('page_comment_form');
+        $manager->persist($commentForm);
 
         $commentOnClosed = new Permission($this->getReference('role_user'), $commentForm, 'comment_on_closed');
         $manager->persist($commentOnClosed);
@@ -181,6 +184,7 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 
         // tags
         $tagResource = new Resource('page_tag');
+        $manager->persist($tagResource);
 
         $tagCreate = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_CREATE);
         $manager->persist($tagCreate);

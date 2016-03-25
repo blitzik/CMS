@@ -1,0 +1,28 @@
+
+<a href="">+ add User</a>
+<div class="box box-river">
+    <table class="table table-hover">
+        <tr>
+            <th>#ID</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th class="w250">Actions</th>
+        </tr>
+
+        {foreach $users as $user}
+            <tr>
+                <td class="w25">{$user->getId()}</td>
+                <td>{$user->getName()}</td>
+                <td>
+                    {foreach $user->getRoles() as $role}
+                        {$role}{sep},{/sep}
+                    {/foreach}
+                </td>
+                <td class="w50">
+                    <a href="{plink :Users:Admin:Permission:default, id => $user->getId()}" class="btn btn-river"><i class="fa fa-cog"></i> edit</a>
+                    <a href="#" class="btn btn-red"><i class="fa fa-trash"></i> remove</a>
+                </td>
+            </tr>
+        {/foreach}
+    </table>
+</div>

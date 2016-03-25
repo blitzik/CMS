@@ -11,6 +11,8 @@ navigation:
 		tags: Štítky
 		images: Obrázky
 		options: Nastavení
+		overview: Uživatelé
+		permissions: "Práva uživatelů"
 		signOut: "Odhlásit se"
 
 localization:

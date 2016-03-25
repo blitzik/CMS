@@ -8,7 +8,7 @@
     <link rel="icon" href="{$basePath}/favicon.ico?v=1" type="image/x-icon">
 
 	{block styles}
-		<link rel="stylesheet" href="{$basePath}/assets/css/admin.min.css?v=018">
+		<link rel="stylesheet" href="{$basePath}/assets/css/admin.min.css?v=019">
 	{/block}
 </head>
 <body>
@@ -36,6 +36,7 @@
         	    <li><a n:href=":Tags:Tag:default" n:class="$this->presenter->isLinkCurrent(':Tags:Tag:default') ? active"><i class="fa fa-tags fa-fw"></i> <span>{_items.tags}</span></a></li>
         	    <li><a n:href=":Images:Image:default" n:class="$this->presenter->isLinkCurrent(':Images:Image:default') ? active"><i class="fa fa-image fa-fw"></i> <span>{_items.images}</span></a></li>
         	    <li><a n:href=":Options:Options:default" n:class="$this->presenter->isLinkCurrent(':Options:Options:default') ? active"><i class="fa fa-cog fa-fw"></i> <span>{_items.options}</span></a></li>
+        	    <li><a n:href=":Users:Admin:Users:default" n:class="$this->presenter->isLinkCurrent(':Options:Options:default') ? active"><i class="fa fa-users fa-fw"></i> <span>{_items.overview}</span></a></li>
         	</ul>
         </nav>
         {/translator}

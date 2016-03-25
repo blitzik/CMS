@@ -702,6 +702,14 @@ h1, h2, h3, h4, h5, h6{
   }
 }
 
+
+// USERS
+
+.users-overview{
+  @extend %col-12;
+}
+
+
 ////////// common
 
 
@@ -1042,7 +1050,8 @@ h1, h2, h3, h4, h5, h6{
   .new-tag-form,
   .tags-not-found,
   .tag-filter,
-  .tag-box{
+  .tag-box,
+  .users-overview{
     @include column(9);
   }
 

@@ -18,3 +18,8 @@ login:
 
 		login:
 			caption: "Přihlásit"
+
+
+
+overview:
+	title: "Přehled uživatelů"

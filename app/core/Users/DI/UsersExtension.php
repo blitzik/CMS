@@ -2,16 +2,16 @@
 
 namespace  Users\DI;
 
-use App\Fixtures\IFixtureProvider;
+use Users\Authorization\IAuthorizationDefinition;
+use Kdyby\Translation\DI\ITranslationProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
-use Kdyby\Translation\DI\ITranslationProvider;
 use Users\Authentication\UserStorage;
+use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Security\IUserStorage;
-use Nette\Http\Session;
-use Users\Authorization\IAuthorizationDefinition;
 use Users\Fixtures\UsersFixture;
+use Nette\Http\Session;
 
 class UsersExtension extends CompilerExtension implements IEntityProvider, ITranslationProvider, IFixtureProvider
 {

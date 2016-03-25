@@ -1,14 +1,21 @@
 services:
 
-	authPresenter: Users\FrontModule\Presenters\AuthPresenter
+	# Presenters
 
+	authPresenter: Users\FrontModule\Presenters\AuthPresenter
+	permissionPresenter: Users\AdminModule\Presenters\PermissionPresenter
+
+	userAuthenticator: Users\Authentication\UserAuthenticator
 	authorizator: Users\Authorization\Authorizator
 
 	log_userSubscriber:
 		class: Users\Log\Subscribers\UserSubscriber
 		tags: [kdyby.subscriber]
 
+
+
 	# commands
+
 	defaultDataCommand:
 		class: Users\Commands\DefaultDataCommand
 		tags: [kdyby.console.command]
@@ -17,4 +24,17 @@ services:
 		class: Users\Commands\NewUserCommand
 		tags: [kdyby.console.command]
 
-	userAuthenticator: Users\Authentication\UserAuthenticator
+
+
+	# Facades
+
+	userFacade: Users\Facades\UserFacade
+
+
+
+	# Component factories
+
+	usersOverviewControLFactory:
+		implement: Users\Components\Admin\IUsersOverviewControlFactory
+		parameters: [Users\Query\UserQuery userQuery]
+		arguments: [%userQuery%]

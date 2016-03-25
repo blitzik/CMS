@@ -66,6 +66,12 @@ class UsersFixture extends AbstractFixture
 
         $logout = UrlGenerator::create('administration/logout', 'Users:Front:Auth', 'logout');
         $manager->persist($logout);
+
+        $users = UrlGenerator::create('administration/users', 'Users:Admin:Users', 'default');
+        $manager->persist($users);
+
+        $permissions = UrlGenerator::create('administration/permissions', 'Users:Admin:Permission', 'default');
+        $manager->persist($permissions);
     }
 
 

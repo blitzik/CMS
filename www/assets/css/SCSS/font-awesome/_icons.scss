@@ -1,5 +1,8 @@
 .#{$fa-css-prefix}-user:before { content: $fa-var-user; }
 
+.#{$fa-css-prefix}-group:before,
+.#{$fa-css-prefix}-users:before { content: $fa-var-users; }
+
 .#{$fa-css-prefix}-calendar-plus-o:before { content: $fa-var-calendar-plus-o; }
 
 .#{$fa-css-prefix}-clock-o:before { content: $fa-var-clock-o; }

@@ -11,7 +11,9 @@ navigation:
 		tags: Tags
 		images: Images
 		options: Options
-		signOut: Sign Out
+		overview: Users
+		permissions: "Users permissions"
+		signOut: "Sign Out"
 
 localization:
 	form:
