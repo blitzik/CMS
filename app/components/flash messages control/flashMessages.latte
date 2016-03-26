@@ -1,8 +1,8 @@
-<div class="row" n:if="!empty($flashes)">
-    <div class="flash-messages">
-        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{include #flashMessageIcon, type => $flash->type} {_$flash->message}</div>
-    </div>
-</div>
+{if !empty($flashes)}
+	{rowCol flash-messages}
+	        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{include #flashMessageIcon, type => $flash->type} {_$flash->message}</div>
+	{/rowCol}
+{/if}
 
 {define flashMessageIcon}
 	<i class="fa {if $type === 'success'}
