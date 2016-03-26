@@ -36,6 +36,7 @@ session:
 latte:
 	macros:
 		- blitzik\Macros\FormsMacro
+		- blitzik\Macros\GridMacros
 
 
 
