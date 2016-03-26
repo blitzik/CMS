@@ -1,73 +1,65 @@
 
 {snippet imagesOverview}
 {translator images.overview}
-<div class="row">
-    <div class="image-overview">
+
+{rowCol image-overview}
         {control flashMessages}
-    </div>
-</div>
+{/rowCol}
 
     {if count($images) > 0}
 
     {control vs}
     {foreach $images as $image}
     {var $imageName = $image['id'] .'/'. $image['originalName']. '.' .$image['extension']}
-        <div class="row">
-            <div class="image-overview"> {* col *}
+        {rowCol image-overview}
             <div class="box box-carrot"> {* just div *}
-                <div class="row">
-                    <div class="texy-image-name">
+                {rowCol texy-image-name}
                         <b>{_texyNotation}:</b>
                         <div class="image-texy">[* {$imageName} *]</div>
-                    </div>
-                </div>
+                {/rowCol}
 
-                <div class="row">
-                    <div class="image-preview"> {* col *}
+                {row}
+                    {col image-preview}
                         <a href="{$basePath}/uploads/images/{$imageName}" target="_blank">
                             <img src="{$basePath}/uploads/images/{$imageName}" class="image">
                         </a>
-                    </div>
+                    {/col}
 
-                    <div class="image-info"> {* col *}
-                        <div class="row">
-                            <div class="image-name">
+                    {col image-info}
+                        {rowCol image-name}
                                 <b>{_originalImageName}:</b>
                                 <div>{$image['originalName']}.{$image['extension']}</div>
-                            </div>
-                        </div>
+                        {/rowCol}
 
-                        <div class="row">
-                            <div class="image-size"> {* col *}
+                        {row}
+                            {col image-size}
                                 <b>{_resolution}:</b>
                                 <div>{$image['width']} x {$image['height']}</div>
-                            </div>
+                            {/col}
 
-                            <div class="image-file-size"> {* col *}
+                            {col image-file-size}
                                 <b>{_size}:</b>
                                 <div>~ {$image['fileSize']|formatSizeUnits}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            {/col}
+                        {/row}
+                    {/col}
+                {/row}
 
                 {var $canRemove = $user->isAllowed('image', 'remove')}
                 <a {if $canRemove}href="{link imageRemove imageName => $imageName}"{else}disabled{/if} data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" n:class="'btn btn-red', $canRemove ? remove-image : remove-image-disabled">
                     <i class="fa fa-trash"></i> {_actions.remove.label}
                 </a>
             </div>
-            </div>
-        </div>
+        {/rowCol}
     {/foreach}
 
     {else}
-    <div class="row">
-        <div class="image-overview"> {* col *}
+
+    {rowCol image-overview}
             <div class="box box-alizarin"> {* just div *}
                 <p>{_noImages}</p>
             </div>
-        </div>
-    </div>
+    {/rowCol}
     {/if}
 {/translator}
 {/snippet}

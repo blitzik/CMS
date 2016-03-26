@@ -55,11 +55,10 @@
         </div>
 
 	    <div class="content"> {* container *}
-	        <div class="page-heading"> {* row *}
-	            <div class="heading"> {* col *}
-                    <h2>{control pageTitle, false}</h2>
-                </div>
-            </div>
+            {rowCol heading, row => page-heading}
+                <h2>{control pageTitle, false}</h2>
+            {/rowCol}
+
 	        {control flashMessages}
 		    {include #content}
 	    </div>

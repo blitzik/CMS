@@ -2,23 +2,17 @@
 {block content}
 
 {snippet pagesTables}
-<div class="row">
-    <div class="articles-overview">
+    {rowCol articles-overview}
         {control draftPagesOverview}
-    </div>
-</div>
+    {/rowCol}
 
-<div class="row">
-    <div class="articles-overview">
+    {rowCol articles-overview}
         {control waitingPagesOverview}
-    </div>
-</div>
+    {/rowCol}
 
-<div class="row">
-    <div class="articles-overview">
+    {rowCol articles-overview}
         {control publishedPagesOverview}
-    </div>
-</div>
+    {/rowCol}
 {/snippet}
 
 {/block}

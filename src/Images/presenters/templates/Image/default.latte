@@ -1,29 +1,22 @@
-
-{block content}
-
-<div class="row">
-    <div class="images-upload">
-        <div class="box box-river">
-            {control imageUpload}
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="images-filter">
-        {control filter}
-    </div>
-</div>
-
-<div class="row">
-    <div class="images-overview">
-        {control imagesOverview}
-    </div>
-</div>
-
-{/block}
-
 {block scripts}
     {include parent}
     <script src="{$basePath}/assets/js/my_js/image_management.js"></script>
+{/block}
+
+{block content}
+
+    {rowCol images-upload}
+        <div class="box box-river">
+            {control imageUpload}
+        </div>
+    {/rowCol}
+
+    {rowCol images-filter}
+        {control filter}
+    {/rowCol}
+
+    {rowCol images-overview}
+        {control imagesOverview}
+    {/rowCol}
+
 {/block}

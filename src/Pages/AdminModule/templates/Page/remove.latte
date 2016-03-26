@@ -1,25 +1,19 @@
 
 {block content}
 
-<div class="row">
-    <div class="article-removal">
+{rowCol article-removal}
         <h2><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->title}</a></h2>
         <div class="box box-alizarin">
-            <div class="row">
-                <div class="article-removal-warning">
+            {rowCol article-removal-warning}
                     <p class="box box-critical">
                         {_pageRemoval.warning, $commentsCount|noescape}
                     </p>
-                </div>
-            </div>
+            {/rowCol}
 
-            <div class="row">
-                <div class="article-removal-form">
+            {rowCol article-removal-form}
                     {control articleRemovalForm}
-                </div>
-            </div>
+            {/rowCol}
         </div>
-    </div>
-</div>
+{/rowCol}
 
 {/block}

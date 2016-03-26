@@ -1,8 +1,8 @@
 
 {block content}
 
-<div class="row">
-    <div class="blog-options"> {* col *}
+{row}
+    {col blog-options}
     {form optionsForm novalidate => novalidate}
     {customFormErrors}
     <div class="box box-river"> {* just div *}
@@ -35,7 +35,7 @@
         {input save class => 'btn btn-river'}
     </div>
     {/form}
-    </div>
-</div>
+    {/col}
+{/row}
 
 {/block}

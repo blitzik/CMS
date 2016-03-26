@@ -1,37 +1,33 @@
-<div class="row">
-    <div class="new-tag-form"> {* col *}
+{rowCol new-tag-form}
         <b>{_tags.newTagFormTitle}</b>
-        <div class="box box-river"> {* just div *}
+        <div class="box box-river">
             {form tagForm}
                 {customFormErrors}
 
-                <div class="row">
-                    <div class="form-tag-name"> {* col *}
+                {row}
+                    {col form-tag-name}
                         <div class="form-group">
                             {label name /}
                             {input name class => 'form-control input-lg medium-input'}
                         </div>
-                    </div>
+                    {/col}
 
-                    <div class="form-tag-color"> {* col *}
+                    {col form-tag-color}
                         <div class="form-group">
                             {label color /}
                             {input color class => 'form-control input-lg left medium-input tag-color'}
                         </div>
-                    </div>
+                    {/col}
 
-                    <div class="form-tag-preview"> {* col *}
+                    {col form-tag-preview}
                         <div id="tag-color-box"><i class="fa fa-tag"></i> Tag</div>
-                    </div>
-                </div> {* end row *}
+                    {/col}
+                {/row}
 
-                <div class="row">
-                    <div class="form-tag-submit">
-                        {input save id => 'new-tag-submit', class => 'btn btn-turquoise'}
-                    </div>
-                </div>
+                {rowCol form-tag-submit}
+                    {input save id => 'new-tag-submit', class => 'btn btn-turquoise'}
+                {/rowCol}
 
             {/form}
         </div>
-    </div>
-</div>
+{/rowCol}

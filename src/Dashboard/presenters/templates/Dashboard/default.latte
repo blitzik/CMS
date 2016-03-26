@@ -6,13 +6,11 @@
 
 {block content}
 
-<div class="row">
-    <div class="log-overview">
+    {rowCol log-overview}
         {if $user->isAllowed('dashboard_systemLog', 'view')}
         <b>System log</b>
         {control log}
         {/if}
-    </div>
-</div>
+    {/rowCol}
 
 {/block}

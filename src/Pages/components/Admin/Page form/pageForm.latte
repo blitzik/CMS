@@ -1,12 +1,13 @@
+
+{row}
+
 {form pageForm}
 
-<div class="article-form" id="top"> {* col *}
-    <div class="row">
-        <div class="article-form-messages">
+{col article-form, id => top}
+    {rowCol article-form-messages}
         {control flashMessages}
         {customFormErrors}
-        </div>
-    </div>
+    {/rowCol}
 
     {*<div class="row">
         <div class="article-options">
@@ -77,110 +78,98 @@ Nadpis1   Nadpis2   Podnadpis
 {translator pageEditForm}
     <h2 n:ifset="$page"><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->title}</a></h2>
     <div class="box box-river"> {* just div *}
-        <div class="row">
-            <div class="form-group article-url">
-                {label url /} | <span>{_url.info}</span>
-                <div class="input-group">
-                    <div class="input-group-addon">{$baseUrl} / </div>
-                    {input url class => 'form-control input-lg'}
-                </div>
+        {rowCol 'form-group article-url'}
+            {label url /} | <span>{_url.info}</span>
+            <div class="input-group">
+                <div class="input-group-addon">{$baseUrl} / </div>
+                {input url class => 'form-control input-lg'}
             </div>
-        </div>
+        {/rowCol}
 
-        <div class="row">
-            <div class="form-group article-publish-time">
+        {row}
+            {col 'form-group article-publish-time'}
                 {label publishedAt /}
                 {input publishedAt class => 'form-control input-lg'}
-            </div>
+            {/col}
 
-            <div class="form-group article-title">
+            {col 'form-group article-title'}
                 {label title /}
                     <small>{_title.info, Pages\Page::LENGTH_TITLE}</small>
                     <span id="page-title-counter" data-text="{_title.charCounterText}" class="right"></span>
                 {input title id => 'form-page-title', class => 'form-control input-lg'}
-            </div>
-        </div>
+            {/col}
+        {/row}
 
-        <div class="row ">
-            <div class="article-intro">
-                <div class="form-group">
-                    {label intro /}
-                        <small>{_intro.info, Pages\Page::LENGTH_INTRO}</small>
-                        <span id="page-intro-counter" data-text="{_intro.charCounterText}" class="right"></span>
-                    {input intro id => 'form-page-intro', class => 'form-control input-lg page-textArea'}
-                </div>
+        {rowCol article-intro}
+            <div class="form-group">
+                {label intro /}
+                    <small>{_intro.info, Pages\Page::LENGTH_INTRO}</small>
+                    <span id="page-intro-counter" data-text="{_intro.charCounterText}" class="right"></span>
+                {input intro id => 'form-page-intro', class => 'form-control input-lg page-textArea'}
             </div>
-        </div>
+        {/rowCol}
 
-        <div class="row">
-            <div class="article-text">
-                <div class="form-group">
-                    {label text /}
-                    <span id="page-text-counter" data-text="{_text.charCounterText}" class="right"></span>
-                    {input text id => 'form-page-text', class => 'form-control input-lg page-textArea'}
-                </div>
+        {rowCol article-text}
+            <div class="form-group">
+                {label text /}
+                <span id="page-text-counter" data-text="{_text.charCounterText}" class="right"></span>
+                {input text id => 'form-page-text', class => 'form-control input-lg page-textArea'}
             </div>
-        </div>
+        {/rowCol}
 
-        <div class="row">
-            <div class="article-description">
-                <div class="form-group">
-                    {label description /}
-                    | <small>{_description.info}</small>
-                    {input description class => 'form-control input-lg'}
-                </div>
+        {rowCol article-description}
+            <div class="form-group">
+                {label description /}
+                | <small>{_description.info}</small>
+                {input description class => 'form-control input-lg'}
             </div>
-        </div>
+        {/rowCol}
 
-        <div class="row">
-            <div class="article-keywords">
-                <div class="form-group">
-                    {label keywords /}
-                    | <small>{_keywords.info}</small>
-                    {input keywords class => 'form-control input-lg'}
-                </div>
+        {rowCol article-keywords}
+            <div class="form-group">
+                {label keywords /}
+                | <small>{_keywords.info}</small>
+                {input keywords class => 'form-control input-lg'}
             </div>
-        </div>
+        {/rowCol}
 
-        <div class="row">
-            <div class="article-lang">
+        {row}
+            {col article-lang}
                 <div class="form-group">
                     {label lang /}
                     | <small>{_lang.info}</small>
                     {input lang class => 'form-control input-lg'}
                 </div>
-            </div>
+            {/col}
 
-            <div class="article-comments">
+            {col article-comments}
                 <div class="checkbox">
                     {input allowedComments}
                 </div>
-            </div>
-        </div>
+            {/col}
+        {/row}
 
-        <div class="row">
-            <div class="article-controls">
-                {snippet messages-bottom}
-                    {control flashMessages}
-                    {customFormErrors}
-                {/snippet}
+        {rowCol article-controls}
+            {snippet messages-bottom}
+                {control flashMessages}
+                {customFormErrors}
+            {/snippet}
 
-                {if !isset($page) or $page->isDraft()}
-                    {input saveAsDraft class => 'btn btn-river'}
-                {/if}
+            {if !isset($page) or $page->isDraft()}
+                {input saveAsDraft class => 'btn btn-river'}
+            {/if}
 
-                {input saveAndPublish class => 'btn btn-turquoise'}
+            {input saveAndPublish class => 'btn btn-turquoise'}
 
-                <a href="#top" class="right">{_returnAtTop} <i class="fa fa-level-up"></i></a>
-            </div>
-        </div>
+            <a href="#top" class="right">{_returnAtTop} <i class="fa fa-level-up"></i></a>
+        {/rowCol}
 
     </div>
 {/translator}
-</div> {* end article-form col *}
+{/col} {* end article-form col *}
 
 {translator pageEdit.section.tags}
-<div class="tags-picking-box"> {* col *}
+{col tags-picking-box}
 {*<a href="{plink :Tags:Tag:default}">{_actions.add}</a>*}
 <h2>{_title}</h2>
     <div class="box box-alizarin">
@@ -190,7 +179,9 @@ Nadpis1   Nadpis2   Podnadpis
             {*</div>*}
         {*</div>*}
     </div>
-</div> {* end tags-picking-box *}
+{/col}
 {/translator}
 
 {/form}
+
+{/row}
