@@ -41,7 +41,7 @@ abstract class ProtectedPresenter extends AppPresenter
 
         if (!$this->user->isLoggedIn()) {
             $this->flashMessage('admin.signIn', 'warning');
-            $this->redirect(':Users:Auth:login');
+            $this->redirect(':Users:Front:Auth:login');
         }
 
         if ($this->session->hasSection('cms_localization')) {
