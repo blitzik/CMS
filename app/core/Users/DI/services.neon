@@ -3,7 +3,6 @@ services:
 	# Presenters
 
 	authPresenter: Users\FrontModule\Presenters\AuthPresenter
-	permissionPresenter: Users\AdminModule\Presenters\PermissionPresenter
 
 	userAuthenticator: Users\Authentication\UserAuthenticator
 	authorizator: Users\Authorization\Authorizator

@@ -11,7 +11,11 @@ navigation:
 		tags: Štítky
 		images: Obrázky
 		options: Nastavení
-		overview: Uživatelé
+		users:
+			title: Uživatelé
+			items:
+				overview: Přehled
+				roles: Role
 		permissions: "Práva uživatelů"
 		signOut: "Odhlásit se"
 

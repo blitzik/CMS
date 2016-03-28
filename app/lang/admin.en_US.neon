@@ -11,7 +11,11 @@ navigation:
 		tags: Tags
 		images: Images
 		options: Options
-		overview: Users
+		users:
+			title: Users
+			items:
+				overview: Overview
+				roles: Roles
 		permissions: "Users permissions"
 		signOut: "Sign Out"
 

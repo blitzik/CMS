@@ -50,4 +50,23 @@ class UsersPresenter extends ProtectedPresenter
 
         return $comp;
     }
+
+
+    /*
+     * --------------------
+     * ----- ROLES --------
+     * --------------------
+     */
+
+
+    public function actionRoles()
+    {
+        $this['pageTitle']->setPageTitle('usersPermissions.title');
+    }
+
+
+    public function renderRoles()
+    {
+    }
+
 }
