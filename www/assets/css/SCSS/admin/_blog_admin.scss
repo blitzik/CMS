@@ -219,7 +219,7 @@ $main-header-background-color: #d43f3a;
   width: 1px;
   height: 1px;
   position: absolute;
-  top: -2000px;
+  left: -5000px;
   padding: 0;
   margin: 0;
 }
@@ -367,7 +367,7 @@ a i{
         &:after{
           font-family: 'FontAwesome';
           content: '\f104';
-          float: right;
+          float: right;;
         }
       }
 
@@ -398,7 +398,7 @@ a i{
               font-size: 1em;
               padding-left: 55px;
               border-left: 5px solid #9b59b6;
-              transition: font-size .3s;
+              transition: all .25s;
             }
           }
         }
@@ -1042,6 +1042,11 @@ h1, h2, h3, h4, h5, h6{
 
 
 @media (min-width: 650px) and (max-width: 900px) {
+  // background-color: #1e282c; black
+  // border-left: 5px solid #9b59b6; violet
+  // border-left: 5px solid #3d8dbc; blue
+  // border-left: 5px solid #00a65a; green
+
   .navigation{
     ul li{
       position: relative;
@@ -1052,6 +1057,8 @@ h1, h2, h3, h4, h5, h6{
       }
 
       a{
+        background-color: #222D32;
+
         span{ display: none; }
 
         &:hover{
@@ -1067,17 +1074,62 @@ h1, h2, h3, h4, h5, h6{
         }
       }
 
+      input + a,
       input:checked + a{
-        border-left: 5px solid #00a65a;
+        border-left: 5px solid transparent;
+        background-color: transparent;
 
         label:after{
           content: '';
         }
+      }
 
-        & + ul{
-          display: none;
+      input + a + ul,
+      input:checked + a + ul{
+        width: $main-sidebar-width;
+        height: auto;
+        display: none;
+        position: absolute;
+        z-index: 2;
+
+        li a{
+          font-size: 1em;
+          padding-left: 55px;
+          border-left: 5px solid #00a65a;
         }
       }
+
+      &:hover{
+        a{
+          width: $main-sidebar-width;
+          border-left: 5px solid #00a65a;
+          background-color: #1e282c;
+
+          span{
+            display: inline;
+          }
+
+          &.active{
+            border-left: 5px solid #3d8dbc;
+          }
+        }
+
+        input + a{
+          border-left: 5px solid #00a65a;
+          background-color: #1e282c;
+          color: #fff;
+
+          &.active + ul li a{
+            border-left: 5px solid #3d8dbc;
+          }
+        }
+
+        input + a + ul,
+        input:checked + a + ul{
+          display: block;
+        }
+      }
+
     }
   }
 }
