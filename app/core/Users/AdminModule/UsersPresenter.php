@@ -50,6 +50,25 @@ class UsersPresenter extends ProtectedPresenter
 
         return $comp;
     }
+    
+    
+    /*
+     * --------------------
+     * ----- DETAIL -------
+     * --------------------
+     */
+     
+    
+    public function actionDetail()
+    {
+        
+    }
+    
+    
+    public function renderDetail()
+    {
+        
+    }
 
 
     /*

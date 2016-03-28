@@ -70,8 +70,11 @@ class UsersFixture extends AbstractFixture
         $users = UrlGenerator::create('administration/users', 'Users:Admin:Users', 'default');
         $manager->persist($users);
 
-        $permissions = UrlGenerator::create('administration/roles', 'Users:Admin:Users', 'roles');
-        $manager->persist($permissions);
+        $roles = UrlGenerator::create('administration/roles', 'Users:Admin:Users', 'roles');
+        $manager->persist($roles);
+
+        $detail = UrlGenerator::create('administration/user-detail', 'Users:Admin:Users', 'detail');
+        $manager->persist($detail);
     }
 
 
