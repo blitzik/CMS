@@ -40,8 +40,8 @@
                     <input type="checkbox" id="item-users" class="nav-control-hidden"{if $this->presenter->isLinkCurrent(':Users:Admin:Users:*')} checked{/if}>
                     <a n:class="parent, $this->presenter->isLinkCurrent(':Users:Admin:Users:*') ? active"><label for="item-users"><i class="fa fa-users fa-fw"></i> <span>{_items.users.title}</span></label></a>
                     <ul>
-                        <li><a n:href=":Users:Admin:Users:default" n:class="$this->presenter->isLinkCurrent(':Users:Admin:Users:default') ? active"><span>Overview</span></a></li>
-                        <li><a n:href=":Users:Admin:Users:roles" n:class="$this->presenter->isLinkCurrent(':Users:Admin:Users:roles') ? active"><span>Roles</span></a></li>
+                        <li><a n:href=":Users:Admin:Users:default" n:class="$this->presenter->isLinkCurrent(':Users:Admin:Users:default') ? active"><span>{_items.users.items.overview}</span></a></li>
+                        <li><a n:href=":Users:Admin:Users:roles" n:class="$this->presenter->isLinkCurrent(':Users:Admin:Users:roles') ? active"><span>{_items.users.items.roles}</span></a></li>
                     </ul>
                 </li>
         	</ul>
