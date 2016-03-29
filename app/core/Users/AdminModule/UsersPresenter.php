@@ -50,8 +50,8 @@ class UsersPresenter extends ProtectedPresenter
 
         return $comp;
     }
-    
-    
+
+
     /*
      * --------------------
      * ----- DETAIL -------
@@ -61,7 +61,7 @@ class UsersPresenter extends ProtectedPresenter
     
     public function actionDetail()
     {
-        
+        $this['pageTitle']->setPageTitle('User - detail');
     }
     
     
