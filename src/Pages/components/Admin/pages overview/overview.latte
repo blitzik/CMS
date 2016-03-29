@@ -28,7 +28,7 @@
             {if $pagesCount > 0}
             {foreach $pages as $pageData}
             {var $page = $pageData[0]}
-            {var $commentsCount = $pageData['commentsCount']}
+            {var $commentsCount = (int)$pageData['commentsCount']}
                 <tr>
                     {*<td>{$page->getId()}</td>*}
                     <td>{$page->createdAt|date:'j.n.Y'} <br>v {$page->createdAt|date:'H:i'}</td>
@@ -45,7 +45,7 @@
                                 <i class="fa fa-lock"></i>
                             {/if}
 
-                            {if $commentsCount == 0 and $page->getAllowedComments() === false}
+                            {if $commentsCount === 0 and $page->getAllowedComments() === false}
                                 {_pagesOverview.noCommentsClosedComments}
                             {elseif $commentsCount > 0}
                                 <a href="{plink :Pages:Front:Page:show internal_id => $page->getId(), locale => $page->getLocaleCode()}#comments">{_pagesOverview.hasComments, $commentsCount}</a>
