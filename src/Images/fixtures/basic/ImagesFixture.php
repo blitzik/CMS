@@ -11,6 +11,7 @@ namespace Images\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\AccessDefinition;
 use Users\Authorization\Permission;
 use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
@@ -60,12 +61,20 @@ class ImagesFixture extends AbstractFixture implements DependentFixtureInterface
     {
         $imageResource = new Resource('image');
         $manager->persist($imageResource);
-        
-        $imageCreate = new Permission($this->getReference('role_user'), $imageResource, Permission::ACL_CREATE);
-        $manager->persist($imageCreate);
 
-        $imageRemove = new Permission($this->getReference('role_user'), $imageResource, Permission::ACL_EDIT);
+        $imageUpload = new Permission($this->getReference('role_user'), $imageResource, $this->getReference('privilege_upload'));
+        $manager->persist($imageUpload);
+
+        $imageRemove = new Permission($this->getReference('role_user'), $imageResource, $this->getReference('privilege_remove'));
         $manager->persist($imageRemove);
+
+        
+        // access definitions
+        $acUpload = new AccessDefinition($imageResource, $this->getReference('privilege_upload'));
+        $manager->persist($acUpload);
+
+        $acRemove = new AccessDefinition($imageResource, $this->getReference('privilege_remove'));
+        $manager->persist($acRemove);
     }
 
 

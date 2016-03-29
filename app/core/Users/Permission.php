@@ -44,10 +44,11 @@ class Permission
     private $resource;
 
     /**
-     * @ORM\Column(name="action", type="string", length=255, nullable=false, unique=false)
-     * @var string
+     * @ORM\ManyToOne(targetEntity="Privilege")
+     * @ORM\JoinColumn(name="privilege", referencedColumnName="id", nullable=false)
+     * @var Privilege
      */
-    private $action;
+    private $privilege;
 
     /**
      * @ORM\Column(name="is_allowed", type="boolean", nullable=false, unique=false, options={"default":true})
@@ -59,29 +60,13 @@ class Permission
     public function __construct(
         Role $role,
         \Users\Authorization\Resource $resource,
-        $action,
+        Privilege $privilege,
         $isAllowed = true
     ) {
         $this->role = $role;
         $this->resource = $resource;
-        $this->setAction($action);
+        $this->privilege = $privilege;
         $this->isAllowed = (bool)$isAllowed;
-    }
-
-
-    /*
-     * --------------------
-     * ----- SETTERS ------
-     * --------------------
-     */
-
-
-    /**
-     * @param string $action
-     */
-    private function setAction($action)
-    {
-        $this->action = $action;
     }
 
 
@@ -90,15 +75,6 @@ class Permission
      * ----- GETTERS ------
      * --------------------
      */
-
-
-    /**
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
 
 
     /**
@@ -155,5 +131,29 @@ class Permission
         return $this->resource->getName();
     }
 
+
+    /*
+     * -----------------------------
+     * ----- PRIVILEGE GETTERS -----
+     * -----------------------------
+     */
+
+
+    /**
+     * @return int
+     */
+    public function getPrivilegeId()
+    {
+        return $this->privilege->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPrivilegeName()
+    {
+        return $this->privilege->getName();
+    }
 
 }

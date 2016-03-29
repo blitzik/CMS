@@ -11,6 +11,7 @@ namespace Users\Fixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Url\Generators\UrlGenerator;
+use Users\Authorization\Privilege;
 use Users\Authorization\Role;
 use Log\EventLog;
 use Log\LogType;
@@ -29,6 +30,7 @@ class UsersFixture extends AbstractFixture
         $this->loadDefaultUsers($manager);
         $this->loadDefaultLoggingEvents($manager);
         $this->loadDefaultUrls($manager);
+        $this->loadDefaultPrivileges($manager);
 
         $manager->flush();
     }
@@ -56,6 +58,30 @@ class UsersFixture extends AbstractFixture
         $this->addReference('role_guest', $guest);
         $this->addReference('role_user', $user);
         $this->addReference('role_admin', $admin);
+    }
+
+
+    private function loadDefaultPrivileges(ObjectManager $manager)
+    {
+        $create = new Privilege('create');
+        $manager->persist($create);
+        $this->setReference('privilege_create', $create);
+
+        $edit = new Privilege('edit');
+        $manager->persist($edit);
+        $this->setReference('privilege_edit', $edit);
+
+        $remove = new Privilege('remove');
+        $manager->persist($remove);
+        $this->setReference('privilege_remove', $remove);
+
+        $view = new Privilege('view');
+        $manager->persist($view);
+        $this->setReference('privilege_view', $view);
+
+        $upload = new Privilege('upload');
+        $manager->persist($upload);
+        $this->setReference('privilege_upload', $upload);
     }
 
 

@@ -105,7 +105,7 @@ class Url
     private function resolveDestination($destination)
     {
         // ((Module:)*(Presenter)):(action)
-        if (!preg_match('~^(?P<modulePresenter>(?:(?:[A-Z][a-z]*(?![A-Z]$)):)*(?:[A-Z][a-z]*(?![A-Z]$))):(?P<action>[a-z]+)$~', $destination, $matches)) {
+        if (!preg_match('~^(?P<modulePresenter>(?:(?:[A-Z][a-z]*(?![A-Z]$)):)*(?:[A-Z][a-z]*(?![A-Z]$))):(?P<action>[a-z][a-zA-Z]*)$~', $destination, $matches)) {
             throw new InvalidArgumentException(
                 'Wrong format of argument $presenter or $action.
                  Argument $action must have only lower-case characters

@@ -11,6 +11,7 @@ namespace Options\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\AccessDefinition;
 use Users\Authorization\Permission;
 use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
@@ -66,8 +67,12 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
         $optionsResource = new Resource('options');
         $manager->persist($optionsResource);
 
-        $optionsEdit = new Permission($this->getReference('role_user'), $optionsResource, Permission::ACL_EDIT);
+        $optionsEdit = new Permission($this->getReference('role_user'), $optionsResource, $this->getReference('privilege_edit'));
         $manager->persist($optionsEdit);
+
+        // access definitions
+        $acEdit = new AccessDefinition($optionsResource, $this->getReference('privilege_edit'));
+        $manager->persist($acEdit);
     }
 
 

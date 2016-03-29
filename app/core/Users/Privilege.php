@@ -1,15 +1,15 @@
 <?php
+
 /**
  * Created by PhpStorm.
- * User: aleš tichava
- * Date: 23.3.2016
- * Time: 13:39
+ * Author: Aleš Tichava
+ * Date: 29.03.2016
  */
 
 namespace Users\Authorization;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -17,31 +17,26 @@ use Nette\Utils\Validators;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="resource")
+ * @ORM\Table(name="privilege")
  *
  */
-class Resource
+class Privilege
 {
     use Identifier;
+    use MagicAccessors;
 
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=true)
      * @var string
      */
-    private $name;
+    protected $name;
 
 
-    public function __construct($name)
-    {
+    public function __construct(
+        $name
+    ) {
         $this->setName($name);
     }
-
-    
-    /*
-     * -------------------
-     * ----- SETTERS -----
-     * -------------------
-     */
 
 
     /**
@@ -55,9 +50,9 @@ class Resource
 
 
     /*
-     * -------------------
-     * ----- GETTERS -----
-     * -------------------
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
      */
 
 
@@ -68,4 +63,5 @@ class Resource
     {
         return $this->name;
     }
+
 }

@@ -11,7 +11,9 @@ namespace Pages\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\AccessDefinition;
 use Users\Authorization\Permission;
+use Users\Authorization\Privilege;
 use Users\Authorization\Resource;
 use Users\Fixtures\UsersFixture;
 use Url\Generators\UrlGenerator;
@@ -141,59 +143,119 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
+        // privileges
+        $silence = new Privilege('silence');
+        $manager->persist($silence);
+
+        $release = new Privilege('release');
+        $manager->persist($release);
+
+        $viewSilenced = new Privilege('view_silenced');
+        $manager->persist($viewSilenced);
+
+        $respondOnSilenced = new Privilege('respond_on_silenced');
+        $manager->persist($respondOnSilenced);
+
+        $commentOnClosed = new Privilege('comment_on_closed');
+        $manager->persist($commentOnClosed);
+
+
         // Page
         $pageResource = new Resource('page');
         $manager->persist($pageResource);
 
-        $pageCreate = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_CREATE);
-        $manager->persist($pageCreate);
+        $permPageCreate = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_create'));
+        $manager->persist($permPageCreate);
 
-        $pageEdit = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_EDIT);
-        $manager->persist($pageEdit);
+        $permPageEdit = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_edit'));
+        $manager->persist($permPageEdit);
 
-        $pageRemove = new Permission($this->getReference('role_user'), $pageResource, Permission::ACL_REMOVE);
-        $manager->persist($pageRemove);
+        $permPageRemove = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_remove'));
+        $manager->persist($permPageRemove);
 
 
         // comments
         $commentResource = new Resource('page_comment');
         $manager->persist($commentResource);
 
-        $commentSilence = new Permission($this->getReference('role_user'), $commentResource, 'silence');
-        $manager->persist($commentSilence);
+        $permCommentSilence = new Permission($this->getReference('role_user'), $commentResource, $silence);
+        $manager->persist($permCommentSilence);
 
-        $commentRelease = new Permission($this->getReference('role_user'), $commentResource, 'release');
-        $manager->persist($commentRelease);
+        $permCommentRelease = new Permission($this->getReference('role_user'), $commentResource, $release);
+        $manager->persist($permCommentRelease);
 
-        $commentRemove = new Permission($this->getReference('role_user'), $commentResource, Permission::ACL_REMOVE);
-        $manager->persist($commentRemove);
+        $permCommentRemove = new Permission($this->getReference('role_user'), $commentResource, $this->getReference('privilege_remove'));
+        $manager->persist($permCommentRemove);
 
-        $silencedComment = new Permission($this->getReference('role_user'), $commentResource, 'view_silenced');
-        $manager->persist($silencedComment);
+        $permSilencedComment = new Permission($this->getReference('role_user'), $commentResource, $viewSilenced);
+        $manager->persist($permSilencedComment);
 
-        $respondOnSilenced = new Permission($this->getReference('role_user'), $commentResource, 'respond_on_silenced');
-        $manager->persist($respondOnSilenced);
+        $permRespondOnSilenced = new Permission($this->getReference('role_user'), $commentResource, $respondOnSilenced);
+        $manager->persist($permRespondOnSilenced);
 
 
         $commentForm = new Resource('page_comment_form');
         $manager->persist($commentForm);
 
-        $commentOnClosed = new Permission($this->getReference('role_user'), $commentForm, 'comment_on_closed');
-        $manager->persist($commentOnClosed);
+        $permCommentOnClosed = new Permission($this->getReference('role_user'), $commentForm, $commentOnClosed);
+        $manager->persist($permCommentOnClosed);
 
 
         // tags
         $tagResource = new Resource('page_tag');
         $manager->persist($tagResource);
 
-        $tagCreate = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_CREATE);
-        $manager->persist($tagCreate);
+        $permTagCreate = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_create'));
+        $manager->persist($permTagCreate);
 
-        $tagEdit = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_EDIT);
-        $manager->persist($tagEdit);
+        $permTagEdit = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_edit'));
+        $manager->persist($permTagEdit);
 
-        $tagRemove = new Permission($this->getReference('role_user'), $tagResource, Permission::ACL_REMOVE);
-        $manager->persist($tagRemove);
+        $permTagRemove = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_remove'));
+        $manager->persist($permTagRemove);
+
+
+
+        // access definitions
+
+        // page
+        $acPageCreate = new AccessDefinition($pageResource, $this->getReference('privilege_create'));
+        $manager->persist($acPageCreate);
+
+        $acPageEdit = new AccessDefinition($pageResource, $this->getReference('privilege_edit'));
+        $manager->persist($acPageEdit);
+
+        $acPageRemove = new AccessDefinition($pageResource, $this->getReference('privilege_remove'));
+        $manager->persist($acPageRemove);
+
+        // comments
+        $acCommentSilence = new AccessDefinition($commentResource, $silence);
+        $manager->persist($acCommentSilence);
+
+        $acCommentRelease = new AccessDefinition($commentResource, $release);
+        $manager->persist($acCommentRelease);
+
+        $acCommentRemove = new AccessDefinition($commentResource, $this->getReference('privilege_remove'));
+        $manager->persist($acCommentRemove);
+
+        $acCommentViewSilenced = new AccessDefinition($commentResource, $viewSilenced);
+        $manager->persist($acCommentViewSilenced);
+
+        $acCommentRespondOnSilenced = new AccessDefinition($commentResource, $respondOnSilenced);
+        $manager->persist($acCommentRespondOnSilenced);
+
+        $acCommentOnClosed = new AccessDefinition($commentForm, $commentOnClosed);
+        $manager->persist($acCommentOnClosed);
+
+        // tags
+        $acTagCreate = new AccessDefinition($tagResource, $this->getReference('privilege_create'));
+        $manager->persist($acTagCreate);
+
+        $acTagEdit = new AccessDefinition($tagResource, $this->getReference('privilege_edit'));
+        $manager->persist($acTagEdit);
+
+        $acTagRemove = new AccessDefinition($tagResource, $this->getReference('privilege_remove'));
+        $manager->persist($acTagRemove);
     }
 
 

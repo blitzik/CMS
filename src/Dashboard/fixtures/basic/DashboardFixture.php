@@ -11,6 +11,7 @@ namespace Dashboard\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Users\Authorization\AccessDefinition;
 use Users\Authorization\Permission;
 use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
@@ -44,11 +45,20 @@ class DashboardFixture extends AbstractFixture implements DependentFixtureInterf
     {
         $logResource = new Resource('dashboard_systemLog');
         $manager->persist($logResource);
-
-        $logPermissionView = new Permission($this->getReference('role_user'), $logResource, Permission::ACL_VIEW);
+        
+        $logPermissionView = new Permission(
+            $this->getReference('role_user'),
+            $logResource,
+            $this->getReference('privilege_view')
+        );
         $manager->persist($logPermissionView);
-    }
 
+
+        // access definitions
+        $acLog = new AccessDefinition($logResource, $this->getReference('privilege_view'));
+        $manager->persist($acLog);
+    }
+    
 
     function getDependencies()
     {

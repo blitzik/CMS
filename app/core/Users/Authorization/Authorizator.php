@@ -140,15 +140,16 @@ class Authorizator extends Object implements IAuthorizator
     private function loadPermissions(Permission $acl)
     {
         $permissions = $this->em->createQuery(
-            'SELECT p FROM ' . \Users\Authorization\Permission::class . ' p'
+            'SELECT p, pr FROM ' . \Users\Authorization\Permission::class . ' p
+             LEFT JOIN p.privilege pr'
         )->execute();
 
         /** @var \Users\Authorization\Permission $permission */
         foreach ($permissions as $permission) {
             if ($permission->isAllowed() === true) {
-                $acl->allow($permission->getRoleName(), $permission->getResourceName(), $permission->getAction());
+                $acl->allow($permission->getRoleName(), $permission->getResourceName(), $permission->getPrivilegeName());
             } else {
-                $acl->deny($permission->getRoleName(), $permission->getResourceName(), $permission->getAction());
+                $acl->deny($permission->getRoleName(), $permission->getResourceName(), $permission->getPrivilegeName());
             }
         }
 
