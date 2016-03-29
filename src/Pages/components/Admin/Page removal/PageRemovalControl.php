@@ -2,16 +2,16 @@
 
 namespace Pages\Components\Admin;
 
-use App\Components\BaseControl;
 use blitzik\FlashMessages\FlashMessage;
-use Doctrine\DBAL\DBALException;
-use Kdyby\Translation\Translator;
-use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
-use Nette\Localization\ITranslator;
-use Pages\Page;
-use Pages\Facades\PageFacade;
 use Users\Authorization\Permission;
+use Nette\Localization\ITranslator;
+use Kdyby\Translation\Translator;
+use Doctrine\DBAL\DBALException;
+use App\Components\BaseControl;
+use Nette\Application\UI\Form;
+use Pages\Facades\PageFacade;
+use Pages\Page;
 
 class PageRemovalControl extends BaseControl
 {
@@ -67,7 +67,7 @@ class PageRemovalControl extends BaseControl
                 ->setValidationScope([])
                 ->onClick[] = [$this, 'cancelClick'];
 
-        if (!$this->user->isAllowed('page', Permission::ACL_REMOVE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page', 'remove')) {
             $form['remove']->setDisabled();
         }
 
@@ -79,7 +79,7 @@ class PageRemovalControl extends BaseControl
 
     public function removePage(SubmitButton $button)
     {
-        if (!$this->user->isAllowed('page', Permission::ACL_REMOVE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page', 'remove')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             return;
         }

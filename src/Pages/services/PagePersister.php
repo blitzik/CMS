@@ -21,9 +21,9 @@ use Url\Facades\UrlFacade;
 use Nette\Utils\Strings;
 use Nette\Object;
 use Pages\Page;
+use Users\User;
 use Tags\Tag;
 use Url\Url;
-use Users\User;
 
 class PagePersister extends Object
 {

@@ -12,7 +12,7 @@
     </h3>
 
     <div class="comment-text" n:snippet="comment-text">
-        {if $comment->isSilenced() AND !$user->isAllowed('page_comment', 'view_silenced')}
+        {if $comment->isSilenced() AND !$authorizator->isAllowed($user, 'page_comment', 'view_silenced')}
             <p class="silenced-comment">
                 <i class="fa fa-eye-slash"></i> {_page.comments.messages.silencedComment}
             </p>
@@ -31,11 +31,11 @@
 
         <div class="footer">
             <span title="{$comment->created|dateWithMonthWord}">{$comment->created|timeAgoInWords}</span>
-            {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $user->isAllowed('page_comment', 'respond_on_silenced')}
+            {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $authorizator->isAllowed($user, 'page_comment', 'respond_on_silenced')}
                 | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">{_page.comments.actions.reply.label}</a>
             {/if}
 
-            <span n:if="$user->isAllowed('page_comment', 'silence') and $user->isAllowed('page_comment', 'release')" class="right">
+            <span n:if="$authorizator->isAllowed($user, 'page_comment', 'silence') and $authorizator->isAllowed($user, 'page_comment', 'release')" class="right">
                 <span n:snippet="comment-suppress">
                     {if $comment->isSilenced()}
                         [ {_page.comments.silencedComment|upper} ] <a href="{link release!}" class="ajax">{_page.comments.actions.release.label}</a>

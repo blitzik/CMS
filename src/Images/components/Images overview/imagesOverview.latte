@@ -45,7 +45,7 @@
                     {/col}
                 {/row}
 
-                {var $canRemove = $user->isAllowed('image', 'remove')}
+                {var $canRemove = $authorizator->isAllowed($user, 'image', 'remove')}
                 <a {if $canRemove}href="{link imageRemove imageName => $imageName}"{else}disabled{/if} data-removeurl="{link imageRemove imageName => $imageName}" data-imagename="{$imageName}" n:class="'btn btn-red', $canRemove ? remove-image : remove-image-disabled">
                     <i class="fa fa-trash"></i> {_actions.remove.label}
                 </a>

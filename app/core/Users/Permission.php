@@ -24,11 +24,7 @@ class Permission
     use Identifier;
     use MagicAccessors;
 
-    const ACL_CREATE = 'create';
-    const ACL_EDIT = 'edit';
-    const ACL_REMOVE = 'remove';
-    const ACL_VIEW = 'view';
-
+    
     /**
      * @ORM\ManyToOne(targetEntity="Role", cascade={"persist"})
      * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)

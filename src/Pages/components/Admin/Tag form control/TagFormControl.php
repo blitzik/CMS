@@ -17,7 +17,6 @@ use Doctrine\DBAL\DBALException;
 use App\Components\BaseControl;
 use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
-use Users\Authorization\Permission;
 
 class TagFormControl extends BaseControl
 {
@@ -75,7 +74,7 @@ class TagFormControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processNewTag'];
 
-        if (!$this->user->isAllowed('page_tag', Permission::ACL_CREATE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_tag', 'create')) {
             $form['save']->setDisabled();
         }
 
@@ -87,7 +86,7 @@ class TagFormControl extends BaseControl
 
     public function processNewTag(Form $form, $values)
     {
-        if (!$this->user->isAllowed('page_tag', Permission::ACL_CREATE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_tag', 'create')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             return;
         }

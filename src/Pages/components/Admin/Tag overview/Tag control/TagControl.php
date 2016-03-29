@@ -69,7 +69,7 @@ class TagControl extends BaseControl
 
         $form->addProtection();
 
-        if (!$this->user->isAllowed('page_tag', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_tag', 'edit')) {
             $form['save']->setDisabled();
         }
 
@@ -79,7 +79,7 @@ class TagControl extends BaseControl
 
     public function processTag(Form $form, $values)
     {
-        if (!$this->user->isAllowed('page_tag', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_tag', 'edit')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             return;
         }

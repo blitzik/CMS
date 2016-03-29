@@ -14,7 +14,6 @@ use Nette\Application\UI\Form;
 use Kdyby\Translation\Phrase;
 use Nette\Http\FileUpload;
 use Images\Image;
-use Users\Authorization\Permission;
 
 class ImageUploadControl extends BaseControl
 {
@@ -59,7 +58,7 @@ class ImageUploadControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processImageUpload'];
 
-        if (!$this->user->isAllowed('image', Permission::ACL_CREATE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'image', 'upload')) {
             $form['upload']->setDisabled();
         }
 
@@ -71,7 +70,7 @@ class ImageUploadControl extends BaseControl
 
     public function processImageUpload(Form $form, $values)
     {
-        if (!$this->user->isAllowed('image', Permission::ACL_CREATE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'image', 'upload')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             return;
         }

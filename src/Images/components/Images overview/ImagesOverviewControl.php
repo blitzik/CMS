@@ -2,8 +2,8 @@
 
 namespace Images\Components;
 
-use blitzik\FlashMessages\FlashMessage;
 use Images\Exceptions\Runtime\FileRemovalException;
+use blitzik\FlashMessages\FlashMessage;
 use Nette\Application\UI\ITemplate;
 use Doctrine\DBAL\DBALException;
 use App\Components\BaseControl;
@@ -12,7 +12,6 @@ use Images\Facades\ImageFacade;
 use blitzik\IPaginatorFactory;
 use Images\Query\ImageQuery;
 use Nette\Utils\Paginator;
-use Users\Authorization\Permission;
 
 class ImagesOverviewControl extends BaseControl
 {
@@ -89,7 +88,7 @@ class ImagesOverviewControl extends BaseControl
 
     public function handleImageRemove($imageName)
     {
-        if (!$this->user->isAllowed('image', Permission::ACL_REMOVE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'image', 'remove')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             $this->redirect('this');
         }

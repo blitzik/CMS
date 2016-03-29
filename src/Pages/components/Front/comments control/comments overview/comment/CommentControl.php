@@ -89,7 +89,7 @@ class CommentControl extends BaseControl
 
     private function userPermissionCheck($action)
     {
-        if (!$this->user->isAllowed('page_comment', $action)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_comment', $action)) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             $this->redirect('this#comment-' . $this->comment->getId());
         }

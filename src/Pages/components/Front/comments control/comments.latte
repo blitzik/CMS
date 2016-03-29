@@ -1,5 +1,5 @@
 
-<h2 id="comments" n:if="$page->getAllowedComments() === true or $commentsCount > 0 or $user->isAllowed('page_comment_form', 'comment_on_closed')"><i class="fa fa-comments-o"></i> {_page.comments.topSectionHeader} <sup>\{$commentsCount}</sup> <span n:if="$page->getAllowedComments() === true and $page->isDraft() === false" class="comment-form-link">| <a href="#new-comment-form">{_page.comments.addComment}</a></span></h2>
+<h2 id="comments" n:if="$page->getAllowedComments() === true or $commentsCount > 0 or $authorizator->isAllowed($user, 'page_comment_form', 'comment_on_closed')"><i class="fa fa-comments-o"></i> {_page.comments.topSectionHeader} <sup>\{$commentsCount}</sup> <span n:if="$page->getAllowedComments() === true and $page->isDraft() === false" class="comment-form-link">| <a href="#new-comment-form">{_page.comments.addComment}</a></span></h2>
 
 {control commentsOverview}
 
@@ -8,7 +8,7 @@
 {if $page->isDraft()}
     <p>{_page.comments.messages.pageDraft}</p>
 {else}
-    {if $page->allowedComments === false and !$user->isAllowed('page_comment_form', 'comment_on_closed')}
+    {if $page->allowedComments === false and !$authorizator->isAllowed($user, 'page_comment_form', 'comment_on_closed')}
         {if $commentsCount > 0}
             <p><i class="fa fa-lock"></i> {_page.comments.messages.closedComments}</p>
         {else}

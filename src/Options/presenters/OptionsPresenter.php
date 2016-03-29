@@ -67,7 +67,7 @@ class OptionsPresenter extends ProtectedPresenter
 
         $form->addProtection();
 
-        if (!$this->user->isAllowed('options', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'options', 'edit')) {
             $form['save']->setDisabled();
         }
         
@@ -77,7 +77,7 @@ class OptionsPresenter extends ProtectedPresenter
 
     public function processForm(Form $form, $values)
     {
-        if (!$this->user->isAllowed('options', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'options', 'edit')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             $this->redirect('this');
         }

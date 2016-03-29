@@ -2,8 +2,8 @@
 
 namespace Pages\Components\Front;
 
-use App\Components\BaseControl;
 use Kdyby\Translation\Translator;
+use App\Components\BaseControl;
 use Pages\Page;
 
 class PageControl extends BaseControl

@@ -6,11 +6,11 @@ use Pages\Exceptions\Runtime\PagePublicationTimeMissingException;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
-use Pages\Factories\TagFormFactory;
 use Url\Exceptions\Runtime\UrlAlreadyExistsException;
 use blitzik\FlashMessages\FlashMessage;
 use Localization\Facades\LocaleFacade;
 use Nette\Forms\Controls\SubmitButton;
+use Pages\Factories\TagFormFactory;
 use Nette\Localization\ITranslator;
 use Kdyby\Translation\Translator;
 use Doctrine\DBAL\DBALException;
@@ -20,7 +20,6 @@ use Kdyby\Translation\Phrase;
 use Pages\Facades\PageFacade;
 use Nette\Utils\Strings;
 use Pages\Page;
-use Users\Authorization\Permission;
 use Users\User;
 
 class PageFormControl extends BaseControl
@@ -158,8 +157,8 @@ class PageFormControl extends BaseControl
                 ->setAttribute('title', $this->translator->translate('pageEditForm.saveAsDraft.title'))
                 ->onClick[] = [$this, 'processPageSavingAsDraft'];
 
-        if (!$this->user->isAllowed('page', Permission::ACL_CREATE) or
-            !$this->user->isAllowed('page', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page', 'create') or
+            !$this->authorizator->isAllowed($this->user, 'page', 'edit')) {
             $form['saveAndPublish']->setDisabled();
             $form['saveAsDraft']->setDisabled();
         }
@@ -184,8 +183,8 @@ class PageFormControl extends BaseControl
 
     private function pageSaving(\Nette\Forms\Form $form, $isDraft)
     {
-        if (!$this->user->isAllowed('page', Permission::ACL_CREATE) or
-            !$this->user->isAllowed('page', Permission::ACL_EDIT)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page', 'create') or
+            !$this->authorizator->isAllowed($this->user, 'page', 'edit')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             return;
         }

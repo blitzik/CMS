@@ -7,7 +7,7 @@
 {block content}
 
     {rowCol log-overview}
-        {if $user->isAllowed('dashboard_systemLog', 'view')}
+        {if $authorizator->isAllowed($user, 'dashboard_systemLog', 'view')}
         <b>System log</b>
         {control log}
         {/if}

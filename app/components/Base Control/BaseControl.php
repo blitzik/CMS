@@ -5,7 +5,6 @@ namespace App\Components;
 use blitzik\FlashMessages\TFlashMessages;
 use Nette\Application\UI\Control;
 use Nette\Security\IAuthorizator;
-use Users\User;
 
 abstract class BaseControl extends Control
 {
@@ -48,4 +47,6 @@ abstract class BaseControl extends Control
 
         return $comp;
     }
+
+
 }

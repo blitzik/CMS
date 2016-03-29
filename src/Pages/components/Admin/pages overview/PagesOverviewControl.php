@@ -3,11 +3,9 @@
 namespace Pages\Components\Admin;
 
 use App\Components\BaseControl;
-use blitzik\VisualPaginator;
-use Doctrine\ORM\AbstractQuery;
-use Nette\Utils\ArrayHash;
-use Nette\Utils\Paginator;
 use Pages\Facades\PageFacade;
+use blitzik\VisualPaginator;
+use Nette\Utils\Paginator;
 use Pages\Query\PageQuery;
 
 class PagesOverviewControl extends BaseControl

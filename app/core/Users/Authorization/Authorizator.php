@@ -61,7 +61,10 @@ class Authorizator extends Object implements IAuthorizator
     {
         $roles = [];
         if ($role instanceof User) {
-            $roles[] = $role->getRoles();
+            $roles = $role->getRoles();
+
+        } elseif ($role instanceof \Nette\Security\User) {
+            $roles = $role->getIdentity()->getRoles();
 
         } elseif ($role instanceof Role) {
             $roles[] = $role->getName();

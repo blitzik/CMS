@@ -108,7 +108,7 @@ class CommentsControl extends BaseControl
 
     public function processForm(Form $form, $values)
     {
-        if ($this->page->getAllowedComments() === false and !$this->user->isAllowed('page_comment_form', 'comment_on_closed')) {
+        if ($this->page->getAllowedComments() === false and !$this->authorizator->isAllowed($this->user, 'page_comment_form', 'comment_on_closed')) {
             $this->flashMessage('page.comments.form.messages.closedComments', FlashMessage::WARNING);
             $this->redirect('this#comments');
         }
