@@ -10,6 +10,8 @@ namespace Users\Facades;
 
 use Kdyby\Doctrine\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
+use Users\Authorization\Role;
+use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
 use Nette\Object;
 use Users\User;
@@ -22,11 +24,15 @@ class UserFacade extends Object
     /** @var EntityRepository */
     private $userRepository;
 
+    /** @var EntityRepository */
+    private $roleRepository;
+
 
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
         $this->userRepository = $entityManager->getRepository(User::class);
+        $this->roleRepository = $entityManager->getRepository(Role::class);
     }
 
 
@@ -47,5 +53,25 @@ class UserFacade extends Object
     public function fetchUsers(UserQuery $query)
     {
         return $this->userRepository->fetch($query);
+    }
+
+
+    /**
+     * @param RoleQuery $query
+     * @return Role
+     */
+    public function fetchRole(RoleQuery $query)
+    {
+        return $this->roleRepository->fetchOne($query);
+    }
+
+
+    /**
+     * @param RoleQuery $query
+     * @return array|\Kdyby\Doctrine\ResultSet
+     */
+    public function fetchRoles(RoleQuery $query)
+    {
+        return $this->roleRepository->fetch($query);
     }
 }

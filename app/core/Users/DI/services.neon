@@ -37,3 +37,8 @@ services:
 		implement: Users\Components\Admin\IUsersOverviewControlFactory
 		parameters: [Users\Query\UserQuery userQuery]
 		arguments: [%userQuery%]
+
+	usersRolesOverviewControlFactory:
+		implement: Users\Components\Admin\IUsersRolesOverviewControlFactory
+		parameters: [Users\Query\RoleQuery roleQuery]
+		arguments: [%roleQuery%]

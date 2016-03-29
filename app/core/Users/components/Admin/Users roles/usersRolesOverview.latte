@@ -1,0 +1,26 @@
+
+<a href="#">{_users.roles.actions.add}</a>
+<div class="box box-river">
+
+    <table class="table table-hover">
+        <tr>
+            {translator users.roles.rowTitle}
+            <th>{_name}</th>
+            <th>{_parent}</th>
+            <th>{_actions}</th>
+            {/translator}
+        </tr>
+
+        {foreach $roles as $role}
+        <tr>
+            <td>{$role->getName()}</td>
+            <td>{if $role->hasParent()}{$role->getParentName()}{else}-{/if}</td>
+            <td class="w200">
+                <a href="#" class="btn btn-river"><i class="fa fa-cog"></i>edit</a>
+                <a href="#" class="btn btn-red"><i class="fa fa-trash"></i>remove</a>
+            </td>
+        </tr>
+        {/foreach}
+    </table>
+
+</div>

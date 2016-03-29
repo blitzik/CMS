@@ -23,3 +23,33 @@ login:
 
 overview:
 	title: "Users overview"
+	rowTitle:
+		name: Name
+		roles: Roles
+		actions: Actions
+
+	actions:
+		edit: edit
+		remove: remove
+
+
+
+detail:
+	title: "User detail"
+
+
+
+roles:
+	title: "User's roles"
+	rowTitle:
+		name: Name
+		parent: Parent
+		actions: Actions
+
+	actions:
+		add: "+ add a new Role"
+
+
+
+roleDefinition:
+	title: "Role permissions"

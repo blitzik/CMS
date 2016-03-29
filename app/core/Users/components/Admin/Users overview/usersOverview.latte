@@ -3,10 +3,12 @@
 <div class="box box-river">
     <table class="table table-hover">
         <tr>
+            {translator users.overview.rowTitle}
             <th>#ID</th>
-            <th>Name</th>
-            <th>Roles</th>
-            <th class="w250">Actions</th>
+            <th class="w200">{_name}</th>
+            <th>{_roles}</th>
+            <th class="w250">{_actions}</th>
+            {/translator}
         </tr>
 
         {foreach $users as $user}
@@ -19,8 +21,10 @@
                     {/foreach}
                 </td>
                 <td class="w50">
-                    <a href="{plink :Users:Admin:Users:detail, id => $user->getId()}" class="btn btn-river"><i class="fa fa-cog"></i> edit</a>
-                    <a href="#" class="btn btn-red"><i class="fa fa-trash"></i> remove</a>
+                    {translator users.overview.actions}
+                    <a href="{plink :Users:Admin:Users:detail, id => $user->getId()}" class="btn btn-river"><i class="fa fa-cog"></i> {_edit}</a>
+                    <a href="#" class="btn btn-red"><i class="fa fa-trash"></i> {_remove}</a>
+                    {/translator}
                 </td>
             </tr>
         {/foreach}
