@@ -52,19 +52,37 @@ class AccessDefinition
 
 
     /**
-     * @return Resource
+     * @return int
      */
-    public function getResource()
+    public function getResourceId()
     {
-        return $this->resource;
+        return $this->resource->getId();
     }
 
 
     /**
-     * @return Privilege
+     * @return string
      */
-    public function getPrivilege()
+    public function getResourceName()
     {
-        return $this->privilege;
+        return $this->resource->getName();
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getPrivilegeId()
+    {
+        return $this->privilege->getId();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPrivilegeName()
+    {
+        return $this->privilege->getName();
     }
 }

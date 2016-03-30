@@ -798,6 +798,20 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
+.role-definition{
+  @extend %col-12;
+
+  label{
+    font-size: 1.25em;
+    font-weight: normal;
+  }
+
+  .permission-current-state{
+    font-size: .9em;
+  }
+}
+
+
 ////////// common
 
 
@@ -1219,7 +1233,8 @@ h1, h2, h3, h4, h5, h6{
   .tag-filter,
   .tag-box,
   .users-overview,
-  .users-roles{
+  .users-roles,
+  .role-definition{
     @include column(9);
   }
 

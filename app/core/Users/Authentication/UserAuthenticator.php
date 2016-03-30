@@ -13,6 +13,8 @@ use Users\User;
 
 class UserAuthenticator extends Object implements IAuthenticator
 {
+    const CACHE_NAMESPACE = 'users.authentication';
+
     public $onLoggedIn;
 
     /** @var IRequest */

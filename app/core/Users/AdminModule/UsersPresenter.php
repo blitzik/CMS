@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: aleš tichava
@@ -8,14 +9,30 @@
 
 namespace Users\AdminModule\Presenters;
 
+use Kdyby\Translation\Phrase;
+use Users\Authorization\Role;
 use Users\Components\Admin\IUsersRolesOverviewControlFactory;
+use Users\Components\Admin\IRoleDefinitionControlFactory;
 use Users\Components\Admin\IUsersOverviewControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Users\Facades\UserFacade;
 use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
 
 class UsersPresenter extends ProtectedPresenter
 {
+    /**
+     * @var IUsersRolesOverviewControlFactory
+     * @inject
+     */
+    public $usersRolesOverviewControlFactory;
+
+    /**
+     * @var IRoleDefinitionControlFactory
+     * @inject
+     */
+    public $roleDefinitionControlFactory;
+
     /**
      * @var IUsersOverviewControlFactory
      * @inject
@@ -23,10 +40,13 @@ class UsersPresenter extends ProtectedPresenter
     public $usersOverviewControlFactory;
 
     /**
-     * @var IUsersRolesOverviewControlFactory
+     * @var UserFacade
      * @inject
      */
-    public $usersRolesOverviewControlFactory;
+    public $userFacade;
+
+    /** @var Role */
+    public $role;
 
 
     /*
@@ -124,13 +144,26 @@ class UsersPresenter extends ProtectedPresenter
 
     public function actionRoleDefinition($id)
     {
-        $this['pageTitle']->setPageTitle('users.roleDefinition.title');
+        $this->role = $this->userFacade->fetchRole((new RoleQuery())->byId($id));
+        $this['pageTitle']->setPageTitle(new Phrase('users.roleDefinition.title', ['roleName' => ucfirst($this->role->getName())]));
     }
 
 
     public function renderRoleDefinition($id)
     {
 
+    }
+
+
+    /**
+     * @Actions roleDefinition
+     */
+    protected function createComponentRoleDefinition()
+    {
+        $comp = $this->roleDefinitionControlFactory
+                     ->create($this->role);
+
+        return $comp;
     }
 
 

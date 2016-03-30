@@ -52,4 +52,12 @@ roles:
 
 
 roleDefinition:
-	title: "Nastavení práv"
+	title: "[%roleName%] práva"
+	rowTitle:
+		privilege: Právo
+		state: Stav
+		currentState: "Aktuální stav"
+
+	messages:
+		success: "Nové nastavení práv bylo úspěšně uloženo"
+		error: "Při ukládání došlo k chybě"

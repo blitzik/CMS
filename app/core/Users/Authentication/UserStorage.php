@@ -3,10 +3,10 @@
 namespace Users\Authentication;
 
 use Kdyby\Doctrine\EntityManager;
-use Nette\Caching\Cache;
-use Nette\Caching\IStorage;
 use Nette\Security\IIdentity;
+use Nette\Caching\IStorage;
 use Nette\Http\Session;
+use Nette\Caching\Cache;
 
 class UserStorage extends \Nette\Http\UserStorage
 {
@@ -25,7 +25,7 @@ class UserStorage extends \Nette\Http\UserStorage
         parent::__construct($sessionHandler);
 
         $this->entityManager = $entityManager;
-        $this->cache = new Cache($storage, 'users.authentication');
+        $this->cache = new Cache($storage, UserAuthenticator::CACHE_NAMESPACE);
     }
 
     /**

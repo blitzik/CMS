@@ -3,17 +3,17 @@
 /**
  * Created by PhpStorm.
  * Author: Aleš Tichava
- * Date: 29.03.2016
+ * Date: 30.03.2016
  */
 
 namespace Users\Query;
 
+use Users\Authorization\Permission;
 use Kdyby\Persistence\Queryable;
 use Kdyby\Doctrine\QueryObject;
-use Users\Authorization\Role;
 use Kdyby;
 
-class RoleQuery extends QueryObject
+class PermissionQuery extends QueryObject
 {
     /** @var array */
     private $select = [];
@@ -22,21 +22,10 @@ class RoleQuery extends QueryObject
     private $filter = [];
 
 
-    public function byId($id)
+    public function byRole($roleID)
     {
-        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($id) {
-            $qb->andWhere('r.id = :id')->setParameter('id', $id);
-        };
-
-        return $this;
-    }
-
-
-    public function withParent()
-    {
-        $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
-            $qb->leftJoin('r.parent', 'parent')
-               ->addSelect('parent');
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($roleID) {
+            $qb->andWhere('p.role = :roleID')->setParameter('roleID', $roleID);
         };
 
         return $this;
@@ -52,7 +41,7 @@ class RoleQuery extends QueryObject
     protected function doCreateQuery(Kdyby\Persistence\Queryable $repository)
     {
         $qb = $this->createBasicQuery($repository->getEntityManager());
-        $qb->select('r');
+        $qb->select('p');
 
         foreach ($this->select as $modifier) {
             $modifier($qb);
@@ -65,7 +54,7 @@ class RoleQuery extends QueryObject
     private function createBasicQuery(Kdyby\Doctrine\EntityManager $entityManager)
     {
         $qb = $entityManager->createQueryBuilder();
-        $qb->from(Role::class, 'r');
+        $qb->from(Permission::class, 'p');
 
         foreach ($this->filter as $modifier) {
             $modifier($qb);

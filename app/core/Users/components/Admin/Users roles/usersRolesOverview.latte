@@ -16,7 +16,7 @@
             <td>{$role->getName()}</td>
             <td>{if $role->hasParent()}{$role->getParentName()}{else}-{/if}</td>
             <td class="w200">
-                <a href="#" class="btn btn-river"><i class="fa fa-cog"></i>edit</a>
+                <a href="{plink :Users:Admin:Users:roleDefinition id => $role->getId()}" class="btn btn-river"><i class="fa fa-cog"></i>edit</a>
                 <a href="#" class="btn btn-red"><i class="fa fa-trash"></i>remove</a>
             </td>
         </tr>

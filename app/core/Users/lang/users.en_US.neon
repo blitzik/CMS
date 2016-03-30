@@ -52,4 +52,11 @@ roles:
 
 
 roleDefinition:
-	title: "Role permissions"
+	title: "[%roleName%] permissions"
+	rowTitle:
+		privilege: Privilege
+		state: State
+
+	messages:
+		success: "New Role settings has been successfully saved"
+		errro: "An Error occurred while saving Role settings"

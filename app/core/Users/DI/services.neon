@@ -26,9 +26,11 @@ services:
 
 
 	# Facades
-
 	userFacade: Users\Facades\UserFacade
 
+
+	# Services
+	rolePermissionsPersister: Users\Services\RolePermissionsPersister
 
 
 	# Component factories
@@ -42,3 +44,8 @@ services:
 		implement: Users\Components\Admin\IUsersRolesOverviewControlFactory
 		parameters: [Users\Query\RoleQuery roleQuery]
 		arguments: [%roleQuery%]
+
+	roleDefinitionControlFactory:
+		implement: Users\Components\Admin\IRoleDefinitionControlFactory
+		parameters: [Users\Authorization\Role role]
+		arguments: [%role%]
