@@ -27,31 +27,31 @@ class User
      * @ORM\Column(name="username", type="string", length=40, nullable=false, unique=true)
      * @var string
      */
-    protected $username;
+    private $username;
 
     /**
      * @ORM\Column(name="first_name", type="string", length=50, nullable=true, unique=false)
      * @var string
      */
-    protected $firstName;
+    private $firstName;
 
     /**
      * @ORM\Column(name="last_name", type="string", length=50, nullable=true, unique=false)
      * @var string
      */
-    protected $lastName;
+    private $lastName;
     
     /**
      * @ORM\Column(name="email", type="string", length=100, nullable=false, unique=true)
      * @var string
      */
-    protected $email;
+    private $email;
     
     /**
      * @ORM\Column(name="password", type="string", length=60, nullable=false, unique=false, options={"fixed": true})
      * @var string
      */
-    protected $password;
+    private $password;
 
     /**
      * @ORM\Column(name="token", type="string", length=32, nullable=true, unique=false, options={"fixed": true})
@@ -168,6 +168,51 @@ class User
         }
 
         return trim($this->firstName . ' ' . $this->lastName);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
 

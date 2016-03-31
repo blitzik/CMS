@@ -222,6 +222,8 @@ $main-header-background-color: #d43f3a;
   left: -5000px;
   padding: 0;
   margin: 0;
+  border: 0;
+  z-index: -1;
 }
 
 .overlay{
@@ -811,6 +813,59 @@ h1, h2, h3, h4, h5, h6{
   }
 }
 
+.users-new-role{
+  @extend %col-12;
+}
+
+.user-form-role-name{
+  @extend %col-5;
+}
+
+.user-form-role-parent{
+  @extend %col-4;
+}
+
+.user-form-role-submit{
+  @extend %col-3;
+  padding-top: 5px;
+}
+
+.table-role-permissions{
+  td{
+    border: 1px solid #fff;
+  }
+}
+
+.privilege_allowed{
+  background-color: #f9fff9;
+  label {
+    color: #009600;
+  }
+
+  &:hover{
+    background-color: #009600;
+    color: #fff;
+    label {
+      color: #fff;
+    }
+  }
+}
+
+.privilege_denied{
+  background-color: #fff9f9;
+  label {
+    color: #b20000;
+  }
+  
+  &:hover{
+    background-color: #b20000;
+    color: #fff;
+    label {
+      color: #fff;
+    }
+  }
+}
+
 
 ////////// common
 
@@ -1234,7 +1289,8 @@ h1, h2, h3, h4, h5, h6{
   .tag-box,
   .users-overview,
   .users-roles,
-  .role-definition{
+  .role-definition,
+  .users-new-role{
     @include column(9);
   }
 

@@ -51,7 +51,7 @@ class PageTagSubscriber extends Object implements Subscriber
                 sprintf(
                     'User [%s#%s] <b>has CREATED</b> new Tag [%s#%s]',
                     $this->user->getId(),
-                    $this->user->username,
+                    $this->user->getUsername(),
                     $tag->getId(),
                     $tag->getName()
                 ),
@@ -68,7 +68,7 @@ class PageTagSubscriber extends Object implements Subscriber
                 sprintf(
                     'User [%s#%s] <b>has UPDATED</b> Tag [%s#%s]',
                     $this->user->getId(),
-                    $this->user->username,
+                    $this->user->getUsername(),
                     $tag->getId(),
                     $tag->getName()
                 ),
@@ -85,7 +85,7 @@ class PageTagSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has REMOVED</b> Tag [%s#%s]',
                      $this->user->getId(),
-                     $this->user->username,
+                     $this->user->getUsername(),
                      $id,
                      $tag->getName()
                  ),

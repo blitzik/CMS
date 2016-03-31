@@ -51,6 +51,29 @@ roles:
 
 
 
+newRole:
+	title: "Nová uživatelská role"
+	form:
+		name:
+			label: "Název"
+			messages:
+				required: "Vyplňte název Role"
+
+		parent:
+			label: "Předek"
+			prompt: "vyberte předka"
+
+		save:
+			caption: "Uložit"
+
+		messages:
+			success: "Role \"%roleName%\" byla úspěšně vytvořena"
+			roleAlreadyExists: "Role \"%roleName%\" již existuje"
+			missingRole: "Nelze přiřadit roli \"%roleName%\" jako rodiče. Vyberte jinou roli."
+
+
+
+
 roleDefinition:
 	title: "[%roleName%] práva"
 	rowTitle:

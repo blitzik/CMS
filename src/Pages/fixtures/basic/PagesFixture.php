@@ -164,13 +164,13 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $pageResource = new Resource('page');
         $manager->persist($pageResource);
 
-        $permPageCreate = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_create'));
+        $permPageCreate = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_create'));
         $manager->persist($permPageCreate);
 
-        $permPageEdit = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_edit'));
+        $permPageEdit = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_edit'));
         $manager->persist($permPageEdit);
 
-        $permPageRemove = new Permission($this->getReference('role_user'), $pageResource, $this->getReference('privilege_remove'));
+        $permPageRemove = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_remove'));
         $manager->persist($permPageRemove);
 
 
@@ -178,26 +178,26 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $commentResource = new Resource('page_comment');
         $manager->persist($commentResource);
 
-        $permCommentSilence = new Permission($this->getReference('role_user'), $commentResource, $silence);
+        $permCommentSilence = new Permission($this->getReference('role_admin'), $commentResource, $silence);
         $manager->persist($permCommentSilence);
 
-        $permCommentRelease = new Permission($this->getReference('role_user'), $commentResource, $release);
+        $permCommentRelease = new Permission($this->getReference('role_admin'), $commentResource, $release);
         $manager->persist($permCommentRelease);
 
-        $permCommentRemove = new Permission($this->getReference('role_user'), $commentResource, $this->getReference('privilege_remove'));
+        $permCommentRemove = new Permission($this->getReference('role_admin'), $commentResource, $this->getReference('privilege_remove'));
         $manager->persist($permCommentRemove);
 
-        $permSilencedComment = new Permission($this->getReference('role_user'), $commentResource, $viewSilenced);
+        $permSilencedComment = new Permission($this->getReference('role_admin'), $commentResource, $viewSilenced);
         $manager->persist($permSilencedComment);
 
-        $permRespondOnSilenced = new Permission($this->getReference('role_user'), $commentResource, $respondOnSilenced);
+        $permRespondOnSilenced = new Permission($this->getReference('role_admin'), $commentResource, $respondOnSilenced);
         $manager->persist($permRespondOnSilenced);
 
 
         $commentForm = new Resource('page_comment_form');
         $manager->persist($commentForm);
 
-        $permCommentOnClosed = new Permission($this->getReference('role_user'), $commentForm, $commentOnClosed);
+        $permCommentOnClosed = new Permission($this->getReference('role_admin'), $commentForm, $commentOnClosed);
         $manager->persist($permCommentOnClosed);
 
 
@@ -205,13 +205,13 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $tagResource = new Resource('page_tag');
         $manager->persist($tagResource);
 
-        $permTagCreate = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_create'));
+        $permTagCreate = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_create'));
         $manager->persist($permTagCreate);
 
-        $permTagEdit = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_edit'));
+        $permTagEdit = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_edit'));
         $manager->persist($permTagEdit);
 
-        $permTagRemove = new Permission($this->getReference('role_user'), $tagResource, $this->getReference('privilege_remove'));
+        $permTagRemove = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_remove'));
         $manager->persist($permTagRemove);
 
 

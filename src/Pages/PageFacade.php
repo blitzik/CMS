@@ -2,8 +2,6 @@
 
 namespace Pages\Facades;
 
-use Doctrine\ORM\AbstractQuery;
-use Localization\Locale;
 use Pages\Exceptions\Runtime\PageTitleAlreadyExistsException;
 use Pages\Exceptions\Runtime\PageIntroHtmlLengthException;
 use Pages\Exceptions\Runtime\PagePublicationTimeException;
@@ -14,12 +12,14 @@ use Kdyby\Doctrine\EntityRepository;
 use Pages\Services\PagePersister;
 use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\AbstractQuery;
 use Pages\Services\PageRemover;
 use Kdyby\Doctrine\Dql\Join;
 use Nette\Caching\IStorage;
 use Pages\Query\PageQuery;
 use Kdyby\Monolog\Logger;
 use Nette\Caching\Cache;
+use Localization\Locale;
 use Comments\Comment;
 use Nette\Object;
 use Pages\Page;

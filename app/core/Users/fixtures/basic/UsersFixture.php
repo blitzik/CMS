@@ -10,8 +10,11 @@ namespace Users\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Url\Generators\UrlGenerator;
+use Users\Authorization\AccessDefinition;
+use Users\Authorization\Permission;
 use Users\Authorization\Privilege;
+use Url\Generators\UrlGenerator;
+use Users\Authorization\Resource;
 use Users\Authorization\Role;
 use Log\EventLog;
 use Log\LogType;
@@ -28,9 +31,10 @@ class UsersFixture extends AbstractFixture
     {
         $this->loadDefaultUserRoles($manager);
         $this->loadDefaultUsers($manager);
+        $this->loadDefaultPrivileges($manager);
+        $this->loadDefaultAuthorizatorRules($manager);
         $this->loadDefaultLoggingEvents($manager);
         $this->loadDefaultUrls($manager);
-        $this->loadDefaultPrivileges($manager);
 
         $manager->flush();
     }
@@ -38,6 +42,10 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultUsers(ObjectManager $manager)
     {
+        $guest = new User('guest', 'guest@cms.cz', 'guest');
+        $guest->addRole($this->getReference('role_guest'));
+        $manager->persist($guest);
+
         $admin = new User('admin', 'admin@cms.cz', 'admin');
         $admin->addRole($this->getReference('role_admin'));
         $manager->persist($admin);
@@ -49,14 +57,10 @@ class UsersFixture extends AbstractFixture
         $guest = new Role('guest');
         $manager->persist($guest);
 
-        $user = new Role('user', $guest);
-        $manager->persist($user);
-
-        $admin = new Role('admin', $user);
+        $admin = new Role('admin');
         $manager->persist($admin);
 
         $this->addReference('role_guest', $guest);
-        $this->addReference('role_user', $user);
         $this->addReference('role_admin', $admin);
     }
 
@@ -85,6 +89,34 @@ class UsersFixture extends AbstractFixture
     }
 
 
+    private function loadDefaultAuthorizatorRules(ObjectManager $manager)
+    {
+        $roleResource = new Resource('user_role');
+        $manager->persist($roleResource);
+
+        $permRoleCreate = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_create'));
+        $manager->persist($permRoleCreate);
+
+        $permRoleEdit = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_edit'));
+        $manager->persist($permRoleEdit);
+
+        $permRoleRemove = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_remove'));
+        $manager->persist($permRoleRemove);
+
+
+        // access definitions
+
+        $acRoleCreate = new AccessDefinition($roleResource, $this->getReference('privilege_create'));
+        $manager->persist($acRoleCreate);
+
+        $acRoleEdit = new AccessDefinition($roleResource, $this->getReference('privilege_edit'));
+        $manager->persist($acRoleEdit);
+
+        $acRoleRemove = new AccessDefinition($roleResource, $this->getReference('privilege_remove'));
+        $manager->persist($acRoleRemove);
+    }
+
+
     private function loadDefaultUrls(ObjectManager $manager)
     {
         $login = UrlGenerator::create('administration/login', 'Users:Front:Auth', 'login');
@@ -102,6 +134,9 @@ class UsersFixture extends AbstractFixture
         $roles = UrlGenerator::create('administration/roles', 'Users:Admin:Users', 'roles');
         $manager->persist($roles);
 
+        $newRole = UrlGenerator::create('administration/new-role', 'Users:Admin:Users', 'newRole');
+        $manager->persist($newRole);
+
         $roleDefinition = UrlGenerator::create('administration/role-definition', 'Users:Admin:Users', 'roleDefinition');
         $manager->persist($roleDefinition);
     }
@@ -113,12 +148,24 @@ class UsersFixture extends AbstractFixture
         $userLogType = new LogType('user');
         $manager->persist($userLogType);
 
+        $userRoleLogType = new LogType('user_role');
+        $manager->persist($userRoleLogType);
+
         // Log events
         $userLoginEvent = new EventLog('user_login', $userLogType);
         $manager->persist($userLoginEvent);
 
         $userLogoutEvent = new EventLog('user_logout', $userLogType);
         $manager->persist($userLogoutEvent);
+
+        $userRoleCreationEvent = new EventLog('user_role_creation', $userRoleLogType);
+        $manager->persist($userRoleCreationEvent);
+
+        $userRoleRemovalEvent = new EventLog('user_role_removal', $userRoleLogType);
+        $manager->persist($userRoleRemovalEvent); // todo implement into subscriber
+
+        $userRoleEditingEvent = new EventLog('user_role_editing', $userRoleLogType);
+        $manager->persist($userRoleEditingEvent);
     }
 
 }

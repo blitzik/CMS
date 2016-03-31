@@ -56,6 +56,7 @@ class RoleDefinitionControl extends BaseControl
                                      );
 
         $template->permissions = $this->sortRolePermissions($permissionsResultSet->toArray());
+        $template->role = $this->role->getName();
 
         $template->render();
     }
@@ -67,6 +68,10 @@ class RoleDefinitionControl extends BaseControl
 
         $form->addSubmit('save', 'Save');
 
+        if (!$this->authorizator->isAllowed($this->user, 'user_role', 'edit')) {
+            $form['save']->setDisabled();
+        }
+
         $form->onSuccess[] = [$this, 'processPrivileges'];
 
         return $form;
@@ -75,6 +80,10 @@ class RoleDefinitionControl extends BaseControl
 
     public function processPrivileges(Form $form)
     {
+        if (!$this->authorizator->isAllowed($this->user, 'user_role', 'edit')) {
+            $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
+        }
+
         $values = $form->getHttpData();
         unset($values['save'], $values['do']);
 

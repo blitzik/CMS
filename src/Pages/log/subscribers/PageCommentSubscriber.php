@@ -84,7 +84,7 @@ class PageCommentSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has SUPPRESSED</b> the <a href="%s#comment-%s">Comment [%s#]</a> of Author [%s#] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
-                     $user->username,
+                     $user->getUsername(),
                      $pageLink,
                      $comment->getId(),
                      $comment->getId(),
@@ -110,7 +110,7 @@ class PageCommentSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has RELEASED</b> the <a href="%s#comment-%s">Comment [%s#]</a> of Author [%s#] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
-                     $user->username,
+                     $user->getUsername(),
                      $pageLink,
                      $comment->getId(),
                      $comment->getId(),
@@ -136,7 +136,7 @@ class PageCommentSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has REMOVED</b> the Comment [%s#] of Author [%s] on the <a href="%s">Page [%s#%s]</a>',
                      $user->getId(),
-                     $user->username,
+                     $user->getUsername(),
                      $id,
                      $comment->getAuthor(),
                      $pageLink,

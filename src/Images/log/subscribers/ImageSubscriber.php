@@ -69,7 +69,7 @@ class ImageSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has UPLOADED</b> the %sImage [%s#%s]%s',
                      $this->user->getId(),
-                     $this->user->username,
+                     $this->user->getUsername(),
                      (isset($this->fileRoot) ? sprintf('<a href="%s/%s">', $this->fileRoot, $image->getComposedFilePath()) : ''),
                      $image->getId(),
                      $image->getOriginalName(),
@@ -92,7 +92,7 @@ class ImageSubscriber extends Object implements Subscriber
                  sprintf(
                      'User [%s#%s] <b>has REMOVED</b> the Image [%s#%s]',
                      $this->user->getId(),
-                     $this->user->username,
+                     $this->user->getUsername(),
                      $imageID,
                      $imageOriginalName
                  ),

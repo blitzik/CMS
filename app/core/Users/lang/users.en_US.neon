@@ -51,6 +51,28 @@ roles:
 
 
 
+newRole:
+	title: "New Role"
+	form:
+		name:
+			label: "Name"
+			messages:
+				required: "Type a name of new Role"
+
+		parent:
+			label: "Parent"
+			prompt: "pick a parent"
+
+		save:
+			caption: "Save"
+
+		messages:
+			success: "Role \"%roleName%\" has been successfully created"
+			roleAlreadyExists: "Role with name \"%roleName%\" already exists"
+			missingRole: "You cannot use Role \"%roleName%\" as a parent. Pick different parent role."
+
+
+
 roleDefinition:
 	title: "[%roleName%] permissions"
 	rowTitle:

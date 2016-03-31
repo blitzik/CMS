@@ -62,10 +62,10 @@ class ImagesFixture extends AbstractFixture implements DependentFixtureInterface
         $imageResource = new Resource('image');
         $manager->persist($imageResource);
 
-        $imageUpload = new Permission($this->getReference('role_user'), $imageResource, $this->getReference('privilege_upload'));
+        $imageUpload = new Permission($this->getReference('role_admin'), $imageResource, $this->getReference('privilege_upload'));
         $manager->persist($imageUpload);
 
-        $imageRemove = new Permission($this->getReference('role_user'), $imageResource, $this->getReference('privilege_remove'));
+        $imageRemove = new Permission($this->getReference('role_admin'), $imageResource, $this->getReference('privilege_remove'));
         $manager->persist($imageRemove);
 
         

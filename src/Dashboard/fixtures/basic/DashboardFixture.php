@@ -47,7 +47,7 @@ class DashboardFixture extends AbstractFixture implements DependentFixtureInterf
         $manager->persist($logResource);
         
         $logPermissionView = new Permission(
-            $this->getReference('role_user'),
+            $this->getReference('role_admin'),
             $logResource,
             $this->getReference('privilege_view')
         );

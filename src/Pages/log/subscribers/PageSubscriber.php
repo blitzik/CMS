@@ -154,8 +154,8 @@ class PageSubscriber extends Object implements Subscriber
     {
         return sprintf(
             $formatString,
-            $page->getAuthorId(),
-            $page->getAuthorName(),
+            $this->user->getId(), //$page->getAuthorId(),
+            $this->user->getUsername(), //$page->getAuthorName(),
             $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
             ($page->isDraft() ? ' draft' : ''),
             $page->getId(),

@@ -22,10 +22,9 @@ class Role implements IRole
 {
     use Identifier;
 
-    const GUEST = 'guest';
-    const USER = 'user';
-    const ADMIN = 'admin';
     const GOD = 'god';
+
+    const LENGTH_NAME = 255;
     
 
     /**

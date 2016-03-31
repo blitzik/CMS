@@ -5,28 +5,25 @@
 {foreach $accessDefinitions as $definitionName => $definitions}
 <b>{$definitionName}</b>
 <div class="box box-river">
-    <table class="table table-hover">
+    <table class="table table-role-permissions">
         <tr>
             {translator users.roleDefinition.rowTitle}
             <th>{_privilege}</th>
             <th class="w200">{_state}</th>
-            {*<th>{_currentState}</th>*}
             {/translator}
         </tr>
         {foreach $definitions as $definition}
-        {var $permission = isset($permissions[$definition->getResourceName()][$definition->getPrivilegeId()]) ? $permissions[$definition->getResourceName()][$definition->getPrivilegeId()] : null}
-        <tr>
+        <tr n:class="$authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName()) ? privilege_allowed : privilege_denied">
             <td>
                 <label for="{$definition->getResourceId()}-{$definition->getPrivilegeId()}">{$definition->getPrivilegeName()}</label>
-                <div class="permission-current-state">({if $permission !== null and $permission->isAllowed()}is allowed{else}is denied{/if})</div>
+                <div class="permission-current-state">Privilege is <b>{if $authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())}allowed{else}denied{/if}</b> for {$role}</div>
             </td>
             <td>
                 <select name="{$definition->getResourceId()}-{$definition->getPrivilegeId()}" class="form-control" id="{$definition->getResourceId()}-{$definition->getPrivilegeId()}">
-                    <option value="0"{if $permission === null or !$permission->isAllowed()} selected{/if}>is DENIED</option>
-                    <option value="1"{if $permission !== null and $permission->isAllowed()} selected{/if}>is ALLOWED</option>
+                    <option value="0"{if !$authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())} selected{/if}>is DENIED</option>
+                    <option value="1"{if $authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())} selected{/if}>is ALLOWED</option>
                 </select>
             </td>
-            {*<td></td>*}
         </tr>
         {/foreach}
     </table>

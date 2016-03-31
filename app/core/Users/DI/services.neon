@@ -30,6 +30,7 @@ services:
 
 
 	# Services
+	rolePersister: Users\Services\RolePersister
 	rolePermissionsPersister: Users\Services\RolePermissionsPersister
 
 
@@ -44,6 +45,9 @@ services:
 		implement: Users\Components\Admin\IUsersRolesOverviewControlFactory
 		parameters: [Users\Query\RoleQuery roleQuery]
 		arguments: [%roleQuery%]
+
+	newRoleControlFactory:
+		implement: Users\Components\Admin\INewRoleControlFactory
 
 	roleDefinitionControlFactory:
 		implement: Users\Components\Admin\IRoleDefinitionControlFactory

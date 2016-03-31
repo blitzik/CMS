@@ -9,13 +9,16 @@
 
 namespace Users\AdminModule\Presenters;
 
-use Kdyby\Translation\Phrase;
-use Users\Authorization\Role;
+use blitzik\FlashMessages\FlashMessage;
 use Users\Components\Admin\IUsersRolesOverviewControlFactory;
 use Users\Components\Admin\IRoleDefinitionControlFactory;
 use Users\Components\Admin\IUsersOverviewControlFactory;
+use Users\Components\Admin\INewRoleControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
+use Users\Components\Admin\NewRoleControl;
 use Users\Facades\UserFacade;
+use Users\Authorization\Role;
+use Kdyby\Translation\Phrase;
 use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
 
@@ -38,6 +41,12 @@ class UsersPresenter extends ProtectedPresenter
      * @inject
      */
     public $usersOverviewControlFactory;
+
+    /**
+     * @var INewRoleControlFactory
+     * @inject
+     */
+    public $newRoleControlFactory;
 
     /**
      * @var UserFacade
@@ -134,6 +143,44 @@ class UsersPresenter extends ProtectedPresenter
         return $comp;
     }
 
+    
+    /*
+     * --------------------
+     * ----- NEW ROLE -----
+     * --------------------
+     */
+     
+    
+    public function actionNewRole()
+    {
+        $this['pageTitle']->setPageTitle('users.newRole.title');
+    }
+    
+    
+    public function renderNewRole()
+    {
+        
+    }
+
+
+    /**
+     * @Actions newRole
+     */
+    protected function createComponentNewRole()
+    {
+        $comp = $this->newRoleControlFactory->create();
+        $comp->onSuccessRoleCreation[] = [$this, 'onSuccessRoleCreation'];
+
+        return $comp;
+    }
+
+
+    public function onSuccessRoleCreation(NewRoleControl $control, Role $role)
+    {
+        $this->flashMessage('users.newRole.form.messages.success', FlashMessage::SUCCESS, ['roleName' => $role->getName()]);
+        $this->redirect('Users:roles');
+    }
+    
 
     /*
      * ---------------------------
@@ -144,7 +191,13 @@ class UsersPresenter extends ProtectedPresenter
 
     public function actionRoleDefinition($id)
     {
-        $this->role = $this->userFacade->fetchRole((new RoleQuery())->byId($id));
+        $this->role = $this->userFacade
+                           ->fetchRole(
+                               (new RoleQuery())
+                               ->withParent()
+                               ->byId($id)
+                           );
+
         $this['pageTitle']->setPageTitle(new Phrase('users.roleDefinition.title', ['roleName' => ucfirst($this->role->getName())]));
     }
 

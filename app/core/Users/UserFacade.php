@@ -8,15 +8,17 @@
 
 namespace Users\Facades;
 
-use Doctrine\DBAL\DBALException;
+use Users\Exceptions\Runtime\RoleAlreadyExistsException;
+use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
+use Users\Exceptions\Runtime\RoleMissingException;
 use Users\Services\RolePermissionsPersister;
 use Users\Authorization\AccessDefinition;
 use Users\Query\AccessDefinitionQuery;
 use Kdyby\Doctrine\EntityRepository;
 use Users\Authorization\Permission;
-use Users\Authorization\Privilege;
-use Users\Authorization\Resource;
+use Users\Services\RolePersister;
 use Kdyby\Doctrine\EntityManager;
+use Doctrine\DBAL\DBALException;
 use Users\Query\PermissionQuery;
 use Users\Authorization\Role;
 use Users\Query\RoleQuery;
@@ -44,12 +46,17 @@ class UserFacade extends Object
     /** @var EntityRepository */
     private $roleRepository;
 
+    /** @var RolePersister */
+    private $rolePersister;
+
 
     public function __construct(
         EntityManager $entityManager,
+        RolePersister $rolePersister,
         RolePermissionsPersister $rolePermissionsPersister
     ) {
         $this->em = $entityManager;
+        $this->rolePersister = $rolePersister;
         $this->rolePermissionsPersister = $rolePermissionsPersister;
 
         $this->userRepository = $entityManager->getRepository(User::class);
@@ -147,5 +154,45 @@ class UserFacade extends Object
     public function savePermissionDefinitions(Role $role, array $permissionDefinitions)
     {
         $this->rolePermissionsPersister->save($role, $permissionDefinitions);
+    }
+
+
+    /**
+     * @param array $values
+     * @return Role
+     * @throws RoleAlreadyExistsException
+     * @throws RoleMissingException
+     */
+    public function createRole(array $values)
+    {
+        return $this->rolePersister->createRole($values);
+    }
+
+
+    /**
+     * @return Role[]
+     */
+    public function findRolesThatAreNotParents()
+    {
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addEntityResult(Role::class, 'r');
+
+        $rsm->addFieldResult('r', 'id', 'id');
+        $rsm->addFieldResult('r', 'name', 'name');
+
+        $rsm->addJoinedEntityResult(Role::class, 'p', 'r', 'parent');
+        $rsm->addFieldResult('p', 'parent_id', 'id');
+        $rsm->addFieldResult('p', 'parent_name', 'name');
+
+        $nativeQuery = $this->em->createNativeQuery('
+            SELECT r.id, r.name, p.id AS parent_id, p.name AS parent_name
+            FROM role r
+            LEFT JOIN role p ON (p.id = r.parent_id)
+            WHERE r.id NOT IN(
+                SELECT r2.parent_id FROM role r2 WHERE r2.parent_id IS NOT NULL
+            )
+        ', $rsm);
+
+        return $nativeQuery->getResult();
     }
 }

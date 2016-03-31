@@ -67,7 +67,7 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
         $optionsResource = new Resource('options');
         $manager->persist($optionsResource);
 
-        $optionsEdit = new Permission($this->getReference('role_user'), $optionsResource, $this->getReference('privilege_edit'));
+        $optionsEdit = new Permission($this->getReference('role_admin'), $optionsResource, $this->getReference('privilege_edit'));
         $manager->persist($optionsEdit);
 
         // access definitions
