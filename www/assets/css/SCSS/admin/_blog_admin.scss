@@ -830,17 +830,41 @@ h1, h2, h3, h4, h5, h6{
   padding-top: 5px;
 }
 
+.privilege{
+  @extend %col-12;
+}
+
+.privileges-box{
+  padding: 15px 30px;
+  padding-bottom: 0;
+}
+
+.privilege-info{
+  @extend %col-7;
+}
+
+.privilege-state{
+  @extend %col-5;
+}
+
+.privilege_allowed,
+.privilege_denied{
+  padding: 15px;
+  margin-bottom: 15px;
+}
 
 .privilege_allowed{
   background-color: #f9fff9;
+  border-bottom: 1px solid #009600;
 
   label {
     color: #009600;
   }
 
   &:hover{
-    background-color: #009600;
     color: #fff;
+    background-color: #009600;
+    border-bottom: 1px solid #009600;
 
     label {
       color: #fff;
@@ -850,21 +874,22 @@ h1, h2, h3, h4, h5, h6{
 
 .privilege_denied{
   background-color: #fff9f9;
+  border-bottom: 1px solid #b20000;
 
   label {
     color: #b20000;
   }
   
   &:hover{
-    background-color: #b20000;
     color: #fff;
+    background-color: #b20000;
+    border-bottom: 1px solid #b20000;
 
     label {
       color: #fff;
     }
   }
 }
-
 
 ////////// common
 
@@ -1252,6 +1277,14 @@ h1, h2, h3, h4, h5, h6{
   .form-login{
     @include column(4);
     @include column-push(4);
+  }
+
+  .privilege-info{
+    @include column(8);
+  }
+
+  .privilege-state{
+    @include column(4);
   }
 }
 

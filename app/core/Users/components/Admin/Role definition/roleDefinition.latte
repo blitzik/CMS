@@ -4,29 +4,26 @@
 
 {foreach $accessDefinitions as $definitionName => $definitions}
 <b>{$definitionName}</b>
-<div class="box box-river">
-    <table class="table">
-        <tr>
-            {translator users.roleDefinition.rowTitle}
-            <th>{_privilege}</th>
-            <th class="w200">{_state}</th>
-            {/translator}
-        </tr>
-        {foreach $definitions as $definition}
-        <tr n:class="$authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName()) ? privilege_allowed : privilege_denied">
-            <td>
+<div class="box box-river privileges-box">
+    {foreach $definitions as $definition}
+    <div class="row">
+        <div n:class="privilege, $authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName()) ? privilege_allowed : privilege_denied">
+        {row}
+            {col privilege-info}
                 <label for="{$definition->getResourceId()}-{$definition->getPrivilegeId()}">{$definition->getPrivilegeName()}</label>
                 <div class="permission-current-state">Privilege is <b>{if $authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())}allowed{else}denied{/if}</b> for {$role}</div>
-            </td>
-            <td>
+            {/col}
+
+            {col privilege-state}
                 <select name="{$definition->getResourceId()}-{$definition->getPrivilegeId()}" class="form-control" id="{$definition->getResourceId()}-{$definition->getPrivilegeId()}">
                     <option value="0"{if !$authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())} selected{/if}>is DENIED</option>
                     <option value="1"{if $authorizator->isAllowed($role, $definition->getResourceName(), $definition->getPrivilegeName())} selected{/if}>is ALLOWED</option>
                 </select>
-            </td>
-        </tr>
-        {/foreach}
-    </table>
+            {/col}
+        {/row}
+        </div>
+    </div>
+    {/foreach}
 </div>
 {/foreach}
 
