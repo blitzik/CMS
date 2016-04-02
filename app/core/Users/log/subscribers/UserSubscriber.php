@@ -16,6 +16,7 @@ use Log\Services\AppEventLogger;
 use Users\Authorization\Role;
 use Kdyby\Events\Subscriber;
 use Nette\Object;
+use Users\Services\UserPersister;
 use Users\User;
 
 class UserSubscriber extends Object implements Subscriber
@@ -42,6 +43,8 @@ class UserSubscriber extends Object implements Subscriber
         return [
             UserAuthenticator::class . '::onLoggedIn',
             AuthPresenter::class . '::onLoggedOut',
+
+            UserPersister::class . '::onSuccessUserEditing',
 
             RolePersister::class . '::onSuccessRoleCreation',
             RolePermissionsPersister::class . '::onSuccessRolePermissionsEditing'
@@ -76,6 +79,23 @@ class UserSubscriber extends Object implements Subscriber
                      $ip
                  ),
                 'user_logout',
+                 $user->getId()
+             );
+    }
+
+
+    public function onSuccessUserEditing(User $user)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 sprintf(
+                     'User [%s#%s] <b>has EDITED</b> account of User[%s#%s]',
+                     $this->user->getId(),
+                     $this->user->getUsername(),
+                     $user->getId(),
+                     $user->getUsername()
+                 ),
+                 'user_editing',
                  $user->getId()
              );
     }

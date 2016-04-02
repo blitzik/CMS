@@ -12,6 +12,7 @@ use Users\Authorization\Role;
 use Nette\Security\Passwords;
 use Nette\Utils\Validators;
 use Nette\Utils\Random;
+use Users\Exceptions\Runtime\NotPersistedEntityException;
 
 /**
  * @ORM\Entity
@@ -114,6 +115,24 @@ class User
     {
         Validators::assert($email, 'email');
         $this->email = $email;
+    }
+
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
     }
 
 
@@ -241,6 +260,12 @@ class User
     }
 
 
+    public function clearRoles()
+    {
+        $this->roles->clear();
+    }
+
+
     /**
      * @return Role[]
      */
@@ -251,16 +276,26 @@ class User
 
 
     /**
-     * @return string
+     * @return array
      */
     public function getRoles()
     {
         $rolesEntities = $this->roles->toArray();
         $roles = [];
         foreach ($rolesEntities as $role) {
-            $roles[] = $role->getName();
+            $roles[$role->getId()] = $role->getName();
         }
 
         return $roles;
+    }
+
+
+    public function getCacheKey()
+    {
+        if ($this->id === null) {
+            throw new NotPersistedEntityException('You can get cache key only from persisted entity');
+        }
+
+        return sprintf('user-%s', $this->id);
     }
 }

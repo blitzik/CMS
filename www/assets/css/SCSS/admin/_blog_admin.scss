@@ -830,6 +830,23 @@ h1, h2, h3, h4, h5, h6{
   padding-top: 5px;
 }
 
+
+
+// user detail
+
+.user-detail{
+  @extend %col-12;
+}
+
+.user-detail-username,
+.user-detail-role,
+.user-detail-firstName,
+.user-detail-lastName{
+  @extend %col-6;
+}
+
+// role definition
+
 .privilege{
   @extend %col-12;
 }
@@ -851,6 +868,16 @@ h1, h2, h3, h4, h5, h6{
 .privilege_denied{
   padding: 15px;
   margin-bottom: 15px;
+  transition: background-color .5s linear;
+
+  &:hover{
+    color: #fff;
+
+    label{
+      color: #fff;
+      font-weight: bold;
+    }
+  }
 }
 
 .privilege_allowed{
@@ -862,13 +889,8 @@ h1, h2, h3, h4, h5, h6{
   }
 
   &:hover{
-    color: #fff;
     background-color: #009600;
     border-bottom: 1px solid #009600;
-
-    label {
-      color: #fff;
-    }
   }
 }
 
@@ -881,13 +903,8 @@ h1, h2, h3, h4, h5, h6{
   }
   
   &:hover{
-    color: #fff;
     background-color: #b20000;
     border-bottom: 1px solid #b20000;
-
-    label {
-      color: #fff;
-    }
   }
 }
 
@@ -1135,6 +1152,10 @@ h1, h2, h3, h4, h5, h6{
     @include column(9);
   }
 
+  .user-detail{
+    @include column(9);
+  }
+
 }
 
 
@@ -1286,6 +1307,8 @@ h1, h2, h3, h4, h5, h6{
   .privilege-state{
     @include column(4);
   }
+
+
 }
 
 
@@ -1324,6 +1347,10 @@ h1, h2, h3, h4, h5, h6{
   .role-definition,
   .users-new-role{
     @include column(9);
+  }
+
+  .user-detail{
+    @include column(5);
   }
 
   .image-info {

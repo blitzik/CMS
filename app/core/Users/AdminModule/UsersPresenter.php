@@ -9,18 +9,20 @@
 
 namespace Users\AdminModule\Presenters;
 
-use blitzik\FlashMessages\FlashMessage;
 use Users\Components\Admin\IUsersRolesOverviewControlFactory;
 use Users\Components\Admin\IRoleDefinitionControlFactory;
 use Users\Components\Admin\IUsersOverviewControlFactory;
+use Users\Components\Admin\IUserFormControlFactory;
 use Users\Components\Admin\INewRoleControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
 use Users\Components\Admin\NewRoleControl;
+use blitzik\FlashMessages\FlashMessage;
 use Users\Facades\UserFacade;
 use Users\Authorization\Role;
 use Kdyby\Translation\Phrase;
 use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
+use Users\User;
 
 class UsersPresenter extends ProtectedPresenter
 {
@@ -43,6 +45,12 @@ class UsersPresenter extends ProtectedPresenter
     public $usersOverviewControlFactory;
 
     /**
+     * @var IUserFormControlFactory
+     * @inject
+     */
+    public $userFormControlFactory;
+
+    /**
      * @var INewRoleControlFactory
      * @inject
      */
@@ -56,6 +64,9 @@ class UsersPresenter extends ProtectedPresenter
 
     /** @var Role */
     public $role;
+
+    /** @var User */
+    public $pickedUser; // cannot use $user or $userEntity
 
 
     /*
@@ -101,13 +112,38 @@ class UsersPresenter extends ProtectedPresenter
     
     public function actionDetail($id)
     {
-        $this['pageTitle']->setPageTitle('users.detail.title');
+        $this['pageTitle']->setPageTitle('users.user.detail.title');
+
+        $this->pickedUser = $this->userFacade
+                                 ->fetchUser(
+                                     (new UserQuery())
+                                     ->byId($id)
+                                     ->withRoles()
+                                 );
+
+        if ($this->pickedUser === null) {
+            $this->flashMessage('users.messages.userNotFound', FlashMessage::WARNING);
+            $this->redirect('Users:default');
+        }
+
+        $this['userForm']->setEditableUser($this->pickedUser);
     }
     
     
     public function renderDetail($id)
     {
         
+    }
+
+
+    /**
+     * @Actions detail
+     */
+    protected function createComponentUserForm()
+    {
+        $comp = $this->userFormControlFactory->create();
+
+        return $comp;
     }
 
 

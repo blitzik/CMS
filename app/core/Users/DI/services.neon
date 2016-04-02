@@ -30,8 +30,11 @@ services:
 
 
 	# Services
+	userPersister: Users\Services\UserPersister
 	rolePersister: Users\Services\RolePersister
 	rolePermissionsPersister: Users\Services\RolePermissionsPersister
+
+	UserFormFactory: Users\Factories\UserFormFactory
 
 
 	# Component factories
@@ -53,3 +56,6 @@ services:
 		implement: Users\Components\Admin\IRoleDefinitionControlFactory
 		parameters: [Users\Authorization\Role role]
 		arguments: [%role%]
+
+	userFormControlFactory:
+		implement: Users\Components\Admin\IUserFormControlFactory

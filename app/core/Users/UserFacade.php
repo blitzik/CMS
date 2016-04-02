@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: aleš tichava
@@ -8,6 +9,7 @@
 
 namespace Users\Facades;
 
+use App\ValidationObjects\ValidationObject;
 use Users\Exceptions\Runtime\RoleAlreadyExistsException;
 use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
 use Users\Exceptions\Runtime\RoleMissingException;
@@ -16,6 +18,7 @@ use Users\Authorization\AccessDefinition;
 use Users\Query\AccessDefinitionQuery;
 use Kdyby\Doctrine\EntityRepository;
 use Users\Authorization\Permission;
+use Users\Services\UserPersister;
 use Users\Services\RolePersister;
 use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
@@ -46,16 +49,21 @@ class UserFacade extends Object
     /** @var EntityRepository */
     private $roleRepository;
 
+    /** @var UserPersister */
+    private $userPersister;
+
     /** @var RolePersister */
     private $rolePersister;
 
 
     public function __construct(
         EntityManager $entityManager,
+        UserPersister $userPersister,
         RolePersister $rolePersister,
         RolePermissionsPersister $rolePermissionsPersister
     ) {
         $this->em = $entityManager;
+        $this->userPersister = $userPersister;
         $this->rolePersister = $rolePersister;
         $this->rolePermissionsPersister = $rolePermissionsPersister;
 
@@ -64,6 +72,18 @@ class UserFacade extends Object
         $this->permissionRepository = $entityManager->getRepository(Permission::class);
         $this->accessDefinitionRepository = $entityManager->getRepository(AccessDefinition::class);
     }
+
+
+    /**
+     * @param array $values
+     * @param User|null $user
+     * @return ValidationObject
+     */
+    public function saveUser(array $values, User $user = null)
+    {
+        return $this->userPersister->save($values, $user);
+    }
+
 
 
     /**

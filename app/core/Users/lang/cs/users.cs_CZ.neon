@@ -33,9 +33,38 @@ overview:
 		remove: odstranit
 
 
+user:
+	detail:
+		title: "Detail uživatele"
 
-detail:
-	title: "Detail uživatele"
+	form:
+		username:
+			label: "Uživatelské jméno (*)"
+			messages:
+				required: "Vyplňte prosím uživatelské jméno"
+
+		email:
+			label: "E-mail (*)"
+			messages:
+				required: "Vyplňte prosím E-mailovou adresu"
+
+		first_name:
+			label: "Jméno"
+
+		last_name:
+			label: "Příjmení"
+
+		role:
+			label: "Role (*)"
+
+		save:
+			caption: "Uložit"
+
+		messages:
+			success: "Uživatel byl úspěšně uložen"
+			usernameExists: "Uživatelské jméno \"%username%\" již někdo používá"
+			emailExists: "E-mail %email% již někdo používá"
+			missingRole: "Vybraná role chybí. Vyberte prosím roli znovu."
 
 
 
@@ -84,3 +113,8 @@ roleDefinition:
 	messages:
 		success: "Nové nastavení práv bylo úspěšně uloženo"
 		error: "Při ukládání došlo k chybě"
+
+
+
+messages:
+	userNotFound: "Požadovaný uživatel neexistuje"

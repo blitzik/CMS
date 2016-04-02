@@ -1,0 +1,46 @@
+
+{control flashMessages}
+
+<b>{$pickedUser->getUsername()}</b>
+<div class="box box-river">
+{form form}
+    {row}
+        {col user-detail-username}
+        <div class="form-group">
+            {label username /}
+            {input username class => 'form-control input-lg'}
+        </div>
+        {/col}
+
+        {col user-detail-role}
+        <div class="form-group">
+            {label role /}
+            {input role class => 'form-control input-lg'}
+        </div>
+        {/col}
+    {/row}
+
+    <div class="form-group">
+        {label email /}
+        {input email class => 'form-control input-lg'}
+    </div>
+
+    {row}
+        {col user-detail-firstName}
+        <div class="form-group">
+            {label first_name /}
+            {input first_name class => 'form-control input-lg'}
+        </div>
+        {/col}
+
+        {col user-detail-lastName}
+        <div class="form-group">
+            {label last_name /}
+            {input last_name class => 'form-control input-lg'}
+        </div>
+        {/col}
+    {/row}
+
+    {input save class => 'btn btn-river'}
+{/form}
+</div>

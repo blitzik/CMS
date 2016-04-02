@@ -33,9 +33,38 @@ overview:
 		remove: remove
 
 
+user:
+	detail:
+		title: "User detail"
 
-detail:
-	title: "User detail"
+	form:
+		username:
+			label: "Username (*)"
+			messages:
+				required: "Please type a username"
+
+		email:
+			label: "E-mail (*)"
+			messages:
+				required: "Please type an E-mail address"
+
+		first_name:
+			label: "First name"
+
+		last_name:
+			label: "Last name"
+
+		role:
+			label: "Role (*)"
+
+		save:
+			caption: "Save"
+
+		messages:
+			success: "User has been successfully saved"
+			usernameExists: "Username \"%username%\" is already taken"
+			emailExists: "E-mail %email% is already taken"
+			missingRole: "Role is missing. Pick another one."
 
 
 
@@ -82,3 +111,8 @@ roleDefinition:
 	messages:
 		success: "New Role settings has been successfully saved"
 		errro: "An Error occurred while saving Role settings"
+
+
+
+messages:
+	userNotFound: "Requested user does not exist"

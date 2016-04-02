@@ -10,8 +10,8 @@ namespace Users\Query;
 
 use Kdyby\Persistence\Queryable;
 use Kdyby\Doctrine\QueryObject;
-use Kdyby;
 use Users\User;
+use Kdyby;
 
 class UserQuery extends QueryObject
 {
@@ -22,6 +22,16 @@ class UserQuery extends QueryObject
     private $filter = [];
 
 
+    public function byId($id)
+    {
+        $this->filter[] = function (Kdyby\Doctrine\QueryBuilder $qb) use ($id) {
+            $qb->andWhere('u.id = :id')->setParameter('id', $id);
+        };
+
+        return $this;
+    }
+
+    
     public function withRoles()
     {
         $this->onPostFetch[] = function ($_, Queryable $repository, \Iterator $iterator) {

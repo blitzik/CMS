@@ -91,6 +91,13 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
+        $userResource = new Resource('user');
+        $manager->persist($userResource);
+
+        $permUserEdit = new Permission($this->getReference('role_admin'), $userResource, $this->getReference('privilege_edit'));
+        $manager->persist($permUserEdit);
+        
+
         $roleResource = new Resource('user_role');
         $manager->persist($roleResource);
 
@@ -105,6 +112,10 @@ class UsersFixture extends AbstractFixture
 
 
         // access definitions
+
+        $acUserEdit = new AccessDefinition($userResource, $this->getReference('privilege_edit'));
+        $manager->persist($acUserEdit);
+
 
         $acRoleCreate = new AccessDefinition($roleResource, $this->getReference('privilege_create'));
         $manager->persist($acRoleCreate);
@@ -157,6 +168,9 @@ class UsersFixture extends AbstractFixture
 
         $userLogoutEvent = new EventLog('user_logout', $userLogType);
         $manager->persist($userLogoutEvent);
+
+        $userEditingEvent = new EventLog('user_editing', $userLogType);
+        $manager->persist($userEditingEvent);
 
         $userRoleCreationEvent = new EventLog('user_role_creation', $userRoleLogType);
         $manager->persist($userRoleCreationEvent);

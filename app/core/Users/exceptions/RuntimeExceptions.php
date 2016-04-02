@@ -10,6 +10,12 @@ namespace Users\Exceptions\Runtime;
 
 class RuntimeException extends \RuntimeException {}
 
+    class UsernameAlreadyExistsException extends RuntimeException {}
+
+    class EmailAlreadyExistsException extends RuntimeException {}
+
+    class NotPersistedEntityException extends RuntimeException {}
+
     class RoleAlreadyExistsException extends RuntimeException {}
 
     class RoleMissingException extends RuntimeException {}
