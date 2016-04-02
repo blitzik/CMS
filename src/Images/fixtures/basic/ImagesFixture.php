@@ -12,12 +12,13 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Users\Authorization\AccessDefinition;
+use Users\Authorization\AuthorizationRulesGenerator;
 use Users\Authorization\Permission;
 use Users\Authorization\Resource;
+use Users\Fixtures\UsersFixture;
 use Url\Generators\UrlGenerator;
 use Log\EventLog;
 use Log\LogType;
-use Users\Fixtures\UsersFixture;
 
 class ImagesFixture extends AbstractFixture implements DependentFixtureInterface
 {
@@ -59,22 +60,10 @@ class ImagesFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $imageResource = new Resource('image');
-        $manager->persist($imageResource);
-
-        $imageUpload = new Permission($this->getReference('role_admin'), $imageResource, $this->getReference('privilege_upload'));
-        $manager->persist($imageUpload);
-
-        $imageRemove = new Permission($this->getReference('role_admin'), $imageResource, $this->getReference('privilege_remove'));
-        $manager->persist($imageRemove);
-
-        
-        // access definitions
-        $acUpload = new AccessDefinition($imageResource, $this->getReference('privilege_upload'));
-        $manager->persist($acUpload);
-
-        $acRemove = new AccessDefinition($imageResource, $this->getReference('privilege_remove'));
-        $manager->persist($acRemove);
+        $arg = new AuthorizationRulesGenerator($manager);
+        $arg->addResource(new Resource('image'))
+            ->addDefinition($this->getReference('privilege_upload'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
     }
 
 

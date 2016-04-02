@@ -12,6 +12,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Users\Authorization\AccessDefinition;
+use Users\Authorization\AuthorizationRulesGenerator;
 use Users\Authorization\Permission;
 use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
@@ -64,15 +65,9 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $optionsResource = new Resource('options');
-        $manager->persist($optionsResource);
-
-        $optionsEdit = new Permission($this->getReference('role_admin'), $optionsResource, $this->getReference('privilege_edit'));
-        $manager->persist($optionsEdit);
-
-        // access definitions
-        $acEdit = new AccessDefinition($optionsResource, $this->getReference('privilege_edit'));
-        $manager->persist($acEdit);
+        $arg = new AuthorizationRulesGenerator($manager);
+        $arg->addResource(new Resource('options'))
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
     }
 
 

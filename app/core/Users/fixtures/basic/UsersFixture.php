@@ -8,10 +8,9 @@
 
 namespace Users\Fixtures;
 
+use Users\Authorization\AuthorizationRulesGenerator;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Users\Authorization\AccessDefinition;
-use Users\Authorization\Permission;
 use Users\Authorization\Privilege;
 use Url\Generators\UrlGenerator;
 use Users\Authorization\Resource;
@@ -91,40 +90,15 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $userResource = new Resource('user');
-        $manager->persist($userResource);
+        $arg = new AuthorizationRulesGenerator($manager);
 
-        $permUserEdit = new Permission($this->getReference('role_admin'), $userResource, $this->getReference('privilege_edit'));
-        $manager->persist($permUserEdit);
-        
+        $arg->addResource(new Resource('user'))
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
 
-        $roleResource = new Resource('user_role');
-        $manager->persist($roleResource);
-
-        $permRoleCreate = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_create'));
-        $manager->persist($permRoleCreate);
-
-        $permRoleEdit = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_edit'));
-        $manager->persist($permRoleEdit);
-
-        $permRoleRemove = new Permission($this->getReference('role_admin'), $roleResource, $this->getReference('privilege_remove'));
-        $manager->persist($permRoleRemove);
-
-
-        // access definitions
-
-        $acUserEdit = new AccessDefinition($userResource, $this->getReference('privilege_edit'));
-        $manager->persist($acUserEdit);
-
-
-        $acRoleCreate = new AccessDefinition($roleResource, $this->getReference('privilege_create'));
-        $manager->persist($acRoleCreate);
-
-        $acRoleEdit = new AccessDefinition($roleResource, $this->getReference('privilege_edit'));
-        $manager->persist($acRoleEdit);
-
-        $acRoleRemove = new AccessDefinition($roleResource, $this->getReference('privilege_remove'));
-        $manager->persist($acRoleRemove);
+        $arg->addResource(new Resource('user_role'))
+            ->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
     }
 
 

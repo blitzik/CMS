@@ -19,3 +19,5 @@ class RuntimeException extends \RuntimeException {}
     class RoleAlreadyExistsException extends RuntimeException {}
 
     class RoleMissingException extends RuntimeException {}
+
+    class ResourceNotFoundException extends RuntimeException {}

@@ -12,6 +12,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Users\Authorization\AccessDefinition;
+use Users\Authorization\AuthorizationRulesGenerator;
 use Users\Authorization\Permission;
 use Users\Authorization\Privilege;
 use Users\Authorization\Resource;
@@ -159,103 +160,31 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $commentOnClosed = new Privilege('comment_on_closed');
         $manager->persist($commentOnClosed);
 
+        $arg = new AuthorizationRulesGenerator($manager);
 
         // Page
-        $pageResource = new Resource('page');
-        $manager->persist($pageResource);
-
-        $permPageCreate = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_create'));
-        $manager->persist($permPageCreate);
-
-        $permPageEdit = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_edit'));
-        $manager->persist($permPageEdit);
-
-        $permPageRemove = new Permission($this->getReference('role_admin'), $pageResource, $this->getReference('privilege_remove'));
-        $manager->persist($permPageRemove);
-
+        $arg->addResource(new Resource('page'))
+            ->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
 
         // comments
-        $commentResource = new Resource('page_comment');
-        $manager->persist($commentResource);
+        $arg->addResource(new Resource('page_comment'))
+            ->addDefinition($silence, $this->getReference('role_admin'))
+            ->addDefinition($release, $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'))
+            ->addDefinition($viewSilenced, $this->getReference('role_admin'))
+            ->addDefinition($respondOnSilenced, $this->getReference('role_admin'));
 
-        $permCommentSilence = new Permission($this->getReference('role_admin'), $commentResource, $silence);
-        $manager->persist($permCommentSilence);
-
-        $permCommentRelease = new Permission($this->getReference('role_admin'), $commentResource, $release);
-        $manager->persist($permCommentRelease);
-
-        $permCommentRemove = new Permission($this->getReference('role_admin'), $commentResource, $this->getReference('privilege_remove'));
-        $manager->persist($permCommentRemove);
-
-        $permSilencedComment = new Permission($this->getReference('role_admin'), $commentResource, $viewSilenced);
-        $manager->persist($permSilencedComment);
-
-        $permRespondOnSilenced = new Permission($this->getReference('role_admin'), $commentResource, $respondOnSilenced);
-        $manager->persist($permRespondOnSilenced);
-
-
-        $commentForm = new Resource('page_comment_form');
-        $manager->persist($commentForm);
-
-        $permCommentOnClosed = new Permission($this->getReference('role_admin'), $commentForm, $commentOnClosed);
-        $manager->persist($permCommentOnClosed);
-
+        // page_comment_form
+        $arg->addResource(new Resource('page_comment_form'))
+            ->addDefinition($commentOnClosed, $this->getReference('role_admin'));
 
         // tags
-        $tagResource = new Resource('page_tag');
-        $manager->persist($tagResource);
-
-        $permTagCreate = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_create'));
-        $manager->persist($permTagCreate);
-
-        $permTagEdit = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_edit'));
-        $manager->persist($permTagEdit);
-
-        $permTagRemove = new Permission($this->getReference('role_admin'), $tagResource, $this->getReference('privilege_remove'));
-        $manager->persist($permTagRemove);
-
-
-
-        // access definitions
-
-        // page
-        $acPageCreate = new AccessDefinition($pageResource, $this->getReference('privilege_create'));
-        $manager->persist($acPageCreate);
-
-        $acPageEdit = new AccessDefinition($pageResource, $this->getReference('privilege_edit'));
-        $manager->persist($acPageEdit);
-
-        $acPageRemove = new AccessDefinition($pageResource, $this->getReference('privilege_remove'));
-        $manager->persist($acPageRemove);
-
-        // comments
-        $acCommentSilence = new AccessDefinition($commentResource, $silence);
-        $manager->persist($acCommentSilence);
-
-        $acCommentRelease = new AccessDefinition($commentResource, $release);
-        $manager->persist($acCommentRelease);
-
-        $acCommentRemove = new AccessDefinition($commentResource, $this->getReference('privilege_remove'));
-        $manager->persist($acCommentRemove);
-
-        $acCommentViewSilenced = new AccessDefinition($commentResource, $viewSilenced);
-        $manager->persist($acCommentViewSilenced);
-
-        $acCommentRespondOnSilenced = new AccessDefinition($commentResource, $respondOnSilenced);
-        $manager->persist($acCommentRespondOnSilenced);
-
-        $acCommentOnClosed = new AccessDefinition($commentForm, $commentOnClosed);
-        $manager->persist($acCommentOnClosed);
-
-        // tags
-        $acTagCreate = new AccessDefinition($tagResource, $this->getReference('privilege_create'));
-        $manager->persist($acTagCreate);
-
-        $acTagEdit = new AccessDefinition($tagResource, $this->getReference('privilege_edit'));
-        $manager->persist($acTagEdit);
-
-        $acTagRemove = new AccessDefinition($tagResource, $this->getReference('privilege_remove'));
-        $manager->persist($acTagRemove);
+        $arg->addResource(new Resource('page_tag'))
+            ->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
     }
 
 
