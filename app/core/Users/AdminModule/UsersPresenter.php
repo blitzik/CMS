@@ -12,6 +12,7 @@ namespace Users\AdminModule\Presenters;
 use Users\Components\Admin\IUsersRolesOverviewControlFactory;
 use Users\Components\Admin\IRoleDefinitionControlFactory;
 use Users\Components\Admin\IUsersOverviewControlFactory;
+use Users\Components\Admin\IRoleRemovalControlFactory;
 use Users\Components\Admin\IUserFormControlFactory;
 use Users\Components\Admin\INewRoleControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
@@ -43,6 +44,12 @@ class UsersPresenter extends ProtectedPresenter
      * @inject
      */
     public $usersOverviewControlFactory;
+
+    /**
+     * @var IRoleRemovalControlFactory
+     * @inject
+     */
+    public $roleRemovalControlFactory;
 
     /**
      * @var IUserFormControlFactory
@@ -132,7 +139,6 @@ class UsersPresenter extends ProtectedPresenter
     
     public function renderDetail($id)
     {
-        
     }
 
 
@@ -234,6 +240,11 @@ class UsersPresenter extends ProtectedPresenter
                                ->byId($id)
                            );
 
+        if ($this->role === null) {
+            $this->flashMessage('users.messages.roleNotFound', FlashMessage::WARNING);
+            $this->redirect('Users:roles');
+        }
+
         $this['pageTitle']->setPageTitle(new Phrase('users.roleDefinition.title', ['roleName' => ucfirst($this->role->getName())]));
     }
 
@@ -255,5 +266,62 @@ class UsersPresenter extends ProtectedPresenter
         return $comp;
     }
 
+
+    /*
+     * ------------------------
+     * ----- ROLE REMOVAL -----
+     * ------------------------
+     */
+
+
+    public function actionRoleRemove($id)
+    {
+        $this['pageTitle']->setPageTitle('users.roleRemoval.title');
+
+        $this->role = $this->userFacade
+                           ->fetchRole(
+                               (new RoleQuery())
+                               ->withParent()
+                               ->byId($id)
+                           );
+
+        if ($this->role === null) {
+            $this->flashMessage('users.messages.roleNotFound', FlashMessage::WARNING);
+            $this->redirect('Users:roles');
+        }
+    }
+
+
+    public function renderRoleRemove($id)
+    {
+    }
+
+
+    /**
+     * @Actions roleRemove
+     */
+    protected function createComponentRoleRemoval()
+    {
+        $comp = $this->roleRemovalControlFactory
+                     ->create($this->role);
+
+        $comp->onSuccessRoleRemoval[] = [$this, 'onSuccessRoleRemoval'];
+        $comp->onCanceledRemoval[] = [$this, 'onCanceledRoleRemoval'];
+
+        return $comp;
+    }
+
+
+    public function onSuccessRoleRemoval(Role $role)
+    {
+        $this->flashMessage('users.roleRemoval.messages.success', FlashMessage::SUCCESS, ['roleName' => $role->getName()]);
+        $this->redirect('Users:roles');
+    }
+
+
+    public function onCanceledRoleRemoval()
+    {
+        $this->redirect('Users:roles');
+    }
 
 }

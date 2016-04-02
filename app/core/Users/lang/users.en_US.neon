@@ -77,6 +77,8 @@ roles:
 
 	actions:
 		add: "+ add a new Role"
+		edit: "edit"
+		remove: "remove"
 
 
 
@@ -114,5 +116,19 @@ roleDefinition:
 
 
 
+roleRemoval:
+	title: "Role removal"
+	warning: "The Role <strong>%roleName%</strong> is going to be removed <strong>PERMANENTLY</strong>"
+	actions:
+		remove: "remove"
+		cancel: "cancel"
+
+	messages:
+		success: "The role \"%roleName%\" has been successfully removed"
+		roleInUse: "The role \"%roleName%\" cannot be removed. It is still in use."
+
+
+
 messages:
 	userNotFound: "Requested user does not exist"
+	roleNotFound: "Requested role does not exist"

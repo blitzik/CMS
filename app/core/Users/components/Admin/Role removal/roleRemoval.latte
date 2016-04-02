@@ -1,0 +1,18 @@
+
+{control flashMessages}
+
+<b>{$role->getName()}</b>
+{translator users.roleRemoval}
+<div class="box box-alizarin">
+{form form}
+    <p class="box box-critical">
+        {_warning, [roleName => $role->getName()]|noescape}
+    </p>
+
+    <div class="form-group">
+        {input remove class => 'btn btn-red'}
+        {input cancel class => 'btn btn-river'}
+    </div>
+{/form}
+</div>
+{/translator}

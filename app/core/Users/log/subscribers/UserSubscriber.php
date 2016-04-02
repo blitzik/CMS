@@ -12,11 +12,12 @@ use Users\FrontModule\Presenters\AuthPresenter;
 use Users\Services\RolePermissionsPersister;
 use Users\Authentication\UserAuthenticator;
 use Users\Services\RolePersister;
+use Users\Services\UserPersister;
 use Log\Services\AppEventLogger;
+use Users\Services\RoleRemover;
 use Users\Authorization\Role;
 use Kdyby\Events\Subscriber;
 use Nette\Object;
-use Users\Services\UserPersister;
 use Users\User;
 
 class UserSubscriber extends Object implements Subscriber
@@ -47,6 +48,7 @@ class UserSubscriber extends Object implements Subscriber
             UserPersister::class . '::onSuccessUserEditing',
 
             RolePersister::class . '::onSuccessRoleCreation',
+            RoleRemover::class . '::onSuccessRoleRemoval',
             RolePermissionsPersister::class . '::onSuccessRolePermissionsEditing'
         ];
     }
@@ -97,6 +99,23 @@ class UserSubscriber extends Object implements Subscriber
                  ),
                  'user_editing',
                  $user->getId()
+             );
+    }
+
+
+    public function onSuccessRoleRemoval(Role $role, $roleID)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 sprintf(
+                     'User [%s#%s] <b>has REMOVED</b> the Role[%s#%s]',
+                     $this->user->getId(),
+                     $this->user->getUsername(),
+                     $roleID,
+                     $role->getName()
+                 ),
+                 'user_role_removal',
+                 $this->user->getId()
              );
     }
 

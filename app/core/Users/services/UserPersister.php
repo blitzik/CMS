@@ -45,7 +45,7 @@ class UserPersister extends Object
      * @return ValidationObject
      * @throws \Exception
      */
-    public function save(array $values, User $user/* = null*/)
+    public function save(array $values, User $user = null)
     {
         foreach ($values as $key => $value) $values[$key] = $value !== '' ? $value : null;
 

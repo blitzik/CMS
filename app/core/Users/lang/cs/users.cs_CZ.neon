@@ -77,6 +77,8 @@ roles:
 
 	actions:
 		add: "+ přidat novou roli"
+		edit: "editovat"
+		remove: "odstranit"
 
 
 
@@ -116,5 +118,19 @@ roleDefinition:
 
 
 
+roleRemoval:
+	title: "Odstranění role"
+	warning: "Role <strong>%roleName%</strong> bude <strong>NENÁVRATNĚ</strong> odstraněna"
+	actions:
+		remove: "odstranit"
+		cancel: "zpět"
+
+	messages:
+		success: "Role \"%roleName%\" byla úspěšně odstraněna"
+		roleInUse: "Roli \"%roleName%\" nelze odstranit. Je stále využívána."
+
+
+
 messages:
 	userNotFound: "Požadovaný uživatel neexistuje"
+	roleNotFound: "Požadovaná role nebyla nalezena"

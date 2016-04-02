@@ -32,6 +32,7 @@ services:
 	# Services
 	userPersister: Users\Services\UserPersister
 	rolePersister: Users\Services\RolePersister
+	roleRemover: Users\Services\RoleRemover
 	rolePermissionsPersister: Users\Services\RolePermissionsPersister
 
 	UserFormFactory: Users\Factories\UserFormFactory
@@ -59,3 +60,8 @@ services:
 
 	userFormControlFactory:
 		implement: Users\Components\Admin\IUserFormControlFactory
+
+	roleRemovalControlFactory:
+		implement: Users\Components\Admin\IRoleRemovalControlFactory
+		parameters: [Users\Authorization\Role role]
+		arguments: [%role%]

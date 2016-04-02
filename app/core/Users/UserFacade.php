@@ -9,11 +9,11 @@
 
 namespace Users\Facades;
 
-use App\ValidationObjects\ValidationObject;
 use Users\Exceptions\Runtime\RoleAlreadyExistsException;
 use Kdyby\Doctrine\Mapping\ResultSetMappingBuilder;
 use Users\Exceptions\Runtime\RoleMissingException;
 use Users\Services\RolePermissionsPersister;
+use App\ValidationObjects\ValidationObject;
 use Users\Authorization\AccessDefinition;
 use Users\Query\AccessDefinitionQuery;
 use Kdyby\Doctrine\EntityRepository;
@@ -23,6 +23,7 @@ use Users\Services\RolePersister;
 use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
 use Users\Query\PermissionQuery;
+use Users\Services\RoleRemover;
 use Users\Authorization\Role;
 use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
@@ -55,14 +56,19 @@ class UserFacade extends Object
     /** @var RolePersister */
     private $rolePersister;
 
+    /** @var RoleRemover */
+    private $roleRemover;
+
 
     public function __construct(
+        RoleRemover $roleRemover,
         EntityManager $entityManager,
         UserPersister $userPersister,
         RolePersister $rolePersister,
         RolePermissionsPersister $rolePermissionsPersister
     ) {
         $this->em = $entityManager;
+        $this->roleRemover = $roleRemover;
         $this->userPersister = $userPersister;
         $this->rolePersister = $rolePersister;
         $this->rolePermissionsPersister = $rolePermissionsPersister;
@@ -83,7 +89,6 @@ class UserFacade extends Object
     {
         return $this->userPersister->save($values, $user);
     }
-
 
 
     /**
@@ -123,6 +128,16 @@ class UserFacade extends Object
     public function fetchRoles(RoleQuery $query)
     {
         return $this->roleRepository->fetch($query);
+    }
+
+
+    /**
+     * @param Role $role
+     * @throws \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException
+     */
+    public function removeRole(Role $role)
+    {
+        $this->roleRemover->remove($role);
     }
 
 

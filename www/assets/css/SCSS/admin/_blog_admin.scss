@@ -830,6 +830,10 @@ h1, h2, h3, h4, h5, h6{
   padding-top: 5px;
 }
 
+.role-remove{
+  @extend %col-12;
+}
+
 
 
 // user detail
@@ -1345,7 +1349,8 @@ h1, h2, h3, h4, h5, h6{
   .users-overview,
   .users-roles,
   .role-definition,
-  .users-new-role{
+  .users-new-role,
+  .role-remove{
     @include column(9);
   }
 

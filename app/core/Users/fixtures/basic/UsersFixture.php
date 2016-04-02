@@ -124,6 +124,9 @@ class UsersFixture extends AbstractFixture
 
         $roleDefinition = UrlGenerator::create('administration/role-definition', 'Users:Admin:Users', 'roleDefinition');
         $manager->persist($roleDefinition);
+        
+        $roleRemoval = UrlGenerator::create('administration/role-removal', 'Users:Admin:Users', 'roleRemove');
+        $manager->persist($roleRemoval);
     }
 
 
@@ -150,7 +153,7 @@ class UsersFixture extends AbstractFixture
         $manager->persist($userRoleCreationEvent);
 
         $userRoleRemovalEvent = new EventLog('user_role_removal', $userRoleLogType);
-        $manager->persist($userRoleRemovalEvent); // todo implement into subscriber
+        $manager->persist($userRoleRemovalEvent);
 
         $userRoleEditingEvent = new EventLog('user_role_editing', $userRoleLogType);
         $manager->persist($userRoleEditingEvent);
