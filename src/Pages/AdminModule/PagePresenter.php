@@ -228,7 +228,7 @@ class PagePresenter extends ProtectedPresenter
         }
 
         $this['pageTitle']->setPageTitle('pageRemoval.title')
-                          ->joinTitleText(' - ' . $this->page[0]->title);
+                          ->joinTitleText(' - ' . $this->page[0]->getTitle());
     }
 
 
