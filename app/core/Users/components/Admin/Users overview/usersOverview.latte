@@ -11,19 +11,22 @@
             {/translator}
         </tr>
 
-        {foreach $users as $user}
-            <tr>
-                <td class="w25">{$user->getId()}</td>
-                <td>{$user->getName()}</td>
+        {foreach $users as $currentUser}
+        {var $isItMe = $user->getIdentity()->getId() === $currentUser->getId()}
+            <tr n:class="$isItMe ? user-yourself">
+                <td class="w25">{$currentUser->getId()}</td>
+                <td>{$currentUser->getName()}{if $isItMe} (<b>{_users.overview.you}</b>){/if}</td>
                 <td>
-                    {foreach $user->getRoles() as $role}
+                    {foreach $currentUser->getRoles() as $role}
                         {$role}{sep},{/sep}
                     {/foreach}
                 </td>
                 <td class="w50">
                     {translator users.overview.actions}
-                    <a href="{plink :Users:Admin:Users:detail, id => $user->getId()}" class="btn btn-river"><i class="fa fa-cog"></i> {_edit}</a>
-                    <a href="#" class="btn btn-red"><i class="fa fa-trash"></i> {_remove}</a>
+                    <a href="{plink :Users:Admin:Users:detail, id => $currentUser->getId()}" class="btn btn-river"><i class="fa fa-cog"></i> {_edit}</a>
+                    <a href="{plink :Users:Admin:Users:userRemove, id => $currentUser->getId()}"
+                       class="btn btn-red"
+                       n:if="$isItMe === false"><i class="fa fa-trash"></i> {_remove}</a>
                     {/translator}
                 </td>
             </tr>

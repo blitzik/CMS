@@ -70,7 +70,7 @@ class User
      * @ORM\ManyToMany(targetEntity="Users\Authorization\Role", cascade={"persist"})
      * @ORM\JoinTable(
      *     name="user_roles",
-     *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
+     *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id", onDelete="CASCADE")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")}
      * )
      * @var Role[]

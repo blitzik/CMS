@@ -27,7 +27,7 @@ class Permission
     
     /**
      * @ORM\ManyToOne(targetEntity="Role", cascade={"persist"})
-     * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="role", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      * @var Role
      */
     private $role;

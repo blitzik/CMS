@@ -18,6 +18,7 @@ use Users\Services\RoleRemover;
 use Users\Authorization\Role;
 use Kdyby\Events\Subscriber;
 use Nette\Object;
+use Users\Services\UserRemover;
 use Users\User;
 
 class UserSubscriber extends Object implements Subscriber
@@ -46,6 +47,7 @@ class UserSubscriber extends Object implements Subscriber
             AuthPresenter::class . '::onLoggedOut',
 
             UserPersister::class . '::onSuccessUserEditing',
+            UserRemover::class . '::onSuccessUserRemoval',
 
             RolePersister::class . '::onSuccessRoleCreation',
             RoleRemover::class . '::onSuccessRoleRemoval',
@@ -98,7 +100,24 @@ class UserSubscriber extends Object implements Subscriber
                      $user->getUsername()
                  ),
                  'user_editing',
-                 $user->getId()
+                 $this->user->getId()
+             );
+    }
+
+
+    public function onSuccessUserRemoval(User $user, $userID)
+    {
+        $this->appEventLogger
+             ->saveLog(
+                 sprintf(
+                     'User [%s#%s] <b>has REMOVED</b> account of User[%s#%s]',
+                     $this->user->getId(),
+                     $this->user->getUsername(),
+                     $userID,
+                     $user->getUsername()
+                 ),
+                 'user_removal',
+                 $this->user->getId()
              );
     }
 

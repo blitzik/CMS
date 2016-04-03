@@ -13,6 +13,7 @@ use Users\Components\Admin\IUsersRolesOverviewControlFactory;
 use Users\Components\Admin\IRoleDefinitionControlFactory;
 use Users\Components\Admin\IUsersOverviewControlFactory;
 use Users\Components\Admin\IRoleRemovalControlFactory;
+use Users\Components\Admin\IUserRemovalControlFactory;
 use Users\Components\Admin\IUserFormControlFactory;
 use Users\Components\Admin\INewRoleControlFactory;
 use App\AdminModule\Presenters\ProtectedPresenter;
@@ -52,6 +53,12 @@ class UsersPresenter extends ProtectedPresenter
     public $roleRemovalControlFactory;
 
     /**
+     * @var IUserRemovalControlFactory
+     * @inject
+     */
+    public $userRemovalControlFactory;
+
+    /**
      * @var IUserFormControlFactory
      * @inject
      */
@@ -77,9 +84,9 @@ class UsersPresenter extends ProtectedPresenter
 
 
     /*
-     * --------------------
-     * ----- OVERVIEW -----
-     * --------------------
+     * --------------------------
+     * ----- USERS OVERVIEW -----
+     * --------------------------
      */
 
 
@@ -111,9 +118,9 @@ class UsersPresenter extends ProtectedPresenter
 
 
     /*
-     * --------------------
-     * ----- DETAIL -------
-     * --------------------
+     * -------------------------
+     * ----- USER DETAIL -------
+     * -------------------------
      */
      
     
@@ -121,17 +128,7 @@ class UsersPresenter extends ProtectedPresenter
     {
         $this['pageTitle']->setPageTitle('users.user.detail.title');
 
-        $this->pickedUser = $this->userFacade
-                                 ->fetchUser(
-                                     (new UserQuery())
-                                     ->byId($id)
-                                     ->withRoles()
-                                 );
-
-        if ($this->pickedUser === null) {
-            $this->flashMessage('users.messages.userNotFound', FlashMessage::WARNING);
-            $this->redirect('Users:default');
-        }
+        $this->pickedUser = $this->getPickedUser($id);
 
         $this['userForm']->setEditableUser($this->pickedUser);
     }
@@ -151,7 +148,58 @@ class UsersPresenter extends ProtectedPresenter
 
         return $comp;
     }
+    
+    
+    /*
+     * ------------------------
+     * ----- USER REMOVAL -----
+     * ------------------------
+     */
+     
+    
+    public function actionUserRemove($id)
+    {
+        $this->pickedUser = $this->getPickedUser($id);
+        if ($this->userEntity->getId() === $this->pickedUser->getId()) {
+            $this->flashMessage('users.userRemoval.messages.removeYourself', FlashMessage::WARNING);
+            $this->redirect('Users:default');
+        }
 
+        $this['pageTitle']->setPageTitle('users.userRemoval.title');
+    }
+    
+    
+    public function renderUserRemove($id)
+    {
+    }
+
+
+    /**
+     * @Actions userRemove
+     */
+    protected function createComponentUserRemoval()
+    {
+        $comp = $this->userRemovalControlFactory->create($this->pickedUser);
+
+        $comp->onSuccessUserRemoval[] = [$this, 'onSuccessUserRemoval'];
+        $comp->onCanceledRemoval[] = [$this, 'onCanceledRemoval'];
+
+        return $comp;
+    }
+
+
+    public function onSuccessUserRemoval(User $user)
+    {
+        $this->flashMessage('users.userRemoval.messages.success', FlashMessage::SUCCESS, ['username' => $user->getUsername()]);
+        $this->redirect('Users:default');
+    }
+
+
+    public function onCanceledRemoval()
+    {
+        $this->redirect('Users:default');
+    }
+    
 
     /*
      * -----------------------------
@@ -233,17 +281,7 @@ class UsersPresenter extends ProtectedPresenter
 
     public function actionRoleDefinition($id)
     {
-        $this->role = $this->userFacade
-                           ->fetchRole(
-                               (new RoleQuery())
-                               ->withParent()
-                               ->byId($id)
-                           );
-
-        if ($this->role === null) {
-            $this->flashMessage('users.messages.roleNotFound', FlashMessage::WARNING);
-            $this->redirect('Users:roles');
-        }
+        $this->role = $this->getRole($id);
 
         $this['pageTitle']->setPageTitle(new Phrase('users.roleDefinition.title', ['roleName' => ucfirst($this->role->getName())]));
     }
@@ -278,17 +316,7 @@ class UsersPresenter extends ProtectedPresenter
     {
         $this['pageTitle']->setPageTitle('users.roleRemoval.title');
 
-        $this->role = $this->userFacade
-                           ->fetchRole(
-                               (new RoleQuery())
-                               ->withParent()
-                               ->byId($id)
-                           );
-
-        if ($this->role === null) {
-            $this->flashMessage('users.messages.roleNotFound', FlashMessage::WARNING);
-            $this->redirect('Users:roles');
-        }
+        $this->role = $this->getRole($id);
     }
 
 
@@ -322,6 +350,47 @@ class UsersPresenter extends ProtectedPresenter
     public function onCanceledRoleRemoval()
     {
         $this->redirect('Users:roles');
+    }
+
+
+
+    // --------------------------------------------
+
+
+
+    private function getPickedUser($id)
+    {
+        $user = $this->userFacade
+                     ->fetchUser(
+                         (new UserQuery())
+                          ->byId($id)
+                          ->withRoles()
+                     );
+
+        if ($user === null) {
+            $this->flashMessage('users.messages.userNotFound', FlashMessage::WARNING);
+            $this->redirect('Users:default');
+        }
+
+        return $user;
+    }
+
+
+    private function getRole($id)
+    {
+        $role = $this->userFacade
+                     ->fetchRole(
+                         (new RoleQuery())
+                          ->withParent()
+                          ->byId($id)
+                     );
+
+        if ($role === null) {
+            $this->flashMessage('users.messages.roleNotFound', FlashMessage::WARNING);
+            $this->redirect('Users:roles');
+        }
+
+        return $role;
     }
 
 }

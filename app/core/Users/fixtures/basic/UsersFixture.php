@@ -94,7 +94,8 @@ class UsersFixture extends AbstractFixture
         $arg = new AuthorizationRulesGenerator($manager);
 
         $arg->addResource(new Resource('user'))
-            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
+            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
+            ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
 
         $arg->addResource(new Resource('user_role'))
             ->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
@@ -117,6 +118,9 @@ class UsersFixture extends AbstractFixture
         $detail = UrlGenerator::create('administration/user-detail', 'Users:Admin:Users', 'detail');
         $manager->persist($detail);
 
+        $userRemoval = UrlGenerator::create('administration/user-removal', 'Users:Admin:Users', 'userRemove');
+        $manager->persist($userRemoval);
+
         $roles = UrlGenerator::create('administration/roles', 'Users:Admin:Users', 'roles');
         $manager->persist($roles);
 
@@ -138,7 +142,8 @@ class UsersFixture extends AbstractFixture
         $elg->addLogType(new LogType('user'))
             ->addEvent('user_login')
             ->addEvent('user_logout')
-            ->addEvent('user_editing');
+            ->addEvent('user_editing')
+            ->addEvent('user_removal');
 
         $elg->addLogType(new LogType('user_role'))
             ->addEvent('user_role_creation')

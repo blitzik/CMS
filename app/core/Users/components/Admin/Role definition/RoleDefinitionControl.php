@@ -74,6 +74,8 @@ class RoleDefinitionControl extends BaseControl
 
         $form->onSuccess[] = [$this, 'processPrivileges'];
 
+        $form->addProtection();
+
         return $form;
     }
 
@@ -85,7 +87,7 @@ class RoleDefinitionControl extends BaseControl
         }
 
         $values = $form->getHttpData();
-        unset($values['save'], $values['do']);
+        unset($values['save'], $values['do'], $values[Form::PROTECTOR_ID]);
 
         try {
             $this->userFacade->savePermissionDefinitions($this->role, $values);

@@ -23,6 +23,7 @@ login:
 
 overview:
 	title: "Přehled uživatelů"
+	you: "Vy"
 	rowTitle:
 		name: Jméno
 		roles: Role
@@ -66,6 +67,19 @@ user:
 			emailExists: "E-mail %email% již někdo používá"
 			missingRole: "Vybraná role chybí. Vyberte prosím roli znovu."
 
+
+
+userRemoval:
+	title: "Odstranění uživatele"
+	warning: "Uživatel <strong>\"%username%\"</strong> bude <strong>NENÁVRATNĚ</strong> odstraněn"
+	actions:
+		remove: "odstranit"
+		cancel: "zpět"
+
+	messages:
+		success: "Účet uživatele \"%username%\" byl odstraněn"
+		cantBeRemoved: "Účet uživatele \"%username%\" nelze odstranit. Na tomto účtu závisí další data."
+		removeYourself: "Nelze odstranit sám sebe"
 
 
 roles:
@@ -113,7 +127,7 @@ roleDefinition:
 		currentState: "Aktuální stav"
 
 	messages:
-		success: "Nové nastavení práv bylo úspěšně uloženo"
+		success: "Nastavení práv bylo úspěšně uloženo"
 		error: "Při ukládání došlo k chybě"
 
 

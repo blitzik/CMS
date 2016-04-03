@@ -23,6 +23,7 @@ login:
 
 overview:
 	title: "Users overview"
+	you: "You"
 	rowTitle:
 		name: Name
 		roles: Roles
@@ -65,6 +66,20 @@ user:
 			usernameExists: "Username \"%username%\" is already taken"
 			emailExists: "E-mail %email% is already taken"
 			missingRole: "Role is missing. Pick another one."
+
+
+
+userRemoval:
+	title: "User removal"
+	warning: "The user <strong>\"%username%\"</strong> is going to be removed <strong>PERMANENTLY</strong>"
+	actions:
+		remove: "remove"
+		cancel: "cancel"
+
+	messages:
+		success: "Account of user \"%username%\" has been successfully removed"
+		cantBeRemoved: "Account of user \"%username%\" cannot be removed. There are other data depending on this Account."
+		removeYourself: "You cannot remove yourself"
 
 
 
@@ -111,14 +126,14 @@ roleDefinition:
 		state: State
 
 	messages:
-		success: "New Role settings has been successfully saved"
+		success: "Role settings has been successfully saved"
 		errro: "An Error occurred while saving Role settings"
 
 
 
 roleRemoval:
 	title: "Role removal"
-	warning: "The Role <strong>%roleName%</strong> is going to be removed <strong>PERMANENTLY</strong>"
+	warning: "The Role <strong>\"%roleName%\"</strong> is going to be removed <strong>PERMANENTLY</strong>"
 	actions:
 		remove: "remove"
 		cancel: "cancel"

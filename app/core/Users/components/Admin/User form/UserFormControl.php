@@ -76,6 +76,8 @@ class UserFormControl extends BaseControl
             $form['save']->setDisabled();
         }
 
+        $form->addProtection();
+
         return $form;
     }
 

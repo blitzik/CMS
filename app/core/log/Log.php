@@ -45,7 +45,7 @@ class Log
 
     /**
      * @ORM\ManyToOne(targetEntity="Users\User")
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * @var User
      */
     private $user;

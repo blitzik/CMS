@@ -24,6 +24,7 @@ use Kdyby\Doctrine\EntityManager;
 use Doctrine\DBAL\DBALException;
 use Users\Query\PermissionQuery;
 use Users\Services\RoleRemover;
+use Users\Services\UserRemover;
 use Users\Authorization\Role;
 use Users\Query\RoleQuery;
 use Users\Query\UserQuery;
@@ -56,12 +57,16 @@ class UserFacade extends Object
     /** @var RolePersister */
     private $rolePersister;
 
+    /** @var UserRemover */
+    private $userRemover;
+
     /** @var RoleRemover */
     private $roleRemover;
 
 
     public function __construct(
         RoleRemover $roleRemover,
+        UserRemover $userRemover,
         EntityManager $entityManager,
         UserPersister $userPersister,
         RolePersister $rolePersister,
@@ -69,6 +74,7 @@ class UserFacade extends Object
     ) {
         $this->em = $entityManager;
         $this->roleRemover = $roleRemover;
+        $this->userRemover = $userRemover;
         $this->userPersister = $userPersister;
         $this->rolePersister = $rolePersister;
         $this->rolePermissionsPersister = $rolePermissionsPersister;
@@ -88,6 +94,16 @@ class UserFacade extends Object
     public function saveUser(array $values, User $user = null)
     {
         return $this->userPersister->save($values, $user);
+    }
+
+
+    /**
+     * @param User $user
+     * @throws \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException
+     */
+    public function removeUser(User $user)
+    {
+        $this->userRemover->remove($user);
     }
 
 

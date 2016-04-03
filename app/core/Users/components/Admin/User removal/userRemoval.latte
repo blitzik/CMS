@@ -1,0 +1,17 @@
+
+{control flashMessages}
+
+<b>{$pickedUser->getUsername()}</b>
+{translator users.userRemoval}
+<div class="box box-alizarin">
+
+    <p class="box box-critical">
+        {_warning, [username => $pickedUser->getUsername()]|noescape}
+    </p>
+{form form}
+    {input remove class => 'btn btn-red'}
+    {input cancel class => 'btn btn-river'}
+{/form}
+
+</div>
+{/translator}

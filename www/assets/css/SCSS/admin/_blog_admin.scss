@@ -795,6 +795,10 @@ h1, h2, h3, h4, h5, h6{
   @extend %col-12;
 }
 
+.user-yourself{
+  background-color: #f9fff9;
+}
+
 .users-roles{
   @extend %col-12;
 }
@@ -848,6 +852,14 @@ h1, h2, h3, h4, h5, h6{
 .user-detail-lastName{
   @extend %col-6;
 }
+
+
+// user removal
+
+.user-removal{
+  @extend %col-12;
+}
+
 
 // role definition
 
@@ -1350,7 +1362,8 @@ h1, h2, h3, h4, h5, h6{
   .users-roles,
   .role-definition,
   .users-new-role,
-  .role-remove{
+  .role-remove,
+  .user-removal{
     @include column(9);
   }
 

@@ -31,6 +31,7 @@ services:
 
 	# Services
 	userPersister: Users\Services\UserPersister
+	userRemover: Users\Services\UserRemover
 	rolePersister: Users\Services\RolePersister
 	roleRemover: Users\Services\RoleRemover
 	rolePermissionsPersister: Users\Services\RolePermissionsPersister
@@ -65,3 +66,8 @@ services:
 		implement: Users\Components\Admin\IRoleRemovalControlFactory
 		parameters: [Users\Authorization\Role role]
 		arguments: [%role%]
+
+	userRemovalControlFactory:
+		implement: Users\Components\Admin\IUserRemovalControlFactory
+		parameters: [Users\User user]
+		arguments: [%user%]

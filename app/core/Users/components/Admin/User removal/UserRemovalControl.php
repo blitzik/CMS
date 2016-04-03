@@ -3,7 +3,7 @@
 /**
  * Created by PhpStorm.
  * Author: Aleš Tichava
- * Date: 02.04.2016
+ * Date: 03.04.2016
  */
 
 namespace Users\Components\Admin;
@@ -11,34 +11,34 @@ namespace Users\Components\Admin;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use blitzik\FlashMessages\FlashMessage;
 use Kdyby\Translation\Translator;
-use Nette\Forms\Controls\SubmitButton;
 use App\Components\BaseControl;
 use Nette\Application\UI\Form;
-use Users\Authorization\Role;
+use Nette\Forms\Controls\SubmitButton;
 use Users\Facades\UserFacade;
+use Users\User;
 
-class RoleRemovalControl extends BaseControl
+class UserRemovalControl extends BaseControl
 {
-    public $onSuccessRoleRemoval;
+    public $onSuccessUserRemoval;
     public $onCanceledRemoval;
 
     /** @var UserFacade */
     private $userFacade;
 
+    /** @var User */
+    private $pickedUser;
+
     /** @var Translator */
     private $translator;
 
-    /** @var Role */
-    private $role;
-
 
     public function __construct(
-        Role $role,
+        User $user,
         UserFacade $userFacade,
         Translator $translator
     ) {
-        $this->role = $role;
         $this->userFacade = $userFacade;
+        $this->pickedUser = $user;
         $this->translator = $translator;
     }
 
@@ -46,9 +46,9 @@ class RoleRemovalControl extends BaseControl
     public function render()
     {
         $template = $this->getTemplate();
-        $template->setFile(__DIR__ . '/roleRemoval.latte');
+        $template->setFile(__DIR__ . '/userRemoval.latte');
 
-        $template->role = $this->role;
+        $template->pickedUser = $this->pickedUser;
 
         $template->render();
     }
@@ -57,19 +57,18 @@ class RoleRemovalControl extends BaseControl
     protected function createComponentForm()
     {
         $form = new Form;
-        $form->setTranslator($this->translator->domain('users.roleRemoval.actions'));
+        $form->setTranslator($this->translator->domain('users.userRemoval.actions'));
 
         $form->addSubmit('remove', 'remove')
                 ->onClick[] = [$this, 'removeRole'];
 
-        if (!$this->authorizator->isAllowed($this->user, 'user_role', 'remove')) {
+        if (!$this->authorizator->isAllowed($this->user, 'user', 'remove')) {
             $form['remove']->setDisabled();
         }
 
-
         $form->addSubmit('cancel', 'cancel')
                 ->onClick[] = [$this, 'cancel'];
-
+        
         $form->addProtection();
 
         return $form;
@@ -78,17 +77,17 @@ class RoleRemovalControl extends BaseControl
 
     public function removeRole(SubmitButton $button)
     {
-        if (!$this->authorizator->isAllowed($this->user, 'user_role', 'remove')) {
+        if (!$this->authorizator->isAllowed($this->user, 'user', 'remove')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             $this->redirect('this');
         }
 
         try {
-            $this->userFacade->removeRole($this->role);
-            $this->onSuccessRoleRemoval($this->role);
+            $this->userFacade->removeUser($this->pickedUser);
+            $this->onSuccessUserRemoval($this->pickedUser);
 
         } catch (ForeignKeyConstraintViolationException $e) {
-            $this->flashMessage('users.roleRemoval.messages.roleInUse', FlashMessage::WARNING, ['roleName' => $this->role->getName()]);
+            $this->flashMessage('users.userRemoval.messages.cantBeRemoved', FlashMessage::WARNING, ['username' => $this->pickedUser->getUsername()]);
             $this->redirect('this');
         }
     }
@@ -98,15 +97,14 @@ class RoleRemovalControl extends BaseControl
     {
         $this->onCanceledRemoval();
     }
-
 }
 
 
-interface IRoleRemovalControlFactory
+interface IUserRemovalControlFactory
 {
     /**
-     * @param Role $role
-     * @return RoleRemovalControl
+     * @param User $user
+     * @return UserRemovalControl
      */
-    public function create(Role $role);
+    public function create(User $user);
 }
