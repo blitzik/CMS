@@ -262,6 +262,6 @@ class PagePresenter extends ProtectedPresenter
 
     public function onCancelClick(PageRemovalControl $control)
     {
-        $this->redirect(':Dashboard:Dashboard:default');
+        $this->redirect(':Pages:Admin:Page:overview');
     }
 }
