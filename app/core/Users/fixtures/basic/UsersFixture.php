@@ -8,6 +8,7 @@
 
 namespace Users\Fixtures;
 
+use Log\Services\EventLogGenerator;
 use Users\Authorization\AuthorizationRulesGenerator;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -132,31 +133,17 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
-        // Log types
-        $userLogType = new LogType('user');
-        $manager->persist($userLogType);
+        $elg = new EventLogGenerator($manager);
 
-        $userRoleLogType = new LogType('user_role');
-        $manager->persist($userRoleLogType);
+        $elg->addLogType(new LogType('user'))
+            ->addEvent('user_login')
+            ->addEvent('user_logout')
+            ->addEvent('user_editing');
 
-        // Log events
-        $userLoginEvent = new EventLog('user_login', $userLogType);
-        $manager->persist($userLoginEvent);
-
-        $userLogoutEvent = new EventLog('user_logout', $userLogType);
-        $manager->persist($userLogoutEvent);
-
-        $userEditingEvent = new EventLog('user_editing', $userLogType);
-        $manager->persist($userEditingEvent);
-
-        $userRoleCreationEvent = new EventLog('user_role_creation', $userRoleLogType);
-        $manager->persist($userRoleCreationEvent);
-
-        $userRoleRemovalEvent = new EventLog('user_role_removal', $userRoleLogType);
-        $manager->persist($userRoleRemovalEvent);
-
-        $userRoleEditingEvent = new EventLog('user_role_editing', $userRoleLogType);
-        $manager->persist($userRoleEditingEvent);
+        $elg->addLogType(new LogType('user_role'))
+            ->addEvent('user_role_creation')
+            ->addEvent('user_role_editing')
+            ->addEvent('user_role_removal');
     }
 
 }

@@ -32,7 +32,7 @@ class AuthorizationRulesGenerator extends Object
 
     /**
      * @param \Users\Authorization\Resource $resource
-     * @return mixed
+     * @return $this
      */
     public function addResource(\Users\Authorization\Resource $resource)
     {

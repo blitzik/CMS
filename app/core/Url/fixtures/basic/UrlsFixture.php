@@ -10,7 +10,7 @@ namespace Url\Fixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Log\EventLog;
+use Log\Services\EventLogGenerator;
 use Log\LogType;
 
 class UrlsFixture extends AbstractFixture
@@ -22,11 +22,10 @@ class UrlsFixture extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
-        $logType = new LogType('url');
-        $manager->persist($logType);
+        $elg = new EventLogGenerator($manager);
 
-        $logEvent_404 = new EventLog('404', $logType);
-        $manager->persist($logEvent_404);
+        $elg->addLogType(new LogType('url'))
+            ->addEvent('404');
 
         $manager->flush();
     }

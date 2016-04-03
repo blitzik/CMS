@@ -11,6 +11,7 @@ namespace Images\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Log\Services\EventLogGenerator;
 use Users\Authorization\AccessDefinition;
 use Users\Authorization\AuthorizationRulesGenerator;
 use Users\Authorization\Permission;
@@ -47,14 +48,11 @@ class ImagesFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
-        $imageType = new LogType('image');
-        $manager->persist($imageType);
+        $elg = new EventLogGenerator($manager);
 
-        $imageUpload = new EventLog('image_upload', $imageType);
-        $manager->persist($imageUpload);
-
-        $imageRemoval = new EventLog('image_removal', $imageType);
-        $manager->persist($imageRemoval);
+        $elg->addLogType(new LogType('image'))
+            ->addEvent('image_upload')
+            ->addEvent('image_removal');
     }
 
 

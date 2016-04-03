@@ -11,6 +11,7 @@ namespace Pages\Fixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Log\Services\EventLogGenerator;
 use Users\Authorization\AccessDefinition;
 use Users\Authorization\AuthorizationRulesGenerator;
 use Users\Authorization\Permission;
@@ -72,73 +73,31 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
-        $pageType = new LogType('page');
-        $manager->persist($pageType);
+        $elg = new EventLogGenerator($manager);
 
-        $commentType = new LogType('page_comment');
-        $manager->persist($commentType);
-
-        $tagType = new LogType('page_tag');
-        $manager->persist($tagType);
-
-
-        // save & publish
-        $pageCreation = new EventLog('page_creation', $pageType);
-        $manager->persist($pageCreation);
-
-        $pageEditing = new EventLog('page_editing', $pageType);
-        $manager->persist($pageEditing);
-
-        $pageRemoval = new EventLog('page_removal', $pageType);
-        $manager->persist($pageRemoval);
-
-        $pageRelease = new EventLog('page_release', $pageType);
-        $manager->persist($pageRelease);
-
-        $pageCommentsClosure = new EventLog('page_comments_closure', $pageType);
-        $manager->persist($pageCommentsClosure);
-
-        $pageCommentsOpening = new EventLog('page_comments_opening', $pageType);
-        $manager->persist($pageCommentsOpening);
+        $elg->addLogType(new LogType('page'))
+            ->addEvent('page_creation')
+            ->addEvent('page_editing')
+            ->addEvent('page_removal')
+            ->addEvent('page_release')
+            ->addEvent('page_comments_closure')
+            ->addEvent('page_comments_opening')
+            ->addEvent('page_draft_creation')
+            ->addEvent('page_draft_editing')
+            ->addEvent('page_draft_removal');
 
 
-        // drafts
-        $draftCreation = new EventLog('page_draft_creation', $pageType);
-        $manager->persist($draftCreation);
-
-        $draftEditing = new EventLog('page_draft_editing', $pageType);
-        $manager->persist($draftEditing);
-
-        $draftRemoval = new EventLog('page_draft_removal', $pageType);
-        $manager->persist($draftRemoval);
+        $elg->addLogType(new LogType('page_comment'))
+            ->addEvent('page_comment_creation')
+            ->addEvent('page_comment_removal')
+            ->addEvent('page_comment_suppression')
+            ->addEvent('page_comment_release');
 
 
-        // comments
-        $commentCreation = new EventLog('page_comment_creation', $commentType);
-        $manager->persist($commentCreation);
-
-        /*$commentEditing = new EventLog('page_comment_editing', $commentType);
-        $manager->persist($commentEditing);*/
-
-        $commentRemoval = new EventLog('page_comment_removal', $commentType);
-        $manager->persist($commentRemoval);
-
-        $commentSuppression = new EventLog('page_comment_suppression', $commentType);
-        $manager->persist($commentSuppression);
-
-        $commentRelease = new EventLog('page_comment_release', $commentType);
-        $manager->persist($commentRelease);
-
-
-        // tags
-        $tagCreation = new EventLog('page_tag_creation', $tagType);
-        $manager->persist($tagCreation);
-
-        $tagEditing = new EventLog('page_tag_editing', $tagType);
-        $manager->persist($tagEditing);
-
-        $tagRemoval = new EventLog('page_tag_removal', $tagType);
-        $manager->persist($tagRemoval);
+        $elg->addLogType(new LogType('page_tag'))
+            ->addEvent('page_tag_creation')
+            ->addEvent('page_tag_editing')
+            ->addEvent('page_tag_removal');
     }
 
 
