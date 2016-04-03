@@ -9,6 +9,7 @@ use Nette\Localization\ITranslator;
 use Options\Facades\OptionFacade;
 use Nette\Application\UI\Form;
 use Nette\Utils\Validators;
+use Options\Option;
 use Users\Authorization\Permission;
 use Users\Authorization\Role;
 
@@ -84,7 +85,7 @@ class OptionsPresenter extends ProtectedPresenter
 
         $options = $this->prepareOptions($this->optionFacade->findOptions());
         foreach ((array)$values as $key => $value) {
-            $options[$key]->value = $value == '' ? null : $value;
+            $options[$key]->setValue($value == '' ? null : $value);
         }
 
         try {
@@ -102,8 +103,9 @@ class OptionsPresenter extends ProtectedPresenter
     private function prepareOptions(array $options)
     {
         $result = [];
+        /** @var Option $option */
         foreach ($options as $option) {
-            $result[$option->name] = $option;
+            $result[$option->getName()] = $option;
         }
 
         return $result;

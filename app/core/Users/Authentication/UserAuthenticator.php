@@ -49,10 +49,10 @@ class UserAuthenticator extends Object implements IAuthenticator
             throw new AuthenticationException('Špatná E-mailová adresa');
         }
 
-        if (!Passwords::verify($password, $user->password)) {
+        if (!Passwords::verify($password, $user->getPassword())) {
             throw new AuthenticationException('Špatné heslo');
 
-        } elseif (Passwords::needsRehash($user->password)) {
+        } elseif (Passwords::needsRehash($user->getPassword())) {
             $user->password = Passwords::hash($password);
         }
 

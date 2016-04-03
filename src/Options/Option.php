@@ -3,7 +3,6 @@
 namespace Options;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -17,19 +16,18 @@ use Nette\Utils\Validators;
 class Option
 {
     use Identifier;
-    use MagicAccessors;
 
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=true)
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(name="value", type="string", length=255, nullable=true, unique=false)
      * @var string
      */
-    protected $value;
+    private $value;
 
     public function __construct(
         $name,
@@ -38,6 +36,14 @@ class Option
         $this->setName($name);
         $this->setValue($value);
     }
+
+
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
+
 
     /**
      * @param string $name
@@ -60,6 +66,34 @@ class Option
 
         $this->value = $value;
     }
+
+
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+    
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+
+
 
     public static function getCacheKey()
     {

@@ -58,7 +58,7 @@ class PageRemovalControl extends BaseControl
 
         $form->addText('check', 'check.label')
                 ->setRequired('check.messages.required')
-                ->addRule(Form::EQUAL, 'check.messages.notEqual', $this->page->title);
+                ->addRule(Form::EQUAL, 'check.messages.notEqual', $this->page->getTitle());
 
         $form->addSubmit('remove', 'remove.caption')
                 ->onClick[] = [$this, 'removePage'];

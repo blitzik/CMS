@@ -105,7 +105,7 @@ class PageSubscriber extends Object implements Subscriber
                      $page->getAuthorName(),
                      ($page->isDraft() ? ' draft' : ''),
                      $pageID,
-                     $page->title
+                     $page->getTitle()
                  ),
                  $page->isDraft() ? 'page_draft_creation' : 'page_creation',
                  $page->getAuthorId()
@@ -159,7 +159,7 @@ class PageSubscriber extends Object implements Subscriber
             $this->linkGenerator->link('Pages:Front:Page:show', ['internal_id' => $page->getId()]),
             ($page->isDraft() ? ' draft' : ''),
             $page->getId(),
-            $page->title
+            $page->getTitle()
         );
     }
 

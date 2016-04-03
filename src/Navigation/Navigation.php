@@ -9,7 +9,6 @@
 namespace Navigations;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -23,7 +22,6 @@ use Nette\Utils\Validators;
 class Navigation
 {
     use Identifier;
-    use MagicAccessors;
 
     const NAME_LENGTH = 100;
 
@@ -31,8 +29,7 @@ class Navigation
      * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      * @var string
      */
-    protected $name;
-
+    private $name;
 
 
     public function __construct($name)
@@ -41,9 +38,34 @@ class Navigation
     }
 
 
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
+
+
     public function setName($name)
     {
         Validators::assert($name, 'unicode:1..' . self::NAME_LENGTH);
         $this->name = $name;
     }
+
+
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
 }

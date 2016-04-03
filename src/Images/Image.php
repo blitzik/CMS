@@ -2,9 +2,8 @@
 
 namespace Images;
 
-use Images\Exceptions\Runtime\FileNameException;
 use Images\Exceptions\Runtime\NotImageUploadedException;
-use Kdyby\Doctrine\Entities\MagicAccessors;
+use Images\Exceptions\Runtime\FileNameException;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -23,8 +22,6 @@ use Ramsey\Uuid\Uuid;
  */
 class Image
 {
-    use MagicAccessors;
-
     const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
 
     /**

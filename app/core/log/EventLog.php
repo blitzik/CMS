@@ -9,7 +9,6 @@
 namespace Log;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -23,14 +22,13 @@ use Nette\Utils\Validators;
 class EventLog
 {
     use Identifier;
-    use MagicAccessors;
 
 
     /**
      * @ORM\Column(name="name", type="string", length=100, nullable=false, unique=true)
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="LogType")

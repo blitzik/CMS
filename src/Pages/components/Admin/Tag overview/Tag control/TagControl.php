@@ -2,16 +2,14 @@
 
 namespace Tags\Components\Admin;
 
-use App\Components\BaseControl;
 use blitzik\FlashMessages\FlashMessage;
-use Doctrine\DBAL\DBALException;
-use Nette\Application\UI\Form;
 use Nette\Localization\ITranslator;
-use Nette\Utils\ArrayHash;
 use Pages\Factories\TagFormFactory;
+use Doctrine\DBAL\DBALException;
+use App\Components\BaseControl;
+use Nette\Application\UI\Form;
 use Tags\Facades\TagFacade;
 use Tags\Tag;
-use Users\Authorization\Permission;
 
 class TagControl extends BaseControl
 {
@@ -61,7 +59,7 @@ class TagControl extends BaseControl
         $form->getElementPrototype()->id = 'form-tag-'.$this->tag->getId();
 
         $form['color']->setHtmlId('tag-color-input-'.$this->tag->getId())
-                      ->setDefaultValue($this->tag->color);
+                      ->setDefaultValue($this->tag->getColor());
 
         $form['save']->setHtmlId('tag-submit-'.$this->tag->getId());
 
@@ -106,7 +104,7 @@ class TagControl extends BaseControl
 
     public function handleRemoveTag()
     {
-        if (!$this->user->isAllowed('page_tag', Permission::ACL_REMOVE)) {
+        if (!$this->authorizator->isAllowed($this->user, 'page_tag', 'remove')) {
             $this->flashMessage('authorization.noPermission', FlashMessage::WARNING);
             if ($this->presenter->isAjax()) {
                 $this->presenter->payload->errorEl = 'no permission';

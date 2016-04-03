@@ -76,7 +76,7 @@ Nadpis1   Nadpis2   Podnadpis
         </div>
     </div>*}
 {translator pageEditForm}
-    <h2 n:ifset="$page"><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->title}</a></h2>
+    <h2 n:ifset="$page"><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->getTitle()}</a></h2>
     <div class="box box-river"> {* just div *}
         {rowCol 'form-group article-url'}
             {label url /} | <span>{_url.info}</span>

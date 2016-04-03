@@ -2,9 +2,9 @@
 
 namespace Users;
 
+use Users\Exceptions\Runtime\NotPersistedEntityException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -12,7 +12,6 @@ use Users\Authorization\Role;
 use Nette\Security\Passwords;
 use Nette\Utils\Validators;
 use Nette\Utils\Random;
-use Users\Exceptions\Runtime\NotPersistedEntityException;
 
 /**
  * @ORM\Entity
@@ -22,7 +21,6 @@ use Users\Exceptions\Runtime\NotPersistedEntityException;
 class User
 {
     use Identifier;
-    use MagicAccessors;
 
     /**
      * @ORM\Column(name="username", type="string", length=40, nullable=false, unique=true)

@@ -9,7 +9,6 @@
 namespace Users\Authorization;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +24,6 @@ use Doctrine\ORM\Mapping\Index;
 class AccessDefinition
 {
     use Identifier;
-    use MagicAccessors;
 
     /**
      * @ORM\ManyToOne(targetEntity="Resource", cascade={"persist"})

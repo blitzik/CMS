@@ -300,7 +300,7 @@ class PagePersister extends Object
 
         // if we first try to save url entity, the current transaction is marked for
         // rollback only if there is unique constraint violation.
-        $newUrl = $this->urlFacade->getByPath($newUrlEntity->urlPath);
+        $newUrl = $this->urlFacade->getByPath($newUrlEntity->getUrlPath());
         if ($newUrl === null) {
             $newUrl = $this->urlFacade->saveUrl($newUrlEntity);
         }

@@ -8,7 +8,7 @@
 {if $page->isDraft()}
     <p>{_page.comments.messages.pageDraft}</p>
 {else}
-    {if $page->allowedComments === false and !$authorizator->isAllowed($user, 'page_comment_form', 'comment_on_closed')}
+    {if $page->getAllowedComments() === false and !$authorizator->isAllowed($user, 'page_comment_form', 'comment_on_closed')}
         {if $commentsCount > 0}
             <p><i class="fa fa-lock"></i> {_page.comments.messages.closedComments}</p>
         {else}

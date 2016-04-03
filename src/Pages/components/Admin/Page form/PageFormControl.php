@@ -236,15 +236,15 @@ class PageFormControl extends BaseControl
     private function fillFormBy(Page $page)
     {
         $this['pageForm']['url']->setDefaultValue($page->getUrlPath());
-        $this['pageForm']['publishedAt']->setDefaultValue($page->title);
+        $this['pageForm']['publishedAt']->setDefaultValue($page->getTitle());
 
         if ($page->getPublishedAt() !== null) {
-            $this['pageForm']['publishedAt']->setDefaultValue($page->publishedAt->format('j.n.Y H:i'));
+            $this['pageForm']['publishedAt']->setDefaultValue($page->getPublishedAt()->format('j.n.Y H:i'));
         }
 
-        $this['pageForm']['title']->setDefaultValue($page->title);
-        $this['pageForm']['intro']->setDefaultValue($page->intro);
-        $this['pageForm']['text']->setDefaultValue($page->text);
+        $this['pageForm']['title']->setDefaultValue($page->getTitle());
+        $this['pageForm']['intro']->setDefaultValue($page->getIntro());
+        $this['pageForm']['text']->setDefaultValue($page->getText());
         $this['pageForm']['allowedComments']->setDefaultValue($page->getAllowedComments());
 
         $this['pageForm']['description']->setDefaultValue($page->getMetaDescription());

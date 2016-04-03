@@ -8,7 +8,7 @@
         <a class="link" href="#comment-{$comment->getId()}">
             #{$comment->getOrder()}.
         </a>
-        {$comment->author}
+        {$comment->getAuthor()}
     </h3>
 
     <div class="comment-text" n:snippet="comment-text">
@@ -17,7 +17,7 @@
                 <i class="fa fa-eye-slash"></i> {_page.comments.messages.silencedComment}
             </p>
         {else}
-            {$comment->text|noescape}
+            {$comment->getText()|noescape}
         {/if}
     </div>
 
@@ -25,12 +25,12 @@
         <div class="reactions" n:if="!empty($comment->getReactions())">
             reakce od:
             {foreach $comment->getReactions() as $id => $reaction}
-                <a href="#comment-{$id}">[#{$reaction->getOrder()}] {$reaction->author}</a>{sep}, {/sep}
+                <a href="#comment-{$id}">[#{$reaction->getOrder()}] {$reaction->getAuuthor()}</a>{sep}, {/sep}
             {/foreach}
         </div>
 
         <div class="footer">
-            <span title="{$comment->created|dateWithMonthWord}">{$comment->created|timeAgoInWords}</span>
+            <span title="{$comment->getCreated()|dateWithMonthWord}">{$comment->getCreated()|timeAgoInWords}</span>
             {if (!$comment->isSilenced() and $comment->areCommentsClosed() !== true) or $authorizator->isAllowed($user, 'page_comment', 'respond_on_silenced')}
                 | <a href="#" class="reaction-button" data-reply="{$comment->getOrder()}" title="Do svého komentáře vložte @{$comment->getOrder()} na začátek nového řádku">{_page.comments.actions.reply.label}</a>
             {/if}

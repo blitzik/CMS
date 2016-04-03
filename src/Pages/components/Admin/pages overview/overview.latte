@@ -31,13 +31,13 @@
             {var $commentsCount = (int)$pageData['commentsCount']}
                 <tr>
                     {*<td>{$page->getId()}</td>*}
-                    <td>{$page->createdAt|date:'j.n.Y'} <br>v {$page->createdAt|date:'H:i'}</td>
-                    <td>{$page->publishedAt|date:'j.n.Y'} <br>v {$page->publishedAt|date:'H:i'}</td>
+                    <td>{$page->getCreatedAt()|date:'j.n.Y'} <br>v {$page->getCreatedAt()|date:'H:i'}</td>
+                    <td>{$page->getPublishedAt()|date:'j.n.Y'} <br>v {$page->getPublishedAt()|date:'H:i'}</td>
                     <td>
-                        <a href="{plink :Pages:Front:Page:show internal_id => $page->id, locale => $page->getLocaleCode()}" class="article-name">{$page->title}</a>
+                        <a href="{plink :Pages:Front:Page:show internal_id => $page->getId(), locale => $page->getLocaleCode()}" class="article-name">{$page->getTitle()}</a>
                         <div class="article-mini-tags" n:if="!empty($page->getTags())">
                             {foreach $page->getTags() as $tag}
-                                <span style="background-color: {$tag->color|noescape}">{$tag->name}</span>
+                                <span style="background-color: {$tag->getColor()|noescape}">{$tag->getName()}</span>
                             {/foreach}
                         </div>
                         <div>
@@ -55,10 +55,10 @@
                     <td>
                         <div class="articles-overview-actions">
                             {translator pagesOverview.actions}
-                            <a href="{plink :Pages:Admin:Page:edit id => $page->id}" class="btn btn-river"><i class="fa fa-edit"></i> {_edit}</a>
-                            {*<a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->id}" class="ajax btn btn-turquoise"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
-                            <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->id}" class="ajax btn btn-asphalt"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>*}
-                            <a href="{plink :Pages:Admin:Page:remove id => $page->id}" class="btn btn-red" title="Smazání článku"><i class="fa fa-trash"></i> <span>{_remove}</span></a>
+                            <a href="{plink :Pages:Admin:Page:edit id => $page->getId()}" class="btn btn-river"><i class="fa fa-edit"></i> {_edit}</a>
+                            {*<a n:if="$page->isPublished === false" href="{link publishArticle, id => $page->getId()}" class="ajax btn btn-turquoise"><i class="fa fa-thumbs-o-up"></i> Publikovat</a>
+                            <a n:if="$page->isPublished === true" href="{link hideArticle, id => $page->getId()}" class="ajax btn btn-asphalt"><i class="fa fa-thumbs-o-down"></i> Nepublikovat</a>*}
+                            <a href="{plink :Pages:Admin:Page:remove id => $page->getId()}" class="btn btn-red" title="Smazání článku"><i class="fa fa-trash"></i> <span>{_remove}</span></a>
                             {/translator}
                         </div>
                     </td>

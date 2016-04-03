@@ -102,7 +102,7 @@ class PagePresenter extends BasePresenter
             throw new BadRequestException;
         }
 
-        $this['pageTitle']->setPageTitle($page->title);
+        $this['pageTitle']->setPageTitle($page->getTitle());
         $this['metas']->addMeta('description', $page->getMetaDescription());
         $this['metas']->addMeta('keywords', $page->getMetaKeywords());
 

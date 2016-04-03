@@ -77,14 +77,14 @@ class Router extends RouteList
             return null;
         }
 
-        if ($urlEntity->actualUrlToRedirect === null) {
+        if ($urlEntity->getActualUrlToRedirect() === null) {
             $presenter = $urlEntity->getPresenter();
-            $internal_id = $urlEntity->internalId;
+            $internal_id = $urlEntity->getInternalId();
             $action = $urlEntity->getAction();
         } else {
-            $presenter = $urlEntity->actualUrlToRedirect->getPresenter();
-            $internal_id = $urlEntity->actualUrlToRedirect->internalId;
-            $action = $urlEntity->actualUrlToRedirect->getAction();
+            $presenter = $urlEntity->getActualUrlToRedirect()->getPresenter();
+            $internal_id = $urlEntity->getActualUrlToRedirect()->getInternalId();
+            $action = $urlEntity->getActualUrlToRedirect()->getAction();
         }
 
         $params = $httpRequest->getQuery();
@@ -163,10 +163,10 @@ class Router extends RouteList
 
         $baseUrl = 'http://' . $refUrl->getAuthority() . $refUrl->getBasePath();
 
-        if ($urlEntity->actualUrlToRedirect === null) {
-            $path = $urlEntity->urlPath;
+        if ($urlEntity->getActualUrlToRedirect() === null) {
+            $path = $urlEntity->getUrlPath();
         } else {
-            $path = $urlEntity->actualUrlToRedirect->urlPath;
+            $path = $urlEntity->getActualUrlToRedirect()->getUrlPath();
         }
 
         $params = $appRequest->getParameters();

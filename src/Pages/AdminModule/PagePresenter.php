@@ -175,7 +175,7 @@ class PagePresenter extends ProtectedPresenter
         $this->page = $this->getPage($id);
 
         $this['pageTitle']->setPageTitle('pageEdit.title.edit')
-                          ->joinTitleText(' - ' . $this->page->title);
+                          ->joinTitleText(' - ' . $this->page->getTitle());
 
         $this['articleForm']->setPageToEdit($this->page);
     }
@@ -255,7 +255,7 @@ class PagePresenter extends ProtectedPresenter
 
     public function onArticleRemoval(PageRemovalControl $control, Page $page)
     {
-        $this->flashMessage('pageRemoval.flashMessages.success', FlashMessage::SUCCESS, null, ['name' => $page->title]);
+        $this->flashMessage('pageRemoval.flashMessages.success', FlashMessage::SUCCESS, null, ['name' => $page->getTitle()]);
         $this->redirect(':Pages:Admin:Page:overview');
     }
 

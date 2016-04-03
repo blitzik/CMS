@@ -4,8 +4,8 @@
     {foreach $tags as $tag}
         <li>
             <label for="tag-{$tag->getId()}">
-            <span class="tag" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
-                <i class="fa fa-tag fa-fw"></i>{$tag->name}
+            <span class="tag" style="background-color: {$tag->getColor()|noescape};" data-tag-color="{$tag->getColor()|noescape}">
+                <i class="fa fa-tag fa-fw"></i>{$tag->getName()}
                 <input type="checkbox" id="tag-{$tag->getId()}" name="tags[]" class="tag-checkbox" value="{$tag->getId()}"{if array_key_exists($tag->getId(), $pageTags)} checked{/if}>
             </span>
             </label>

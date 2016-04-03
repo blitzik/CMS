@@ -4,7 +4,6 @@ namespace Url;
 
 use Pages\Exceptions\Logic\InvalidArgumentException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -23,7 +22,6 @@ use Nette\Utils\Validators;
 class Url
 {
     use Identifier;
-    use MagicAccessors;
 
     const CACHE_NAMESPACE = 'route/';
 
@@ -34,7 +32,7 @@ class Url
      * @ORM\Column(name="url_path", type="string", length=255, nullable=true, unique=true)
      * @var string
      */
-    protected $urlPath;
+    private $urlPath;
 
     /**
      * @ORM\Column(name="presenter", type="string", length=255, nullable=true, unique=false)
@@ -52,15 +50,22 @@ class Url
      * @ORM\Column(name="internal_id", type="integer", nullable=true, unique=false, options={"unsigned": false})
      * @var int
      */
-    protected $internalId;
+    private $internalId;
 
     /**
      * @ORM\ManyToOne(targetEntity="Url", cascade={"persist"})
      * @ORM\JoinColumn(name="actual_url", referencedColumnName="id", nullable=true, onDelete="SET NULL")
      * @var Url
      */
-    protected $actualUrlToRedirect;
+    private $actualUrlToRedirect;
 
+    
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
+    
 
     public function setUrlPath($path)
     {
@@ -123,8 +128,42 @@ class Url
     {
         $this->actualUrlToRedirect = $actualUrlToRedirect;
     }
+    
+
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+
+    
+    /**
+     * @return string
+     */
+    public function getUrlPath()
+    {
+        return $this->urlPath;
+    }
 
 
+    /**
+     * @return int
+     */
+    public function getInternalId()
+    {
+        return $this->internalId;
+    }
+
+
+    /**
+     * @return Url
+     */
+    public function getActualUrlToRedirect()
+    {
+        return $this->actualUrlToRedirect;
+    }
+    
+    
     public function getCurrentUrlId()
     {
         if (!isset($this->actualUrlToRedirect)) {

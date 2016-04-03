@@ -2,6 +2,7 @@
 
 namespace Pages\Query;
 
+use Doctrine\ORM\Query\Expr\Join;
 use Kdyby\Persistence\Queryable;
 use Kdyby\Doctrine\QueryObject;
 use Comments\Comment;
@@ -57,7 +58,7 @@ class PageQuery extends QueryObject
     {
         $this->select[] = function (Kdyby\Doctrine\QueryBuilder $qb) {
             $qb->addSelect('COUNT(c.page) AS commentsCount')
-               ->leftJoin(Comment::class, 'c', Kdyby\Doctrine\Dql\Join::WITH, 'c.page = p')
+               ->leftJoin(Comment::class, 'c', Join::WITH, 'c.page = p')
                ->groupBy('p.id');
         };
 

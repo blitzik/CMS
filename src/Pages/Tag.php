@@ -5,7 +5,6 @@ namespace Tags;
 use Pages\Exceptions\Logic\InvalidArgumentException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -16,12 +15,10 @@ use Url\Url;
 /**
  * @ORM\Entity
  * @ORM\Table(name="tag")
- *
  */
 class Tag implements IResource
 {
     use Identifier;
-    use MagicAccessors;
 
     const LENGTH_NAME = 30;
 
@@ -36,7 +33,7 @@ class Tag implements IResource
      * @ORM\Column(name="color", type="string", length=7, nullable=false, unique=false)
      * @var string
      */
-    protected $color;
+    private $color;
 
 
     public function __construct(

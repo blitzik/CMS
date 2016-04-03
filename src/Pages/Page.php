@@ -7,7 +7,6 @@ use Pages\Exceptions\Runtime\PagePublicationTimeException;
 use Pages\Exceptions\Logic\DateTimeFormatException;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -26,12 +25,10 @@ use Url\Url;
  *          @Index(name="is_draft_published_at", columns={"is_draft", "published_at"})
  *      }
  * )
- *
  */
 class Page implements IResource
 {
     use Identifier;
-    use MagicAccessors;
 
     const PRESENTER = 'Pages:Front:Page';
     const PRESENTER_ACTION = 'show';
@@ -43,13 +40,13 @@ class Page implements IResource
      * @ORM\Column(name="title", type="string", length=255, nullable=false, unique=true)
      * @var string
      */
-    protected $title;
+    private $title;
 
     /**
      * @ORM\Column(name="intro", type="string", length=500, nullable=false, unique=false)
      * @var string
      */
-    protected $intro;
+    private $intro;
 
     /**
      * @ORM\Column(name="intro_html", type="string", length=3000, nullable=false, unique=false)
@@ -61,7 +58,7 @@ class Page implements IResource
      * @ORM\Column(name="text", type="text", nullable=true, unique=false)
      * @var string
      */
-    protected $text;
+    private $text;
 
     /**
      * @ORM\Column(name="text_html", type="text", nullable=true, unique=false)
@@ -87,19 +84,19 @@ class Page implements IResource
      * @ORM\Column(name="meta_description", type="text", length=65535, nullable=true, unique=false)
      * @var string
      */
-    protected $metaDescription;
+    private $metaDescription;
 
     /**
      * @ORM\Column(name="meta_keywords", type="text", length=65535, nullable=true, unique=false)
      * @var string
      */
-    protected $metaKeywords;
+    private $metaKeywords;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false, unique=false)
      * @var \DateTime
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
      * @ORM\Column(name="is_draft", type="boolean", nullable=false, unique=false, options={"default": true})
@@ -111,13 +108,13 @@ class Page implements IResource
      * @ORM\Column(name="published_at", type="datetime", nullable=true, unique=false)
      * @var \DateTime
      */
-    protected $publishedAt;
+    private $publishedAt;
     
     /**
      * @ORM\Column(name="allowed_comments", type="boolean", nullable=false, unique=false, options={"default": true})
      * @var bool
      */
-    protected $allowedComments;
+    private $allowedComments;
 
     /**
      * @ORM\ManyToOne(targetEntity="Localization\Locale")
@@ -323,15 +320,6 @@ class Page implements IResource
 
 
     /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-
-    /**
      * @param bool $allowedComments
      */
     public function setAllowedComments($allowedComments)
@@ -345,6 +333,42 @@ class Page implements IResource
      * ----- GETTERS ------
      * --------------------
      */
+
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntro()
+    {
+        return $this->intro;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 
 
     /**

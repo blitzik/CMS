@@ -1,7 +1,7 @@
 {snippet tag}
 
 {rowCol tag-box}
-    <div class="box box-river" style="border-top-color: {$tag->color|noescape};">
+    <div class="box box-river" style="border-top-color: {$tag->getColor()|noescape};">
 
     {snippet flashes}
         {control flashMessages}
@@ -14,28 +14,28 @@
         {/col}
     </div>
 
-    {row id => "tag-row-".$tag->id}
-    {*<div class="row" id="tag-row-{$tag->id}">*}
+    {row id => "tag-row-".$tag->getId()}
+    {*<div class="row" id="tag-row-{$tag->getId()}">*}
         {col tag-row-name}
-            <span class="tag-preview" id="tag-{$tag->id}" style="background-color: {$tag->color|noescape};" data-tag-color="{$tag->color|noescape}">
-                <i class="fa fa-tag fa-fw"></i> {$tag->name}
+            <span class="tag-preview" id="tag-{$tag->getId()}" style="background-color: {$tag->getColor()|noescape};" data-tag-color="{$tag->getColor()|noescape}">
+                <i class="fa fa-tag fa-fw"></i> {$tag->getName()}
             </span>
         {/col}
 
         {col tag-row-color}
             {rowCol tag-row-form-input}
-                {input color class => 'form-control tag-input', data-tagid => $tag->id}
+                {input color class => 'form-control tag-input', data-tagid => $tag->getId()}
             {/rowCol}
 
             {rowCol tag-row-form-actions}
                 {input save class => 'ajax btn btn-river tag-submit'}
-                <button class="btn btn-turquoise undo-color" id="tag-undo-button-{$tag->id}" title="{_tags.overview.actions.returnColor.title}" data-tagid="{$tag->id}" data-tag-original-color="{$tag->color}"><i class="fa fa-undo"></i></button>
+                <button class="btn btn-turquoise undo-color" id="tag-undo-button-{$tag->getId()}" title="{_tags.overview.actions.returnColor.title}" data-tagid="{$tag->getId()}" data-tag-original-color="{$tag->getColor()}"><i class="fa fa-undo"></i></button>
             {/rowCol}
         {/col}
 
         {col tag-row-remove}
             {var $canRemove = $authorizator->isAllowed($user, 'page_tag', 'remove')}
-            <a {if $canRemove}href="{link removeTag!}"{else}disabled{/if} n:class="'btn btn-red', $canRemove ? remove" data-tagname="{$tag->name}" title="{_tags.overview.actions.remove.title}"><i class="fa fa-trash fa-fw"></i> <span>{_tags.overview.actions.remove.label}</span></a>
+            <a {if $canRemove}href="{link removeTag!}"{else}disabled{/if} n:class="'btn btn-red', $canRemove ? remove" data-tagname="{$tag->getName()}" title="{_tags.overview.actions.remove.title}"><i class="fa fa-trash fa-fw"></i> <span>{_tags.overview.actions.remove.label}</span></a>
         {/col}
     {/row}
 

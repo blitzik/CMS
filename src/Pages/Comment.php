@@ -9,9 +9,8 @@
 namespace Comments;
 
 use Pages\Exceptions\Runtime\WrongPageCommentReaction;
-use Doctrine\Common\Collections\ArrayCollection;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,7 +31,6 @@ use Pages\Page;
 class Comment implements IResource
 {
     use Identifier;
-    use MagicAccessors;
 
     const LENGTH_AUTHOR = 25;
     const LENGTH_TEXT = 65535;
@@ -47,7 +45,7 @@ class Comment implements IResource
      * @ORM\Column(name="text", type="text", length=65535, nullable=false, unique=false)
      * @var string
      */
-    protected $text;
+    private $text;
 
     /**
      * @ORM\Column(name="created", type="datetime", nullable=false, unique=false)
@@ -118,7 +116,6 @@ class Comment implements IResource
     public function setText($text)
     {
         Validators::assert($text, 'unicode:1..' . self::LENGTH_TEXT);
-
         $this->text = $text;
     }
 
@@ -129,7 +126,6 @@ class Comment implements IResource
     private function setAuthor($author)
     {
         Validators::assert($author, 'unicode:1..' . self::LENGTH_AUTHOR);
-
         $this->author = $author;
     }
 
@@ -209,6 +205,15 @@ class Comment implements IResource
 
 
     /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+
+    /**
      * @return \DateTime
      */
     public function getCreated()
@@ -265,7 +270,7 @@ class Comment implements IResource
      */
     public function getPageTitle()
     {
-        return $this->page->title;
+        return $this->page->getTitle();
     }
 
 

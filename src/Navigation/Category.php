@@ -9,7 +9,6 @@
 namespace Navigations;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -23,12 +22,10 @@ use Nette\Utils\Validators;
  *          @Index(name="lft", columns={"lft"})
  *     }
  * )
- *
  */
 class Category
 {
     use Identifier;
-    use MagicAccessors;
 
     const NAME_LENGTH = 255;
 
@@ -36,7 +33,7 @@ class Category
      * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=false)
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="Navigation")
@@ -56,19 +53,19 @@ class Category
      * @ORM\Column(name="lft", type="integer", nullable=false, unique=false)
      * @var int
      */
-    protected $lft;
+    private $lft;
 
     /**
      * @ORM\Column(name="rgt", type="integer", nullable=false, unique=false)
      * @var int
      */
-    protected $rgt;
+    private $rgt;
 
     /**
      * @ORM\Column(name="lvl", type="integer", nullable=false, unique=false)
      * @var int
      */
-    protected $lvl;
+    private $lvl;
 
 
     public function __construct(
@@ -86,6 +83,13 @@ class Category
         $this->setRgt($rgt);
         $this->setLvl($depth);
     }
+
+
+    /*
+     * --------------------
+     * ----- SETTERS ------
+     * --------------------
+     */
 
 
     /**
@@ -140,9 +144,68 @@ class Category
     }
 
 
+    /*
+     * --------------------
+     * ----- GETTERS ------
+     * --------------------
+     */
+    
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * @return Category
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
+
+
+    /*
+     * ------------------------------
+     * ----- NAVIGATION GETTERS -----
+     * ------------------------------
+     */
+
+
     public function getNavigationName()
     {
-        return $this->navigation->name;
+        return $this->navigation->getName();
     }
 
 }

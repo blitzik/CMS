@@ -9,7 +9,6 @@
 namespace Log;
 
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
-use Kdyby\Doctrine\Entities\MagicAccessors;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -26,7 +25,6 @@ use Users\User;
 class Log
 {
     use Identifier;
-    use MagicAccessors;
 
     const CACHE_NAMESPACE = 'eventLogging';
 
