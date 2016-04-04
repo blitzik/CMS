@@ -1,19 +1,17 @@
 
 {block content}
 
-{rowCol article-removal}
-        <h2><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->getTitle()}</a></h2>
-        <div class="box box-alizarin">
-            {rowCol article-removal-warning}
-                    <p class="box box-critical">
-                        {_pageRemoval.warning, $commentsCount|noescape}
-                    </p>
-            {/rowCol}
+<div class="article-removal">
+    <h2><a href="{plink :Pages:Front:Page:show internal_id => $page->getId()}">{$page->getTitle()}</a></h2>
+    <div class="box box-alizarin">
 
-            {rowCol article-removal-form}
-                    {control articleRemovalForm}
-            {/rowCol}
-        </div>
-{/rowCol}
+    <p class="box box-critical">
+        {_pageRemoval.warning, $commentsCount|noescape}
+    </p>
+
+    {control articleRemovalForm}
+
+    </div>
+</div>
 
 {/block}

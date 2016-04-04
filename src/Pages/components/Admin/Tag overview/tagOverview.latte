@@ -1,25 +1,23 @@
 
-{rowCol tag-filter}
-    <b>{_tags.filter.heading}</b>
-    <div class="box box-amethyst">
-    {form filter}
-        {row}
-            {col tag-filter-name}
-            <div class="form-group">
-                {label name /}
-                {input name class => 'form-control'}
-            </div>
-            {/col}
+<b>{_tags.filter.heading}</b>
+<div class="box box-amethyst">
+{form filter}
+    {row}
+        {col tag-filter-name}
+        <div class="form-group">
+            {label name /}
+            {input name class => 'form-control'}
+        </div>
+        {/col}
 
-            {col tag-filter-submit}
-                <div>&nbsp;</div>
-                {input filter class => 'btn btn-amethyst'}
-                {input reset class => 'btn btn-turquoise'}
-            {/col}
-        {/row}
-    {/form}
-    </div>
-{/rowCol}
+        {col tag-filter-submit}
+            <div>&nbsp;</div>
+            {input filter class => 'btn btn-amethyst'}
+            {input reset class => 'btn btn-turquoise'}
+        {/col}
+    {/row}
+{/form}
+</div>
 
 {snippet tagsList}
     {control flashMessages}

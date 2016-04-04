@@ -5,18 +5,17 @@
 
 {block content}
 
-    {rowCol images-upload}
-        <div class="box box-river">
-            {control imageUpload}
-        </div>
-    {/rowCol}
+    <div class="box box-river">
+        {control imageUpload}
+    </div>
 
-    {rowCol images-filter}
-        {control filter}
-    {/rowCol}
 
-    {rowCol images-overview}
+    <div class="images-filter">
+            {control filter}
+    </div>
+
+    <div class="images-overview">
         {control imagesOverview}
-    {/rowCol}
+    </div>
 
 {/block}

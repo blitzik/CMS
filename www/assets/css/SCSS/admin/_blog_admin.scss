@@ -254,6 +254,10 @@ $content-min-width: 550px;
   clear: both;
 }
 
+.body{
+  @extend %col-12;
+}
+
 .top-header-bar{
   height: 50px;
   line-height: 50px;
@@ -499,8 +503,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .articles-overview{
-  @extend %col-12;
-
   overflow: auto;
 
   .article-name{
@@ -555,8 +557,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .article-form{
-  @extend %col-12;
-
   position: relative;
 }
 
@@ -597,8 +597,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .tags-picking-box{
- @extend %col-12;
-
   a{
     float: right;
   }
@@ -612,15 +610,6 @@ h1, h2, h3, h4, h5, h6{
 
 .tag-management{
   @extend %row;
-}
-
-.new-tag-form{
-  @extend %col-12;
-}
-
-.tags-overview,
-.tags-not-found{
-  @extend %col-12;
 }
 
 .form-tag-name{
@@ -647,10 +636,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .tag-box{
-  @extend %col-12;
-
-  //max-width: 700px;
-
   .box{
     margin-bottom: 15px;
   }
@@ -708,10 +693,6 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
-.tag-filter{
-  @extend %col-12;
-}
-
 .tag-filter-name{
   @extend %col-6;
 }
@@ -737,27 +718,16 @@ h1, h2, h3, h4, h5, h6{
 
 
 .article-removal{
-  @extend %col-12;
-
   .box-critical{
     margin-bottom: 15px;
   }
 }
 
-.article-removal-warning{
-  @extend %col-12;
-}
-
-.article-removal-form{
-  @extend %col-12;
-}
-
 
 // LOG
 
-.log-overview{
-  @extend %col-12;
 
+.log-overview{
   form{
     margin-bottom: 35px;
   }
@@ -791,22 +761,11 @@ h1, h2, h3, h4, h5, h6{
 
 // USERS
 
-.users-overview{
-  @extend %col-12;
-}
-
 .user-yourself{
   background-color: #f9fff9;
 }
 
-.users-roles{
-  @extend %col-12;
-}
-
-
 .role-definition{
-  @extend %col-12;
-
   label{
     font-size: 1.25em;
     font-weight: normal;
@@ -815,10 +774,6 @@ h1, h2, h3, h4, h5, h6{
   .permission-current-state{
     font-size: .9em;
   }
-}
-
-.users-new-role{
-  @extend %col-12;
 }
 
 .user-form-role-name{
@@ -834,17 +789,9 @@ h1, h2, h3, h4, h5, h6{
   padding-top: 5px;
 }
 
-.role-remove{
-  @extend %col-12;
-}
-
 
 
 // user detail
-
-.user-detail{
-  @extend %col-12;
-}
 
 .user-detail-username,
 .user-detail-role,
@@ -854,14 +801,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 
-// user removal
-
-.user-removal{
-  @extend %col-12;
-}
-
-
 // role definition
+
 
 .privilege{
   @extend %col-12;
@@ -987,21 +928,13 @@ h1, h2, h3, h4, h5, h6{
 // images
 
 
-.images-upload{
-  @extend %col-12;
-}
-
 .images-overview{
-  @extend %col-12;
-
   p{
     margin-bottom: 0;
   }
 }
 
 .image-overview{
-  @extend %col-12;
-
   .box{
     position: relative;
     margin-bottom: 20px;
@@ -1089,16 +1022,11 @@ h1, h2, h3, h4, h5, h6{
 
 // images filter
 
-.images-filter{
-  @extend %col-12;
 
+.images-filter{
   .box{
     margin-bottom: 15px;
   }
-}
-
-.images-filter{
-  //@extend %col-12;
 
   .form-group{
     float: left;
@@ -1329,46 +1257,21 @@ h1, h2, h3, h4, h5, h6{
 
 
 @media (min-width: 1150px) {
-  .articles-overview {
-    @include column(10);
-
-    transition: all .5s;
-  }
-
-  .article-form{
-    max-width: 950px;
-    //@include column(10);
-  }
-
-  .tags-picking-box{
-    max-width: 950px;
-    //@include column(10);
-  }
-
-  .blog-options{
-    @include column(5);
-  }
-
-  .images-upload,
-  .image-overview,
-  .images-filter,
-  .article-removal,
-  .log-overview,
-  .new-tag-form,
-  .tags-not-found,
-  .tag-filter,
-  .tag-box,
-  .users-overview,
-  .users-roles,
-  .role-definition,
-  .users-new-role,
-  .role-remove,
-  .user-removal{
+  .body{
     @include column(9);
   }
 
+  .article-form,
+  .tags-picking-box{
+    max-width: 950px;
+  }
+
+  .blog-options{
+    @include column(7);
+  }
+
   .user-detail{
-    @include column(5);
+    @include column(10);
   }
 
   .image-info {

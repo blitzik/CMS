@@ -1,33 +1,31 @@
-{rowCol new-tag-form}
-        <b>{_tags.newTagFormTitle}</b>
-        <div class="box box-river">
-            {form tagForm}
-                {customFormErrors}
+<b>{_tags.newTagFormTitle}</b>
+<div class="box box-river">
+    {form tagForm}
+        {customFormErrors}
 
-                {row}
-                    {col form-tag-name}
-                        <div class="form-group">
-                            {label name /}
-                            {input name class => 'form-control input-lg medium-input'}
-                        </div>
-                    {/col}
+        {row}
+            {col form-tag-name}
+                <div class="form-group">
+                    {label name /}
+                    {input name class => 'form-control input-lg medium-input'}
+                </div>
+            {/col}
 
-                    {col form-tag-color}
-                        <div class="form-group">
-                            {label color /}
-                            {input color class => 'form-control input-lg left medium-input tag-color'}
-                        </div>
-                    {/col}
+            {col form-tag-color}
+                <div class="form-group">
+                    {label color /}
+                    {input color class => 'form-control input-lg left medium-input tag-color'}
+                </div>
+            {/col}
 
-                    {col form-tag-preview}
-                        <div id="tag-color-box"><i class="fa fa-tag"></i> Tag</div>
-                    {/col}
-                {/row}
+            {col form-tag-preview}
+                <div id="tag-color-box"><i class="fa fa-tag"></i> Tag</div>
+            {/col}
+        {/row}
 
-                {rowCol form-tag-submit}
-                    {input save id => 'new-tag-submit', class => 'btn btn-turquoise'}
-                {/rowCol}
+        {rowCol form-tag-submit}
+            {input save id => 'new-tag-submit', class => 'btn btn-turquoise'}
+        {/rowCol}
 
-            {/form}
-        </div>
-{/rowCol}
+    {/form}
+</div>

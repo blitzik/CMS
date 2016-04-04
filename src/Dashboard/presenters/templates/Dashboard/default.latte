@@ -6,11 +6,11 @@
 
 {block content}
 
-    {rowCol log-overview}
-        {if $authorizator->isAllowed($user, 'dashboard_systemLog', 'view')}
-        <b>System log</b>
-        {control log}
-        {/if}
-    {/rowCol}
+<div class="log-overview">
+    {if $authorizator->isAllowed($user, 'dashboard_systemLog', 'view')}
+    <b>System log</b>
+    {control log}
+    {/if}
+</div>
 
 {/block}

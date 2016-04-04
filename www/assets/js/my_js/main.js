@@ -1,6 +1,6 @@
 $(function () {
     $.nette.init();
 
-    var content_wrapper = $('.content-wrapper');
-    content_wrapper.css('height', $(document).height());
+    //var content_wrapper = $('.content-wrapper');
+    //content_wrapper.css('height', $(document).height());
 });

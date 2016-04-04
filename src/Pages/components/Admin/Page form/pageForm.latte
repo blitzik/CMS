@@ -1,9 +1,7 @@
 
-{row}
-
 {form pageForm}
 
-{col article-form, id => top}
+<div class="article-form" id="top">
     {rowCol article-form-messages}
         {control flashMessages}
         {customFormErrors}
@@ -166,22 +164,15 @@ Nadpis1   Nadpis2   Podnadpis
 
     </div>
 {/translator}
-{/col} {* end article-form col *}
+</div> {* end article-form col *}
 
 {translator pageEdit.section.tags}
-{col tags-picking-box}
-{*<a href="{plink :Tags:Tag:default}">{_actions.add}</a>*}
+<div class="tags-picking-box">
 <h2>{_title}</h2>
     <div class="box box-alizarin">
-        {*<div class="row">*}
-            {*<div class="article-tags">*}
-                {control pageTagsPicking}
-            {*</div>*}
-        {*</div>*}
+        {control pageTagsPicking}
     </div>
-{/col}
+</div>
 {/translator}
 
 {/form}
-
-{/row}
