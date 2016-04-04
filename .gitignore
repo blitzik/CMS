@@ -9,6 +9,8 @@ tests/temp/cache
 .sass-cache
 /.htaccess
 
+/migrations
+
 www/assets/css/*.css
 www/assets/css/*/*.css
 www/assets/css/*/*.map

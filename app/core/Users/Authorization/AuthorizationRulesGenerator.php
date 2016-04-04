@@ -58,5 +58,7 @@ class AuthorizationRulesGenerator extends Object
 
         $permission = new Permission($role, $this->resource, $privilege);
         $this->em->persist($permission);
+
+        return $this;
     }
 }
