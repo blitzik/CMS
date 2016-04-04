@@ -22,10 +22,8 @@ class UrlsFixture extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
-        $elg = new EventLogGenerator($manager);
-
-        $elg->addLogType(new LogType('url'))
-            ->addEvent('404');
+        $elg = new EventLogGenerator(new LogType('url'), $manager);
+        $elg->addEvent('404');
 
         $manager->flush();
     }

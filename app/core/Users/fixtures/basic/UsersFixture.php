@@ -91,10 +91,8 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $arg = new AuthorizationRulesGenerator($manager);
-
-        $arg->addResource(new Resource('user'))
-            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
+        $arg = new AuthorizationRulesGenerator(new Resource('user'), $manager);
+        $arg->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
             ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
 
         $arg->addResource(new Resource('user_role'))
@@ -137,10 +135,8 @@ class UsersFixture extends AbstractFixture
 
     private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
-        $elg = new EventLogGenerator($manager);
-
-        $elg->addLogType(new LogType('user'))
-            ->addEvent('user_login')
+        $elg = new EventLogGenerator(new LogType('user'), $manager);
+        $elg->addEvent('user_login')
             ->addEvent('user_logout')
             ->addEvent('user_editing')
             ->addEvent('user_removal');

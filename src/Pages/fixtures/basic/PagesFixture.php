@@ -9,17 +9,14 @@
 namespace Pages\Fixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Users\Authorization\AuthorizationRulesGenerator;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Log\Services\EventLogGenerator;
-use Users\Authorization\AccessDefinition;
-use Users\Authorization\AuthorizationRulesGenerator;
-use Users\Authorization\Permission;
 use Users\Authorization\Privilege;
 use Users\Authorization\Resource;
 use Users\Fixtures\UsersFixture;
 use Url\Generators\UrlGenerator;
-use Log\EventLog;
 use Log\LogType;
 
 class PagesFixture extends AbstractFixture implements DependentFixtureInterface
@@ -73,10 +70,8 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
 
     private function loadDefaultLoggingEvents(ObjectManager $manager)
     {
-        $elg = new EventLogGenerator($manager);
-
-        $elg->addLogType(new LogType('page'))
-            ->addEvent('page_creation')
+        $elg = new EventLogGenerator(new LogType('page'), $manager);
+        $elg->addEvent('page_creation')
             ->addEvent('page_editing')
             ->addEvent('page_removal')
             ->addEvent('page_release')
@@ -119,11 +114,8 @@ class PagesFixture extends AbstractFixture implements DependentFixtureInterface
         $commentOnClosed = new Privilege('comment_on_closed');
         $manager->persist($commentOnClosed);
 
-        $arg = new AuthorizationRulesGenerator($manager);
-
-        // Page
-        $arg->addResource(new Resource('page'))
-            ->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
+        $arg = new AuthorizationRulesGenerator(new Resource('page'), $manager);
+        $arg->addDefinition($this->getReference('privilege_create'), $this->getReference('role_admin'))
             ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'))
             ->addDefinition($this->getReference('privilege_remove'), $this->getReference('role_admin'));
 

@@ -42,10 +42,8 @@ class DashboardFixture extends AbstractFixture implements DependentFixtureInterf
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $arg = new AuthorizationRulesGenerator($manager);
-        
-        $arg->addResource(new Resource('dashboard_systemLog'))
-            ->addDefinition($this->getReference('privilege_view'), $this->getReference('role_admin'));
+        $arg = new AuthorizationRulesGenerator(new Resource('dashboard_systemLog'), $manager);
+        $arg->addDefinition($this->getReference('privilege_view'), $this->getReference('role_admin'));
     }
     
 

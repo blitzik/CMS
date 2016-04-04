@@ -65,9 +65,8 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
 
     private function loadDefaultAuthorizatorRules(ObjectManager $manager)
     {
-        $arg = new AuthorizationRulesGenerator($manager);
-        $arg->addResource(new Resource('options'))
-            ->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
+        $arg = new AuthorizationRulesGenerator(new Resource('options'), $manager);
+        $arg->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
     }
 
 

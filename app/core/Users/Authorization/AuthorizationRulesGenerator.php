@@ -8,7 +8,6 @@
 
 namespace Users\Authorization;
 
-use Users\Exceptions\Runtime\ResourceNotFoundException;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Object;
 
@@ -24,9 +23,14 @@ class AuthorizationRulesGenerator extends Object
     private $resource;
 
     
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        \Users\Authorization\Resource $resource,
+        EntityManager $entityManager
+    ) {
         $this->em = $entityManager;
+
+        $this->em->persist($resource);
+        $this->resource = $resource;
     }
 
 
@@ -49,28 +53,10 @@ class AuthorizationRulesGenerator extends Object
      */
     public function addDefinition(Privilege $privilege, Role $role)
     {
-        if (!isset($this->resource)) {
-            throw new ResourceNotFoundException('In order to use method addDefinition you have to specify Resource first.');
-        }
-
-        $this->addRuleDefinition($this->resource, $privilege, $role);
-
-        return $this;
-    }
-    
-
-
-    /**
-     * @param \Users\Authorization\Resource $resource
-     * @param Privilege $privilege
-     * @param Role $role
-     */
-    public function addRuleDefinition(\Users\Authorization\Resource $resource, Privilege $privilege, Role $role)
-    {
-        $accessDefinition = new AccessDefinition($resource, $privilege);
+        $accessDefinition = new AccessDefinition($this->resource, $privilege);
         $this->em->persist($accessDefinition);
 
-        $permission = new Permission($role, $resource, $privilege);
+        $permission = new Permission($role, $this->resource, $privilege);
         $this->em->persist($permission);
     }
 }

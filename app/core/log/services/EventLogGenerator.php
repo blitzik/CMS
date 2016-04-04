@@ -23,12 +23,21 @@ class EventLogGenerator extends Object
     private $logType;
 
 
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        LogType $logType,
+        EntityManager $entityManager
+    ) {
         $this->em = $entityManager;
+
+        $this->em->persist($logType);
+        $this->logType = $logType;
     }
 
 
+    /**
+     * @param LogType $logType
+     * @return $this
+     */
     public function addLogType(LogType $logType)
     {
         $this->em->persist($logType);
@@ -37,12 +46,12 @@ class EventLogGenerator extends Object
     }
 
 
+    /**
+     * @param string $eventLogName
+     * @return $this
+     */
     public function addEvent($eventLogName)
     {
-        if (!isset($this->logType)) {
-            throw new LogTypeNotFoundException(sprintf('Did you set a %s object? You have to use method addLogType() first', LogType::class));
-        }
-        
         $eventLog = new EventLog($eventLogName, $this->logType);
         $this->em->persist($eventLog);
 
