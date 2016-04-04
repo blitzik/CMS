@@ -12,6 +12,12 @@ parameters:
 			fileRoot: %wwwDir%/uploads/images # physical location of images on server
 			root: uploads/images # root of relative images
 
+	# eventsToSkip: * # nothing is logged
+	# eventsToSkip:
+	#	user: * # events with logType "user" won't be logged
+	# eventsToSkip:
+	#	user:
+	#		- user_login # event "user_login" with logType "user" won't be logged
 
 
 doctrine:
@@ -23,6 +29,9 @@ doctrine:
 images:
 	fileRoot: %uploads.images.fileRoot%
 	root: %uploads.images.root%
+
+#log:
+#	eventsToSkip: %eventsToSkip%
 
 pages:
 	texy:

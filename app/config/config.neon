@@ -58,6 +58,14 @@ monolog:
 
 
 
+migrations:
+	table: doctrine_migrations
+	directory: %appDir%/../migrations
+	namespace: Migrations
+	codingStandard: spaces
+
+
+
 decorator:
 	App\Components\BaseControl:
 		setup:

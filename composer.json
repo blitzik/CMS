@@ -22,6 +22,7 @@
     "ramsey/uuid": "^3.0",
     "kukulich/fshl": "^2.1",
     "doctrine/data-fixtures": "^1.1",
-    "kdyby/translation": "^2.2"
+    "kdyby/translation": "^2.2",
+    "zenify/doctrine-migrations": "^2.3"
   }
 }

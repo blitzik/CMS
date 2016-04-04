@@ -6,6 +6,8 @@ extensions:
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 	translation: Kdyby\Translation\DI\TranslationExtension
 	monolog: Kdyby\Monolog\DI\MonologExtension
+	migrations: Zenify\DoctrineMigrations\DI\MigrationsExtension
+	symnediEventDispatcher: Symnedi\EventDispatcher\DI\EventDispatcherExtension
 
 	# core extensions
 	core: App\DI\CoreExtension

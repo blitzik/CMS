@@ -8,9 +8,9 @@
 
 namespace Log\Services;
 
+use Log\Exceptions\Runtime\LogTypeNotFoundException;
 use Kdyby\Doctrine\EntityManager;
 use Log\EventLog;
-use Log\Exceptions\Runtime\LogTypeNotFoundException;
 use Nette\Object;
 use Log\LogType;
 

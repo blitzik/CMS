@@ -8,17 +8,29 @@
 
 namespace Log\DI;
 
-use App\Fixtures\IFixtureProvider;
 use Kdyby\Doctrine\DI\IEntityProvider;
 use App\Extensions\CompilerExtension;
-use Log\Fixtures\LogFixture;
+use Log\Services\AppEventLogger;
 
 class LogExtension extends CompilerExtension implements IEntityProvider
 {
+    /** @var array */
+    private $defaults = [
+        'eventsToSkip' => []
+    ];
+
+
     public function loadConfiguration()
     {
+        $config = $this->getConfig() + $this->defaults;
+        $this->setConfig($config);
+
         $cb = $this->getContainerBuilder();
         $this->compiler->parseServices($cb, $this->loadFromFile(__DIR__ . '/services.neon'), $this->name);
+
+        $appEventLogger = $cb->addDefinition($this->prefix('appEventLogger'));
+        $appEventLogger->setClass(AppEventLogger::class);
+        $appEventLogger->addSetup('addEventsToSkip', ['eventsToSkip' => $config['eventsToSkip']]);
     }
 
 
