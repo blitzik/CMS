@@ -9,15 +9,15 @@
 namespace Options\Fixtures;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Users\Authorization\AuthorizationRulesGenerator;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Users\Authorization\AccessDefinition;
-use Users\Authorization\AuthorizationRulesGenerator;
-use Users\Authorization\Permission;
+use Log\Services\EventLogGenerator;
 use Users\Authorization\Resource;
 use Url\Generators\UrlGenerator;
 use Users\Fixtures\UsersFixture;
 use Options\Option;
+use Log\LogType;
 
 class OptionsFixture extends AbstractFixture implements DependentFixtureInterface
 {
@@ -31,6 +31,7 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
         $this->loadDefaultUrls($manager);
         $this->loadDefaultOptions($manager);
         $this->loadDefaultAuthorizatorRules($manager);
+        $this->loadDefaultLoggingEvents($manager);
 
         $manager->flush();
     }
@@ -67,6 +68,13 @@ class OptionsFixture extends AbstractFixture implements DependentFixtureInterfac
     {
         $arg = new AuthorizationRulesGenerator(new Resource('options'), $manager);
         $arg->addDefinition($this->getReference('privilege_edit'), $this->getReference('role_admin'));
+    }
+
+
+    private function loadDefaultLoggingEvents(ObjectManager $manager)
+    {
+        $elg = new EventLogGenerator(new LogType('options'), $manager);
+        $elg->addEvent('options_editing');
     }
 
 

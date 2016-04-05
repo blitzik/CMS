@@ -2,60 +2,48 @@
 
 namespace Options\Facades;
 
-use Options\Exceptions\Logic\InvalidArgumentException;
-use Doctrine\DBAL\DBALException;
+use Options\Services\OptionsPersister;
 use Kdyby\Doctrine\EntityManager;
-use Kdyby\Monolog\Logger;
-use Nette\Caching\Cache;
+use Doctrine\DBAL\DBALException;
 use Nette\Caching\IStorage;
-use Nette\Object;
 use Nette\Utils\ArrayHash;
+use Nette\Caching\Cache;
 use Nette\Utils\Arrays;
 use Options\Option;
+use Nette\Object;
 
 class OptionFacade extends Object
 {
-    /** @var Logger  */
-    private $logger;
-
-    /** @var EntityManager  */
-    private $em;
+    /**
+     * @var OptionsPersister
+     */
+    private $optionsPersister;
 
     /** @var  Cache */
     private $cache;
 
+    /** @var EntityManager  */
+    private $em;
+
 
     public function __construct(
+        OptionsPersister $optionsPersister,
         EntityManager $entityManager,
-        IStorage $storage,
-        Logger $logger
+        IStorage $storage
     ) {
         $this->em = $entityManager;
-        $this->cache = new Cache($storage, 'blog_options');
-        $this->logger = $logger->channel('options');
+        $this->optionsPersister = $optionsPersister;
+        $this->cache = new Cache($storage, Option::CACHE_NAMESPACE);
     }
 
 
+    /**
+     * @param array $options
+     * @throws DBALException
+     */
     public function saveOptions(array $options)
     {
-        foreach ($options as $option) {
-            if (!$option instanceof Option) {
-                throw new InvalidArgumentException('Wrong array member type. Expected ' .Option::class. ' but instead "' . gettype($option) . '" was given');
-            }
-
-            $this->em->persist($option);
-        }
-
-        try {
-            $this->em->flush();
-            $this->cache->remove(Option::getCacheKey());
-        } catch (DBALException $e) {
-            $this->logger->addError(sprintf('Save Options error: %s | error message: %s', date('Y-m-d H:i:s'), $e->getMessage()));
-            $this->em->rollback();
-            $this->em->close();
-
-            throw $e;
-        }
+        $this->optionsPersister->save($options);
     }
 
 
@@ -78,13 +66,5 @@ class OptionFacade extends Object
         });
 
         return $options;
-    }
-
-
-    public function findOptions()
-    {
-        return $this->em->createQuery(
-            'SELECT o FROM ' . Option::class . ' o'
-        )->getResult();
     }
 }

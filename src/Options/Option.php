@@ -17,6 +17,8 @@ class Option
 {
     use Identifier;
 
+    const CACHE_NAMESPACE = 'blog_options';
+    
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=false, unique=true)
      * @var string
